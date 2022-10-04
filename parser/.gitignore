@@ -1,0 +1,5 @@
+yarnspinner_lexer.go
+yarnspinner_parser.go
+yarnspinnerparser_listener.go
+yarnspinnerparser_base_listener.go
+.antlr
