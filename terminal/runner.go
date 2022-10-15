@@ -36,7 +36,7 @@ func NewRunner(filename string) (*Runner, error) {
 
 	di := listener.Dialogue()
 
-	dr := runner.NewDialogueRunner(di)
+	dr := runner.NewDialogueRunner(di, nil)
 
 	tview.Styles.PrimitiveBackgroundColor = tcell.ColorDefault
 

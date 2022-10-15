@@ -11,6 +11,7 @@ type DialogueRunner struct {
 	dialogue        *tree.Dialogue
 	statementsToRun container.Stack[*StatementQueue] // TODO: would the name "next steps" be better here?
 	lastStatement   *tree.Statement
+	variableStorer  VariableStorer
 }
 
 type DialogueElement struct { // dialogueStep? dialogueElement?
@@ -24,7 +25,7 @@ func (dr *DialogueRunner) textElementsToString(elements []*tree.LineFormattedTex
 		if elements[i].Text != "" {
 			builder.WriteString(elements[i].Text)
 		} else if expression := elements[i].Expression; expression != nil {
-			value, err := evaluateExpression(expression)
+			value, err := evaluateExpression(expression, dr.variableStorer)
 			if err != nil {
 				panic(err) // TODO: actually handle error here
 			}
@@ -71,18 +72,37 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool) { // TODO: h
 		return &DialogueElement{
 			Options: options,
 		}, true
+	case nextStatement.SetStatement != nil:
+		value, err := evaluateExpression(nextStatement.SetStatement.Expression, dr.variableStorer)
+		if err != nil {
+			panic(err) // FIXME: better handle errors here
+		}
+		switch { // FIXME: take operator into account to support += and the likes
+		case value.IsNumber():
+			dr.variableStorer.SetNumberValue(nextStatement.SetStatement.VariableID, *value.Number)
+		case value.IsBoolean():
+			dr.variableStorer.SetBooleanValue(nextStatement.SetStatement.VariableID, *value.Boolean)
+		case value.IsString():
+			dr.variableStorer.SetStringValue(nextStatement.SetStatement.VariableID, *value.String)
+		}
+		return dr.Next(choice)
 	}
 
 	return nil, false // TODO: we should never get there
 }
 
-func NewDialogueRunner(dialogue *tree.Dialogue) *DialogueRunner {
+func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer) *DialogueRunner {
 	statementsToRun := container.Stack[*StatementQueue]{}
 	statementsToRun.Push(&StatementQueue{statements: dialogue.Nodes[0].Statements})
+
+	if storer == nil {
+		storer = NewInMemoryVariableStorer()
+	}
 
 	return &DialogueRunner{
 		dialogue:        dialogue,
 		statementsToRun: statementsToRun,
+		variableStorer:  storer,
 	}
 }
 

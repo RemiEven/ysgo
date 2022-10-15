@@ -12,7 +12,7 @@ const (
 	DivisionBinaryOperator
 	ModuloBinaryOperator
 	AdditionBinaryOperator
-	SubstractionBinaryOperator
+	SubtractionBinaryOperator
 	LessThanEqualsBinaryOperator
 	GreaterThanEqualsBinaryOperator
 	LessBinaryOperator
@@ -22,6 +22,13 @@ const (
 	AndBinaryOperator
 	OrBinaryOperator
 	XorBinaryOperator
+
+	AssignmentInPlaceOperator = iota
+	MultiplicationInPlaceOperator
+	DivisionInPlaceOperator
+	ModuloInPlaceOperator
+	AdditionInPlaceOperator
+	SubtractionInPlaceOperator
 )
 
 func tokenToBinaryOperator(token int) (*int, bool) {
@@ -36,10 +43,23 @@ func tokenToBinaryOperator(token int) (*int, bool) {
 		parser.YarnSpinnerLexerOPERATOR_LOGICAL_OR:                  OrBinaryOperator,
 		parser.YarnSpinnerLexerOPERATOR_LOGICAL_XOR:                 XorBinaryOperator,
 		parser.YarnSpinnerLexerOPERATOR_MATHS_ADDITION:              AdditionBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_SUBTRACTION:           SubstractionBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_SUBTRACTION:           SubtractionBinaryOperator,
 		parser.YarnSpinnerLexerOPERATOR_MATHS_MULTIPLICATION:        MultiplicationBinaryOperator,
 		parser.YarnSpinnerLexerOPERATOR_MATHS_DIVISION:              DivisionBinaryOperator,
 		parser.YarnSpinnerLexerOPERATOR_MATHS_MODULUS:               ModuloBinaryOperator,
+	}[token]
+
+	return &operator, ok
+}
+
+func tokenToInplaceOperator(token int) (*int, bool) {
+	operator, ok := map[int]int{
+		parser.YarnSpinnerLexerOPERATOR_ASSIGNMENT:                  AssignmentInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_MULTIPLICATION_EQUALS: MultiplicationInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_DIVISION_EQUALS:       DivisionInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_MODULUS_EQUALS:        ModuloInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_ADDITION_EQUALS:       AdditionInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_SUBTRACTION_EQUALS:    SubtractionInPlaceOperator,
 	}[token]
 
 	return &operator, ok

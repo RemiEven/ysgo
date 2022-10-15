@@ -1,17 +1,17 @@
-name: on-push
-on: [push]
-jobs:
-  test:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '1.19'
-      - name: Generate lexer/parser files with antlr
-        run: ./generateParser.sh
-      - name: Test
-        run: go test ./...
+# name: on-push
+# on: [push]
+# jobs:
+#   test:
+#     name: Build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#       - name: Setup Go
+#         uses: actions/setup-go@v2
+#         with:
+#           go-version: '1.19'
+#       - name: Generate lexer/parser files with antlr
+#         run: ./generateParser.sh
+#       - name: Test
+#         run: go test ./...

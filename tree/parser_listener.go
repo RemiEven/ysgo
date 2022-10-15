@@ -22,6 +22,7 @@ type ParserListener struct {
 	textCallback             func(string)
 	expressionCallbacks      *container.Stack[func(*Expression)]
 	lineStatementCallbacks   *container.Stack[func(*LineStatement)]
+	variableCallback         func(string)
 }
 
 func (pl *ParserListener) Dialogue() *Dialogue {
@@ -264,4 +265,40 @@ func (s *ParserListener) enterBinaryOperatorExpression(ctx interface {
 		s.expressionCallbacks.Pop()
 		leftOperand = e
 	})
+}
+
+// EnterSet_statement is called when production set_statement is entered.
+func (s *ParserListener) EnterSet_statement(ctx *parser.Set_statementContext) {
+	inPlaceOperator, ok := tokenToInplaceOperator(ctx.GetOp().GetTokenType())
+	if !ok {
+		panic("unknown in-place operator") // TODO: better error handling
+	}
+	var variableID string
+	s.variableCallback = func(id string) {
+		variableID = id
+		s.variableCallback = nil
+	}
+	s.expressionCallbacks.Push(func(e *Expression) {
+		s.statementCallbacks.Peek()(&Statement{
+			SetStatement: &SetStatement{
+				VariableID:      variableID,
+				InPlaceOperator: inPlaceOperator,
+				Expression:      e,
+			},
+		})
+	})
+}
+
+// ExitSet_statement is called when production set_statement is exited.
+func (s *ParserListener) ExitSet_statement(ctx *parser.Set_statementContext) {
+	s.expressionCallbacks.Pop()
+}
+
+// EnterVariable is called when production variable is entered.
+func (s *ParserListener) EnterVariable(ctx *parser.VariableContext) {
+	if s.variableCallback == nil {
+		return
+	}
+	variableID := ctx.GetText()[1:]
+	s.variableCallback(variableID)
 }

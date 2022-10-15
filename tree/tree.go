@@ -25,6 +25,7 @@ func (n *Node) Title() string {
 type Statement struct {
 	LineStatement           *LineStatement
 	ShortcutOptionStatement *ShortcutOptionStatement
+	SetStatement            *SetStatement
 }
 
 type LineStatement struct {
@@ -49,4 +50,10 @@ type ShortcutOptionStatement struct {
 type ShortcutOption struct {
 	LineStatement *LineStatement
 	Statements    []*Statement
+}
+
+type SetStatement struct {
+	VariableID      string
+	InPlaceOperator *int
+	Expression      *Expression
 }

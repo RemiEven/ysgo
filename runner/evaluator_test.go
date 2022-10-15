@@ -46,7 +46,7 @@ func TestEvaluateExpression(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			actualValue, err := evaluateExpression(test.expression)
+			actualValue, err := evaluateExpression(test.expression, nil) // TODO: use an in memory variable storer here when testing for variable evaluation
 			if !testutils.ErrorEqual(err, test.expectedError) {
 				t.Errorf("unexpected err: wanted [%v], got [%v]", test.expectedError, err)
 			}

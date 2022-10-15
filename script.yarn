@@ -7,8 +7,8 @@ Wow!
 // -> biking
 
 
-// <<set $name to "Rémi">>
-Hello {1 * (2 + 3)}!
+<<set $name to "Rémi">>
+Hello {$name + " Even"}!
 
 Companion: Hi there! What do you feel like doing today?
 

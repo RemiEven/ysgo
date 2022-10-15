@@ -6,12 +6,18 @@ import (
 	"github.com/RemiEven/ysgo/tree"
 )
 
-func evaluateExpression(e *tree.Expression) (*tree.Value, error) {
+func evaluateExpression(e *tree.Expression, retriever variableRetriever) (*tree.Value, error) {
 	switch {
+	case e.Value != nil && e.Value.VariableID != nil:
+		value, ok := retriever.GetValue(*e.Value.VariableID)
+		if !ok {
+			return nil, fmt.Errorf("variable [%v] not found in storage", *e.Value.VariableID)
+		}
+		return value, nil
 	case e.Value != nil:
-		return e.Value, nil // TODO: also support variable here
+		return e.Value, nil
 	case e.NegativeExpression != nil:
-		negativeExpressionValue, err := evaluateExpression(e.NegativeExpression)
+		negativeExpressionValue, err := evaluateExpression(e.NegativeExpression, retriever)
 		if err != nil {
 			return nil, fmt.Errorf("failed to evaluate negative expression: %w", err)
 		} else if !negativeExpressionValue.IsNumber() {
@@ -19,7 +25,7 @@ func evaluateExpression(e *tree.Expression) (*tree.Value, error) {
 		}
 		return tree.NewNumberValue(-*negativeExpressionValue.Number), nil
 	case e.NotExpression != nil:
-		notExpressionValue, err := evaluateExpression(e.NotExpression)
+		notExpressionValue, err := evaluateExpression(e.NotExpression, retriever)
 		if err != nil {
 			return nil, fmt.Errorf("failed to evaluate not-expression: %w", err)
 		} else if !notExpressionValue.IsBoolean() {
@@ -27,13 +33,13 @@ func evaluateExpression(e *tree.Expression) (*tree.Value, error) {
 		}
 		return tree.NewBooleanValue(!*notExpressionValue.Boolean), nil
 	case e.Operator != nil:
-		return evaluateBinaryOperation(*e.Operator, e.LeftOperand, e.RightOperand)
+		return evaluateBinaryOperation(*e.Operator, e.LeftOperand, e.RightOperand, retriever)
 	}
 	return nil, nil
 }
 
-func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expression) (*tree.Value, error) {
-	leftOperandValue, err := evaluateExpression(leftOperand)
+func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expression, retriever variableRetriever) (*tree.Value, error) {
+	leftOperandValue, err := evaluateExpression(leftOperand, retriever)
 	if err != nil {
 		return nil, fmt.Errorf("failed to evaluate left operand of expression: %w", err)
 	}
@@ -56,7 +62,7 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 		}
 	}
 
-	rightOperandValue, err := evaluateExpression(rightOperand)
+	rightOperandValue, err := evaluateExpression(rightOperand, retriever)
 	if err != nil {
 		return nil, fmt.Errorf("failed to evaluate right operand of expression: %w", err)
 	}
@@ -92,7 +98,7 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 			return tree.NewStringValue((*leftOperandValue.String) + (*rightOperandValue.String)), nil
 		}
 		return nil, fmt.Errorf("cannot add two values that are not either both numbers or both strings")
-	case tree.SubstractionBinaryOperator:
+	case tree.SubtractionBinaryOperator:
 		if bothOperandsAreNumbers {
 			return tree.NewNumberValue((*leftOperandValue.Number) - (*rightOperandValue.Number)), nil
 		}
