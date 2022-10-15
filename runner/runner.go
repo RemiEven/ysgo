@@ -21,8 +21,15 @@ type DialogueElement struct { // dialogueStep? dialogueElement?
 func (dr *DialogueRunner) textElementsToString(elements []*tree.LineFormattedTextElement) string {
 	var builder strings.Builder
 	for i := range elements {
-		builder.WriteString(elements[i].Text)
-		// TODO: also support expressions
+		if elements[i].Text != "" {
+			builder.WriteString(elements[i].Text)
+		} else if expression := elements[i].Expression; expression != nil {
+			value, err := evaluateExpression(expression)
+			if err != nil {
+				panic(err) // TODO: actually handle error here
+			}
+			builder.WriteString(value.ToString())
+		}
 	}
 	return builder.String()
 }

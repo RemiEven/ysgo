@@ -157,29 +157,21 @@ func (s *ParserListener) ExitShortcut_option(ctx *parser.Shortcut_optionContext)
 func (s *ParserListener) EnterValueNumber(ctx *parser.ValueNumberContext) {
 	number, _ := strconv.ParseFloat(ctx.GetText(), 64)
 	s.expressionCallbacks.Peek()(&Expression{
-		Value: &Value{
-			Number: &number,
-		},
+		Value: NewNumberValue(number),
 	})
 }
 
 // EnterValueTrue is called when production valueTrue is entered.
 func (s *ParserListener) EnterValueTrue(ctx *parser.ValueTrueContext) {
-	value := true
 	s.expressionCallbacks.Peek()(&Expression{
-		Value: &Value{
-			Boolean: &value,
-		},
+		Value: NewBooleanValue(true),
 	})
 }
 
 // EnterValueFalse is called when production valueFalse is entered.
 func (s *ParserListener) EnterValueFalse(ctx *parser.ValueFalseContext) {
-	value := false
 	s.expressionCallbacks.Peek()(&Expression{
-		Value: &Value{
-			Boolean: &value,
-		},
+		Value: NewBooleanValue(false),
 	})
 }
 
@@ -198,9 +190,7 @@ func (s *ParserListener) EnterValueString(ctx *parser.ValueStringContext) {
 	text := ctx.GetText()
 	value := text[1 : len(text)-1]
 	s.expressionCallbacks.Peek()(&Expression{
-		Value: &Value{
-			String: &value,
-		},
+		Value: NewStringValue(value),
 	})
 }
 

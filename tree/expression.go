@@ -1,6 +1,11 @@
 package tree
 
-import "github.com/RemiEven/ysgo/parser"
+import (
+	"fmt"
+	"strconv"
+
+	"github.com/RemiEven/ysgo/parser"
+)
 
 const (
 	MultiplicationBinaryOperator = iota
@@ -53,4 +58,52 @@ type Value struct {
 	Boolean    *bool
 	String     *string
 	VariableID *string
+}
+
+func NewNumberValue(number float64) *Value {
+	return &Value{
+		Number: &number,
+	}
+}
+
+func NewBooleanValue(boolean bool) *Value {
+	return &Value{
+		Boolean: &boolean,
+	}
+}
+
+func NewStringValue(str string) *Value {
+	return &Value{
+		String: &str,
+	}
+}
+
+func (v *Value) IsNumber() bool {
+	return v.Number != nil
+}
+
+func (v *Value) IsBoolean() bool {
+	return v.Boolean != nil
+}
+
+func (v *Value) IsString() bool {
+	return v.String != nil
+}
+
+func (v *Value) ToString() string {
+	switch {
+	case v.IsNumber():
+		n := *v.Number
+		if n == float64(int(n)) {
+			return strconv.Itoa(int(n))
+		}
+		return fmt.Sprintf("%f", n)
+	case v.IsBoolean():
+		return strconv.FormatBool(*v.Boolean)
+	case v.IsString():
+		return *v.String
+	case v.VariableID != nil:
+		return "$" + *v.VariableID
+	}
+	return "empty value"
 }
