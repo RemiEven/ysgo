@@ -2,27 +2,23 @@ package main
 
 import (
 	"fmt"
+	"os"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr"
-
-	"github.com/RemiEven/ysgo/parser"
-	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/terminal"
 )
 
 func main() {
-	inputStream, err := antlr.NewFileStream("/home/remi/projects/ysgo/script.yarn")
-	if err != nil {
-		panic(err)
+	if len(os.Args) < 2 {
+		fmt.Println("missing file path argument")
+		os.Exit(1)
 	}
 
-	lexer := parser.NewYarnSpinnerLexer(inputStream)
-	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	terminalRunner, err := terminal.NewRunner(os.Args[1])
+	if err != nil {
+		panic(fmt.Errorf("failed to create terminal runner: %w", err))
+	}
 
-	p := parser.NewYarnSpinnerParser(stream)
-
-	listener := &tree.ParserListener{}
-	antlr.ParseTreeWalkerDefault.Walk(listener, p.Dialogue())
-
-	di := listener.Dialogue()
-	fmt.Println(di.Nodes[0].Headers["title"])
+	if err := terminalRunner.Run(); err != nil {
+		panic(fmt.Errorf("terminal runner failed to run: %w", err))
+	}
 }

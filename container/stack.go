@@ -6,6 +6,10 @@ func (s *Stack[T]) Push(i T) {
 	*s = append(*s, i)
 }
 
+func (s *Stack[T]) PushAll(i ...T) {
+	*s = append(*s, i...)
+}
+
 func (s *Stack[T]) Pop() T {
 	l := len(*s)
 	if l == 0 {

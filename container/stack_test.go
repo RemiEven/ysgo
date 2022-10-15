@@ -82,3 +82,15 @@ func TestEmptyStack(t *testing.T) {
 		s.Pop()
 	})
 }
+
+func TestStackPushAll(t *testing.T) {
+	s := Stack[int]{}
+	s.PushAll(8, 3)
+
+	first := s.Pop()
+	second := s.Pop()
+
+	if first != 3 && second != 8 {
+		t.Error("unexpected popped elements")
+	}
+}

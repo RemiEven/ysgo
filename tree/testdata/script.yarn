@@ -1,0 +1,28 @@
+title: Coucou me revoiloûûûûû
+---
+Wow!
+// -> swimming
+//     -> sea
+//     -> pool
+// -> biking
+
+
+// <<set $name to "Rémi">>
+Hello {1 * (2 + 3)}!
+
+//Companion: Hi there! What do you feel like doing today?
+
+// -> Player: I want to go swimming.
+//     Companion: Okay, let's go swimming.
+//     <<wait 4>>
+//     -> Gosh!
+//         iiieee😀
+//     -> Incredible!
+//     -> I'm amazed!
+// -> Player: I'd prefer to go hiking.
+//     Companion: Cool, we'll go hiking then.
+
+// Player: Sounds good!
+
+// Anyway, time to get writing!
+===

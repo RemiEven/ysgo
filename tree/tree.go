@@ -4,9 +4,22 @@ type Dialogue struct {
 	Nodes []Node
 }
 
+func (d *Dialogue) FindNode(title string) (*Node, bool) {
+	for _, node := range d.Nodes {
+		if node.Title() == title {
+			return &node, true
+		}
+	}
+	return nil, false
+}
+
 type Node struct {
 	Headers    map[string]string
 	Statements []*Statement
+}
+
+func (n *Node) Title() string {
+	return n.Headers["title"]
 }
 
 type Statement struct {
@@ -15,8 +28,8 @@ type Statement struct {
 }
 
 type LineStatement struct {
-	Text *LineFormattedText
-	// Condition *Expression
+	Text      *LineFormattedText
+	Condition *Expression
 	// Hashtags  []string
 }
 
@@ -36,7 +49,4 @@ type ShortcutOptionStatement struct {
 type ShortcutOption struct {
 	LineStatement *LineStatement
 	Statements    []*Statement
-}
-
-type Expression struct {
 }
