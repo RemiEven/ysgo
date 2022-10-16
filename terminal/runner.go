@@ -21,7 +21,7 @@ type Runner struct {
 }
 
 func NewRunner(filename string) (*Runner, error) {
-	inputStream, err := antlr.NewFileStream("/home/remi/projects/ysgo/script.yarn")
+	inputStream, err := antlr.NewFileStream(filename)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create file input stream: %w", err)
 	}

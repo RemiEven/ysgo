@@ -302,3 +302,30 @@ func (s *ParserListener) EnterVariable(ctx *parser.VariableContext) {
 	variableID := ctx.GetText()[1:]
 	s.variableCallback(variableID)
 }
+
+// EnterJumpToNodeName is called when production jumpToNodeName is entered.
+func (s *ParserListener) EnterJumpToNodeName(ctx *parser.JumpToNodeNameContext) {
+	s.statementCallbacks.Peek()(&Statement{
+		JumpStatement: &JumpStatement{
+			Expression: &Expression{
+				Value: NewStringValue(ctx.GetDestination().GetText()),
+			},
+		},
+	})
+}
+
+// EnterJumpToExpression is called when production jumpToExpression is entered.
+func (s *ParserListener) EnterJumpToExpression(ctx *parser.JumpToExpressionContext) {
+	s.expressionCallbacks.Push(func(e *Expression) {
+		s.statementCallbacks.Peek()(&Statement{
+			JumpStatement: &JumpStatement{
+				Expression: e,
+			},
+		})
+	})
+}
+
+// ExitJumpToExpression is called when production jumpToExpression is exited.
+func (s *ParserListener) ExitJumpToExpression(ctx *parser.JumpToExpressionContext) {
+	s.expressionCallbacks.Pop()
+}

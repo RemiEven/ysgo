@@ -26,6 +26,7 @@ type Statement struct {
 	LineStatement           *LineStatement
 	ShortcutOptionStatement *ShortcutOptionStatement
 	SetStatement            *SetStatement
+	JumpStatement           *JumpStatement
 }
 
 type LineStatement struct {
@@ -56,4 +57,8 @@ type SetStatement struct {
 	VariableID      string
 	InPlaceOperator int
 	Expression      *Expression
+}
+
+type JumpStatement struct {
+	Expression *Expression
 }
