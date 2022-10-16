@@ -18,7 +18,7 @@ var _ = unicode.IsLetter
 type YarnSpinnerLexer struct {
 	IndentAwareLexer
 	channelNames []string
-	modeNames    []string
+	modeNames    []string // test
 	// TODO: EOF string
 }
 
