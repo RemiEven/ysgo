@@ -1,4 +1,4 @@
-// Code generated from parser/YarnSpinnerParser.g4 by ANTLR 4.10.1. DO NOT EDIT.
+// Code generated from java-escape by ANTLR 4.11.1. DO NOT EDIT.
 
 package parser // YarnSpinnerParser
 
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr"
+	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 )
 
 // Suppress unused import errors
@@ -241,7 +241,7 @@ func NewYarnSpinnerParser(input antlr.TokenStream) *YarnSpinnerParser {
 	this.RuleNames = staticData.ruleNames
 	this.LiteralNames = staticData.literalNames
 	this.SymbolicNames = staticData.symbolicNames
-	this.GrammarFileName = "YarnSpinnerParser.g4"
+	this.GrammarFileName = "java-escape"
 
 	return this
 }
@@ -1127,7 +1127,7 @@ func (p *YarnSpinnerParser) Body() (localctx IBodyContext) {
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for ((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<YarnSpinnerParserINDENT)|(1<<YarnSpinnerParserSHORTCUT_ARROW)|(1<<YarnSpinnerParserCOMMAND_START)|(1<<YarnSpinnerParserEXPRESSION_START)|(1<<YarnSpinnerParserTEXT))) != 0 {
+	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&581634) != 0 {
 		{
 			p.SetState(80)
 			p.Statement()
@@ -1469,7 +1469,7 @@ func (p *YarnSpinnerParser) Statement() (localctx IStatementContext) {
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
-		for ((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<YarnSpinnerParserINDENT)|(1<<YarnSpinnerParserSHORTCUT_ARROW)|(1<<YarnSpinnerParserCOMMAND_START)|(1<<YarnSpinnerParserEXPRESSION_START)|(1<<YarnSpinnerParserTEXT))) != 0 {
+		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&581634) != 0 {
 			{
 				p.SetState(95)
 				p.Statement()
@@ -2967,7 +2967,7 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 
 					_la = p.GetTokenStream().LA(1)
 
-					if !(((_la-48)&-(0x1f+1)) == 0 && ((1<<uint((_la-48)))&((1<<(YarnSpinnerParserOPERATOR_MATHS_MULTIPLICATION-48))|(1<<(YarnSpinnerParserOPERATOR_MATHS_DIVISION-48))|(1<<(YarnSpinnerParserOPERATOR_MATHS_MODULUS-48)))) != 0) {
+					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1970324836974592) != 0) {
 						var _ri = p.GetErrorHandler().RecoverInline(p)
 
 						localctx.(*ExpMultDivModContext).op = _ri
@@ -3029,7 +3029,7 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 
 					_la = p.GetTokenStream().LA(1)
 
-					if !(((_la-31)&-(0x1f+1)) == 0 && ((1<<uint((_la-31)))&((1<<(YarnSpinnerParserOPERATOR_LOGICAL_LESS_THAN_EQUALS-31))|(1<<(YarnSpinnerParserOPERATOR_LOGICAL_GREATER_THAN_EQUALS-31))|(1<<(YarnSpinnerParserOPERATOR_LOGICAL_LESS-31))|(1<<(YarnSpinnerParserOPERATOR_LOGICAL_GREATER-31)))) != 0) {
+					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&57982058496) != 0) {
 						var _ri = p.GetErrorHandler().RecoverInline(p)
 
 						localctx.(*ExpComparisonContext).op = _ri
@@ -3091,7 +3091,7 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 
 					_la = p.GetTokenStream().LA(1)
 
-					if !(((_la-37)&-(0x1f+1)) == 0 && ((1<<uint((_la-37)))&((1<<(YarnSpinnerParserOPERATOR_LOGICAL_AND-37))|(1<<(YarnSpinnerParserOPERATOR_LOGICAL_OR-37))|(1<<(YarnSpinnerParserOPERATOR_LOGICAL_XOR-37)))) != 0) {
+					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&962072674304) != 0) {
 						var _ri = p.GetErrorHandler().RecoverInline(p)
 
 						localctx.(*ExpAndOrXorContext).op = _ri
@@ -3768,7 +3768,7 @@ func (p *YarnSpinnerParser) Function_call() (localctx IFunction_callContext) {
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	if (((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<YarnSpinnerParserKEYWORD_TRUE)|(1<<YarnSpinnerParserKEYWORD_FALSE)|(1<<YarnSpinnerParserKEYWORD_NULL))) != 0) || (((_la-40)&-(0x1f+1)) == 0 && ((1<<uint((_la-40)))&((1<<(YarnSpinnerParserOPERATOR_LOGICAL_NOT-40))|(1<<(YarnSpinnerParserOPERATOR_MATHS_SUBTRACTION-40))|(1<<(YarnSpinnerParserLPAREN-40))|(1<<(YarnSpinnerParserSTRING-40))|(1<<(YarnSpinnerParserFUNC_ID-40))|(1<<(YarnSpinnerParserVAR_ID-40))|(1<<(YarnSpinnerParserNUMBER-40)))) != 0) {
+	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1551631909568643072) != 0 {
 		{
 			p.SetState(182)
 			p.expression(0)
@@ -4746,7 +4746,7 @@ func (p *YarnSpinnerParser) Set_statement() (localctx ISet_statementContext) {
 
 		_la = p.GetTokenStream().LA(1)
 
-		if !(((_la-30)&-(0x1f+1)) == 0 && ((1<<uint((_la-30)))&((1<<(YarnSpinnerParserOPERATOR_ASSIGNMENT-30))|(1<<(YarnSpinnerParserOPERATOR_MATHS_ADDITION_EQUALS-30))|(1<<(YarnSpinnerParserOPERATOR_MATHS_SUBTRACTION_EQUALS-30))|(1<<(YarnSpinnerParserOPERATOR_MATHS_MULTIPLICATION_EQUALS-30))|(1<<(YarnSpinnerParserOPERATOR_MATHS_MODULUS_EQUALS-30))|(1<<(YarnSpinnerParserOPERATOR_MATHS_DIVISION_EQUALS-30)))) != 0) {
+		if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&68170794663936) != 0) {
 			var _ri = p.GetErrorHandler().RecoverInline(p)
 
 			localctx.(*Set_statementContext).op = _ri
@@ -5585,7 +5585,7 @@ func (p *YarnSpinnerParser) Shortcut_option() (localctx IShortcut_optionContext)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
-		for ((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<YarnSpinnerParserINDENT)|(1<<YarnSpinnerParserSHORTCUT_ARROW)|(1<<YarnSpinnerParserCOMMAND_START)|(1<<YarnSpinnerParserEXPRESSION_START)|(1<<YarnSpinnerParserTEXT))) != 0 {
+		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&581634) != 0 {
 			{
 				p.SetState(276)
 				p.Statement()
@@ -5612,11 +5612,11 @@ type IDeclare_statementContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// GetType returns the type token.
-	GetType() antlr.Token
+	// GetType_ returns the type_ token.
+	GetType_() antlr.Token
 
-	// SetType sets the type token.
-	SetType(antlr.Token)
+	// SetType_ sets the type_ token.
+	SetType_(antlr.Token)
 
 	// IsDeclare_statementContext differentiates from other interfaces.
 	IsDeclare_statementContext()
@@ -5650,9 +5650,9 @@ func NewDeclare_statementContext(parser antlr.Parser, parent antlr.ParserRuleCon
 
 func (s *Declare_statementContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Declare_statementContext) GetType() antlr.Token { return s.type_ }
+func (s *Declare_statementContext) GetType_() antlr.Token { return s.type_ }
 
-func (s *Declare_statementContext) SetType(v antlr.Token) { s.type_ = v }
+func (s *Declare_statementContext) SetType_(v antlr.Token) { s.type_ = v }
 
 func (s *Declare_statementContext) COMMAND_START() antlr.TerminalNode {
 	return s.GetToken(YarnSpinnerParserCOMMAND_START, 0)

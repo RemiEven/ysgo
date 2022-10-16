@@ -3,7 +3,7 @@ module github.com/RemiEven/ysgo
 go 1.19
 
 require (
-	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220806174119-0b8ed202e381
+	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20220911224424-aa1f1f12a846
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
 	github.com/gdamore/tcell/v2 v2.4.1-0.20210905002822-f057f0a857a1
 	github.com/go-test/deep v1.0.8
