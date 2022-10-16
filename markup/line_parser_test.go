@@ -14,21 +14,21 @@ type lineParserTest struct {
 
 func TestLineParser(t *testing.T) {
 	tests := map[string]lineParserTest{
-		// "simple attribute": {
-		// 	input: `Oh, [wave]hello[/wave] there!`,
-		// 	expectedResult: &ParseResult{
-		// 		Text: `Oh, hello there!`,
-		// 		Attributes: []Attribute{
-		// 			{
-		// 				Name:           "wave",
-		// 				Position:       4,
-		// 				SourcePosition: 4,
-		// 				Length:         5,
-		// 				Properties:     map[string]Value{},
-		// 			},
-		// 		},
-		// 	},
-		// },
+		"simple attribute": { // FIXME: uncomment other tests once they all pass
+			input: `Oh, [wave]hello[/wave] there!`,
+			expectedResult: &ParseResult{
+				Text: `Oh, hello there!`,
+				Attributes: []Attribute{
+					{
+						Name:           "wave",
+						Position:       4,
+						SourcePosition: 4,
+						Length:         5,
+						Properties:     map[string]Value{},
+					},
+				},
+			},
+		},
 		// "overlapping attributes": {
 		// 	input: `Oh, [wave]hello [bounce]there![/bounce][/wave]`,
 		// 	expectedResult: &ParseResult{
@@ -261,7 +261,7 @@ func TestLineParser(t *testing.T) {
 		// 		},
 		// 	},
 		// },
-		`multibyte character parsing "á [á]S[/á]"`: multibyteCharacterParsing(`á [á]S[/á]`, `á S`, `á`),
+		// `multibyte character parsing "á [á]S[/á]"`: multibyteCharacterParsing(`á [á]S[/á]`, `á S`, `á`),
 		// `multibyte character parsing "á [a]á[/a]"`:  multibyteCharacterParsing(`á [a]á[/a]`, `á á`, `a`),
 		// `multibyte character parsing "á [a]S[/a]"`:   multibyteCharacterParsing(`á [a]S[/a]`, `á S`, `a`),
 		// `multibyte character parsing "S [á]S[/á]"`:  multibyteCharacterParsing(`S [á]S[/á]`, `S S`, `á`),

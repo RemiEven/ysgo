@@ -17,7 +17,8 @@
             }),
             Condition: (*tree.Expression)(<nil>)
           }),
-          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>)
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -44,7 +45,7 @@
                       NotExpression: (*tree.Expression)(<nil>),
                       LeftOperand: (*tree.Expression)(<nil>),
                       RightOperand: (*tree.Expression)(<nil>),
-                      Operator: (int) 0
+                      Operator: (*int)(<nil>)
                     }),
                     RightOperand: (*tree.Expression)({
                       Value: (*tree.Value)(<nil>),
@@ -61,7 +62,7 @@
                         NotExpression: (*tree.Expression)(<nil>),
                         LeftOperand: (*tree.Expression)(<nil>),
                         RightOperand: (*tree.Expression)(<nil>),
-                        Operator: (int) 0
+                        Operator: (*int)(<nil>)
                       }),
                       RightOperand: (*tree.Expression)({
                         Value: (*tree.Value)({
@@ -74,11 +75,11 @@
                         NotExpression: (*tree.Expression)(<nil>),
                         LeftOperand: (*tree.Expression)(<nil>),
                         RightOperand: (*tree.Expression)(<nil>),
-                        Operator: (int) 0
+                        Operator: (*int)(<nil>)
                       }),
-                      Operator: (int) 3
+                      Operator: (*int)(3)
                     }),
-                    Operator: (int) 0
+                    Operator: (*int)(0)
                   })
                 }),
                 (*tree.LineFormattedTextElement)({
@@ -89,7 +90,8 @@
             }),
             Condition: (*tree.Expression)(<nil>)
           }),
-          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>)
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>)
         })
       }
     }
