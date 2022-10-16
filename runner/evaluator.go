@@ -2,6 +2,7 @@ package runner
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/RemiEven/ysgo/tree"
 )
@@ -88,7 +89,7 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 		return nil, fmt.Errorf("cannot divide two values that are not both numbers")
 	case tree.ModuloBinaryOperator:
 		if bothOperandsAreNumbers {
-			return tree.NewNumberValue((*leftOperandValue.Number) / (*rightOperandValue.Number)), nil
+			return tree.NewNumberValue(math.Mod(*leftOperandValue.Number, *rightOperandValue.Number)), nil
 		}
 		return nil, fmt.Errorf("cannot divide two values that are not both numbers")
 	case tree.AdditionBinaryOperator:

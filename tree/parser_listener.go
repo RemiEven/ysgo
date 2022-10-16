@@ -282,7 +282,7 @@ func (s *ParserListener) EnterSet_statement(ctx *parser.Set_statementContext) {
 		s.statementCallbacks.Peek()(&Statement{
 			SetStatement: &SetStatement{
 				VariableID:      variableID,
-				InPlaceOperator: inPlaceOperator,
+				InPlaceOperator: *inPlaceOperator,
 				Expression:      e,
 			},
 		})

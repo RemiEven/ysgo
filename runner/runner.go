@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"fmt"
+	"math"
 	"strings"
 
 	"github.com/RemiEven/ysgo/container"
@@ -73,17 +75,8 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool) { // TODO: h
 			Options: options,
 		}, true
 	case nextStatement.SetStatement != nil:
-		value, err := evaluateExpression(nextStatement.SetStatement.Expression, dr.variableStorer)
-		if err != nil {
+		if err := dr.executeSetStatement(nextStatement.SetStatement); err != nil {
 			panic(err) // FIXME: better handle errors here
-		}
-		switch { // FIXME: take operator into account to support += and the likes
-		case value.IsNumber():
-			dr.variableStorer.SetNumberValue(nextStatement.SetStatement.VariableID, *value.Number)
-		case value.IsBoolean():
-			dr.variableStorer.SetBooleanValue(nextStatement.SetStatement.VariableID, *value.Boolean)
-		case value.IsString():
-			dr.variableStorer.SetStringValue(nextStatement.SetStatement.VariableID, *value.String)
 		}
 		return dr.Next(choice)
 	}
@@ -104,6 +97,65 @@ func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer) *Dialogue
 		statementsToRun: statementsToRun,
 		variableStorer:  storer,
 	}
+}
+
+func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) error {
+	value, err := evaluateExpression(statement.Expression, dr.variableStorer)
+	if err != nil {
+		return fmt.Errorf("failed to evaluate expression: %w", err)
+	}
+	previousValue, ok := dr.variableStorer.GetValue(statement.VariableID)
+
+	if ok {
+		bothValuesAreNumbers := value.IsNumber() && previousValue.IsNumber()
+		bothValuesAreBooleans := value.IsBoolean() && previousValue.IsBoolean()
+		bothValuesAreStrings := value.IsString() && previousValue.IsString()
+		if !(bothValuesAreNumbers || bothValuesAreBooleans || bothValuesAreStrings) {
+			return fmt.Errorf("variable [%s] type cannot be changed", statement.VariableID)
+		}
+	} else if statement.InPlaceOperator != tree.AssignmentInPlaceOperator {
+		return fmt.Errorf("variable [%s] not found in storage, only assignment is allowed", statement.VariableID)
+	}
+
+	switch {
+	case value.IsNumber():
+		var newNumberValue float64
+		switch statement.InPlaceOperator {
+		case tree.AssignmentInPlaceOperator:
+			newNumberValue = *value.Number
+		case tree.MultiplicationInPlaceOperator:
+			newNumberValue = (*value.Number) * (*previousValue.Number)
+		case tree.DivisionInPlaceOperator:
+			newNumberValue = (*value.Number) / (*previousValue.Number)
+		case tree.ModuloInPlaceOperator:
+			newNumberValue = math.Mod(*value.Number, *previousValue.Number)
+		case tree.AdditionInPlaceOperator:
+			newNumberValue = (*value.Number) + (*previousValue.Number)
+		case tree.SubtractionInPlaceOperator:
+			newNumberValue = (*value.Number) - (*previousValue.Number)
+		default:
+			return fmt.Errorf("unknown assignment operator encountered")
+		}
+		dr.variableStorer.SetNumberValue(statement.VariableID, newNumberValue)
+	case value.IsBoolean():
+		if statement.InPlaceOperator != tree.AssignmentInPlaceOperator {
+			return fmt.Errorf("unsupported assignment operator for boolean variable encountered")
+		}
+		dr.variableStorer.SetBooleanValue(statement.VariableID, *value.Boolean)
+	case value.IsString():
+		var newStringValue string
+		switch statement.InPlaceOperator {
+		case tree.AssignmentInPlaceOperator:
+			newStringValue = *value.String
+		case tree.AdditionInPlaceOperator:
+			newStringValue = (*value.String) + (*previousValue.String)
+		default:
+			return fmt.Errorf("unsupported assignment operator for string variable encountered")
+		}
+		dr.variableStorer.SetStringValue(statement.VariableID, newStringValue)
+	}
+
+	return nil
 }
 
 type StatementQueue struct {

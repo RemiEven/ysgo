@@ -54,6 +54,6 @@ type ShortcutOption struct {
 
 type SetStatement struct {
 	VariableID      string
-	InPlaceOperator *int
+	InPlaceOperator int
 	Expression      *Expression
 }
