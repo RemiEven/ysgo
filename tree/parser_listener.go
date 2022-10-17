@@ -23,6 +23,7 @@ type ParserListener struct {
 	expressionCallbacks      *container.Stack[func(*Expression)]
 	lineStatementCallbacks   *container.Stack[func(*LineStatement)]
 	variableCallback         func(string)
+	clauseCallbacks          *container.Stack[func(*Clause)]
 }
 
 func (pl *ParserListener) Dialogue() *Dialogue {
@@ -45,6 +46,7 @@ func (pl *ParserListener) EnterDialogue(ctx *parser.DialogueContext) {
 	pl.statementCallbacks = &container.Stack[func(*Statement)]{}
 	pl.lineStatementCallbacks = &container.Stack[func(*LineStatement)]{}
 	pl.expressionCallbacks = &container.Stack[func(*Expression)]{}
+	pl.clauseCallbacks = &container.Stack[func(*Clause)]{}
 }
 
 // EnterNode is called when production node is entered.
@@ -328,4 +330,86 @@ func (s *ParserListener) EnterJumpToExpression(ctx *parser.JumpToExpressionConte
 // ExitJumpToExpression is called when production jumpToExpression is exited.
 func (s *ParserListener) ExitJumpToExpression(ctx *parser.JumpToExpressionContext) {
 	s.expressionCallbacks.Pop()
+}
+
+// EnterIf_statement is called when production if_statement is entered.
+func (s *ParserListener) EnterIf_statement(ctx *parser.If_statementContext) {
+	statement := &IfStatement{}
+	s.statementCallbacks.Peek()(&Statement{
+		IfStatement: statement,
+	})
+	s.clauseCallbacks.Push(func(clause *Clause) {
+		statement.Clauses = append(statement.Clauses, clause)
+	})
+}
+
+// ExitIf_statement is called when production if_statement is exited.
+func (s *ParserListener) ExitIf_statement(ctx *parser.If_statementContext) {
+	s.clauseCallbacks.Pop()
+}
+
+// EnterIf_clause is called when production if_clause is entered.
+func (s *ParserListener) EnterIf_clause(ctx *parser.If_clauseContext) {
+	clause := &Clause{}
+	s.expressionCallbacks.Push(func(e *Expression) {
+		clause.Condition = e
+		s.expressionCallbacks.Pop()
+	})
+	s.statementCallbacks.Push(func(statement *Statement) {
+		clause.Statements = append(clause.Statements, statement)
+	})
+	s.lineStatementCallbacks.Push(func(ls *LineStatement) {
+		clause.Statements = append(clause.Statements, &Statement{LineStatement: ls})
+	})
+	s.clauseCallbacks.Peek()(clause)
+}
+
+// ExitIf_clause is called when production if_clause is exited.
+func (s *ParserListener) ExitIf_clause(ctx *parser.If_clauseContext) {
+	s.statementCallbacks.Pop()
+	s.lineStatementCallbacks.Pop()
+}
+
+// EnterElse_if_clause is called when production else_if_clause is entered.
+func (s *ParserListener) EnterElse_if_clause(ctx *parser.Else_if_clauseContext) {
+	clause := &Clause{}
+	s.expressionCallbacks.Push(func(e *Expression) {
+		clause.Condition = e
+		s.expressionCallbacks.Pop()
+	})
+	s.statementCallbacks.Push(func(statement *Statement) {
+		clause.Statements = append(clause.Statements, statement)
+	})
+	s.lineStatementCallbacks.Push(func(ls *LineStatement) {
+		clause.Statements = append(clause.Statements, &Statement{LineStatement: ls})
+	})
+	s.clauseCallbacks.Peek()(clause)
+}
+
+// ExitElse_if_clause is called when production else_if_clause is exited.
+func (s *ParserListener) ExitElse_if_clause(ctx *parser.Else_if_clauseContext) {
+	s.statementCallbacks.Pop()
+	s.lineStatementCallbacks.Pop()
+}
+
+// EnterElse_clause is called when production else_clause is entered.
+func (s *ParserListener) EnterElse_clause(ctx *parser.Else_clauseContext) {
+	clause := &Clause{
+		Condition: &Expression{
+			Value: NewBooleanValue(true),
+		},
+	}
+	s.statementCallbacks.Push(func(statement *Statement) {
+		clause.Statements = append(clause.Statements, statement)
+	})
+	s.lineStatementCallbacks.Push(func(ls *LineStatement) {
+		clause.Statements = append(clause.Statements, &Statement{LineStatement: ls})
+	})
+	s.clauseCallbacks.Peek()(clause)
+}
+
+// ExitElse_clause is called when production else_clause is exited.
+func (s *ParserListener) ExitElse_clause(ctx *parser.Else_clauseContext) {
+	s.statementCallbacks.Pop()
+	s.lineStatementCallbacks.Pop()
 }

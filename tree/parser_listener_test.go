@@ -13,7 +13,8 @@ import (
 
 func TestParserListener(t *testing.T) {
 	tests := []string{
-		"script",
+		// "script",
+		"script3",
 	}
 
 	for _, name := range tests {

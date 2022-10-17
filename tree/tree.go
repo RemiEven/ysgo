@@ -27,6 +27,7 @@ type Statement struct {
 	ShortcutOptionStatement *ShortcutOptionStatement
 	SetStatement            *SetStatement
 	JumpStatement           *JumpStatement
+	IfStatement             *IfStatement
 }
 
 type LineStatement struct {
@@ -61,4 +62,13 @@ type SetStatement struct {
 
 type JumpStatement struct {
 	Expression *Expression
+}
+
+type IfStatement struct {
+	Clauses []*Clause
+}
+
+type Clause struct {
+	Condition  *Expression
+	Statements []*Statement
 }

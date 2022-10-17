@@ -84,6 +84,11 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool) { // TODO: h
 			panic(err) // FIXME: better handle errors here
 		}
 		return dr.Next(choice)
+	case nextStatement.IfStatement != nil:
+		if err := dr.executeIfStatement(nextStatement.IfStatement); err != nil {
+			panic(err) // FIXME: better handle errors here
+		}
+		return dr.Next(choice)
 	}
 
 	return nil, false // TODO: we should never get there
@@ -173,6 +178,22 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 		return fmt.Errorf("node [%s] not found in dialogue", *value.String)
 	} else {
 		dr.statementsToRun.Push(&StatementQueue{statements: node.Statements})
+	}
+	return nil
+}
+
+func (dr *DialogueRunner) executeIfStatement(statement *tree.IfStatement) error {
+	for _, clause := range statement.Clauses {
+		condition, err := evaluateExpression(clause.Condition, dr.variableStorer)
+		if err != nil {
+			return fmt.Errorf("failed to evaluate condition: %w", err)
+		} else if !condition.IsBoolean() {
+			return fmt.Errorf("condition must be a boolean")
+		}
+		if *condition.Boolean {
+			dr.statementsToRun.Push(&StatementQueue{statements: clause.Statements})
+			return nil
+		}
 	}
 	return nil
 }
