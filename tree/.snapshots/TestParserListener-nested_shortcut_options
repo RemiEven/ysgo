@@ -1,0 +1,210 @@
+(*tree.Dialogue)({
+  Nodes: ([]tree.Node) (len=1) {
+    (tree.Node) {
+      Headers: (map[string]string) (len=1) {
+        (string) (len=5) "title": (string) (len=23) "Nested shortcut options"
+      },
+      Statements: ([]*tree.Statement) (len=3) {
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)({
+            Text: (*tree.LineFormattedText)({
+              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) (len=55) "Companion: Hi there! What do you feel like doing today?",
+                  Expression: (*tree.Expression)(<nil>)
+                })
+              }
+            }),
+            Condition: (*tree.Expression)(<nil>)
+          }),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)({
+            Options: ([]*tree.ShortcutOption) (len=2) {
+              (*tree.ShortcutOption)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=30) "Player: I want to go swimming.",
+                        Expression: (*tree.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*tree.Expression)(<nil>)
+                }),
+                Statements: ([]*tree.Statement) (len=3) {
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=35) "Companion: Okay, let's go swimming.",
+                            Expression: (*tree.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*tree.Expression)(<nil>)
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  }),
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=37) "Companion: Where do you want to swim?",
+                            Expression: (*tree.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*tree.Expression)(<nil>)
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  }),
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)(<nil>),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)({
+                      Options: ([]*tree.ShortcutOption) (len=2) {
+                        (*tree.ShortcutOption)({
+                          LineStatement: (*tree.LineStatement)({
+                            Text: (*tree.LineFormattedText)({
+                              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                                (*tree.LineFormattedTextElement)({
+                                  Text: (string) (len=17) "Player: The lake!",
+                                  Expression: (*tree.Expression)(<nil>)
+                                })
+                              }
+                            }),
+                            Condition: (*tree.Expression)(<nil>)
+                          }),
+                          Statements: ([]*tree.Statement) (len=1) {
+                            (*tree.Statement)({
+                              LineStatement: (*tree.LineStatement)({
+                                Text: (*tree.LineFormattedText)({
+                                  Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                                    (*tree.LineFormattedTextElement)({
+                                      Text: (string) (len=41) "Companion: Nice! It's a great day for it.",
+                                      Expression: (*tree.Expression)(<nil>)
+                                    })
+                                  }
+                                }),
+                                Condition: (*tree.Expression)(<nil>)
+                              }),
+                              ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                              SetStatement: (*tree.SetStatement)(<nil>),
+                              JumpStatement: (*tree.JumpStatement)(<nil>),
+                              IfStatement: (*tree.IfStatement)(<nil>)
+                            })
+                          }
+                        }),
+                        (*tree.ShortcutOption)({
+                          LineStatement: (*tree.LineStatement)({
+                            Text: (*tree.LineFormattedText)({
+                              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                                (*tree.LineFormattedTextElement)({
+                                  Text: (string) (len=26) "Player: The swimming pool!",
+                                  Expression: (*tree.Expression)(<nil>)
+                                })
+                              }
+                            }),
+                            Condition: (*tree.Expression)(<nil>)
+                          }),
+                          Statements: ([]*tree.Statement) (len=1) {
+                            (*tree.Statement)({
+                              LineStatement: (*tree.LineStatement)({
+                                Text: (*tree.LineFormattedText)({
+                                  Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                                    (*tree.LineFormattedTextElement)({
+                                      Text: (string) (len=59) "Companion: Oh, awesome! I heard they installed a new slide.",
+                                      Expression: (*tree.Expression)(<nil>)
+                                    })
+                                  }
+                                }),
+                                Condition: (*tree.Expression)(<nil>)
+                              }),
+                              ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                              SetStatement: (*tree.SetStatement)(<nil>),
+                              JumpStatement: (*tree.JumpStatement)(<nil>),
+                              IfStatement: (*tree.IfStatement)(<nil>)
+                            })
+                          }
+                        })
+                      }
+                    }),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  })
+                }
+              }),
+              (*tree.ShortcutOption)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=32) "Player: I'd prefer to go hiking.",
+                        Expression: (*tree.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*tree.Expression)(<nil>)
+                }),
+                Statements: ([]*tree.Statement) (len=1) {
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=38) "Companion: Cool, we'll go hiking then.",
+                            Expression: (*tree.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*tree.Expression)(<nil>)
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  })
+                }
+              })
+            }
+          }),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)({
+            Text: (*tree.LineFormattedText)({
+              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) (len=20) "Player: Sounds good!",
+                  Expression: (*tree.Expression)(<nil>)
+                })
+              }
+            }),
+            Condition: (*tree.Expression)(<nil>)
+          }),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>)
+        })
+      }
+    }
+  }
+})

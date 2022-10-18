@@ -13,8 +13,16 @@ import (
 
 func TestParserListener(t *testing.T) {
 	tests := []string{
-		// "script",
-		"script3",
+		"boolean_expressions",
+		"example_project_1",
+		"jump_statements",
+		"number_expressions",
+		"space_journey",
+		"condition_statements",
+		// "ghosty_lads", // FIXME: uncomment this once line conditions are supported
+		"nested_shortcut_options",
+		"shortcut_options",
+		"string_expressions",
 	}
 
 	for _, name := range tests {

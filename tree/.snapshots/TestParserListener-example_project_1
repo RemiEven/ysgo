@@ -1,0 +1,401 @@
+(*tree.Dialogue)({
+  Nodes: ([]tree.Node) (len=1) {
+    (tree.Node) {
+      Headers: (map[string]string) (len=1) {
+        (string) (len=5) "title": (string) (len=5) "Start"
+      },
+      Statements: ([]*tree.Statement) (len=6) {
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)({
+            VariableID: (string) (len=15) "shapes_like_you",
+            InPlaceOperator: (int) 14,
+            Expression: (*tree.Expression)({
+              Value: (*tree.Value)({
+                Number: (*float64)(<nil>),
+                Boolean: (*bool)(true),
+                String: (*string)(<nil>),
+                VariableID: (*string)(<nil>)
+              }),
+              NegativeExpression: (*tree.Expression)(<nil>),
+              NotExpression: (*tree.Expression)(<nil>),
+              LeftOperand: (*tree.Expression)(<nil>),
+              RightOperand: (*tree.Expression)(<nil>),
+              Operator: (*int)(<nil>)
+            })
+          }),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)({
+            Text: (*tree.LineFormattedText)({
+              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) (len=32) "Sphere: Hello, I am Blue Sphere.",
+                  Expression: (*tree.Expression)(<nil>)
+                })
+              }
+            }),
+            Condition: (*tree.Expression)(<nil>)
+          }),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)({
+            Text: (*tree.LineFormattedText)({
+              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) (len=36) "Cube: Hi there Sphere! I'm Red Cube.",
+                  Expression: (*tree.Expression)(<nil>)
+                })
+              }
+            }),
+            Condition: (*tree.Expression)(<nil>)
+          }),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)({
+            Text: (*tree.LineFormattedText)({
+              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) (len=29) "Sphere: And who is this then?",
+                  Expression: (*tree.Expression)(<nil>)
+                })
+              }
+            }),
+            Condition: (*tree.Expression)(<nil>)
+          }),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)({
+            Options: ([]*tree.ShortcutOption) (len=3) {
+              (*tree.ShortcutOption)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=61) "I'm Capsule, but my friends call me \"Tic Tac\". No idea why...",
+                        Expression: (*tree.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*tree.Expression)(<nil>)
+                }),
+                Statements: ([]*tree.Statement) (len=1) {
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)(<nil>),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)({
+                      VariableID: (string) (len=4) "name",
+                      InPlaceOperator: (int) 14,
+                      Expression: (*tree.Expression)({
+                        Value: (*tree.Value)({
+                          Number: (*float64)(<nil>),
+                          Boolean: (*bool)(<nil>),
+                          String: (*string)((len=7) "Tic Tac"),
+                          VariableID: (*string)(<nil>)
+                        }),
+                        NegativeExpression: (*tree.Expression)(<nil>),
+                        NotExpression: (*tree.Expression)(<nil>),
+                        LeftOperand: (*tree.Expression)(<nil>),
+                        RightOperand: (*tree.Expression)(<nil>),
+                        Operator: (*int)(<nil>)
+                      })
+                    }),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  })
+                }
+              }),
+              (*tree.ShortcutOption)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=22) "The name's Triquandle.",
+                        Expression: (*tree.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*tree.Expression)(<nil>)
+                }),
+                Statements: ([]*tree.Statement) (len=1) {
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)(<nil>),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)({
+                      VariableID: (string) (len=4) "name",
+                      InPlaceOperator: (int) 14,
+                      Expression: (*tree.Expression)({
+                        Value: (*tree.Value)({
+                          Number: (*float64)(<nil>),
+                          Boolean: (*bool)(<nil>),
+                          String: (*string)((len=10) "Triquandle"),
+                          VariableID: (*string)(<nil>)
+                        }),
+                        NegativeExpression: (*tree.Expression)(<nil>),
+                        NotExpression: (*tree.Expression)(<nil>),
+                        LeftOperand: (*tree.Expression)(<nil>),
+                        RightOperand: (*tree.Expression)(<nil>),
+                        Operator: (*int)(<nil>)
+                      })
+                    }),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  })
+                }
+              }),
+              (*tree.ShortcutOption)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=32) "Pyramid. Why; who wants to know?",
+                        Expression: (*tree.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*tree.Expression)(<nil>)
+                }),
+                Statements: ([]*tree.Statement) (len=2) {
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)(<nil>),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)({
+                      VariableID: (string) (len=4) "name",
+                      InPlaceOperator: (int) 14,
+                      Expression: (*tree.Expression)({
+                        Value: (*tree.Value)({
+                          Number: (*float64)(<nil>),
+                          Boolean: (*bool)(<nil>),
+                          String: (*string)((len=7) "Pyramid"),
+                          VariableID: (*string)(<nil>)
+                        }),
+                        NegativeExpression: (*tree.Expression)(<nil>),
+                        NotExpression: (*tree.Expression)(<nil>),
+                        LeftOperand: (*tree.Expression)(<nil>),
+                        RightOperand: (*tree.Expression)(<nil>),
+                        Operator: (*int)(<nil>)
+                      })
+                    }),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  }),
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)(<nil>),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)({
+                      VariableID: (string) (len=15) "shapes_like_you",
+                      InPlaceOperator: (int) 14,
+                      Expression: (*tree.Expression)({
+                        Value: (*tree.Value)({
+                          Number: (*float64)(<nil>),
+                          Boolean: (*bool)(false),
+                          String: (*string)(<nil>),
+                          VariableID: (*string)(<nil>)
+                        }),
+                        NegativeExpression: (*tree.Expression)(<nil>),
+                        NotExpression: (*tree.Expression)(<nil>),
+                        LeftOperand: (*tree.Expression)(<nil>),
+                        RightOperand: (*tree.Expression)(<nil>),
+                        Operator: (*int)(<nil>)
+                      })
+                    }),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  })
+                }
+              })
+            }
+          }),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)({
+            Clauses: ([]*tree.Clause) (len=2) {
+              (*tree.Clause)({
+                Condition: (*tree.Expression)({
+                  Value: (*tree.Value)({
+                    Number: (*float64)(<nil>),
+                    Boolean: (*bool)(<nil>),
+                    String: (*string)(<nil>),
+                    VariableID: (*string)((len=15) "shapes_like_you")
+                  }),
+                  NegativeExpression: (*tree.Expression)(<nil>),
+                  NotExpression: (*tree.Expression)(<nil>),
+                  LeftOperand: (*tree.Expression)(<nil>),
+                  RightOperand: (*tree.Expression)(<nil>),
+                  Operator: (*int)(<nil>)
+                }),
+                Statements: ([]*tree.Statement) (len=2) {
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=3) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=25) "Sphere: Nice to meet you ",
+                            Expression: (*tree.Expression)(<nil>)
+                          }),
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) "",
+                            Expression: (*tree.Expression)({
+                              Value: (*tree.Value)({
+                                Number: (*float64)(<nil>),
+                                Boolean: (*bool)(<nil>),
+                                String: (*string)(<nil>),
+                                VariableID: (*string)((len=4) "name")
+                              }),
+                              NegativeExpression: (*tree.Expression)(<nil>),
+                              NotExpression: (*tree.Expression)(<nil>),
+                              LeftOperand: (*tree.Expression)(<nil>),
+                              RightOperand: (*tree.Expression)(<nil>),
+                              Operator: (*int)(<nil>)
+                            })
+                          }),
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=1) "!",
+                            Expression: (*tree.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*tree.Expression)(<nil>)
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  }),
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=21) "Cube: Yeah, likewise!",
+                            Expression: (*tree.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*tree.Expression)(<nil>)
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  })
+                }
+              }),
+              (*tree.Clause)({
+                Condition: (*tree.Expression)({
+                  Value: (*tree.Value)({
+                    Number: (*float64)(<nil>),
+                    Boolean: (*bool)(true),
+                    String: (*string)(<nil>),
+                    VariableID: (*string)(<nil>)
+                  }),
+                  NegativeExpression: (*tree.Expression)(<nil>),
+                  NotExpression: (*tree.Expression)(<nil>),
+                  LeftOperand: (*tree.Expression)(<nil>),
+                  RightOperand: (*tree.Expression)(<nil>),
+                  Operator: (*int)(<nil>)
+                }),
+                Statements: ([]*tree.Statement) (len=3) {
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=32) "Sphere: No need to be so rude...",
+                            Expression: (*tree.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*tree.Expression)(<nil>)
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  }),
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=3) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=46) "Cube: Yeah, maybe you should be called Grumpy ",
+                            Expression: (*tree.Expression)(<nil>)
+                          }),
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) "",
+                            Expression: (*tree.Expression)({
+                              Value: (*tree.Value)({
+                                Number: (*float64)(<nil>),
+                                Boolean: (*bool)(<nil>),
+                                String: (*string)(<nil>),
+                                VariableID: (*string)((len=4) "name")
+                              }),
+                              NegativeExpression: (*tree.Expression)(<nil>),
+                              NotExpression: (*tree.Expression)(<nil>),
+                              LeftOperand: (*tree.Expression)(<nil>),
+                              RightOperand: (*tree.Expression)(<nil>),
+                              Operator: (*int)(<nil>)
+                            })
+                          }),
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=1) ".",
+                            Expression: (*tree.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*tree.Expression)(<nil>)
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  }),
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=20) "Sphere: Ha! Totally.",
+                            Expression: (*tree.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*tree.Expression)(<nil>)
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>)
+                  })
+                }
+              })
+            }
+          })
+        })
+      }
+    }
+  }
+})

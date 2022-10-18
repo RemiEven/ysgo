@@ -1,0 +1,10 @@
+title: Shortcut options
+---
+Companion: Hi there! What do you feel like doing today?
+
+-> Player: I want to go swimming.
+    Companion: Okay, let's go swimming.
+-> Player: I'd prefer to go hiking.
+    Companion: Cool, we'll go hiking then.
+Player: Sounds good!
+===

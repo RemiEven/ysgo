@@ -2,16 +2,32 @@
   Nodes: ([]tree.Node) (len=1) {
     (tree.Node) {
       Headers: (map[string]string) (len=1) {
-        (string) (len=5) "title": (string) (len=27) "Coucou me revoiloûûûûû"
+        (string) (len=5) "title": (string) (len=18) "String expressions"
       },
       Statements: ([]*tree.Statement) (len=2) {
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
             Text: (*tree.LineFormattedText)({
-              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+              Elements: ([]*tree.LineFormattedTextElement) (len=2) {
                 (*tree.LineFormattedTextElement)({
-                  Text: (string) (len=4) "Wow!",
+                  Text: (string) (len=2) "1 ",
                   Expression: (*tree.Expression)(<nil>)
+                }),
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) "",
+                  Expression: (*tree.Expression)({
+                    Value: (*tree.Value)({
+                      Number: (*float64)(<nil>),
+                      Boolean: (*bool)(<nil>),
+                      String: (*string)((len=5) "Hello"),
+                      VariableID: (*string)(<nil>)
+                    }),
+                    NegativeExpression: (*tree.Expression)(<nil>),
+                    NotExpression: (*tree.Expression)(<nil>),
+                    LeftOperand: (*tree.Expression)(<nil>),
+                    RightOperand: (*tree.Expression)(<nil>),
+                    Operator: (*int)(<nil>)
+                  })
                 })
               }
             }),
@@ -25,9 +41,9 @@
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
             Text: (*tree.LineFormattedText)({
-              Elements: ([]*tree.LineFormattedTextElement) (len=3) {
+              Elements: ([]*tree.LineFormattedTextElement) (len=2) {
                 (*tree.LineFormattedTextElement)({
-                  Text: (string) (len=6) "Hello ",
+                  Text: (string) (len=2) "2 ",
                   Expression: (*tree.Expression)(<nil>)
                 }),
                 (*tree.LineFormattedTextElement)({
@@ -37,27 +53,14 @@
                     NegativeExpression: (*tree.Expression)(<nil>),
                     NotExpression: (*tree.Expression)(<nil>),
                     LeftOperand: (*tree.Expression)({
-                      Value: (*tree.Value)({
-                        Number: (*float64)(1),
-                        Boolean: (*bool)(<nil>),
-                        String: (*string)(<nil>),
-                        VariableID: (*string)(<nil>)
-                      }),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)(<nil>),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
-                      Operator: (*int)(<nil>)
-                    }),
-                    RightOperand: (*tree.Expression)({
                       Value: (*tree.Value)(<nil>),
                       NegativeExpression: (*tree.Expression)(<nil>),
                       NotExpression: (*tree.Expression)(<nil>),
                       LeftOperand: (*tree.Expression)({
                         Value: (*tree.Value)({
-                          Number: (*float64)(2),
+                          Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
-                          String: (*string)(<nil>),
+                          String: (*string)((len=5) "Hello"),
                           VariableID: (*string)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
@@ -68,9 +71,9 @@
                       }),
                       RightOperand: (*tree.Expression)({
                         Value: (*tree.Value)({
-                          Number: (*float64)(3),
+                          Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
-                          String: (*string)(<nil>),
+                          String: (*string)(""),
                           VariableID: (*string)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
@@ -81,12 +84,21 @@
                       }),
                       Operator: (*int)(3)
                     }),
-                    Operator: (*int)(0)
+                    RightOperand: (*tree.Expression)({
+                      Value: (*tree.Value)({
+                        Number: (*float64)(<nil>),
+                        Boolean: (*bool)(<nil>),
+                        String: (*string)((len=6) "world!"),
+                        VariableID: (*string)(<nil>)
+                      }),
+                      NegativeExpression: (*tree.Expression)(<nil>),
+                      NotExpression: (*tree.Expression)(<nil>),
+                      LeftOperand: (*tree.Expression)(<nil>),
+                      RightOperand: (*tree.Expression)(<nil>),
+                      Operator: (*int)(<nil>)
+                    }),
+                    Operator: (*int)(3)
                   })
-                }),
-                (*tree.LineFormattedTextElement)({
-                  Text: (string) (len=1) "!",
-                  Expression: (*tree.Expression)(<nil>)
                 })
               }
             }),

@@ -1,0 +1,18 @@
+title: Boolean expressions
+---
+1 {true}
+2 {false}
+3 {true && false}
+4 {true and false}
+5 {true == false}
+6 {true is (false && true)}
+7 {true eq false}
+8 {true != false}
+9 {true neq false}
+10 {true || false}
+11 {true or false}
+12 {true xor false}
+13 {true ^ false}
+14 {not true}
+15 {!true}
+===
