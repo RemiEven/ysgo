@@ -74,10 +74,11 @@ type Expression struct {
 }
 
 type Value struct {
-	Number     *float64
-	Boolean    *bool
-	String     *string
-	VariableID *string
+	Number       *float64
+	Boolean      *bool
+	String       *string
+	VariableID   *string
+	FunctionCall *FunctionCall
 }
 
 func NewNumberValue(number float64) *Value {
@@ -99,15 +100,15 @@ func NewStringValue(str string) *Value {
 }
 
 func (v *Value) IsNumber() bool {
-	return v.Number != nil
+	return v.Number != nil || v.FunctionCall != nil
 }
 
 func (v *Value) IsBoolean() bool {
-	return v.Boolean != nil
+	return v.Boolean != nil || v.FunctionCall != nil
 }
 
 func (v *Value) IsString() bool {
-	return v.String != nil
+	return v.String != nil || v.FunctionCall != nil
 }
 
 func (v *Value) ToString() string {
@@ -124,6 +125,13 @@ func (v *Value) ToString() string {
 		return *v.String
 	case v.VariableID != nil:
 		return "$" + *v.VariableID
+	case v.FunctionCall != nil:
+		return v.FunctionCall.FunctionID + "(...)"
 	}
 	return "empty value"
+}
+
+type FunctionCall struct {
+	FunctionID string
+	Arguments  []*Expression
 }

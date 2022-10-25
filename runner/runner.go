@@ -1,11 +1,14 @@
 package runner
 
 import (
+	"errors"
 	"fmt"
 	"math"
 	"strings"
 
 	"github.com/RemiEven/ysgo/container"
+	"github.com/RemiEven/ysgo/markup"
+	"github.com/RemiEven/ysgo/runner/rng"
 	"github.com/RemiEven/ysgo/tree"
 )
 
@@ -14,34 +17,46 @@ type DialogueRunner struct {
 	statementsToRun container.Stack[*StatementQueue] // TODO: would the name "next steps" be better here?
 	lastStatement   *tree.Statement
 	variableStorer  VariableStorer
+	functionStorer  *FunctionStorer
+	lineParser      markup.LineParser
 }
 
 type DialogueElement struct { // dialogueStep? dialogueElement?
-	Line    string
-	Options []string
+	Line    *markup.ParseResult
+	Options []DialogueOption
 }
 
-func (dr *DialogueRunner) textElementsToString(elements []*tree.LineFormattedTextElement) string {
+type DialogueOption struct {
+	Line     *markup.ParseResult
+	Disabled bool
+}
+
+func (dr *DialogueRunner) textElementsToMarkup(elements []*tree.LineFormattedTextElement) (*markup.ParseResult, error) {
 	var builder strings.Builder
 	for i := range elements {
 		if elements[i].Text != "" {
 			builder.WriteString(elements[i].Text)
 		} else if expression := elements[i].Expression; expression != nil {
-			value, err := evaluateExpression(expression, dr.variableStorer)
+			value, err := evaluateExpression(expression, dr.variableStorer, dr.functionStorer)
 			if err != nil {
-				panic(err) // TODO: actually handle error here
+				return nil, fmt.Errorf("failed to evaluate expression: %w", err)
 			}
 			builder.WriteString(value.ToString())
 		}
 	}
-	return builder.String()
+	markupResult, err := dr.lineParser.ParseMarkup(builder.String())
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse markup: %w", err)
+	}
+
+	return markupResult, nil
 }
 
 func (dr *DialogueRunner) isWaitingForChoice() bool {
 	return dr.lastStatement != nil && dr.lastStatement.ShortcutOptionStatement != nil
 }
 
-func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool) { // TODO: have nicer arguments there? like an input struct maybe?
+func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool, error) { // TODO: have nicer arguments there? like an input struct maybe?
 	if dr.isWaitingForChoice() {
 		dr.statementsToRun.Push(&StatementQueue{
 			statements: dr.lastStatement.ShortcutOptionStatement.Options[choice].Statements,
@@ -49,7 +64,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool) { // TODO: h
 	}
 
 	if dr.statementsToRun.Size() == 0 {
-		return nil, false
+		return nil, false, nil
 	}
 
 	statementsToRun := dr.statementsToRun.Peek()
@@ -63,38 +78,59 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool) { // TODO: h
 	dr.lastStatement = nextStatement
 	switch {
 	case nextStatement.LineStatement != nil:
+		markupResult, err := dr.textElementsToMarkup(nextStatement.LineStatement.Text.Elements)
+		if err != nil {
+			return nil, false, fmt.Errorf("failed to prepare line: %w", err)
+		}
 		return &DialogueElement{
-			Line: dr.textElementsToString(nextStatement.LineStatement.Text.Elements),
-		}, true
+			Line: markupResult,
+		}, true, nil
 	case nextStatement.ShortcutOptionStatement != nil:
-		options := make([]string, 0, len(nextStatement.ShortcutOptionStatement.Options))
-		for _, option := range nextStatement.ShortcutOptionStatement.Options {
-			options = append(options, dr.textElementsToString(option.LineStatement.Text.Elements))
+		options := make([]DialogueOption, 0, len(nextStatement.ShortcutOptionStatement.Options))
+		for i, option := range nextStatement.ShortcutOptionStatement.Options {
+			markupResult, err := dr.textElementsToMarkup(option.LineStatement.Text.Elements)
+			if err != nil {
+				return nil, false, fmt.Errorf("failed to prepare option %v: %w", i, err)
+			}
+			disabled := false
+			if option.LineStatement.Condition != nil {
+				enabled, err := evaluateExpression(option.LineStatement.Condition, dr.variableStorer, dr.functionStorer)
+				if err != nil {
+					return nil, false, fmt.Errorf("failed to evaluate line condition: %w", err)
+				} else if enabled.Boolean == nil {
+					return nil, false, fmt.Errorf("encountered non boolean line condition")
+				}
+				disabled = !*enabled.Boolean
+			}
+			options = append(options, DialogueOption{
+				Line:     markupResult,
+				Disabled: disabled,
+			})
 		}
 		return &DialogueElement{
 			Options: options,
-		}, true
+		}, true, nil
 	case nextStatement.SetStatement != nil:
 		if err := dr.executeSetStatement(nextStatement.SetStatement); err != nil {
-			panic(err) // FIXME: better handle errors here
+			return nil, false, fmt.Errorf("failed to execute set statement: %w", err)
 		}
 		return dr.Next(choice)
 	case nextStatement.JumpStatement != nil:
 		if err := dr.executeJumpStatement(nextStatement.JumpStatement); err != nil {
-			panic(err) // FIXME: better handle errors here
+			return nil, false, fmt.Errorf("failed to execute jump statement: %w", err)
 		}
 		return dr.Next(choice)
 	case nextStatement.IfStatement != nil:
 		if err := dr.executeIfStatement(nextStatement.IfStatement); err != nil {
-			panic(err) // FIXME: better handle errors here
+			return nil, false, fmt.Errorf("failed to execute if statement: %w", err)
 		}
 		return dr.Next(choice)
 	}
 
-	return nil, false // TODO: we should never get there
+	return nil, false, errors.New("encountered an unsupported type of statement")
 }
 
-func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer) *DialogueRunner {
+func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer, rngSeed string) (*DialogueRunner, error) {
 	statementsToRun := container.Stack[*StatementQueue]{}
 	statementsToRun.Push(&StatementQueue{statements: dialogue.Nodes[0].Statements})
 
@@ -102,15 +138,21 @@ func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer) *Dialogue
 		storer = NewInMemoryVariableStorer()
 	}
 
+	rng, err := rng.NewRNG(rngSeed)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create rng: %w", err)
+	}
+
 	return &DialogueRunner{
 		dialogue:        dialogue,
 		statementsToRun: statementsToRun,
 		variableStorer:  storer,
-	}
+		functionStorer:  newFunctionStorer(rng),
+	}, nil
 }
 
 func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) error {
-	value, err := evaluateExpression(statement.Expression, dr.variableStorer)
+	value, err := evaluateExpression(statement.Expression, dr.variableStorer, dr.functionStorer)
 	if err != nil {
 		return fmt.Errorf("failed to evaluate expression: %w", err)
 	}
@@ -169,7 +211,7 @@ func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) erro
 }
 
 func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) error {
-	value, err := evaluateExpression(statement.Expression, dr.variableStorer)
+	value, err := evaluateExpression(statement.Expression, dr.variableStorer, dr.functionStorer)
 	if err != nil {
 		return fmt.Errorf("failed to evaluate expression: %w", err)
 	} else if value.String == nil {
@@ -184,7 +226,7 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 
 func (dr *DialogueRunner) executeIfStatement(statement *tree.IfStatement) error {
 	for _, clause := range statement.Clauses {
-		condition, err := evaluateExpression(clause.Condition, dr.variableStorer)
+		condition, err := evaluateExpression(clause.Condition, dr.variableStorer, dr.functionStorer)
 		if err != nil {
 			return fmt.Errorf("failed to evaluate condition: %w", err)
 		} else if !condition.IsBoolean() {

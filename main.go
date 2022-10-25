@@ -13,7 +13,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	terminalRunner, err := terminal.NewRunner(os.Args[1])
+	terminalRunner, err := terminal.NewRunner(os.Args[1], "")
 	if err != nil {
 		panic(fmt.Errorf("failed to create terminal runner: %w", err))
 	}

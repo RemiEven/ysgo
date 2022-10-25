@@ -20,7 +20,8 @@
                       Number: (*float64)(<nil>),
                       Boolean: (*bool)(<nil>),
                       String: (*string)((len=5) "Hello"),
-                      VariableID: (*string)(<nil>)
+                      VariableID: (*string)(<nil>),
+                      FunctionCall: (*tree.FunctionCall)(<nil>)
                     }),
                     NegativeExpression: (*tree.Expression)(<nil>),
                     NotExpression: (*tree.Expression)(<nil>),
@@ -61,7 +62,8 @@
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
                           String: (*string)((len=5) "Hello"),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -74,7 +76,8 @@
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
                           String: (*string)(""),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -89,7 +92,8 @@
                         Number: (*float64)(<nil>),
                         Boolean: (*bool)(<nil>),
                         String: (*string)((len=6) "world!"),
-                        VariableID: (*string)(<nil>)
+                        VariableID: (*string)(<nil>),
+                        FunctionCall: (*tree.FunctionCall)(<nil>)
                       }),
                       NegativeExpression: (*tree.Expression)(<nil>),
                       NotExpression: (*tree.Expression)(<nil>),

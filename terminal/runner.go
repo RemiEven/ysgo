@@ -2,11 +2,13 @@ package terminal
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 
+	"github.com/RemiEven/ysgo/markup"
 	"github.com/RemiEven/ysgo/parser"
 	"github.com/RemiEven/ysgo/runner"
 	"github.com/RemiEven/ysgo/tree"
@@ -20,7 +22,7 @@ type Runner struct {
 	choice   int
 }
 
-func NewRunner(filename string) (*Runner, error) {
+func NewRunner(filename string, rngSeed string) (*Runner, error) {
 	inputStream, err := antlr.NewFileStream(filename)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create file input stream: %w", err)
@@ -36,7 +38,10 @@ func NewRunner(filename string) (*Runner, error) {
 
 	di := listener.Dialogue()
 
-	dr := runner.NewDialogueRunner(di, nil)
+	dr, err := runner.NewDialogueRunner(di, nil, rngSeed)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create dialogue runner: %w", err)
+	}
 
 	tview.Styles.PrimitiveBackgroundColor = tcell.ColorDefault
 
@@ -58,7 +63,7 @@ func NewRunner(filename string) (*Runner, error) {
 
 func (r *Runner) displayDialogueElement(element *runner.DialogueElement) {
 	switch {
-	case element.Line != "":
+	case element.Line != nil:
 		r.displayLine(element.Line)
 	case len(element.Options) != 0:
 		r.displayOptions(element.Options)
@@ -67,15 +72,17 @@ func (r *Runner) displayDialogueElement(element *runner.DialogueElement) {
 	}
 }
 
-func (r *Runner) displayLine(line string) {
-	r.textView.SetText(line)
+func (r *Runner) displayLine(line *markup.ParseResult) {
+	r.textView.SetText(line.Text)
 	r.app.SetRoot(r.textView, true)
 }
 
-func (r *Runner) displayOptions(options []string) {
+func (r *Runner) displayOptions(options []runner.DialogueOption) {
 	r.list.Clear()
 	for i, option := range options {
-		r.list = r.list.AddItem(option, "", 0, r.setChoice(i))
+		if !option.Disabled {
+			r.list = r.list.AddItem(option.Line.Text, "", 0, r.setChoice(i))
+		}
 	}
 	r.app.SetRoot(r.list, true)
 }
@@ -88,8 +95,11 @@ func (r *Runner) setChoice(choice int) func() {
 }
 
 func (r *Runner) next() {
-	element, ok := r.dr.Next(r.choice)
-	if !ok {
+	element, ok, err := r.dr.Next(r.choice)
+	if err != nil {
+		r.app.Stop()
+		log.Fatalf("error: %v", err)
+	} else if !ok {
 		r.app.Stop()
 	} else {
 		r.displayDialogueElement(element)

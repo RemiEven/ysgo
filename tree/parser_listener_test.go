@@ -15,11 +15,12 @@ func TestParserListener(t *testing.T) {
 	tests := []string{
 		"boolean_expressions",
 		"example_project_1",
+		"function_calls",
 		"jump_statements",
 		"number_expressions",
 		"space_journey",
 		"condition_statements",
-		// "ghosty_lads", // FIXME: uncomment this once line conditions are supported
+		"ghosty_lads",
 		"nested_shortcut_options",
 		"shortcut_options",
 		"string_expressions",

@@ -49,7 +49,8 @@
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
                           String: (*string)((len=14) "TalkToEngineer"),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -85,7 +86,8 @@
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
                           String: (*string)((len=14) "TalkToCrewmate"),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -121,7 +123,8 @@
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
                           String: (*string)((len=13) "TalkToCaptain"),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -174,7 +177,8 @@
                 Number: (*float64)(<nil>),
                 Boolean: (*bool)(<nil>),
                 String: (*string)((len=12) "BridgeEnding"),
-                VariableID: (*string)(<nil>)
+                VariableID: (*string)(<nil>),
+                FunctionCall: (*tree.FunctionCall)(<nil>)
               }),
               NegativeExpression: (*tree.Expression)(<nil>),
               NotExpression: (*tree.Expression)(<nil>),
@@ -219,7 +223,8 @@
                 Number: (*float64)(<nil>),
                 Boolean: (*bool)(<nil>),
                 String: (*string)((len=12) "BridgeEnding"),
-                VariableID: (*string)(<nil>)
+                VariableID: (*string)(<nil>),
+                FunctionCall: (*tree.FunctionCall)(<nil>)
               }),
               NegativeExpression: (*tree.Expression)(<nil>),
               NotExpression: (*tree.Expression)(<nil>),
@@ -316,7 +321,8 @@
                           Number: (*float64)(1),
                           Boolean: (*bool)(<nil>),
                           String: (*string)(<nil>),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -373,7 +379,8 @@
                                     Number: (*float64)(1),
                                     Boolean: (*bool)(<nil>),
                                     String: (*string)(<nil>),
-                                    VariableID: (*string)(<nil>)
+                                    VariableID: (*string)(<nil>),
+                                    FunctionCall: (*tree.FunctionCall)(<nil>)
                                   }),
                                   NegativeExpression: (*tree.Expression)(<nil>),
                                   NotExpression: (*tree.Expression)(<nil>),
@@ -439,7 +446,8 @@
                 Number: (*float64)(<nil>),
                 Boolean: (*bool)(<nil>),
                 String: (*string)((len=12) "BridgeEnding"),
-                VariableID: (*string)(<nil>)
+                VariableID: (*string)(<nil>),
+                FunctionCall: (*tree.FunctionCall)(<nil>)
               }),
               NegativeExpression: (*tree.Expression)(<nil>),
               NotExpression: (*tree.Expression)(<nil>),
@@ -508,7 +516,8 @@
                       Number: (*float64)(<nil>),
                       Boolean: (*bool)(<nil>),
                       String: (*string)(<nil>),
-                      VariableID: (*string)((len=22) "away_mission_readiness")
+                      VariableID: (*string)((len=22) "away_mission_readiness"),
+                      FunctionCall: (*tree.FunctionCall)(<nil>)
                     }),
                     NegativeExpression: (*tree.Expression)(<nil>),
                     NotExpression: (*tree.Expression)(<nil>),
@@ -521,7 +530,8 @@
                       Number: (*float64)(2),
                       Boolean: (*bool)(<nil>),
                       String: (*string)(<nil>),
-                      VariableID: (*string)(<nil>)
+                      VariableID: (*string)(<nil>),
+                      FunctionCall: (*tree.FunctionCall)(<nil>)
                     }),
                     NegativeExpression: (*tree.Expression)(<nil>),
                     NotExpression: (*tree.Expression)(<nil>),
@@ -574,7 +584,8 @@
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(true),
                     String: (*string)(<nil>),
-                    VariableID: (*string)(<nil>)
+                    VariableID: (*string)(<nil>),
+                    FunctionCall: (*tree.FunctionCall)(<nil>)
                   }),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),

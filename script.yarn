@@ -1,14 +1,9 @@
 title: Coucou me revoiloûûûûû
 ---
 Wow!
-// -> swimming
-//     -> sea
-//     -> pool
-// -> biking
-
 
 <<set $name to "Rémi">>
-Hello {$name + " Even"}!
+Hello {$name + " Even " + string(dice(6))}!
 
 Companion: Hi there! What do you feel like doing today?
 

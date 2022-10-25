@@ -24,6 +24,7 @@ type ParserListener struct {
 	lineStatementCallbacks   *container.Stack[func(*LineStatement)]
 	variableCallback         func(string)
 	clauseCallbacks          *container.Stack[func(*Clause)]
+	functionCallCallback     func(*FunctionCall)
 }
 
 func (pl *ParserListener) Dialogue() *Dialogue {
@@ -81,10 +82,14 @@ func (s *ParserListener) EnterHeader(ctx *parser.HeaderContext) {
 // EnterLine_statement is called when production line_statement is entered.
 func (s *ParserListener) EnterLine_statement(ctx *parser.Line_statementContext) {
 	s.lineStatement = &LineStatement{}
+	s.expressionCallbacks.Push(func(e *Expression) {
+		s.lineStatement.Condition = e
+	})
 }
 
 // ExitLine_statement is called when production line_statement is exited.
 func (s *ParserListener) ExitLine_statement(ctx *parser.Line_statementContext) {
+	s.expressionCallbacks.Pop()
 	s.lineStatementCallbacks.Peek()(s.lineStatement)
 	s.lineStatement = nil
 }
@@ -199,7 +204,31 @@ func (s *ParserListener) EnterValueString(ctx *parser.ValueStringContext) {
 
 // EnterValueFunc is called when production valueFunc is entered.
 func (s *ParserListener) EnterValueFunc(ctx *parser.ValueFuncContext) {
-	// TODO: complete this
+	s.functionCallCallback = func(functionCall *FunctionCall) {
+		s.functionCallCallback = nil
+		s.expressionCallbacks.Peek()(&Expression{
+			Value: &Value{
+				FunctionCall: functionCall,
+			},
+		})
+	}
+}
+
+// EnterFunction_call is called when production function_call is entered.
+func (s *ParserListener) EnterFunction_call(ctx *parser.Function_callContext) {
+	functionID := ctx.FUNC_ID().GetText()
+	functionCall := &FunctionCall{
+		FunctionID: functionID,
+	}
+	s.functionCallCallback(functionCall)
+	s.expressionCallbacks.Push(func(e *Expression) {
+		functionCall.Arguments = append(functionCall.Arguments, e)
+	})
+}
+
+// ExitFunction_call is called when production function_call is exited.
+func (s *ParserListener) ExitFunction_call(ctx *parser.Function_callContext) {
+	s.expressionCallbacks.Pop()
 }
 
 // EnterExpNot is called when production expNot is entered.

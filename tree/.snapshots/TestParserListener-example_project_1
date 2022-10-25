@@ -16,7 +16,8 @@
                 Number: (*float64)(<nil>),
                 Boolean: (*bool)(true),
                 String: (*string)(<nil>),
-                VariableID: (*string)(<nil>)
+                VariableID: (*string)(<nil>),
+                FunctionCall: (*tree.FunctionCall)(<nil>)
               }),
               NegativeExpression: (*tree.Expression)(<nil>),
               NotExpression: (*tree.Expression)(<nil>),
@@ -107,7 +108,8 @@
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
                           String: (*string)((len=7) "Tic Tac"),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -145,7 +147,8 @@
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
                           String: (*string)((len=10) "Triquandle"),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -183,7 +186,8 @@
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(<nil>),
                           String: (*string)((len=7) "Pyramid"),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -206,7 +210,8 @@
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(false),
                           String: (*string)(<nil>),
-                          VariableID: (*string)(<nil>)
+                          VariableID: (*string)(<nil>),
+                          FunctionCall: (*tree.FunctionCall)(<nil>)
                         }),
                         NegativeExpression: (*tree.Expression)(<nil>),
                         NotExpression: (*tree.Expression)(<nil>),
@@ -239,7 +244,8 @@
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
                     String: (*string)(<nil>),
-                    VariableID: (*string)((len=15) "shapes_like_you")
+                    VariableID: (*string)((len=15) "shapes_like_you"),
+                    FunctionCall: (*tree.FunctionCall)(<nil>)
                   }),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
@@ -263,7 +269,8 @@
                                 Number: (*float64)(<nil>),
                                 Boolean: (*bool)(<nil>),
                                 String: (*string)(<nil>),
-                                VariableID: (*string)((len=4) "name")
+                                VariableID: (*string)((len=4) "name"),
+                                FunctionCall: (*tree.FunctionCall)(<nil>)
                               }),
                               NegativeExpression: (*tree.Expression)(<nil>),
                               NotExpression: (*tree.Expression)(<nil>),
@@ -310,7 +317,8 @@
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(true),
                     String: (*string)(<nil>),
-                    VariableID: (*string)(<nil>)
+                    VariableID: (*string)(<nil>),
+                    FunctionCall: (*tree.FunctionCall)(<nil>)
                   }),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
@@ -351,7 +359,8 @@
                                 Number: (*float64)(<nil>),
                                 Boolean: (*bool)(<nil>),
                                 String: (*string)(<nil>),
-                                VariableID: (*string)((len=4) "name")
+                                VariableID: (*string)((len=4) "name"),
+                                FunctionCall: (*tree.FunctionCall)(<nil>)
                               }),
                               NegativeExpression: (*tree.Expression)(<nil>),
                               NotExpression: (*tree.Expression)(<nil>),

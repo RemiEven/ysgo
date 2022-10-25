@@ -13,13 +13,12 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-const replacementMarkerContents = "contents"
-
-const trimWhitespaceProperty = "trimwhitespace"
-
-const characterAttribute = "character"
-
-const characterAttributeNameProperty = "name"
+const (
+	replacementMarkerContents      = "contents"
+	trimWhitespaceProperty         = "trimwhitespace"
+	characterAttribute             = "character"
+	characterAttributeNameProperty = "name"
+)
 
 var endOfCharacterMarker = regexp.MustCompile(`:\s*`)
 
@@ -31,13 +30,9 @@ type LineParser struct {
 	markerProcessors map[string]func(*AttributeMarker) (string, error)
 }
 
-func (lineParser *LineParser) ParseMarkup(input string) ParseResult {
+func (lineParser *LineParser) ParseMarkup(input string) (*ParseResult, error) {
 	lineParser.input = input
-	parseResult, err := lineParser.parseMarkup()
-	if err != nil {
-		panic(err.Error())
-	}
-	return *parseResult
+	return lineParser.parseMarkup()
 }
 
 func (lineParser *LineParser) parseMarkup() (*ParseResult, error) {
