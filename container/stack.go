@@ -33,3 +33,7 @@ func (s *Stack[T]) Peek() T {
 func (s *Stack[T]) Size() int {
 	return len(*s)
 }
+
+func (s *Stack[T]) Clear() {
+	*s = (*s)[:0]
+}

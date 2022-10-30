@@ -94,3 +94,12 @@ func TestStackPushAll(t *testing.T) {
 		t.Error("unexpected popped elements")
 	}
 }
+
+func TestStackClear(t *testing.T) {
+	s := Stack[int]{}
+	s.PushAll(1, 2, 3)
+	s.Clear()
+	if s.Size() != 0 {
+		t.Error("size should be zero after clearing stack")
+	}
+}

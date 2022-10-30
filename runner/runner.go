@@ -238,6 +238,7 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 		return fmt.Errorf("node [%s] not found in dialogue", *value.String)
 	} else {
 		dr.visitedNodes[dr.currentNode]++
+		dr.statementsToRun.Clear()
 		dr.statementsToRun.Push(&StatementQueue{statements: node.Statements})
 		dr.currentNode = node.Title()
 	}
