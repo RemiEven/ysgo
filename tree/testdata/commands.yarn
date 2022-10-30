@@ -1,0 +1,7 @@
+title: commands
+---
+<<wait 2>>
+<<setsprite ShipName happy>>
+<<fade_out>>
+<<setsprite { $sprite }>>
+===

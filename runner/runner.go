@@ -127,6 +127,13 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool, error) { // 
 			return nil, false, fmt.Errorf("failed to execute if statement: %w", err)
 		}
 		return dr.Next(choice)
+	case nextStatement.CommandStatement != nil:
+		if stop, err := dr.executeCommandStatement(nextStatement.CommandStatement); err != nil {
+			return nil, false, fmt.Errorf("failed to execute command statement: %w", err)
+		} else if stop {
+			return nil, false, nil
+		}
+		return dr.Next(choice)
 	}
 
 	return nil, false, errors.New("encountered an unsupported type of statement")
@@ -259,6 +266,35 @@ func (dr *DialogueRunner) executeIfStatement(statement *tree.IfStatement) error 
 		}
 	}
 	return nil
+}
+
+func (dr *DialogueRunner) executeCommandStatement(statement *tree.CommandStatement) (stop bool, err error) {
+	if len(statement.Elements) == 0 {
+		return false, fmt.Errorf("missing command name")
+	}
+	values := make([]*tree.Value, 0, len(statement.Elements))
+	for i := range statement.Elements {
+		value, err := evaluateExpression(statement.Elements[i].Expression, dr.variableStorer, dr.functionStorer)
+		if err != nil {
+			return false, fmt.Errorf("failed to evaluate element [%v] of command: %w", i, err)
+		}
+		values = append(values, value)
+	}
+
+	if values[0].String == nil {
+		return false, fmt.Errorf("first element of command must be a string")
+	}
+
+	commandName := *values[0].String
+
+	if commandName == "stop" {
+		return true, nil
+	}
+
+	if _, err := dr.functionStorer.Call(commandName, values[1:]); err != nil {
+		return false, fmt.Errorf("failed to execute command [%v]: %w", commandName, err)
+	}
+	return false, nil
 }
 
 type StatementQueue struct {

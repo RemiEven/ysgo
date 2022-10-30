@@ -21,6 +21,7 @@ func TestParserListener(t *testing.T) {
 		"nested_shortcut_options",
 		"shortcut_options",
 		"string_expressions",
+		"commands",
 	}
 
 	for _, name := range tests {

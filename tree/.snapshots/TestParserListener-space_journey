@@ -20,7 +20,8 @@
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -59,7 +60,8 @@
                         Operator: (*int)(<nil>)
                       })
                     }),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   })
                 }
               }),
@@ -96,7 +98,8 @@
                         Operator: (*int)(<nil>)
                       })
                     }),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   })
                 }
               }),
@@ -133,7 +136,8 @@
                         Operator: (*int)(<nil>)
                       })
                     }),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   })
                 }
               })
@@ -141,7 +145,8 @@
           }),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         })
       }
     },
@@ -165,7 +170,8 @@
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -187,7 +193,8 @@
               Operator: (*int)(<nil>)
             })
           }),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         })
       }
     },
@@ -211,7 +218,8 @@
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -233,7 +241,8 @@
               Operator: (*int)(<nil>)
             })
           }),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         })
       }
     },
@@ -257,7 +266,8 @@
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -274,7 +284,8 @@
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -291,7 +302,8 @@
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -332,7 +344,8 @@
                       })
                     }),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   }),
                   (*tree.Statement)({
                     LineStatement: (*tree.LineStatement)({
@@ -349,7 +362,8 @@
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   }),
                   (*tree.Statement)({
                     LineStatement: (*tree.LineStatement)(<nil>),
@@ -390,7 +404,8 @@
                                 })
                               }),
                               JumpStatement: (*tree.JumpStatement)(<nil>),
-                              IfStatement: (*tree.IfStatement)(<nil>)
+                              IfStatement: (*tree.IfStatement)(<nil>),
+                              CommandStatement: (*tree.CommandStatement)(<nil>)
                             })
                           }
                         }),
@@ -412,7 +427,8 @@
                     }),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   })
                 }
               }),
@@ -434,7 +450,8 @@
           }),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -456,7 +473,8 @@
               Operator: (*int)(<nil>)
             })
           }),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         })
       }
     },
@@ -480,7 +498,8 @@
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -497,7 +516,8 @@
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
-          IfStatement: (*tree.IfStatement)(<nil>)
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -557,7 +577,8 @@
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   }),
                   (*tree.Statement)({
                     LineStatement: (*tree.LineStatement)({
@@ -574,7 +595,8 @@
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   })
                 }
               }),
@@ -609,7 +631,8 @@
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   }),
                   (*tree.Statement)({
                     LineStatement: (*tree.LineStatement)({
@@ -626,7 +649,8 @@
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   }),
                   (*tree.Statement)({
                     LineStatement: (*tree.LineStatement)({
@@ -643,12 +667,14 @@
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
-                    IfStatement: (*tree.IfStatement)(<nil>)
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>)
                   })
                 }
               })
             }
-          })
+          }),
+          CommandStatement: (*tree.CommandStatement)(<nil>)
         })
       }
     }

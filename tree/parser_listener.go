@@ -25,6 +25,8 @@ type ParserListener struct {
 	variableCallback         func(string)
 	clauseCallbacks          *container.Stack[func(*Clause)]
 	functionCallCallback     func(*FunctionCall)
+	commandTextCallback      func(string)
+	protoCommandStatement    *CommandStatement
 }
 
 func (pl *ParserListener) Dialogue() *Dialogue {
@@ -36,6 +38,8 @@ func (pl *ParserListener) VisitTerminal(node antlr.TerminalNode) {
 	switch node.GetSymbol().GetTokenType() {
 	case parser.YarnSpinnerLexerTEXT:
 		pl.textCallback(node.GetSymbol().GetText())
+	case parser.YarnSpinnerLexerCOMMAND_TEXT:
+		pl.commandTextCallback(node.GetSymbol().GetText())
 	}
 }
 
@@ -441,4 +445,31 @@ func (s *ParserListener) EnterElse_clause(ctx *parser.Else_clauseContext) {
 func (s *ParserListener) ExitElse_clause(ctx *parser.Else_clauseContext) {
 	s.statementCallbacks.Pop()
 	s.lineStatementCallbacks.Pop()
+}
+
+// EnterCommand_statement is called when production command_statement is entered.
+func (s *ParserListener) EnterCommand_statement(ctx *parser.Command_statementContext) {
+	commandStatement := &CommandStatement{}
+	s.commandTextCallback = func(commandText string) {
+		commandStatement.Elements = append(commandStatement.Elements, &CommandStatementElement{
+			text: commandText,
+		})
+	}
+	s.expressionCallbacks.Push(func(e *Expression) {
+		commandStatement.Elements = append(commandStatement.Elements, &CommandStatementElement{
+			Expression: e,
+		})
+	})
+	s.statementCallbacks.Peek()(&Statement{
+		CommandStatement: commandStatement,
+	})
+	s.protoCommandStatement = commandStatement
+}
+
+// ExitCommand_statement is called when production command_statement is exited.
+func (s *ParserListener) ExitCommand_statement(ctx *parser.Command_statementContext) {
+	s.commandTextCallback = nil
+	s.expressionCallbacks.Pop()
+	s.protoCommandStatement.rearrange()
+	s.protoCommandStatement = nil
 }

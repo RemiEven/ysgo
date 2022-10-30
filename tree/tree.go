@@ -1,5 +1,10 @@
 package tree
 
+import (
+	"strconv"
+	"strings"
+)
+
 type Dialogue struct {
 	Nodes []Node
 }
@@ -28,6 +33,7 @@ type Statement struct {
 	SetStatement            *SetStatement
 	JumpStatement           *JumpStatement
 	IfStatement             *IfStatement
+	CommandStatement        *CommandStatement
 }
 
 type LineStatement struct {
@@ -71,4 +77,63 @@ type IfStatement struct {
 type Clause struct {
 	Condition  *Expression
 	Statements []*Statement
+}
+
+type CommandStatement struct {
+	Elements []*CommandStatementElement
+}
+
+type CommandStatementElement struct {
+	text       string
+	Expression *Expression
+}
+
+func (cs *CommandStatement) rearrange() {
+	arrangedElements := []*CommandStatementElement{}
+	stringAcc := ""
+	for i, element := range cs.Elements {
+		isText := element.text != ""
+		if isText {
+			stringAcc += element.text
+		}
+		if i == len(cs.Elements)-1 || !isText {
+			arrangedElements = append(arrangedElements, cs.split(stringAcc)...)
+			stringAcc = ""
+		}
+		if !isText {
+			arrangedElements = append(arrangedElements, element)
+		}
+	}
+
+	cs.Elements = arrangedElements
+}
+
+func (cs *CommandStatement) split(str string) []*CommandStatementElement {
+	split := strings.Split(str, " ")
+	elements := make([]*CommandStatementElement, 0, len(split))
+	for _, word := range split {
+		if word == "" {
+			continue
+		}
+		value := valueFromCommandText(word)
+		elements = append(elements, &CommandStatementElement{
+			Expression: &Expression{Value: value},
+		})
+	}
+
+	return elements
+}
+
+func valueFromCommandText(commandText string) *Value {
+	if commandText == "true" {
+		return NewBooleanValue(true)
+	} else if commandText == "false" {
+		return NewBooleanValue(false)
+	}
+
+	numberValue, err := strconv.ParseFloat(commandText, 64)
+	if err == nil {
+		return NewNumberValue(numberValue)
+	}
+	return NewStringValue(commandText)
 }
