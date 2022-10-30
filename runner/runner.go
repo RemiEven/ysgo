@@ -19,6 +19,8 @@ type DialogueRunner struct {
 	variableStorer  VariableStorer
 	functionStorer  *FunctionStorer
 	lineParser      markup.LineParser
+	currentNode     string
+	visitedNodes    map[string]int
 }
 
 type DialogueElement struct { // dialogueStep? dialogueElement?
@@ -132,7 +134,8 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool, error) { // 
 
 func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer, rngSeed string) (*DialogueRunner, error) {
 	statementsToRun := container.Stack[*StatementQueue]{}
-	statementsToRun.Push(&StatementQueue{statements: dialogue.Nodes[0].Statements})
+	firstNode := dialogue.Nodes[0]
+	statementsToRun.Push(&StatementQueue{statements: firstNode.Statements})
 
 	if storer == nil {
 		storer = NewInMemoryVariableStorer()
@@ -143,12 +146,27 @@ func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer, rngSeed s
 		return nil, fmt.Errorf("failed to create rng: %w", err)
 	}
 
-	return &DialogueRunner{
+	runner := &DialogueRunner{
 		dialogue:        dialogue,
 		statementsToRun: statementsToRun,
 		variableStorer:  storer,
-		functionStorer:  newFunctionStorer(rng),
-	}, nil
+		visitedNodes:    map[string]int{},
+		currentNode:     firstNode.Title(),
+	}
+
+	functionStorer := newFunctionStorer(rng)
+	functionStorer.ConvertAndAddFunction("visited", func(node string) bool {
+		_, ok := runner.visitedNodes[node]
+		return ok
+	})
+	functionStorer.ConvertAndAddFunction("visited_count", func(node string) int {
+		count := runner.visitedNodes[node]
+		return count
+	})
+
+	runner.functionStorer = functionStorer
+
+	return runner, nil
 }
 
 func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) error {
@@ -219,7 +237,9 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 	} else if node, ok := dr.dialogue.FindNode(*value.String); !ok {
 		return fmt.Errorf("node [%s] not found in dialogue", *value.String)
 	} else {
+		dr.visitedNodes[dr.currentNode]++
 		dr.statementsToRun.Push(&StatementQueue{statements: node.Statements})
+		dr.currentNode = node.Title()
 	}
 	return nil
 }

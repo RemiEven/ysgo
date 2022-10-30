@@ -34,6 +34,21 @@ func TestRunner(t *testing.T) {
 				simpleTextDialogueElementFromCharacter("Baker", "Well, you can't afford one!"),
 			},
 		},
+		"visited and visited_count": {
+			script: "visited",
+			inputs: []int{0, 1, 0, 0, 0, 0, 0, 0, 3, 0},
+			expectedDialogueElements: []DialogueElement{
+				simpleOptionDialogueElement("I want to go to the lake.", "I want to go to the forest.", "I want to go to the hill.", "I've seen enough."),
+				simpleTextDialogueElement("This is a nice forest!"),
+				simpleOptionDialogueElement("I want to go to the lake.", "I want to go to the forest.", "I want to go to the hill.", "I've seen enough."),
+				simpleTextDialogueElement("This is a nice lake!"),
+				simpleOptionDialogueElement("I want to go to the lake.", "I want to go to the forest.", "I want to go to the hill.", "I've seen enough."),
+				simpleTextDialogueElement("This is a nice lake!"),
+				simpleTextDialogueElement("We've been here before!"),
+				simpleOptionDialogueElement("I want to go to the lake.", "I want to go to the forest.", "I want to go to the hill.", "I've seen enough."),
+				simpleTextDialogueElement("We've been 2 times to the lake, 1 times to the forest, and 0 times to the hill."),
+			},
+		},
 	}
 
 	for name, test := range tests {
@@ -102,4 +117,18 @@ func simpleTextDialogueElementFromCharacter(character, text string) DialogueElem
 			},
 		}},
 	}
+}
+
+func simpleOptionDialogueElement(options ...string) DialogueElement {
+	element := DialogueElement{
+		Options: []DialogueOption{},
+	}
+
+	for _, option := range options {
+		element.Options = append(element.Options, DialogueOption{
+			Line: &markup.ParseResult{Text: option, Attributes: []markup.Attribute{}},
+		})
+	}
+
+	return element
 }
