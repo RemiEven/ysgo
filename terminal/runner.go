@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 
 	"github.com/RemiEven/ysgo/markup"
-	"github.com/RemiEven/ysgo/parser"
 	"github.com/RemiEven/ysgo/runner"
 	"github.com/RemiEven/ysgo/tree"
 )
@@ -23,20 +21,10 @@ type Runner struct {
 }
 
 func NewRunner(filename string, rngSeed string) (*Runner, error) {
-	inputStream, err := antlr.NewFileStream(filename)
+	di, err := tree.FromFile(filename)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create file input stream: %w", err)
+		return nil, fmt.Errorf("failed to parse dialogue from file: %w", err)
 	}
-
-	lexer := parser.NewYarnSpinnerLexer(inputStream)
-	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-
-	p := parser.NewYarnSpinnerParser(stream)
-
-	listener := &tree.ParserListener{}
-	antlr.ParseTreeWalkerDefault.Walk(listener, p.Dialogue())
-
-	di := listener.Dialogue()
 
 	dr, err := runner.NewDialogueRunner(di, nil, rngSeed)
 	if err != nil {

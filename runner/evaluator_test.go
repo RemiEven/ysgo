@@ -68,3 +68,7 @@ func simpleBooleanExpression(value bool) *tree.Expression {
 		Value: tree.NewBooleanValue(value),
 	}
 }
+
+func toPointer[T any](value T) *T {
+	return &value
+}

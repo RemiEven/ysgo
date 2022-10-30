@@ -162,10 +162,6 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 	return nil, fmt.Errorf("unknown operator")
 }
 
-func toPointer[T any](value T) *T {
-	return &value
-}
-
 func xor(a, b bool) bool {
 	return (a && !b) || (!a && b)
 }
