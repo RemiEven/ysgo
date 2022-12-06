@@ -299,6 +299,22 @@ func (dr *DialogueRunner) executeCommandStatement(statement *tree.CommandStateme
 	return false, nil
 }
 
+func (dr *DialogueRunner) AddFunction(functionID string, function YarnSpinnerFunction) {
+	dr.functionStorer.AddFunction(functionID, function)
+}
+
+func (dr *DialogueRunner) ConvertAndAddFunction(functionID string, function any) error {
+	return dr.functionStorer.ConvertAndAddFunction(functionID, function)
+}
+
+func (dr *DialogueRunner) AddCommand(commandID string, command YarnSpinnerFunction) {
+	dr.functionStorer.AddFunction(commandID, command)
+}
+
+func (dr *DialogueRunner) ConvertAndAddCommand(commandID string, command any) error {
+	return dr.functionStorer.ConvertAndAddFunction(commandID, command)
+}
+
 type StatementQueue struct {
 	statements []*tree.Statement
 	pointer    int
