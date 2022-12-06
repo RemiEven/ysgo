@@ -49,6 +49,14 @@ func TestRunner(t *testing.T) {
 				simpleTextDialogueElement("We've been 2 times to the lake, 1 times to the forest, and 0 times to the hill."),
 			},
 		},
+		"options without statements": {
+			script: "options_without_statements",
+			inputs: []int{0, 0, 1},
+			expectedDialogueElements: []DialogueElement{
+				simpleTextDialogueElement("Hi there! What do you feel like doing today?"),
+				simpleOptionDialogueElement("I want to go swimming.", "I want to go hiking."),
+			},
+		},
 	}
 
 	for name, test := range tests {
