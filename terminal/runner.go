@@ -83,11 +83,11 @@ func (r *Runner) setChoice(choice int) func() {
 }
 
 func (r *Runner) next() {
-	element, ok, err := r.dr.Next(r.choice)
+	element, err := r.dr.Next(r.choice)
 	if err != nil {
 		r.app.Stop()
 		log.Fatalf("error: %v", err)
-	} else if !ok {
+	} else if element == nil {
 		r.app.Stop()
 	} else {
 		r.displayDialogueElement(element)

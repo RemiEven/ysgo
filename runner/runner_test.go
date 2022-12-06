@@ -68,7 +68,8 @@ func TestRunner(t *testing.T) {
 			for i, input := range test.inputs {
 				stepPrefix := "step " + strconv.Itoa(i) + ": "
 				isLastStep := i == len(test.inputs)-1
-				dialogueElement, ok, err := runner.Next(input)
+				dialogueElement, err := runner.Next(input)
+				ok := dialogueElement != nil && err == nil
 				switch {
 				case err != nil && isLastStep:
 					if !testutils.ErrorEqual(err, test.expectedLastErr) {

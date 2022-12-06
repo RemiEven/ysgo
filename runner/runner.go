@@ -58,15 +58,17 @@ func (dr *DialogueRunner) isWaitingForChoice() bool {
 	return dr.lastStatement != nil && dr.lastStatement.ShortcutOptionStatement != nil
 }
 
-func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool, error) { // TODO: have nicer arguments there? like an input struct maybe?
+func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) { // TODO: have nicer arguments there? like an input struct maybe?
 	if dr.isWaitingForChoice() {
-		dr.statementsToRun.Push(&StatementQueue{
-			statements: dr.lastStatement.ShortcutOptionStatement.Options[choice].Statements,
-		})
+		if statements := dr.lastStatement.ShortcutOptionStatement.Options[choice].Statements; len(statements) != 0 {
+			dr.statementsToRun.Push(&StatementQueue{
+				statements: statements,
+			})
+		}
 	}
 
 	if dr.statementsToRun.Size() == 0 {
-		return nil, false, nil
+		return nil, nil
 	}
 
 	statementsToRun := dr.statementsToRun.Peek()
@@ -82,25 +84,25 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool, error) { // 
 	case nextStatement.LineStatement != nil:
 		markupResult, err := dr.textElementsToMarkup(nextStatement.LineStatement.Text.Elements)
 		if err != nil {
-			return nil, false, fmt.Errorf("failed to prepare line: %w", err)
+			return nil, fmt.Errorf("failed to prepare line: %w", err)
 		}
 		return &DialogueElement{
 			Line: markupResult,
-		}, true, nil
+		}, nil
 	case nextStatement.ShortcutOptionStatement != nil:
 		options := make([]DialogueOption, 0, len(nextStatement.ShortcutOptionStatement.Options))
 		for i, option := range nextStatement.ShortcutOptionStatement.Options {
 			markupResult, err := dr.textElementsToMarkup(option.LineStatement.Text.Elements)
 			if err != nil {
-				return nil, false, fmt.Errorf("failed to prepare option %v: %w", i, err)
+				return nil, fmt.Errorf("failed to prepare option %v: %w", i, err)
 			}
 			disabled := false
 			if option.LineStatement.Condition != nil {
 				enabled, err := evaluateExpression(option.LineStatement.Condition, dr.variableStorer, dr.functionStorer)
 				if err != nil {
-					return nil, false, fmt.Errorf("failed to evaluate line condition: %w", err)
+					return nil, fmt.Errorf("failed to evaluate line condition: %w", err)
 				} else if enabled.Boolean == nil {
-					return nil, false, fmt.Errorf("encountered non boolean line condition")
+					return nil, fmt.Errorf("encountered non boolean line condition")
 				}
 				disabled = !*enabled.Boolean
 			}
@@ -111,32 +113,32 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, bool, error) { // 
 		}
 		return &DialogueElement{
 			Options: options,
-		}, true, nil
+		}, nil
 	case nextStatement.SetStatement != nil:
 		if err := dr.executeSetStatement(nextStatement.SetStatement); err != nil {
-			return nil, false, fmt.Errorf("failed to execute set statement: %w", err)
+			return nil, fmt.Errorf("failed to execute set statement: %w", err)
 		}
 		return dr.Next(choice)
 	case nextStatement.JumpStatement != nil:
 		if err := dr.executeJumpStatement(nextStatement.JumpStatement); err != nil {
-			return nil, false, fmt.Errorf("failed to execute jump statement: %w", err)
+			return nil, fmt.Errorf("failed to execute jump statement: %w", err)
 		}
 		return dr.Next(choice)
 	case nextStatement.IfStatement != nil:
 		if err := dr.executeIfStatement(nextStatement.IfStatement); err != nil {
-			return nil, false, fmt.Errorf("failed to execute if statement: %w", err)
+			return nil, fmt.Errorf("failed to execute if statement: %w", err)
 		}
 		return dr.Next(choice)
 	case nextStatement.CommandStatement != nil:
 		if stop, err := dr.executeCommandStatement(nextStatement.CommandStatement); err != nil {
-			return nil, false, fmt.Errorf("failed to execute command statement: %w", err)
+			return nil, fmt.Errorf("failed to execute command statement: %w", err)
 		} else if stop {
-			return nil, false, nil
+			return nil, nil
 		}
 		return dr.Next(choice)
 	}
 
-	return nil, false, errors.New("encountered an unsupported type of statement")
+	return nil, errors.New("encountered an unsupported type of statement")
 }
 
 func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer, rngSeed string) (*DialogueRunner, error) {
