@@ -3,13 +3,13 @@ title: bakery
 
 Player: I'd like to buy a pie!
 
-<<set $gold_amount to 20>>
+<<set $gold_amount to 14>>
 
 <<if $gold_amount < 10>>
-    Baker: Well, you can't afford one!
+    Baker: [color=red]Well, you can't afford one![/]
 <<elseif $gold_amount < 15>>
-    Baker: You can almost afford one!
+    Baker: [color=orange]You can [u]almost[/u] afford one![/]
 <<else>>
-    Baker: Here you go!
+    Baker: [color=green]Here you go![/]
 <<endif>>
 ===

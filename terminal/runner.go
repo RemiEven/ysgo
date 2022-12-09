@@ -40,6 +40,7 @@ func NewRunner(filename string, rngSeed string) (*Runner, error) {
 		list:     tview.NewList().ShowSecondaryText(false),
 	}
 
+	r.textView.SetDynamicColors(true)
 	r.textView.SetDoneFunc(func(key tcell.Key) {
 		if key == tcell.KeyEnter {
 			r.next()
@@ -61,7 +62,11 @@ func (r *Runner) displayDialogueElement(element *runner.DialogueElement) {
 }
 
 func (r *Runner) displayLine(line *markup.ParseResult) {
-	r.textView.SetText(line.Text)
+	text := toStyledText(line)
+	if characterAttr, ok := line.GetAttributeWithName("character"); ok {
+		text = "[yellow::i]" + text[:characterAttr.Length] + "[-::-]\n\t" + text[characterAttr.Length:]
+	}
+	r.textView.SetText(text)
 	r.app.SetRoot(r.textView, true)
 }
 
