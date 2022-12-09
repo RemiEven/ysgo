@@ -57,6 +57,13 @@ func TestRunner(t *testing.T) {
 				simpleOptionDialogueElement("I want to go swimming.", "I want to go hiking."),
 			},
 		},
+		"escaped backslack": {
+			script: "escaped_backslack",
+			inputs: []int{0, 0},
+			expectedDialogueElements: []DialogueElement{
+				simpleTextDialogueElement(`Here's a line with an escaped backslash \`),
+			},
+		},
 	}
 
 	for name, test := range tests {

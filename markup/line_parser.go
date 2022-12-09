@@ -51,11 +51,13 @@ func (lineParser *LineParser) parseMarkup() (*ParseResult, error) {
 		}
 
 		if nextRune == '\\' {
+			// This may be the start of an escaped bracket ("\[" or "\]"). Peek ahead to see if it is.
 			nextRune, err := peekRune(lineParser.reader)
 			if err != nil {
 				return nil, fmt.Errorf("failed to peek next rune after '\\': %w", err)
 			}
 			if nextRune == '[' || nextRune == ']' {
+				// It is! We'll discard this '\', and read the next character as plain text.
 				nextRune, _, err := lineParser.reader.ReadRune()
 				if err != nil {
 					return nil, fmt.Errorf("failed to read next rune after '\\': %w", err)
@@ -64,6 +66,7 @@ func (lineParser *LineParser) parseMarkup() (*ParseResult, error) {
 				lineParser.sourcePosition++
 				continue
 			}
+			// It wasn't an escaped bracket. Continue on, and parse the '\' as a normal character.
 		}
 		if nextRune == '[' {
 			lineParser.position = len([]rune(builder.String()))
