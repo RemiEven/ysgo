@@ -21,7 +21,8 @@
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
           IfStatement: (*tree.IfStatement)(<nil>),
-          CommandStatement: (*tree.CommandStatement)(<nil>)
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -56,7 +57,8 @@
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
                     IfStatement: (*tree.IfStatement)(<nil>),
-                    CommandStatement: (*tree.CommandStatement)(<nil>)
+                    CommandStatement: (*tree.CommandStatement)(<nil>),
+                    CallStatement: (*tree.CallStatement)(<nil>)
                   })
                 }
               }),
@@ -89,7 +91,8 @@
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
                     IfStatement: (*tree.IfStatement)(<nil>),
-                    CommandStatement: (*tree.CommandStatement)(<nil>)
+                    CommandStatement: (*tree.CommandStatement)(<nil>),
+                    CallStatement: (*tree.CallStatement)(<nil>)
                   })
                 }
               })
@@ -98,7 +101,8 @@
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
           IfStatement: (*tree.IfStatement)(<nil>),
-          CommandStatement: (*tree.CommandStatement)(<nil>)
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -116,7 +120,8 @@
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
           IfStatement: (*tree.IfStatement)(<nil>),
-          CommandStatement: (*tree.CommandStatement)(<nil>)
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>)
         })
       }
     }

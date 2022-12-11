@@ -136,6 +136,11 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) { // TODO: 
 			return nil, nil
 		}
 		return dr.Next(choice)
+	case nextStatement.CallStatement != nil:
+		if err := dr.executeCallStatement(nextStatement.CallStatement); err != nil {
+			return nil, fmt.Errorf("failed to execute call statement: %w", err)
+		}
+		return dr.Next(choice)
 	}
 
 	return nil, errors.New("encountered an unsupported type of statement")
@@ -294,9 +299,26 @@ func (dr *DialogueRunner) executeCommandStatement(statement *tree.CommandStateme
 	}
 
 	if _, err := dr.functionStorer.Call(commandName, values[1:]); err != nil {
-		return false, fmt.Errorf("failed to execute command [%v]: %w", commandName, err)
+		return false, fmt.Errorf("failed to execute command [%s]: %w", commandName, err)
 	}
 	return false, nil
+}
+
+func (dr *DialogueRunner) executeCallStatement(statement *tree.CallStatement) error {
+	values := make([]*tree.Value, 0, len(statement.Arguments))
+	for i := range statement.Arguments {
+		value, err := evaluateExpression(statement.Arguments[i], dr.variableStorer, dr.functionStorer)
+		if err != nil {
+			return fmt.Errorf("failed to evaluate argument [%v] of call statement: %w", i, err)
+		}
+		values = append(values, value)
+	}
+
+	if _, err := dr.functionStorer.Call(statement.FunctionID, values); err != nil {
+		return fmt.Errorf("failed to execute call statement for function [%s]: %w", statement.FunctionID, err)
+	}
+
+	return nil
 }
 
 func (dr *DialogueRunner) AddFunction(functionID string, function YarnSpinnerFunction) {

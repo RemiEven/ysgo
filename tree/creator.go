@@ -3,8 +3,9 @@ package tree
 import (
 	"fmt"
 
-	"github.com/RemiEven/ysgo/parser"
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+
+	"github.com/RemiEven/ysgo/parser"
 )
 
 func FromString(scriptData string) (*Dialogue, error) {

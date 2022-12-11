@@ -473,3 +473,19 @@ func (s *ParserListener) ExitCommand_statement(ctx *parser.Command_statementCont
 	s.protoCommandStatement.rearrange()
 	s.protoCommandStatement = nil
 }
+
+// EnterCall_statement is called when production call_statement is entered.
+func (s *ParserListener) EnterCall_statement(ctx *parser.Call_statementContext) {
+	s.functionCallCallback = func(call *FunctionCall) {
+		s.statementCallbacks.Peek()(&Statement{
+			CallStatement: &CallStatement{
+				FunctionCall: *call,
+			},
+		})
+	}
+}
+
+// ExitCall_statement is called when production call_statement is exited.
+func (s *ParserListener) ExitCall_statement(ctx *parser.Call_statementContext) {
+	s.functionCallCallback = nil
+}

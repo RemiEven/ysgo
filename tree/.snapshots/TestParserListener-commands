@@ -48,7 +48,8 @@
                 })
               })
             }
-          })
+          }),
+          CallStatement: (*tree.CallStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -110,7 +111,8 @@
                 })
               })
             }
-          })
+          }),
+          CallStatement: (*tree.CallStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -138,7 +140,8 @@
                 })
               })
             }
-          })
+          }),
+          CallStatement: (*tree.CallStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -183,7 +186,8 @@
                 })
               })
             }
-          })
+          }),
+          CallStatement: (*tree.CallStatement)(<nil>)
         })
       }
     }

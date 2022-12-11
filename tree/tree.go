@@ -34,6 +34,7 @@ type Statement struct {
 	JumpStatement           *JumpStatement
 	IfStatement             *IfStatement
 	CommandStatement        *CommandStatement
+	CallStatement           *CallStatement
 }
 
 type LineStatement struct {
@@ -136,4 +137,8 @@ func valueFromCommandText(commandText string) *Value {
 		return NewNumberValue(numberValue)
 	}
 	return NewStringValue(commandText)
+}
+
+type CallStatement struct {
+	FunctionCall
 }

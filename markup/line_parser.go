@@ -162,7 +162,7 @@ func (lineParser *LineParser) parseMarkup() (*ParseResult, error) {
 	}
 
 	return &ParseResult{
-		Text:       builder.String(),
+		Text:       strings.TrimSpace(builder.String()),
 		Attributes: attributes,
 	}, nil
 }
