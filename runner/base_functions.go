@@ -1,6 +1,7 @@
 package runner
 
 import (
+	"errors"
 	"fmt"
 	"math"
 	"strconv"
@@ -14,15 +15,10 @@ func toString(args []*tree.Value) (*tree.Value, error) {
 		return nil, fmt.Errorf("expected exactly one argument")
 	}
 	toConvert := args[0]
-	switch {
-	case toConvert.Number != nil:
-		return tree.NewStringValue(fmt.Sprint(*toConvert.Number)), nil
-	case toConvert.Boolean != nil:
-		return tree.NewStringValue(strconv.FormatBool(*toConvert.Boolean)), nil
-	case toConvert.String != nil:
-		return toConvert, nil
+	if !(toConvert.IsBoolean() || toConvert.IsString() || toConvert.IsNumber()) {
+		return nil, errors.New("received a value which was not a number, a boolean or a string")
 	}
-	return nil, fmt.Errorf("received a value which was not a number, a boolean or a string")
+	return tree.NewStringValue(toConvert.ToString()), nil
 }
 
 var _ = (YarnSpinnerFunction)(toString)

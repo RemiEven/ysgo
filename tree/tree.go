@@ -35,6 +35,7 @@ type Statement struct {
 	IfStatement             *IfStatement
 	CommandStatement        *CommandStatement
 	CallStatement           *CallStatement
+	DeclareStatement        *DeclareStatement
 }
 
 type LineStatement struct {
@@ -140,5 +141,10 @@ func valueFromCommandText(commandText string) *Value {
 }
 
 type CallStatement struct {
-	FunctionCall
+	*FunctionCall
+}
+
+type DeclareStatement struct {
+	VariableID string
+	Value      *Value
 }

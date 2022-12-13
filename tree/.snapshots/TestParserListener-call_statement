@@ -1,0 +1,41 @@
+(*tree.Dialogue)({
+  Nodes: ([]tree.Node) (len=1) {
+    (tree.Node) {
+      Headers: (map[string]string) (len=1) {
+        (string) (len=5) "title": (string) (len=14) "call_statement"
+      },
+      Statements: ([]*tree.Statement) (len=1) {
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)({
+            FunctionCall: (*tree.FunctionCall)({
+              FunctionID: (string) (len=6) "assert",
+              Arguments: ([]*tree.Expression) (len=1) {
+                (*tree.Expression)({
+                  Value: (*tree.Value)({
+                    Number: (*float64)(1),
+                    Boolean: (*bool)(<nil>),
+                    String: (*string)(<nil>),
+                    VariableID: (*string)(<nil>),
+                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                  }),
+                  NegativeExpression: (*tree.Expression)(<nil>),
+                  NotExpression: (*tree.Expression)(<nil>),
+                  LeftOperand: (*tree.Expression)(<nil>),
+                  RightOperand: (*tree.Expression)(<nil>),
+                  Operator: (*int)(<nil>)
+                })
+              }
+            })
+          }),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+        })
+      }
+    }
+  }
+})

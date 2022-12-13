@@ -118,9 +118,12 @@ func (v *Value) ToString() string {
 		if n == float64(int(n)) {
 			return strconv.Itoa(int(n))
 		}
-		return fmt.Sprintf("%f", n)
+		return fmt.Sprint(n)
 	case v.IsBoolean():
-		return strconv.FormatBool(*v.Boolean)
+		if *v.Boolean {
+			return "True"
+		}
+		return "False"
 	case v.IsString():
 		return *v.String
 	case v.VariableID != nil:

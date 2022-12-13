@@ -141,6 +141,11 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) { // TODO: 
 			return nil, fmt.Errorf("failed to execute call statement: %w", err)
 		}
 		return dr.Next(choice)
+	case nextStatement.DeclareStatement != nil:
+		if err := dr.executeDeclareStatement(nextStatement.DeclareStatement); err != nil {
+			return nil, fmt.Errorf("failed to execute declare statement: %w", err)
+		}
+		return dr.Next(choice)
 	}
 
 	return nil, errors.New("encountered an unsupported type of statement")
@@ -208,15 +213,15 @@ func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) erro
 		case tree.AssignmentInPlaceOperator:
 			newNumberValue = *value.Number
 		case tree.MultiplicationInPlaceOperator:
-			newNumberValue = (*value.Number) * (*previousValue.Number)
+			newNumberValue = (*previousValue.Number) * (*value.Number)
 		case tree.DivisionInPlaceOperator:
-			newNumberValue = (*value.Number) / (*previousValue.Number)
+			newNumberValue = (*previousValue.Number) / (*value.Number)
 		case tree.ModuloInPlaceOperator:
-			newNumberValue = math.Mod(*value.Number, *previousValue.Number)
+			newNumberValue = math.Mod(*previousValue.Number, *value.Number)
 		case tree.AdditionInPlaceOperator:
-			newNumberValue = (*value.Number) + (*previousValue.Number)
+			newNumberValue = (*previousValue.Number) + (*value.Number)
 		case tree.SubtractionInPlaceOperator:
-			newNumberValue = (*value.Number) - (*previousValue.Number)
+			newNumberValue = (*previousValue.Number) - (*value.Number)
 		default:
 			return fmt.Errorf("unknown assignment operator encountered")
 		}
@@ -319,6 +324,16 @@ func (dr *DialogueRunner) executeCallStatement(statement *tree.CallStatement) er
 	}
 
 	return nil
+}
+
+func (dr *DialogueRunner) executeDeclareStatement(statement *tree.DeclareStatement) error {
+	return dr.executeSetStatement(&tree.SetStatement{
+		VariableID:      statement.VariableID,
+		InPlaceOperator: tree.AssignmentInPlaceOperator,
+		Expression: &tree.Expression{
+			Value: statement.Value,
+		},
+	})
 }
 
 func (dr *DialogueRunner) AddFunction(functionID string, function YarnSpinnerFunction) {

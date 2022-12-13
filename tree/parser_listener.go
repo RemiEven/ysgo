@@ -27,6 +27,7 @@ type ParserListener struct {
 	functionCallCallback     func(*FunctionCall)
 	commandTextCallback      func(string)
 	protoCommandStatement    *CommandStatement
+	valueCallbacks           *container.Stack[func(*Value)]
 }
 
 func (pl *ParserListener) Dialogue() *Dialogue {
@@ -52,6 +53,7 @@ func (pl *ParserListener) EnterDialogue(ctx *parser.DialogueContext) {
 	pl.lineStatementCallbacks = &container.Stack[func(*LineStatement)]{}
 	pl.expressionCallbacks = &container.Stack[func(*Expression)]{}
 	pl.clauseCallbacks = &container.Stack[func(*Clause)]{}
+	pl.valueCallbacks = &container.Stack[func(*Value)]{}
 }
 
 // EnterNode is called when production node is entered.
@@ -168,32 +170,24 @@ func (s *ParserListener) ExitShortcut_option(ctx *parser.Shortcut_optionContext)
 // EnterValueNumber is called when production valueNumber is entered.
 func (s *ParserListener) EnterValueNumber(ctx *parser.ValueNumberContext) {
 	number, _ := strconv.ParseFloat(ctx.GetText(), 64)
-	s.expressionCallbacks.Peek()(&Expression{
-		Value: NewNumberValue(number),
-	})
+	s.valueCallbacks.Peek()(NewNumberValue(number))
 }
 
 // EnterValueTrue is called when production valueTrue is entered.
 func (s *ParserListener) EnterValueTrue(ctx *parser.ValueTrueContext) {
-	s.expressionCallbacks.Peek()(&Expression{
-		Value: NewBooleanValue(true),
-	})
+	s.valueCallbacks.Peek()(NewBooleanValue(true))
 }
 
 // EnterValueFalse is called when production valueFalse is entered.
 func (s *ParserListener) EnterValueFalse(ctx *parser.ValueFalseContext) {
-	s.expressionCallbacks.Peek()(&Expression{
-		Value: NewBooleanValue(false),
-	})
+	s.valueCallbacks.Peek()(NewBooleanValue(false))
 }
 
 // EnterValueVar is called when production valueVar is entered.
 func (s *ParserListener) EnterValueVar(ctx *parser.ValueVarContext) {
 	variableID := ctx.GetText()[1:]
-	s.expressionCallbacks.Peek()(&Expression{
-		Value: &Value{
-			VariableID: &variableID,
-		},
+	s.valueCallbacks.Peek()(&Value{
+		VariableID: &variableID,
 	})
 }
 
@@ -201,19 +195,15 @@ func (s *ParserListener) EnterValueVar(ctx *parser.ValueVarContext) {
 func (s *ParserListener) EnterValueString(ctx *parser.ValueStringContext) {
 	text := ctx.GetText()
 	value := text[1 : len(text)-1]
-	s.expressionCallbacks.Peek()(&Expression{
-		Value: NewStringValue(value),
-	})
+	s.valueCallbacks.Peek()(NewStringValue(value))
 }
 
 // EnterValueFunc is called when production valueFunc is entered.
 func (s *ParserListener) EnterValueFunc(ctx *parser.ValueFuncContext) {
 	s.functionCallCallback = func(functionCall *FunctionCall) {
 		s.functionCallCallback = nil
-		s.expressionCallbacks.Peek()(&Expression{
-			Value: &Value{
-				FunctionCall: functionCall,
-			},
+		s.valueCallbacks.Peek()(&Value{
+			FunctionCall: functionCall,
 		})
 	}
 }
@@ -479,7 +469,7 @@ func (s *ParserListener) EnterCall_statement(ctx *parser.Call_statementContext) 
 	s.functionCallCallback = func(call *FunctionCall) {
 		s.statementCallbacks.Peek()(&Statement{
 			CallStatement: &CallStatement{
-				FunctionCall: *call,
+				FunctionCall: call,
 			},
 		})
 	}
@@ -488,4 +478,38 @@ func (s *ParserListener) EnterCall_statement(ctx *parser.Call_statementContext) 
 // ExitCall_statement is called when production call_statement is exited.
 func (s *ParserListener) ExitCall_statement(ctx *parser.Call_statementContext) {
 	s.functionCallCallback = nil
+}
+
+// EnterExpValue is called when production expValue is entered.
+func (s *ParserListener) EnterExpValue(ctx *parser.ExpValueContext) {
+	s.valueCallbacks.Push(func(v *Value) {
+		s.expressionCallbacks.Peek()(&Expression{
+			Value: v,
+		})
+	})
+}
+
+// ExitExpValue is called when production expValue is exited.
+func (s *ParserListener) ExitExpValue(ctx *parser.ExpValueContext) {
+	s.valueCallbacks.Pop()
+}
+
+// EnterDeclare_statement is called when production declare_statement is entered.
+func (s *ParserListener) EnterDeclare_statement(ctx *parser.Declare_statementContext) {
+	declareStatement := &DeclareStatement{}
+	s.statementCallbacks.Peek()(&Statement{
+		DeclareStatement: declareStatement,
+	})
+	s.valueCallbacks.Push(func(v *Value) {
+		declareStatement.Value = v
+	})
+	s.variableCallback = func(variableID string) {
+		declareStatement.VariableID = variableID
+		s.variableCallback = nil
+	}
+}
+
+// ExitDeclare_statement is called when production declare_statement is exited.
+func (s *ParserListener) ExitDeclare_statement(ctx *parser.Declare_statementContext) {
+	s.valueCallbacks.Pop()
 }

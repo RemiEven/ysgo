@@ -232,7 +232,7 @@ func TestToString(t *testing.T) {
 		},
 		"boolean value": {
 			input:          []*tree.Value{tree.NewBooleanValue(true)},
-			expectedResult: tree.NewStringValue("true"),
+			expectedResult: tree.NewStringValue("True"),
 		},
 		"empty value": {
 			input:       []*tree.Value{{}},

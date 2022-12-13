@@ -10,10 +10,18 @@ import (
 
 func TestRunnerPlan(t *testing.T) {
 	tests := []string{
+		"DecimalNumbers",
 		"Escaping",
+		"Expressions",
 		"Functions",
+		"Identifiers",
 		"IfStatements",
+		"Jumps",
 		"Lines",
+		"ShortcutOptions",
+		"Smileys",
+		"Types",
+		"VariableStorage",
 		"VisitCount",
 		"Visited",
 	}
@@ -49,20 +57,19 @@ func TestRunnerPlan(t *testing.T) {
 			})
 
 			testPlanIndex := 0
+			choice := 0
+		planStepLoop:
 			for testPlanIndex < len(plan) {
 				testPlanStep := plan[testPlanIndex]
-				choice := 0
-				if testPlanIndex != 0 && testPlanStep.intValue != 0 {
-					choice = testPlanStep.intValue - 1
-				}
-				element, err := dr.Next(choice)
-				if err != nil {
-					t.Errorf("got an error while running dialog: %v", err)
-					return
-				}
 
 				switch testPlanStep.stepType {
 				case stepTypeLine:
+					element, err := dr.Next(choice)
+					if err != nil {
+						t.Errorf("got an error while running dialog: %v", err)
+						return
+					}
+					choice = 0
 					if line := element.Line; line == nil {
 						t.Errorf("expected a line at test plan step [%v] but got none", testPlanIndex)
 						return
@@ -70,9 +77,48 @@ func TestRunnerPlan(t *testing.T) {
 						t.Errorf("unexpected text for line at step [%v]: got [%s], wanted [%s]", testPlanIndex, actual, expected)
 						return
 					}
+				case stepTypeSelect:
+					choice = testPlanStep.intValue - 1
+				case stepTypeOption:
+					endOptionIndex := testPlanIndex
+					for endOptionIndex < len(plan) && plan[endOptionIndex].stepType == stepTypeOption {
+						endOptionIndex++
+					}
+					element, err := dr.Next(choice)
+					if err != nil {
+						t.Errorf("got an error while running dialog: %v", err)
+						return
+					}
+					choice = 0
+					if element.Options == nil {
+						t.Errorf("expected options at test plan step [%v] but got none", testPlanIndex)
+						return
+					}
+					if actualLen, expectedLen := len(element.Options), (endOptionIndex - testPlanIndex); actualLen != expectedLen {
+						t.Errorf("got an unexpected number of options: got [%v], wanted [%v]", actualLen, expectedLen)
+						return
+					}
+					for i := range element.Options {
+						if actualLine, expectedLine := element.Options[i].Line.Text, plan[testPlanIndex+i].stringValue; actualLine != expectedLine {
+							t.Errorf("got an unexpected text for option [%v]: got [%v], wanted [%v]", i, actualLine, expectedLine)
+							return
+						}
+						if actualDisabled, expectedDisabled := element.Options[i].Disabled, !plan[testPlanIndex+i].expectOptionEnabled; actualDisabled != expectedDisabled {
+							t.Errorf("got an unexpected disabled boolean value for option [%v]: got [%v], wanted [%v]", i, actualDisabled, expectedDisabled)
+							return
+						}
+					}
+					testPlanIndex = endOptionIndex - 1
+				case stepTypeStop:
+					break planStepLoop
 				}
 
 				testPlanIndex++
+			}
+
+			if _, err := dr.Next(choice); err != nil {
+				t.Errorf("got an unexpected error at the last step of test plan: %v", err)
+				return
 			}
 		})
 	}

@@ -1,0 +1,4 @@
+title: call_statement
+---
+<<call assert(1)>>
+===
