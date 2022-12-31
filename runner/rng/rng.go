@@ -20,7 +20,7 @@ type RNG struct {
 func NewRNG(seed string) (*RNG, error) {
 	seedValue := int64(0)
 	if seed == "" {
-		seedValue = rand.Int63() // TODO: fix that line in ms2k
+		seedValue = rand.Int63()
 		seed = int64ToSeed(seedValue)
 	} else {
 		var err error

@@ -14,7 +14,7 @@ type lineParserTest struct {
 
 func TestLineParser(t *testing.T) {
 	tests := map[string]lineParserTest{
-		"simple attribute": { // FIXME: uncomment other tests once they all pass
+		"simple attribute": {
 			input: `Oh, [wave]hello[/wave] there!`,
 			expectedResult: &ParseResult{
 				Text: `Oh, hello there!`,

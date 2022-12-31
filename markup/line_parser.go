@@ -432,9 +432,6 @@ func (lineParser *LineParser) parseID() (string, error) {
 	}
 	lineParser.sourcePosition++
 
-	e := string([]rune{nextRune})
-	_ = e
-
 	if utf16.IsSurrogate(nextRune) {
 		nextNextRune, _, err := lineParser.reader.ReadRune()
 		if err == io.EOF {
