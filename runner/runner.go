@@ -273,12 +273,19 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 	} else if node, ok := dr.dialogue.FindNode(*value.String); !ok {
 		return fmt.Errorf("node [%s] not found in dialogue", *value.String)
 	} else {
-		dr.visitedNodes[dr.currentNode]++
+		dr.incrementNodeTrackingIfAllowed()
 		dr.statementsToRun.Clear()
 		dr.statementsToRun.Push(&StatementQueue{statements: node.Statements})
 		dr.currentNode = node.Title()
 	}
 	return nil
+}
+
+func (dr *DialogueRunner) incrementNodeTrackingIfAllowed() {
+	node, ok := dr.dialogue.FindNode(dr.currentNode)
+	if ok && node.Headers != nil && node.Headers["tracking"] != "never" {
+		dr.visitedNodes[dr.currentNode]++
+	}
 }
 
 func (dr *DialogueRunner) executeIfStatement(statement *tree.IfStatement) error {

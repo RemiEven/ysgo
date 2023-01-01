@@ -23,6 +23,7 @@ func TestRunnerPlan(t *testing.T) {
 		"VariableStorage",
 		"VisitCount",
 		"Visited",
+		"VisitTracking",
 	}
 
 	for _, test := range tests {
