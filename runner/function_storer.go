@@ -81,7 +81,7 @@ func newYarnSpinnerFunction(function any) (YarnSpinnerFunction, error) {
 		return nil, fmt.Errorf("newYarnSpinnerFunction expects an argument which is a function")
 	}
 
-	returnSignature, err := checkOutputParameters(functionType)
+	returnSignature, err := checkFunctionOutputParameters(functionType)
 	if err != nil {
 		return nil, fmt.Errorf("received function has unsupported output parameters: %w", err)
 	}
@@ -167,10 +167,11 @@ const (
 	noReturn returnSignature = iota
 	valueReturn
 	errorReturn
+	errorChanReturn
 	valueErrorReturn
 )
 
-func checkOutputParameters(functionType reflect.Type) (returnSignature, error) {
+func checkFunctionOutputParameters(functionType reflect.Type) (returnSignature, error) {
 	switch functionType.NumOut() {
 	case 0:
 		return noReturn, nil

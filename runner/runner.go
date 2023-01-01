@@ -18,6 +18,8 @@ type DialogueRunner struct {
 	lastStatement   *tree.Statement
 	variableStorer  VariableStorer
 	functionStorer  *FunctionStorer
+	commandStorer   *CommandStorer
+	commandErrChan  <-chan error
 	lineParser      markup.LineParser
 	currentNode     string
 	visitedNodes    map[string]int
@@ -59,6 +61,18 @@ func (dr *DialogueRunner) isWaitingForChoice() bool {
 }
 
 func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) { // TODO: have nicer arguments there? like an input struct maybe?
+	if dr.commandErrChan != nil {
+		select {
+		case err := <-dr.commandErrChan:
+			dr.commandErrChan = nil
+			if err != nil {
+				return nil, fmt.Errorf("failed to execute ongoing command: %w", err)
+			}
+		default:
+			return nil, ErrWaitingForCommandCompletion
+		}
+	}
+
 	if dr.isWaitingForChoice() {
 		if statements := dr.lastStatement.ShortcutOptionStatement.Options[choice].Statements; len(statements) != 0 {
 			dr.statementsToRun.Push(&StatementQueue{
@@ -134,6 +148,8 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) { // TODO: 
 			return nil, fmt.Errorf("failed to execute command statement: %w", err)
 		} else if stop {
 			return nil, nil
+		} else if dr.commandErrChan != nil {
+			return nil, ErrWaitingForCommandCompletion
 		}
 		return dr.Next(choice)
 	case nextStatement.CallStatement != nil:
@@ -169,6 +185,7 @@ func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer, rngSeed s
 		dialogue:        dialogue,
 		statementsToRun: statementsToRun,
 		variableStorer:  storer,
+		commandStorer:   newCommandStorer(),
 		visitedNodes:    map[string]int{},
 		currentNode:     firstNode.Title(),
 	}
@@ -303,10 +320,17 @@ func (dr *DialogueRunner) executeCommandStatement(statement *tree.CommandStateme
 		return true, nil
 	}
 
-	if _, err := dr.functionStorer.Call(commandName, values[1:]); err != nil {
-		return false, fmt.Errorf("failed to execute command [%s]: %w", commandName, err)
+	errChan := dr.commandStorer.Call(commandName, values[1:])
+	select {
+	case err := <-errChan:
+		if err != nil {
+			return false, fmt.Errorf("failed to execute command [%s]: %w", commandName, err)
+		}
+		return false, nil
+	default:
+		dr.commandErrChan = errChan
+		return false, nil
 	}
-	return false, nil
 }
 
 func (dr *DialogueRunner) executeCallStatement(statement *tree.CallStatement) error {
@@ -344,12 +368,12 @@ func (dr *DialogueRunner) ConvertAndAddFunction(functionID string, function any)
 	return dr.functionStorer.ConvertAndAddFunction(functionID, function)
 }
 
-func (dr *DialogueRunner) AddCommand(commandID string, command YarnSpinnerFunction) {
-	dr.functionStorer.AddFunction(commandID, command)
+func (dr *DialogueRunner) AddCommand(commandID string, command YarnSpinnerCommand) {
+	dr.commandStorer.AddCommand(commandID, command)
 }
 
 func (dr *DialogueRunner) ConvertAndAddCommand(commandID string, command any) error {
-	return dr.functionStorer.ConvertAndAddFunction(commandID, command)
+	return dr.commandStorer.ConvertAndAddCommand(commandID, command)
 }
 
 type StatementQueue struct {
@@ -366,3 +390,11 @@ func (sq *StatementQueue) NextStatement() (*tree.Statement, bool) {
 	sq.pointer++
 	return next, true
 }
+
+type errWaitingForCommandCompletion string
+
+func (e errWaitingForCommandCompletion) Error() string {
+	return string(e)
+}
+
+const ErrWaitingForCommandCompletion errWaitingForCommandCompletion = "waiting for command completion"

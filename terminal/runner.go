@@ -1,8 +1,10 @@
 package terminal
 
 import (
+	"errors"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -89,7 +91,11 @@ func (r *Runner) setChoice(choice int) func() {
 
 func (r *Runner) next() {
 	element, err := r.dr.Next(r.choice)
-	if err != nil {
+	if errors.Is(err, runner.ErrWaitingForCommandCompletion) {
+		// do nothing, check again in 1/20th of a second
+		<-time.After(50 * time.Millisecond)
+		r.next()
+	} else if err != nil {
 		r.app.Stop()
 		log.Fatalf("error: %v", err)
 	} else if element == nil {

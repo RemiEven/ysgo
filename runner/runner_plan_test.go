@@ -1,7 +1,6 @@
 package runner_test
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/RemiEven/ysgo/runner"
@@ -46,11 +45,10 @@ func TestRunnerPlan(t *testing.T) {
 				return
 			}
 
-			dr.ConvertAndAddCommand("assert", func(b bool) error {
+			dr.ConvertAndAddFunction("assert", func(b bool) {
 				if !b {
-					return errors.New("assertion failed")
+					t.Errorf("assertion failed")
 				}
-				return nil
 			})
 			dr.ConvertAndAddFunction("add_three_operands", func(a, b, c float64) float64 {
 				return a + b + c
