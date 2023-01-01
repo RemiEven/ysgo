@@ -17,6 +17,7 @@ func TestRunnerPlan(t *testing.T) {
 		"IfStatements",
 		"Jumps",
 		"Lines",
+		"NodeHeaders",
 		"ShortcutOptions",
 		"Smileys",
 		"Types",

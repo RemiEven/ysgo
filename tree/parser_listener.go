@@ -81,7 +81,10 @@ func (pl *ParserListener) ExitNode(ctx *parser.NodeContext) {
 // EnterHeader is called when production header is entered.
 func (s *ParserListener) EnterHeader(ctx *parser.HeaderContext) {
 	headerKey := ctx.GetHeader_key().GetText()
-	headerValue := ctx.GetHeader_value().GetText()
+	headerValue := ""
+	if ctx.GetHeader_value() != nil {
+		headerValue = ctx.GetHeader_value().GetText()
+	}
 	s.node.Headers[headerKey] = headerValue
 }
 
