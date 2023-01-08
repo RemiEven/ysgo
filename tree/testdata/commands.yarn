@@ -4,4 +4,5 @@ title: commands
 <<setsprite ShipName happy>>
 <<fade_out>>
 <<setsprite { $sprite }>>
+<<flip Harley3 +1>>
 ===

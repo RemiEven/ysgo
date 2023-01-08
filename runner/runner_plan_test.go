@@ -4,17 +4,20 @@ import (
 	"testing"
 
 	"github.com/RemiEven/ysgo/runner"
+	"github.com/RemiEven/ysgo/testutils"
 	"github.com/RemiEven/ysgo/tree"
 )
 
 func TestRunnerPlan(t *testing.T) {
 	tests := []string{
+		"Commands",
 		"DecimalNumbers",
 		"Escaping",
 		"Expressions",
 		"Functions",
 		"Identifiers",
 		"IfStatements",
+		"InlineExpressions",
 		"Jumps",
 		"Lines",
 		"NodeHeaders",
@@ -56,6 +59,26 @@ func TestRunnerPlan(t *testing.T) {
 				return a + b + c
 			})
 
+			commandOutputs := []string{}
+			addTestCommand := func(commandName string) {
+				dr.AddCommand(commandName, func(args []*tree.Value) <-chan error {
+					output := commandName
+					for _, arg := range args {
+						output += " " + arg.ToString()
+					}
+					commandOutputs = append(commandOutputs, output)
+					ch := make(chan error, 1)
+					ch <- nil
+					return ch
+				})
+			}
+
+			for _, commandName := range []string{"number", "expression", "string", "bool", "variable", "flip", "toggle", "settings", "iffy", "nulled", "orion", "andorian", "note", "isActive", "p", "hide"} {
+				addTestCommand(commandName)
+			}
+
+			expectedCommandOutputs := make([]string, 0, len(commandOutputs))
+
 			testPlanIndex := 0
 			choice := 0
 		planStepLoop:
@@ -63,6 +86,8 @@ func TestRunnerPlan(t *testing.T) {
 				testPlanStep := plan[testPlanIndex]
 
 				switch testPlanStep.stepType {
+				case stepTypeCommand:
+					expectedCommandOutputs = append(expectedCommandOutputs, testPlanStep.stringValue)
 				case stepTypeLine:
 					element, err := dr.Next(choice)
 					if err != nil {
@@ -119,6 +144,10 @@ func TestRunnerPlan(t *testing.T) {
 			if _, err := dr.Next(choice); err != nil {
 				t.Errorf("got an unexpected error at the last step of test plan: %v", err)
 				return
+			}
+
+			if diff := testutils.DeepEqual(commandOutputs, expectedCommandOutputs); diff != "" {
+				t.Errorf("unexpected command outputs: " + diff)
 			}
 		})
 	}

@@ -133,6 +133,9 @@ func valueFromCommandText(commandText string) *Value {
 		return NewBooleanValue(false)
 	}
 
+	if commandText[0] == '+' { // see Antlr grammar, numbers don't start with + even though Go would be happy to parse them
+		return NewStringValue(commandText)
+	}
 	numberValue, err := strconv.ParseFloat(commandText, 64)
 	if err == nil {
 		return NewNumberValue(numberValue)
