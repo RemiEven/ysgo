@@ -1,150 +1,155 @@
-package runner
+package runner_test
 
 import (
-	"strconv"
 	"testing"
 
-	"github.com/RemiEven/ysgo/markup"
+	"github.com/RemiEven/ysgo/runner"
 	"github.com/RemiEven/ysgo/testutils"
 	"github.com/RemiEven/ysgo/tree"
 )
 
-func TestRunner(t *testing.T) {
-	tests := map[string]struct {
-		script                   string
-		inputs                   []int
-		expectedDialogueElements []DialogueElement
-		expectedLastOK           bool
-		expectedLastErr          error
-	}{
-		"simple": {
-			script: "simple",
-			inputs: []int{0, 0, 0, 0},
-			expectedDialogueElements: []DialogueElement{
-				simpleTextDialogueElement("Hi there! What do you feel like doing today?"),
-				simpleTextDialogueElement("I want to go swimming."),
-				simpleTextDialogueElement("Sounds good!"),
-			},
-		},
-		"condition statement": {
-			script: "condition_statement",
-			inputs: []int{0, 0, 0},
-			expectedDialogueElements: []DialogueElement{
-				simpleTextDialogueElementFromCharacter("Player", "I'd like to buy a pie!"),
-				simpleTextDialogueElementFromCharacter("Baker", "Well, you can't afford one!"),
-			},
-		},
-		"visited and visited_count": {
-			script: "visited",
-			inputs: []int{0, 1, 0, 0, 0, 0, 0, 0, 3, 0},
-			expectedDialogueElements: []DialogueElement{
-				simpleOptionDialogueElement("I want to go to the lake.", "I want to go to the forest.", "I want to go to the hill.", "I've seen enough."),
-				simpleTextDialogueElement("This is a nice forest!"),
-				simpleOptionDialogueElement("I want to go to the lake.", "I want to go to the forest.", "I want to go to the hill.", "I've seen enough."),
-				simpleTextDialogueElement("This is a nice lake!"),
-				simpleOptionDialogueElement("I want to go to the lake.", "I want to go to the forest.", "I want to go to the hill.", "I've seen enough."),
-				simpleTextDialogueElement("This is a nice lake!"),
-				simpleTextDialogueElement("We've been here before!"),
-				simpleOptionDialogueElement("I want to go to the lake.", "I want to go to the forest.", "I want to go to the hill.", "I've seen enough."),
-				simpleTextDialogueElement("We've been 2 times to the lake, 1 times to the forest, and 0 times to the hill."),
-			},
-		},
-		"options without statements": {
-			script: "options_without_statements",
-			inputs: []int{0, 0, 1},
-			expectedDialogueElements: []DialogueElement{
-				simpleTextDialogueElement("Hi there! What do you feel like doing today?"),
-				simpleOptionDialogueElement("I want to go swimming.", "I want to go hiking."),
-			},
-		},
-		"escaped backslack": {
-			script: "escaped_backslack",
-			inputs: []int{0, 0},
-			expectedDialogueElements: []DialogueElement{
-				simpleTextDialogueElement(`Here's a line with an escaped backslash \`),
-			},
-		},
+func TestRunnerPlan(t *testing.T) {
+	tests := []string{
+		"Commands",
+		"DecimalNumbers",
+		"Escaping",
+		"Expressions",
+		"Functions",
+		"Identifiers",
+		"IfStatements",
+		"InlineExpressions",
+		"Jumps",
+		"Lines",
+		"NodeHeaders",
+		"ShortcutOptions",
+		"Smileys",
+		"Types",
+		"VariableStorage",
+		"VisitCount",
+		"Visited",
+		"VisitTracking",
 	}
 
-	for name, test := range tests {
-		t.Run(name, func(t *testing.T) {
-			dialogueTree, err := tree.FromFile("testdata/" + test.script + ".yarn")
+	for _, test := range tests {
+		t.Run(test, func(t *testing.T) {
+			plan, err := parseTestPlan("testdata/" + test + ".testplan")
 			if err != nil {
-				t.Errorf("failed to read testdata file: %v", err)
+				t.Errorf("failed to parse test plan: %v", err)
 				return
 			}
 
-			runner, err := NewDialogueRunner(dialogueTree, nil, "abcd")
+			di, err := tree.FromFile("testdata/" + test + ".yarn")
 			if err != nil {
-				t.Errorf("failed to create runner: %v", err)
+				t.Errorf("failed to parse dialogue from file: %v", err)
 				return
 			}
 
-			for i, input := range test.inputs {
-				stepPrefix := "step " + strconv.Itoa(i) + ": "
-				isLastStep := i == len(test.inputs)-1
-				dialogueElement, err := runner.Next(input)
-				ok := dialogueElement != nil && err == nil
-				switch {
-				case err != nil && isLastStep:
-					if !testutils.ErrorEqual(err, test.expectedLastErr) {
-						t.Errorf(stepPrefix+"unexpected error at the last step: got [%v], wanted [%v]", err, test.expectedLastErr)
-						return
-					}
-				case err != nil:
-					t.Errorf(stepPrefix+"unexpected error before the last step: [%v]", err)
-					return
-				case !ok && !isLastStep:
-					t.Errorf(stepPrefix + "received a nok before reaching the last expected step")
-					return
-				case isLastStep && ok != test.expectedLastOK:
-					t.Errorf(stepPrefix+"unexpected ok at the last step: got [%v], wanted [%v]", ok, test.expectedLastOK)
-					return
-				case !isLastStep:
-					if diff := testutils.DeepEqual(dialogueElement, &test.expectedDialogueElements[i]); diff != "" {
-						t.Errorf(stepPrefix + "unexpected dialogueElement: " + diff)
-						return
-					}
+			dr, err := runner.NewDialogueRunner(di, nil, "")
+			if err != nil {
+				t.Errorf("failed to create dialogue runner: %v", err)
+				return
+			}
+
+			dr.ConvertAndAddFunction("assert", func(b bool) {
+				if !b {
+					t.Errorf("assertion failed")
 				}
+			})
+			dr.ConvertAndAddFunction("add_three_operands", func(a, b, c float64) float64 {
+				return a + b + c
+			})
+
+			commandOutputs := []string{}
+			addTestCommand := func(commandName string) {
+				dr.AddCommand(commandName, func(args []*tree.Value) <-chan error {
+					output := commandName
+					for _, arg := range args {
+						output += " " + arg.ToString()
+					}
+					commandOutputs = append(commandOutputs, output)
+					ch := make(chan error, 1)
+					ch <- nil
+					return ch
+				})
+			}
+
+			for _, commandName := range []string{"number", "expression", "string", "bool", "variable", "flip", "toggle", "settings", "iffy", "nulled", "orion", "andorian", "note", "isActive", "p", "hide"} {
+				addTestCommand(commandName)
+			}
+
+			expectedCommandOutputs := make([]string, 0, len(commandOutputs))
+
+			testPlanIndex := 0
+			choice := 0
+		planStepLoop:
+			for testPlanIndex < len(plan) {
+				testPlanStep := plan[testPlanIndex]
+
+				switch testPlanStep.stepType {
+				case stepTypeCommand:
+					expectedCommandOutputs = append(expectedCommandOutputs, testPlanStep.stringValue)
+				case stepTypeLine:
+					element, err := dr.Next(choice)
+					if err != nil {
+						t.Errorf("got an error while running dialog: %v", err)
+						return
+					}
+					choice = 0
+					if line := element.Line; line == nil {
+						t.Errorf("expected a line at test plan step [%v] but got none", testPlanIndex)
+						return
+					} else if actual, expected := line.Text, testPlanStep.stringValue; actual != expected {
+						t.Errorf("unexpected text for line at step [%v]: got [%s], wanted [%s]", testPlanIndex, actual, expected)
+						return
+					}
+				case stepTypeSelect:
+					choice = testPlanStep.intValue - 1
+				case stepTypeOption:
+					endOptionIndex := testPlanIndex
+					for endOptionIndex < len(plan) && plan[endOptionIndex].stepType == stepTypeOption {
+						endOptionIndex++
+					}
+					element, err := dr.Next(choice)
+					if err != nil {
+						t.Errorf("got an error while running dialog: %v", err)
+						return
+					}
+					choice = 0
+					if element.Options == nil {
+						t.Errorf("expected options at test plan step [%v] but got none", testPlanIndex)
+						return
+					}
+					if actualLen, expectedLen := len(element.Options), (endOptionIndex - testPlanIndex); actualLen != expectedLen {
+						t.Errorf("got an unexpected number of options: got [%v], wanted [%v]", actualLen, expectedLen)
+						return
+					}
+					for i := range element.Options {
+						if actualLine, expectedLine := element.Options[i].Line.Text, plan[testPlanIndex+i].stringValue; actualLine != expectedLine {
+							t.Errorf("got an unexpected text for option [%v]: got [%v], wanted [%v]", i, actualLine, expectedLine)
+							return
+						}
+						if actualDisabled, expectedDisabled := element.Options[i].Disabled, !plan[testPlanIndex+i].expectOptionEnabled; actualDisabled != expectedDisabled {
+							t.Errorf("got an unexpected disabled boolean value for option [%v]: got [%v], wanted [%v]", i, actualDisabled, expectedDisabled)
+							return
+						}
+					}
+					testPlanIndex = endOptionIndex - 1
+				case stepTypeStop:
+					break planStepLoop
+				}
+
+				testPlanIndex++
+			}
+
+			if _, err := dr.Next(choice); err != nil {
+				t.Errorf("got an unexpected error at the last step of test plan: %v", err)
+				return
+			}
+
+			if diff := testutils.DeepEqual(commandOutputs, expectedCommandOutputs); diff != "" {
+				t.Errorf("unexpected command outputs: " + diff)
 			}
 		})
 	}
-}
 
-func simpleTextDialogueElement(text string) DialogueElement {
-	return DialogueElement{
-		Line: &markup.ParseResult{Text: text, Attributes: []markup.Attribute{}},
-	}
-}
-
-func simpleTextDialogueElementFromCharacter(character, text string) DialogueElement {
-	return DialogueElement{
-		Line: &markup.ParseResult{Text: character + ": " + text, Attributes: []markup.Attribute{
-			{
-				Position: 0,
-				Length:   len(character) + 2,
-				Name:     "character",
-				Properties: map[string]markup.Value{
-					"name": {
-						StringValue: character,
-						ValueType:   markup.ValueTypeString,
-					},
-				},
-			},
-		}},
-	}
-}
-
-func simpleOptionDialogueElement(options ...string) DialogueElement {
-	element := DialogueElement{
-		Options: []DialogueOption{},
-	}
-
-	for _, option := range options {
-		element.Options = append(element.Options, DialogueOption{
-			Line: &markup.ParseResult{Text: option, Attributes: []markup.Attribute{}},
-		})
-	}
-
-	return element
 }
