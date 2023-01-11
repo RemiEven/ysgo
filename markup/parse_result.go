@@ -1,5 +1,10 @@
 package markup
 
+import (
+	"fmt"
+	"strconv"
+)
+
 type ValueType int
 
 const (
@@ -24,6 +29,27 @@ type Value struct {
 	StringValue  string
 	BoolValue    bool
 	ValueType    ValueType
+}
+
+func (v *Value) toString() string {
+	switch v.ValueType {
+	case ValueTypeInteger:
+		return strconv.Itoa(v.IntegerValue)
+	case ValueTypeFloat:
+		if v.FloatValue == float64(int(v.FloatValue)) {
+			return strconv.Itoa(int(v.FloatValue))
+		}
+		return fmt.Sprint(v.FloatValue)
+	case ValueTypeString:
+		return v.StringValue
+	case ValueTypeBool:
+		if v.BoolValue {
+			return "True"
+		}
+		return "False"
+	}
+
+	return ""
 }
 
 type Property struct {

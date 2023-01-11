@@ -14,6 +14,7 @@ func TestRunnerPlan(t *testing.T) {
 		"DecimalNumbers",
 		"Escaping",
 		"Expressions",
+		"FormatFunctions",
 		"Functions",
 		"Identifiers",
 		"IfStatements",

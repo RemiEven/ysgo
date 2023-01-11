@@ -23,11 +23,10 @@ const (
 var endOfCharacterMarker = regexp.MustCompile(`:\s*`)
 
 type LineParser struct {
-	input            string
-	reader           *strings.Reader
-	sourcePosition   int
-	position         int
-	markerProcessors map[string]func(*AttributeMarker) (string, error)
+	input          string
+	reader         *strings.Reader
+	sourcePosition int
+	position       int
 }
 
 func (lineParser *LineParser) ParseMarkup(input string) (*ParseResult, error) {
@@ -81,10 +80,10 @@ func (lineParser *LineParser) parseMarkup() (*ParseResult, error) {
 
 			wasReplacementMarker := false
 
-			if _, ok := lineParser.markerProcessors[marker.name]; ok {
+			if processor := getProcessor(marker.name); processor != nil {
 				wasReplacementMarker = true
 
-				replacementText, err := lineParser.processReplacementMarker(marker)
+				replacementText, err := lineParser.processReplacementMarker(marker, processor)
 				if err != nil {
 					return nil, fmt.Errorf("failed to process replacement marker: %w", err)
 				}
@@ -232,7 +231,7 @@ func (lineParser *LineParser) buildAttributesFromMarkers(markers []AttributeMark
 	return attributes, nil
 }
 
-func (lineParser *LineParser) processReplacementMarker(marker AttributeMarker) (string, error) {
+func (lineParser *LineParser) processReplacementMarker(marker AttributeMarker, processor markerProcessor) (string, error) {
 	if marker.tagType != TagTypeOpen && marker.tagType != TagTypeSelfClosing {
 		return "", nil
 	}
@@ -252,7 +251,7 @@ func (lineParser *LineParser) processReplacementMarker(marker AttributeMarker) (
 		})
 	}
 
-	replacementText, err := lineParser.markerProcessors[marker.name](&marker)
+	replacementText, err := processor(&marker)
 	if err != nil {
 		return "", fmt.Errorf("failed to process marker %q: %w", marker.name, err)
 	}
