@@ -14,11 +14,11 @@ import (
 
 type DialogueRunner struct {
 	dialogue        *tree.Dialogue
-	statementsToRun container.Stack[*StatementQueue]
+	statementsToRun container.Stack[*statementQueue]
 	lastStatement   *tree.Statement
 	variableStorer  VariableStorer
-	functionStorer  *FunctionStorer
-	commandStorer   *CommandStorer
+	functionStorer  *functionStorer
+	commandStorer   *commandStorer
 	commandErrChan  <-chan error
 	lineParser      markup.LineParser
 	currentNode     string
@@ -75,7 +75,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 
 	if dr.isWaitingForChoice() {
 		if statements := dr.lastStatement.ShortcutOptionStatement.Options[choice].Statements; len(statements) != 0 {
-			dr.statementsToRun.Push(&StatementQueue{
+			dr.statementsToRun.Push(&statementQueue{
 				statements: statements,
 			})
 		}
@@ -168,9 +168,9 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 }
 
 func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer, rngSeed string) (*DialogueRunner, error) {
-	statementsToRun := container.Stack[*StatementQueue]{}
+	statementsToRun := container.Stack[*statementQueue]{}
 	firstNode := dialogue.Nodes[0]
-	statementsToRun.Push(&StatementQueue{statements: firstNode.Statements})
+	statementsToRun.Push(&statementQueue{statements: firstNode.Statements})
 
 	if storer == nil {
 		storer = NewInMemoryVariableStorer()
@@ -275,7 +275,7 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 	} else {
 		dr.incrementNodeTrackingIfAllowed()
 		dr.statementsToRun.Clear()
-		dr.statementsToRun.Push(&StatementQueue{statements: node.Statements})
+		dr.statementsToRun.Push(&statementQueue{statements: node.Statements})
 		dr.currentNode = node.Title()
 	}
 	return nil
@@ -297,7 +297,7 @@ func (dr *DialogueRunner) executeIfStatement(statement *tree.IfStatement) error 
 			return fmt.Errorf("condition must be a boolean")
 		}
 		if *condition.Boolean {
-			dr.statementsToRun.Push(&StatementQueue{statements: clause.Statements})
+			dr.statementsToRun.Push(&statementQueue{statements: clause.Statements})
 			return nil
 		}
 	}
@@ -383,12 +383,12 @@ func (dr *DialogueRunner) ConvertAndAddCommand(commandID string, command any) er
 	return dr.commandStorer.ConvertAndAddCommand(commandID, command)
 }
 
-type StatementQueue struct {
+type statementQueue struct {
 	statements []*tree.Statement
 	pointer    int
 }
 
-func (sq *StatementQueue) NextStatement() (*tree.Statement, bool) {
+func (sq *statementQueue) NextStatement() (*tree.Statement, bool) {
 	if sq.pointer >= len(sq.statements) {
 		return nil, false
 	}

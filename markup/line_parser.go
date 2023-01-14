@@ -37,7 +37,7 @@ func (lineParser *LineParser) ParseMarkup(input string) (*ParseResult, error) {
 func (lineParser *LineParser) parseMarkup() (*ParseResult, error) {
 	lineParser.reader = strings.NewReader(lineParser.input)
 	builder := strings.Builder{}
-	markers := []AttributeMarker{}
+	markers := []attributeMarker{}
 	var lastRune rune
 
 	for {
@@ -94,7 +94,7 @@ func (lineParser *LineParser) parseMarkup() (*ParseResult, error) {
 			trimWhitespaceIfAble := false
 
 			if hadPrecedingWhitespaceOrLineStart {
-				if marker.tagType == TagTypeSelfClosing {
+				if marker.tagType == tagTypeSelfClosing {
 					trimWhitespaceIfAble = !wasReplacementMarker
 				}
 
@@ -166,16 +166,16 @@ func (lineParser *LineParser) parseMarkup() (*ParseResult, error) {
 	}, nil
 }
 
-func (lineParser *LineParser) buildAttributesFromMarkers(markers []AttributeMarker) ([]Attribute, error) {
-	unclosedMarkers := []AttributeMarker{}
+func (lineParser *LineParser) buildAttributesFromMarkers(markers []attributeMarker) ([]Attribute, error) {
+	unclosedMarkers := []attributeMarker{}
 
 	attributes := make([]Attribute, 0, len(markers))
 
 	for _, marker := range markers {
 		switch marker.tagType {
-		case TagTypeOpen:
+		case tagTypeOpen:
 			unclosedMarkers = append(unclosedMarkers, marker)
-		case TagTypeClose:
+		case tagTypeClose:
 			matchedOpenMarkerIndex := -1
 			for i := range unclosedMarkers {
 				if unclosedMarkers[i].name == marker.name {
@@ -201,7 +201,7 @@ func (lineParser *LineParser) buildAttributesFromMarkers(markers []AttributeMark
 			}
 
 			attributes = append(attributes, attribute)
-		case TagTypeSelfClosing:
+		case tagTypeSelfClosing:
 			attribute := Attribute{
 				Name:           marker.name,
 				Properties:     toPropertyMap(marker.properties),
@@ -210,7 +210,7 @@ func (lineParser *LineParser) buildAttributesFromMarkers(markers []AttributeMark
 				SourcePosition: marker.sourcePosition,
 			}
 			attributes = append(attributes, attribute)
-		case TagTypeCloseAll:
+		case tagTypeCloseAll:
 			for _, openMarker := range unclosedMarkers {
 				length := marker.position - openMarker.position
 				attribute := Attribute{
@@ -231,12 +231,12 @@ func (lineParser *LineParser) buildAttributesFromMarkers(markers []AttributeMark
 	return attributes, nil
 }
 
-func (lineParser *LineParser) processReplacementMarker(marker AttributeMarker, processor markerProcessor) (string, error) {
-	if marker.tagType != TagTypeOpen && marker.tagType != TagTypeSelfClosing {
+func (lineParser *LineParser) processReplacementMarker(marker attributeMarker, processor markerProcessor) (string, error) {
+	if marker.tagType != tagTypeOpen && marker.tagType != tagTypeSelfClosing {
 		return "", nil
 	}
 
-	if marker.tagType == TagTypeOpen {
+	if marker.tagType == tagTypeOpen {
 		markerContents, err := lineParser.parseRawTextUpToAttributeClose(marker.name)
 		if err != nil {
 			return "", fmt.Errorf("failed to parse text up to attribute close: %w", err)
@@ -285,115 +285,115 @@ func (lineParser *LineParser) parseRawTextUpToAttributeClose(markerName string) 
 	return rawTextSubstring, nil
 }
 
-func (lineParser *LineParser) parseAttributeMarker() (AttributeMarker, error) {
+func (lineParser *LineParser) parseAttributeMarker() (attributeMarker, error) {
 	sourcePositionAtMarkerStart := lineParser.sourcePosition
 	lineParser.sourcePosition++
 
 	if match, err := lineParser.expectPeek('/'); err != nil {
-		return AttributeMarker{}, err
+		return attributeMarker{}, err
 	} else if match {
 		if err := lineParser.parseRune('/'); err != nil {
-			return AttributeMarker{}, err
+			return attributeMarker{}, err
 		}
 
 		if match, err := lineParser.expectPeek(']'); err != nil {
-			return AttributeMarker{}, err
+			return attributeMarker{}, err
 		} else if match {
 			if err := lineParser.parseRune(']'); err != nil {
-				return AttributeMarker{}, err
+				return attributeMarker{}, err
 			}
-			return AttributeMarker{
+			return attributeMarker{
 				position:       lineParser.position,
 				sourcePosition: sourcePositionAtMarkerStart,
-				tagType:        TagTypeCloseAll,
+				tagType:        tagTypeCloseAll,
 			}, nil
 		} else {
 			tagName, err := lineParser.parseID()
 			if err != nil {
-				return AttributeMarker{}, fmt.Errorf("failed to parse ID: %w", err)
+				return attributeMarker{}, fmt.Errorf("failed to parse ID: %w", err)
 			}
 			if err := lineParser.parseRune(']'); err != nil {
-				return AttributeMarker{}, err
+				return attributeMarker{}, err
 			}
-			return AttributeMarker{
+			return attributeMarker{
 				name:           tagName,
 				position:       lineParser.position,
 				sourcePosition: sourcePositionAtMarkerStart,
-				tagType:        TagTypeClose,
+				tagType:        tagTypeClose,
 			}, nil
 		}
 	}
 
 	attributeName, err := lineParser.parseID()
 	if err != nil {
-		return AttributeMarker{}, fmt.Errorf("failed to parse attribute name: %w", err)
+		return attributeMarker{}, fmt.Errorf("failed to parse attribute name: %w", err)
 	}
 	properties := []Property{}
 
 	if match, err := lineParser.expectPeek('='); err != nil {
-		return AttributeMarker{}, err
+		return attributeMarker{}, err
 	} else if match {
 		if err := lineParser.parseRune('='); err != nil {
-			return AttributeMarker{}, err
+			return attributeMarker{}, err
 		}
 		value, err := lineParser.parseValue()
 		if err != nil {
-			return AttributeMarker{}, fmt.Errorf("failed to parse value: %w", err)
+			return attributeMarker{}, fmt.Errorf("failed to parse value: %w", err)
 		}
 		properties = append(properties, Property{attributeName, value})
 	}
 
 	for {
 		if err := lineParser.consumeWhitespace(); err != nil {
-			return AttributeMarker{}, fmt.Errorf("failed to consume whitespace: %w", err)
+			return attributeMarker{}, fmt.Errorf("failed to consume whitespace: %w", err)
 		}
 
 		nextRune, err := peekRune(lineParser.reader)
 		if err == io.EOF {
-			return AttributeMarker{}, fmt.Errorf("unexpected end of line inside markup in line %q", lineParser.input)
+			return attributeMarker{}, fmt.Errorf("unexpected end of line inside markup in line %q", lineParser.input)
 		} else if err != nil {
-			return AttributeMarker{}, err
+			return attributeMarker{}, err
 		}
 
 		if nextRune == ']' {
 			if err := lineParser.parseRune(']'); err != nil {
-				return AttributeMarker{}, err
+				return attributeMarker{}, err
 			}
-			return AttributeMarker{
+			return attributeMarker{
 				name:           attributeName,
 				position:       lineParser.position,
 				sourcePosition: sourcePositionAtMarkerStart,
 				properties:     properties,
-				tagType:        TagTypeOpen,
+				tagType:        tagTypeOpen,
 			}, nil
 		}
 
 		if nextRune == '/' {
 			if err := lineParser.parseRune('/'); err != nil {
-				return AttributeMarker{}, err
+				return attributeMarker{}, err
 			}
 			if err := lineParser.parseRune(']'); err != nil {
-				return AttributeMarker{}, err
+				return attributeMarker{}, err
 			}
-			return AttributeMarker{
+			return attributeMarker{
 				name:           attributeName,
 				position:       lineParser.position,
 				sourcePosition: sourcePositionAtMarkerStart,
 				properties:     properties,
-				tagType:        TagTypeSelfClosing,
+				tagType:        tagTypeSelfClosing,
 			}, nil
 		}
 
 		propertyName, err := lineParser.parseID()
 		if err != nil {
-			return AttributeMarker{}, fmt.Errorf("failed to parse property name: %w", err)
+			return attributeMarker{}, fmt.Errorf("failed to parse property name: %w", err)
 		}
 		if err := lineParser.parseRune('='); err != nil {
-			return AttributeMarker{}, err
+			return attributeMarker{}, err
 		}
 		propertyValue, err := lineParser.parseValue()
 		if err != nil {
-			return AttributeMarker{}, fmt.Errorf("failed to parse property value: %w", err)
+			return attributeMarker{}, fmt.Errorf("failed to parse property value: %w", err)
 		}
 		properties = append(properties, Property{propertyName, propertyValue})
 	}

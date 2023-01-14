@@ -9,8 +9,8 @@ import (
 	"github.com/RemiEven/ysgo/internal/parser"
 )
 
-// ParserListener is a complete listener for a parse tree produced by YarnSpinnerParser.
-type ParserListener struct {
+// parserListener is a complete listener for a parse tree produced by YarnSpinnerParser.
+type parserListener struct {
 	*parser.BaseYarnSpinnerParserListener
 	dialogue *Dialogue
 
@@ -30,12 +30,12 @@ type ParserListener struct {
 	valueCallbacks           *container.Stack[func(*Value)]
 }
 
-func (pl *ParserListener) Dialogue() *Dialogue {
+func (pl *parserListener) Dialogue() *Dialogue {
 	return pl.dialogue
 }
 
 // VisitTerminal is called when a terminal node is visited.
-func (pl *ParserListener) VisitTerminal(node antlr.TerminalNode) {
+func (pl *parserListener) VisitTerminal(node antlr.TerminalNode) {
 	switch node.GetSymbol().GetTokenType() {
 	case parser.YarnSpinnerLexerTEXT:
 		pl.textCallback(node.GetSymbol().GetText())
@@ -45,7 +45,7 @@ func (pl *ParserListener) VisitTerminal(node antlr.TerminalNode) {
 }
 
 // EnterDialogue is called when production dialogue is entered.
-func (pl *ParserListener) EnterDialogue(ctx *parser.DialogueContext) {
+func (pl *parserListener) EnterDialogue(ctx *parser.DialogueContext) {
 	pl.dialogue = &Dialogue{}
 	pl.shortcutOptionStatements = &container.Stack[*ShortcutOptionStatement]{}
 	pl.shortcutOptions = &container.Stack[*ShortcutOption]{}
@@ -57,7 +57,7 @@ func (pl *ParserListener) EnterDialogue(ctx *parser.DialogueContext) {
 }
 
 // EnterNode is called when production node is entered.
-func (s *ParserListener) EnterNode(ctx *parser.NodeContext) {
+func (s *parserListener) EnterNode(ctx *parser.NodeContext) {
 	s.node = &Node{
 		Headers: map[string]string{},
 	}
@@ -72,14 +72,14 @@ func (s *ParserListener) EnterNode(ctx *parser.NodeContext) {
 }
 
 // ExitNode is called when production node is exited.
-func (pl *ParserListener) ExitNode(ctx *parser.NodeContext) {
+func (pl *parserListener) ExitNode(ctx *parser.NodeContext) {
 	pl.dialogue.Nodes = append(pl.dialogue.Nodes, *pl.node)
 	pl.statementCallbacks.Pop()
 	pl.lineStatementCallbacks.Pop()
 }
 
 // EnterHeader is called when production header is entered.
-func (s *ParserListener) EnterHeader(ctx *parser.HeaderContext) {
+func (s *parserListener) EnterHeader(ctx *parser.HeaderContext) {
 	headerKey := ctx.GetHeader_key().GetText()
 	headerValue := ""
 	if ctx.GetHeader_value() != nil {
@@ -89,7 +89,7 @@ func (s *ParserListener) EnterHeader(ctx *parser.HeaderContext) {
 }
 
 // EnterLine_statement is called when production line_statement is entered.
-func (s *ParserListener) EnterLine_statement(ctx *parser.Line_statementContext) {
+func (s *parserListener) EnterLine_statement(ctx *parser.Line_statementContext) {
 	s.lineStatement = &LineStatement{}
 	s.expressionCallbacks.Push(func(e *Expression) {
 		s.lineStatement.Condition = e
@@ -97,14 +97,14 @@ func (s *ParserListener) EnterLine_statement(ctx *parser.Line_statementContext) 
 }
 
 // ExitLine_statement is called when production line_statement is exited.
-func (s *ParserListener) ExitLine_statement(ctx *parser.Line_statementContext) {
+func (s *parserListener) ExitLine_statement(ctx *parser.Line_statementContext) {
 	s.expressionCallbacks.Pop()
 	s.lineStatementCallbacks.Peek()(s.lineStatement)
 	s.lineStatement = nil
 }
 
 // EnterLine_formatted_text is called when production line_formatted_text is entered.
-func (s *ParserListener) EnterLine_formatted_text(ctx *parser.Line_formatted_textContext) {
+func (s *parserListener) EnterLine_formatted_text(ctx *parser.Line_formatted_textContext) {
 	lineStatementText := &LineFormattedText{}
 	s.lineStatement.Text = lineStatementText
 	s.textCallback = func(text string) {
@@ -127,18 +127,18 @@ func (s *ParserListener) EnterLine_formatted_text(ctx *parser.Line_formatted_tex
 }
 
 // ExitLine_formatted_text is called when production line_formatted_text is exited.
-func (s *ParserListener) ExitLine_formatted_text(ctx *parser.Line_formatted_textContext) {
+func (s *parserListener) ExitLine_formatted_text(ctx *parser.Line_formatted_textContext) {
 	s.textCallback = nil
 	s.expressionCallbacks.Pop()
 }
 
 // EnterShortcut_option_statement is called when production shortcut_option_statement is entered.
-func (s *ParserListener) EnterShortcut_option_statement(ctx *parser.Shortcut_option_statementContext) {
+func (s *parserListener) EnterShortcut_option_statement(ctx *parser.Shortcut_option_statementContext) {
 	s.shortcutOptionStatements.Push(&ShortcutOptionStatement{})
 }
 
 // ExitShortcut_option_statement is called when production shortcut_option_statement is exited.
-func (s *ParserListener) ExitShortcut_option_statement(ctx *parser.Shortcut_option_statementContext) {
+func (s *parserListener) ExitShortcut_option_statement(ctx *parser.Shortcut_option_statementContext) {
 	statement := s.shortcutOptionStatements.Pop()
 	s.statementCallbacks.Peek()(&Statement{
 		ShortcutOptionStatement: statement,
@@ -146,7 +146,7 @@ func (s *ParserListener) ExitShortcut_option_statement(ctx *parser.Shortcut_opti
 }
 
 // EnterShortcut_option is called when production shortcut_option is entered.
-func (s *ParserListener) EnterShortcut_option(ctx *parser.Shortcut_optionContext) {
+func (s *parserListener) EnterShortcut_option(ctx *parser.Shortcut_optionContext) {
 	shortcutOption := &ShortcutOption{}
 	shortcutOptionStatement := s.shortcutOptionStatements.Peek()
 	shortcutOptionStatement.Options = append(shortcutOptionStatement.Options, shortcutOption)
@@ -165,29 +165,29 @@ func (s *ParserListener) EnterShortcut_option(ctx *parser.Shortcut_optionContext
 }
 
 // ExitShortcut_option is called when production shortcut_option is exited.
-func (s *ParserListener) ExitShortcut_option(ctx *parser.Shortcut_optionContext) {
+func (s *parserListener) ExitShortcut_option(ctx *parser.Shortcut_optionContext) {
 	s.lineStatementCallbacks.Pop()
 	s.statementCallbacks.Pop()
 }
 
 // EnterValueNumber is called when production valueNumber is entered.
-func (s *ParserListener) EnterValueNumber(ctx *parser.ValueNumberContext) {
+func (s *parserListener) EnterValueNumber(ctx *parser.ValueNumberContext) {
 	number, _ := strconv.ParseFloat(ctx.GetText(), 64)
 	s.valueCallbacks.Peek()(NewNumberValue(number))
 }
 
 // EnterValueTrue is called when production valueTrue is entered.
-func (s *ParserListener) EnterValueTrue(ctx *parser.ValueTrueContext) {
+func (s *parserListener) EnterValueTrue(ctx *parser.ValueTrueContext) {
 	s.valueCallbacks.Peek()(NewBooleanValue(true))
 }
 
 // EnterValueFalse is called when production valueFalse is entered.
-func (s *ParserListener) EnterValueFalse(ctx *parser.ValueFalseContext) {
+func (s *parserListener) EnterValueFalse(ctx *parser.ValueFalseContext) {
 	s.valueCallbacks.Peek()(NewBooleanValue(false))
 }
 
 // EnterValueVar is called when production valueVar is entered.
-func (s *ParserListener) EnterValueVar(ctx *parser.ValueVarContext) {
+func (s *parserListener) EnterValueVar(ctx *parser.ValueVarContext) {
 	variableID := ctx.GetText()[1:]
 	s.valueCallbacks.Peek()(&Value{
 		VariableID: &variableID,
@@ -195,14 +195,14 @@ func (s *ParserListener) EnterValueVar(ctx *parser.ValueVarContext) {
 }
 
 // EnterValueString is called when production valueString is entered.
-func (s *ParserListener) EnterValueString(ctx *parser.ValueStringContext) {
+func (s *parserListener) EnterValueString(ctx *parser.ValueStringContext) {
 	text := ctx.GetText()
 	value := text[1 : len(text)-1]
 	s.valueCallbacks.Peek()(NewStringValue(value))
 }
 
 // EnterValueFunc is called when production valueFunc is entered.
-func (s *ParserListener) EnterValueFunc(ctx *parser.ValueFuncContext) {
+func (s *parserListener) EnterValueFunc(ctx *parser.ValueFuncContext) {
 	s.functionCallCallback = func(functionCall *FunctionCall) {
 		s.functionCallCallback = nil
 		s.valueCallbacks.Peek()(&Value{
@@ -212,7 +212,7 @@ func (s *ParserListener) EnterValueFunc(ctx *parser.ValueFuncContext) {
 }
 
 // EnterFunction_call is called when production function_call is entered.
-func (s *ParserListener) EnterFunction_call(ctx *parser.Function_callContext) {
+func (s *parserListener) EnterFunction_call(ctx *parser.Function_callContext) {
 	functionID := ctx.FUNC_ID().GetText()
 	functionCall := &FunctionCall{
 		FunctionID: functionID,
@@ -224,12 +224,12 @@ func (s *ParserListener) EnterFunction_call(ctx *parser.Function_callContext) {
 }
 
 // ExitFunction_call is called when production function_call is exited.
-func (s *ParserListener) ExitFunction_call(ctx *parser.Function_callContext) {
+func (s *parserListener) ExitFunction_call(ctx *parser.Function_callContext) {
 	s.expressionCallbacks.Pop()
 }
 
 // EnterExpNot is called when production expNot is entered.
-func (s *ParserListener) EnterExpNot(ctx *parser.ExpNotContext) {
+func (s *parserListener) EnterExpNot(ctx *parser.ExpNotContext) {
 	s.expressionCallbacks.Push(func(e *Expression) {
 		s.expressionCallbacks.Pop()
 		s.expressionCallbacks.Peek()(&Expression{
@@ -239,7 +239,7 @@ func (s *ParserListener) EnterExpNot(ctx *parser.ExpNotContext) {
 }
 
 // EnterExpNegative is called when production expNegative is entered.
-func (s *ParserListener) EnterExpNegative(ctx *parser.ExpNegativeContext) {
+func (s *parserListener) EnterExpNegative(ctx *parser.ExpNegativeContext) {
 	s.expressionCallbacks.Push(func(e *Expression) {
 		s.expressionCallbacks.Pop()
 		s.expressionCallbacks.Peek()(&Expression{
@@ -249,31 +249,31 @@ func (s *ParserListener) EnterExpNegative(ctx *parser.ExpNegativeContext) {
 }
 
 // EnterExpMultDivMod is called when production expMultDivMod is entered.
-func (s *ParserListener) EnterExpMultDivMod(ctx *parser.ExpMultDivModContext) {
+func (s *parserListener) EnterExpMultDivMod(ctx *parser.ExpMultDivModContext) {
 	s.enterBinaryOperatorExpression(ctx)
 }
 
 // EnterExpComparison is called when production expComparison is entered.
-func (s *ParserListener) EnterExpComparison(ctx *parser.ExpComparisonContext) {
+func (s *parserListener) EnterExpComparison(ctx *parser.ExpComparisonContext) {
 	s.enterBinaryOperatorExpression(ctx)
 }
 
 // EnterExpAndOrXor is called when production expAndOrXor is entered.
-func (s *ParserListener) EnterExpAndOrXor(ctx *parser.ExpAndOrXorContext) {
+func (s *parserListener) EnterExpAndOrXor(ctx *parser.ExpAndOrXorContext) {
 	s.enterBinaryOperatorExpression(ctx)
 }
 
 // EnterExpAddSub is called when production expAddSub is entered.
-func (s *ParserListener) EnterExpAddSub(ctx *parser.ExpAddSubContext) {
+func (s *parserListener) EnterExpAddSub(ctx *parser.ExpAddSubContext) {
 	s.enterBinaryOperatorExpression(ctx)
 }
 
 // EnterExpEquality is called when production expEquality is entered.
-func (s *ParserListener) EnterExpEquality(ctx *parser.ExpEqualityContext) {
+func (s *parserListener) EnterExpEquality(ctx *parser.ExpEqualityContext) {
 	s.enterBinaryOperatorExpression(ctx)
 }
 
-func (s *ParserListener) enterBinaryOperatorExpression(ctx interface {
+func (s *parserListener) enterBinaryOperatorExpression(ctx interface {
 	GetOp() antlr.Token
 }) {
 	binaryOperator, ok := tokenToBinaryOperator(ctx.GetOp().GetTokenType())
@@ -296,7 +296,7 @@ func (s *ParserListener) enterBinaryOperatorExpression(ctx interface {
 }
 
 // EnterSet_statement is called when production set_statement is entered.
-func (s *ParserListener) EnterSet_statement(ctx *parser.Set_statementContext) {
+func (s *parserListener) EnterSet_statement(ctx *parser.Set_statementContext) {
 	inPlaceOperator, ok := tokenToInplaceOperator(ctx.GetOp().GetTokenType())
 	if !ok {
 		panic("unknown in-place operator") // TODO: better error handling
@@ -318,12 +318,12 @@ func (s *ParserListener) EnterSet_statement(ctx *parser.Set_statementContext) {
 }
 
 // ExitSet_statement is called when production set_statement is exited.
-func (s *ParserListener) ExitSet_statement(ctx *parser.Set_statementContext) {
+func (s *parserListener) ExitSet_statement(ctx *parser.Set_statementContext) {
 	s.expressionCallbacks.Pop()
 }
 
 // EnterVariable is called when production variable is entered.
-func (s *ParserListener) EnterVariable(ctx *parser.VariableContext) {
+func (s *parserListener) EnterVariable(ctx *parser.VariableContext) {
 	if s.variableCallback == nil {
 		return
 	}
@@ -332,7 +332,7 @@ func (s *ParserListener) EnterVariable(ctx *parser.VariableContext) {
 }
 
 // EnterJumpToNodeName is called when production jumpToNodeName is entered.
-func (s *ParserListener) EnterJumpToNodeName(ctx *parser.JumpToNodeNameContext) {
+func (s *parserListener) EnterJumpToNodeName(ctx *parser.JumpToNodeNameContext) {
 	s.statementCallbacks.Peek()(&Statement{
 		JumpStatement: &JumpStatement{
 			Expression: &Expression{
@@ -343,7 +343,7 @@ func (s *ParserListener) EnterJumpToNodeName(ctx *parser.JumpToNodeNameContext) 
 }
 
 // EnterJumpToExpression is called when production jumpToExpression is entered.
-func (s *ParserListener) EnterJumpToExpression(ctx *parser.JumpToExpressionContext) {
+func (s *parserListener) EnterJumpToExpression(ctx *parser.JumpToExpressionContext) {
 	s.expressionCallbacks.Push(func(e *Expression) {
 		s.statementCallbacks.Peek()(&Statement{
 			JumpStatement: &JumpStatement{
@@ -354,12 +354,12 @@ func (s *ParserListener) EnterJumpToExpression(ctx *parser.JumpToExpressionConte
 }
 
 // ExitJumpToExpression is called when production jumpToExpression is exited.
-func (s *ParserListener) ExitJumpToExpression(ctx *parser.JumpToExpressionContext) {
+func (s *parserListener) ExitJumpToExpression(ctx *parser.JumpToExpressionContext) {
 	s.expressionCallbacks.Pop()
 }
 
 // EnterIf_statement is called when production if_statement is entered.
-func (s *ParserListener) EnterIf_statement(ctx *parser.If_statementContext) {
+func (s *parserListener) EnterIf_statement(ctx *parser.If_statementContext) {
 	statement := &IfStatement{}
 	s.statementCallbacks.Peek()(&Statement{
 		IfStatement: statement,
@@ -370,12 +370,12 @@ func (s *ParserListener) EnterIf_statement(ctx *parser.If_statementContext) {
 }
 
 // ExitIf_statement is called when production if_statement is exited.
-func (s *ParserListener) ExitIf_statement(ctx *parser.If_statementContext) {
+func (s *parserListener) ExitIf_statement(ctx *parser.If_statementContext) {
 	s.clauseCallbacks.Pop()
 }
 
 // EnterIf_clause is called when production if_clause is entered.
-func (s *ParserListener) EnterIf_clause(ctx *parser.If_clauseContext) {
+func (s *parserListener) EnterIf_clause(ctx *parser.If_clauseContext) {
 	clause := &Clause{}
 	s.expressionCallbacks.Push(func(e *Expression) {
 		clause.Condition = e
@@ -391,13 +391,13 @@ func (s *ParserListener) EnterIf_clause(ctx *parser.If_clauseContext) {
 }
 
 // ExitIf_clause is called when production if_clause is exited.
-func (s *ParserListener) ExitIf_clause(ctx *parser.If_clauseContext) {
+func (s *parserListener) ExitIf_clause(ctx *parser.If_clauseContext) {
 	s.statementCallbacks.Pop()
 	s.lineStatementCallbacks.Pop()
 }
 
 // EnterElse_if_clause is called when production else_if_clause is entered.
-func (s *ParserListener) EnterElse_if_clause(ctx *parser.Else_if_clauseContext) {
+func (s *parserListener) EnterElse_if_clause(ctx *parser.Else_if_clauseContext) {
 	clause := &Clause{}
 	s.expressionCallbacks.Push(func(e *Expression) {
 		clause.Condition = e
@@ -413,13 +413,13 @@ func (s *ParserListener) EnterElse_if_clause(ctx *parser.Else_if_clauseContext) 
 }
 
 // ExitElse_if_clause is called when production else_if_clause is exited.
-func (s *ParserListener) ExitElse_if_clause(ctx *parser.Else_if_clauseContext) {
+func (s *parserListener) ExitElse_if_clause(ctx *parser.Else_if_clauseContext) {
 	s.statementCallbacks.Pop()
 	s.lineStatementCallbacks.Pop()
 }
 
 // EnterElse_clause is called when production else_clause is entered.
-func (s *ParserListener) EnterElse_clause(ctx *parser.Else_clauseContext) {
+func (s *parserListener) EnterElse_clause(ctx *parser.Else_clauseContext) {
 	clause := &Clause{
 		Condition: &Expression{
 			Value: NewBooleanValue(true),
@@ -435,13 +435,13 @@ func (s *ParserListener) EnterElse_clause(ctx *parser.Else_clauseContext) {
 }
 
 // ExitElse_clause is called when production else_clause is exited.
-func (s *ParserListener) ExitElse_clause(ctx *parser.Else_clauseContext) {
+func (s *parserListener) ExitElse_clause(ctx *parser.Else_clauseContext) {
 	s.statementCallbacks.Pop()
 	s.lineStatementCallbacks.Pop()
 }
 
 // EnterCommand_statement is called when production command_statement is entered.
-func (s *ParserListener) EnterCommand_statement(ctx *parser.Command_statementContext) {
+func (s *parserListener) EnterCommand_statement(ctx *parser.Command_statementContext) {
 	commandStatement := &CommandStatement{}
 	s.commandTextCallback = func(commandText string) {
 		commandStatement.Elements = append(commandStatement.Elements, &CommandStatementElement{
@@ -460,7 +460,7 @@ func (s *ParserListener) EnterCommand_statement(ctx *parser.Command_statementCon
 }
 
 // ExitCommand_statement is called when production command_statement is exited.
-func (s *ParserListener) ExitCommand_statement(ctx *parser.Command_statementContext) {
+func (s *parserListener) ExitCommand_statement(ctx *parser.Command_statementContext) {
 	s.commandTextCallback = nil
 	s.expressionCallbacks.Pop()
 	s.protoCommandStatement.rearrange()
@@ -468,7 +468,7 @@ func (s *ParserListener) ExitCommand_statement(ctx *parser.Command_statementCont
 }
 
 // EnterCall_statement is called when production call_statement is entered.
-func (s *ParserListener) EnterCall_statement(ctx *parser.Call_statementContext) {
+func (s *parserListener) EnterCall_statement(ctx *parser.Call_statementContext) {
 	s.functionCallCallback = func(call *FunctionCall) {
 		s.statementCallbacks.Peek()(&Statement{
 			CallStatement: &CallStatement{
@@ -479,12 +479,12 @@ func (s *ParserListener) EnterCall_statement(ctx *parser.Call_statementContext) 
 }
 
 // ExitCall_statement is called when production call_statement is exited.
-func (s *ParserListener) ExitCall_statement(ctx *parser.Call_statementContext) {
+func (s *parserListener) ExitCall_statement(ctx *parser.Call_statementContext) {
 	s.functionCallCallback = nil
 }
 
 // EnterExpValue is called when production expValue is entered.
-func (s *ParserListener) EnterExpValue(ctx *parser.ExpValueContext) {
+func (s *parserListener) EnterExpValue(ctx *parser.ExpValueContext) {
 	s.valueCallbacks.Push(func(v *Value) {
 		s.expressionCallbacks.Peek()(&Expression{
 			Value: v,
@@ -493,12 +493,12 @@ func (s *ParserListener) EnterExpValue(ctx *parser.ExpValueContext) {
 }
 
 // ExitExpValue is called when production expValue is exited.
-func (s *ParserListener) ExitExpValue(ctx *parser.ExpValueContext) {
+func (s *parserListener) ExitExpValue(ctx *parser.ExpValueContext) {
 	s.valueCallbacks.Pop()
 }
 
 // EnterDeclare_statement is called when production declare_statement is entered.
-func (s *ParserListener) EnterDeclare_statement(ctx *parser.Declare_statementContext) {
+func (s *parserListener) EnterDeclare_statement(ctx *parser.Declare_statementContext) {
 	declareStatement := &DeclareStatement{}
 	s.statementCallbacks.Peek()(&Statement{
 		DeclareStatement: declareStatement,
@@ -513,6 +513,6 @@ func (s *ParserListener) EnterDeclare_statement(ctx *parser.Declare_statementCon
 }
 
 // ExitDeclare_statement is called when production declare_statement is exited.
-func (s *ParserListener) ExitDeclare_statement(ctx *parser.Declare_statementContext) {
+func (s *parserListener) ExitDeclare_statement(ctx *parser.Declare_statementContext) {
 	s.valueCallbacks.Pop()
 }

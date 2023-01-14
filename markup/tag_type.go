@@ -1,10 +1,10 @@
 package markup
 
-type TagType int
+type tagType int8
 
 const (
-	TagTypeOpen = TagType(iota)
-	TagTypeClose
-	TagTypeSelfClosing
-	TagTypeCloseAll
+	tagTypeOpen = tagType(iota)
+	tagTypeClose
+	tagTypeSelfClosing
+	tagTypeCloseAll
 )

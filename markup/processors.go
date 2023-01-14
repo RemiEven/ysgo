@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-type markerProcessor func(*AttributeMarker) (string, error)
+type markerProcessor func(*attributeMarker) (string, error)
 
 func getProcessor(name string) markerProcessor {
 	switch name {
@@ -22,7 +22,7 @@ func getProcessor(name string) markerProcessor {
 	return nil
 }
 
-func processNoMarkup(marker *AttributeMarker) (string, error) {
+func processNoMarkup(marker *attributeMarker) (string, error) {
 	content, ok := marker.GetProperty(replacementMarkerContents)
 	if !ok {
 		return "", nil
@@ -30,7 +30,7 @@ func processNoMarkup(marker *AttributeMarker) (string, error) {
 	return content.toString(), nil
 }
 
-func processSelect(marker *AttributeMarker) (string, error) {
+func processSelect(marker *attributeMarker) (string, error) {
 	value, ok := marker.GetProperty("value")
 	if !ok {
 		return "", errors.New(`did not find a "value" property`)
@@ -48,7 +48,7 @@ func processSelect(marker *AttributeMarker) (string, error) {
 	return replacementString, nil
 }
 
-func processPlural(marker *AttributeMarker) (string, error) {
+func processPlural(marker *attributeMarker) (string, error) {
 	value, ok := marker.GetProperty("value")
 	if !ok {
 		return "", errors.New(`did not find a "value" property`)
@@ -76,7 +76,7 @@ func processPlural(marker *AttributeMarker) (string, error) {
 	return replacementString, nil
 }
 
-func processOrdinal(marker *AttributeMarker) (string, error) {
+func processOrdinal(marker *attributeMarker) (string, error) {
 	value, ok := marker.GetProperty("value")
 	if !ok {
 		return "", errors.New(`did not find a "value" property`)

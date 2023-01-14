@@ -26,7 +26,7 @@ func fromInputStream(input antlr.CharStream) (*Dialogue, error) {
 		lexer    = parser.NewYarnSpinnerLexer(input)
 		stream   = antlr.NewCommonTokenStream(lexer, antlr.LexerDefaultTokenChannel)
 		p        = parser.NewYarnSpinnerParser(stream)
-		listener = &ParserListener{}
+		listener = &parserListener{}
 	)
 
 	antlr.ParseTreeWalkerDefault.Walk(listener, p.Dialogue())

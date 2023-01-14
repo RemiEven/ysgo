@@ -14,12 +14,12 @@ type functionCaller interface {
 
 type YarnSpinnerFunction func([]*tree.Value) (*tree.Value, error)
 
-type FunctionStorer struct {
+type functionStorer struct {
 	functionsByID map[string]YarnSpinnerFunction
 }
 
-func newFunctionStorer(rng *rng.RNG) *FunctionStorer {
-	storer := &FunctionStorer{
+func newFunctionStorer(rng *rng.RNG) *functionStorer {
+	storer := &functionStorer{
 		functionsByID: map[string]YarnSpinnerFunction{
 			"string": toString,
 			"bool":   toBoolean,
@@ -48,11 +48,11 @@ func newFunctionStorer(rng *rng.RNG) *FunctionStorer {
 	return storer
 }
 
-func (storer *FunctionStorer) AddFunction(functionID string, function YarnSpinnerFunction) {
+func (storer *functionStorer) AddFunction(functionID string, function YarnSpinnerFunction) {
 	storer.functionsByID[functionID] = function
 }
 
-func (storer *FunctionStorer) ConvertAndAddFunction(functionID string, function any) error {
+func (storer *functionStorer) ConvertAndAddFunction(functionID string, function any) error {
 	yarnSpinnerFunction, err := newYarnSpinnerFunction(function)
 	if err != nil {
 		return fmt.Errorf("failed to convert function to use yarn spinner values: %w", err)
@@ -61,7 +61,7 @@ func (storer *FunctionStorer) ConvertAndAddFunction(functionID string, function 
 	return nil
 }
 
-func (storer *FunctionStorer) Call(functionID string, args []*tree.Value) (*tree.Value, error) {
+func (storer *functionStorer) Call(functionID string, args []*tree.Value) (*tree.Value, error) {
 	function, ok := storer.functionsByID[functionID]
 	if !ok {
 		return nil, fmt.Errorf("unknown function")
@@ -332,4 +332,4 @@ var argConverterByGoalKind map[reflect.Kind]func(*tree.Value) (reflect.Value, er
 	},
 }
 
-var _ functionCaller = (*FunctionStorer)(nil)
+var _ functionCaller = (*functionStorer)(nil)

@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-type ValueType int
+type ValueType int8
 
 const (
 	ValueTypeInteger = ValueType(iota)
@@ -13,15 +13,6 @@ const (
 	ValueTypeString
 	ValueTypeBool
 )
-
-func (valueType ValueType) String() string {
-	return map[ValueType]string{
-		ValueTypeInteger: "integer",
-		ValueTypeFloat:   "float",
-		ValueTypeString:  "string",
-		ValueTypeBool:    "boolean",
-	}[valueType]
-}
 
 type Value struct {
 	IntegerValue int
@@ -66,16 +57,16 @@ func toPropertyMap(properties []Property) map[string]Value {
 	return result
 }
 
-type AttributeMarker struct {
+type attributeMarker struct {
 	name           string
 	position       int
 	sourcePosition int
 	properties     []Property
-	tagType        TagType
+	tagType        tagType
 }
 
-func (attributeMarker *AttributeMarker) GetProperty(name string) (Value, bool) {
-	for _, property := range attributeMarker.properties {
+func (am *attributeMarker) GetProperty(name string) (Value, bool) {
+	for _, property := range am.properties {
 		if property.name == name {
 			return property.value, true
 		}

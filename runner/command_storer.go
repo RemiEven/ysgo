@@ -14,14 +14,14 @@ type commandCaller interface {
 
 type YarnSpinnerCommand func([]*tree.Value) <-chan error
 
-type CommandStorer struct {
+type commandStorer struct {
 	commandsByID map[string]YarnSpinnerCommand
 }
 
-var _ commandCaller = (*CommandStorer)(nil)
+var _ commandCaller = (*commandStorer)(nil)
 
-func newCommandStorer() *CommandStorer {
-	storer := &CommandStorer{
+func newCommandStorer() *commandStorer {
+	storer := &commandStorer{
 		commandsByID: map[string]YarnSpinnerCommand{
 			"wait": waitCommand,
 		},
@@ -30,7 +30,7 @@ func newCommandStorer() *CommandStorer {
 	return storer
 }
 
-func (storer *CommandStorer) Call(commandID string, args []*tree.Value) <-chan error {
+func (storer *commandStorer) Call(commandID string, args []*tree.Value) <-chan error {
 	command, ok := storer.commandsByID[commandID]
 	if !ok {
 		errChan := make(chan error, 1)
@@ -58,11 +58,11 @@ func waitCommand(args []*tree.Value) <-chan error {
 	return ch
 }
 
-func (storer *CommandStorer) AddCommand(commandID string, command YarnSpinnerCommand) {
+func (storer *commandStorer) AddCommand(commandID string, command YarnSpinnerCommand) {
 	storer.commandsByID[commandID] = command
 }
 
-func (storer *CommandStorer) ConvertAndAddCommand(commandID string, command any) error {
+func (storer *commandStorer) ConvertAndAddCommand(commandID string, command any) error {
 	yarnSpinnerCommand, err := newYarnSpinnerCommand(command)
 	if err != nil {
 		return fmt.Errorf("failed to convert command to use yarn spinner values: %w", err)
@@ -151,7 +151,7 @@ func checkCommandOutputParameters(commandType reflect.Type) (returnSignature, er
 	}
 }
 
-var _ commandCaller = (*CommandStorer)(nil)
+var _ commandCaller = (*commandStorer)(nil)
 
 func isTypeErrChan(t reflect.Type) bool {
 	if t.Kind() != reflect.Chan {
