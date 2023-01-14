@@ -5,7 +5,7 @@ import (
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 
-	"github.com/RemiEven/ysgo/parser"
+	"github.com/RemiEven/ysgo/internal/parser"
 )
 
 func FromString(scriptData string) (*Dialogue, error) {

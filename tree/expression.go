@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/RemiEven/ysgo/parser"
+	"github.com/RemiEven/ysgo/internal/parser"
 )
 
 const (

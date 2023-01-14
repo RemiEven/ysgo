@@ -6,7 +6,7 @@ import (
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 
 	"github.com/RemiEven/ysgo/internal/container"
-	"github.com/RemiEven/ysgo/parser"
+	"github.com/RemiEven/ysgo/internal/parser"
 )
 
 // ParserListener is a complete listener for a parse tree produced by YarnSpinnerParser.

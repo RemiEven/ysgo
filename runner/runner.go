@@ -14,7 +14,7 @@ import (
 
 type DialogueRunner struct {
 	dialogue        *tree.Dialogue
-	statementsToRun container.Stack[*StatementQueue] // TODO: would the name "next steps" be better here?
+	statementsToRun container.Stack[*StatementQueue]
 	lastStatement   *tree.Statement
 	variableStorer  VariableStorer
 	functionStorer  *FunctionStorer
@@ -60,7 +60,7 @@ func (dr *DialogueRunner) isWaitingForChoice() bool {
 	return dr.lastStatement != nil && dr.lastStatement.ShortcutOptionStatement != nil
 }
 
-func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) { // TODO: have nicer arguments there? like an input struct maybe?
+func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	if dr.commandErrChan != nil {
 		select {
 		case err := <-dr.commandErrChan:
