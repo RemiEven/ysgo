@@ -6,7 +6,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/RemiEven/ysgo/container"
+	"github.com/RemiEven/ysgo/internal/container"
 	"github.com/RemiEven/ysgo/markup"
 	"github.com/RemiEven/ysgo/runner/rng"
 	"github.com/RemiEven/ysgo/tree"

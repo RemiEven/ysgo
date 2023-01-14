@@ -3,8 +3,8 @@ package runner_test
 import (
 	"testing"
 
+	"github.com/RemiEven/ysgo/internal/testutils"
 	"github.com/RemiEven/ysgo/runner"
-	"github.com/RemiEven/ysgo/testutils"
 	"github.com/RemiEven/ysgo/tree"
 )
 

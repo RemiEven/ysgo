@@ -5,7 +5,7 @@ import (
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 
-	"github.com/RemiEven/ysgo/container"
+	"github.com/RemiEven/ysgo/internal/container"
 )
 
 type IndentAwareLexer struct {
