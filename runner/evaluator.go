@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/internal/tree"
 	"github.com/RemiEven/ysgo/variable"
 )
 

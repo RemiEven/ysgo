@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/RemiEven/ysgo/internal/testutils"
+	"github.com/RemiEven/ysgo/internal/tree"
 	"github.com/RemiEven/ysgo/runner"
-	"github.com/RemiEven/ysgo/tree"
 	"github.com/RemiEven/ysgo/variable"
 )
 

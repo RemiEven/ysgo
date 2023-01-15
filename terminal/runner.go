@@ -9,9 +9,9 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 
+	"github.com/RemiEven/ysgo/internal/tree"
 	"github.com/RemiEven/ysgo/markup"
 	"github.com/RemiEven/ysgo/runner"
-	"github.com/RemiEven/ysgo/tree"
 )
 
 type Runner struct {
