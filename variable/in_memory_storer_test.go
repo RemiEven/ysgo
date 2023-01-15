@@ -1,9 +1,9 @@
-package runner
+package variable
 
 import "testing"
 
-func TestInMemoryVariableStorer(t *testing.T) {
-	storer := NewInMemoryVariableStorer()
+func TestInMemoryStorer(t *testing.T) {
+	storer := NewInMemoryStorer()
 
 	t.Run("number storage", func(t *testing.T) {
 		const varName = "number"

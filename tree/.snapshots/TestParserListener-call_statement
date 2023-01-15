@@ -17,13 +17,13 @@
               FunctionID: (string) (len=6) "assert",
               Arguments: ([]*tree.Expression) (len=1) {
                 (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(1),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)(<nil>),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)(<nil>)
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),

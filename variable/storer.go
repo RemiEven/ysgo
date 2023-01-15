@@ -1,15 +1,13 @@
-package runner
+package variable
 
-import "github.com/RemiEven/ysgo/tree"
-
-type variableRetriever interface {
-	GetValue(variableName string) (*tree.Value, bool)
+type Retriever interface {
+	GetValue(variableName string) (*Value, bool)
 
 	Contains(variableName string) bool
 }
 
-type VariableStorer interface {
-	variableRetriever
+type Storer interface {
+	Retriever
 
 	SetNumberValue(variableName string, value float64)
 	SetBooleanValue(variableName string, value bool)

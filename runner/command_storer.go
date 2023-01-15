@@ -5,14 +5,14 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/variable"
 )
 
 type commandCaller interface {
-	Call(commandID string, args []*tree.Value) <-chan error
+	Call(commandID string, args []*variable.Value) <-chan error
 }
 
-type YarnSpinnerCommand func([]*tree.Value) <-chan error
+type YarnSpinnerCommand func([]*variable.Value) <-chan error
 
 type commandStorer struct {
 	commandsByID map[string]YarnSpinnerCommand
@@ -30,7 +30,7 @@ func newCommandStorer() *commandStorer {
 	return storer
 }
 
-func (storer *commandStorer) Call(commandID string, args []*tree.Value) <-chan error {
+func (storer *commandStorer) Call(commandID string, args []*variable.Value) <-chan error {
 	command, ok := storer.commandsByID[commandID]
 	if !ok {
 		errChan := make(chan error, 1)
@@ -40,14 +40,14 @@ func (storer *commandStorer) Call(commandID string, args []*tree.Value) <-chan e
 	return command(args)
 }
 
-func waitCommand(args []*tree.Value) <-chan error {
+func waitCommand(args []*variable.Value) <-chan error {
 	ch := make(chan error, 1)
 	if len(args) != 1 {
 		ch <- fmt.Errorf("expected exactly one argument")
 		return ch
 	}
 	duration := args[0]
-	if !duration.IsNumber() {
+	if duration.Number == nil {
 		ch <- fmt.Errorf("received a duration which was not a number")
 		return ch
 	}
@@ -87,7 +87,7 @@ func newYarnSpinnerCommand(command any) (YarnSpinnerCommand, error) {
 		return nil, fmt.Errorf("failed to create input converter: %w", err)
 	}
 
-	return func(args []*tree.Value) <-chan error {
+	return func(args []*variable.Value) <-chan error {
 		errChan := make(chan error, 1)
 		inputParameters, err := inputConverter(args)
 		if err != nil {

@@ -3,6 +3,8 @@ package tree
 import (
 	"strconv"
 	"strings"
+
+	"github.com/RemiEven/ysgo/variable"
 )
 
 type Dialogue struct {
@@ -126,21 +128,21 @@ func (cs *CommandStatement) split(str string) []*CommandStatementElement {
 	return elements
 }
 
-func valueFromCommandText(commandText string) *Value {
+func valueFromCommandText(commandText string) *variable.Value {
 	if commandText == "true" {
-		return NewBooleanValue(true)
+		return variable.NewBoolean(true)
 	} else if commandText == "false" {
-		return NewBooleanValue(false)
+		return variable.NewBoolean(false)
 	}
 
 	if commandText[0] == '+' { // see Antlr grammar, numbers don't start with + even though Go would be happy to parse them
-		return NewStringValue(commandText)
+		return variable.NewString(commandText)
 	}
 	numberValue, err := strconv.ParseFloat(commandText, 64)
 	if err == nil {
-		return NewNumberValue(numberValue)
+		return variable.NewNumber(numberValue)
 	}
-	return NewStringValue(commandText)
+	return variable.NewString(commandText)
 }
 
 type CallStatement struct {
@@ -149,5 +151,5 @@ type CallStatement struct {
 
 type DeclareStatement struct {
 	VariableID string
-	Value      *Value
+	Value      *Expression
 }

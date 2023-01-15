@@ -8,7 +8,7 @@ import (
 
 	"github.com/RemiEven/ysgo/internal/testutils"
 	"github.com/RemiEven/ysgo/runner/rng"
-	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/variable"
 )
 
 func TestRound(t *testing.T) {
@@ -214,36 +214,36 @@ func TestRandom(t *testing.T) {
 
 func TestToString(t *testing.T) {
 	tests := map[string]struct {
-		input          []*tree.Value
-		expectedResult *tree.Value
+		input          []*variable.Value
+		expectedResult *variable.Value
 		expectedErr    error
 	}{
 		"already a string": {
-			input:          []*tree.Value{tree.NewStringValue("hello")},
-			expectedResult: tree.NewStringValue("hello"),
+			input:          []*variable.Value{variable.NewString("hello")},
+			expectedResult: variable.NewString("hello"),
 		},
 		"number value (integer)": {
-			input:          []*tree.Value{tree.NewNumberValue(8)},
-			expectedResult: tree.NewStringValue("8"),
+			input:          []*variable.Value{variable.NewNumber(8)},
+			expectedResult: variable.NewString("8"),
 		},
 		"number value (with decimals)": {
-			input:          []*tree.Value{tree.NewNumberValue(5.22)},
-			expectedResult: tree.NewStringValue("5.22"),
+			input:          []*variable.Value{variable.NewNumber(5.22)},
+			expectedResult: variable.NewString("5.22"),
 		},
 		"boolean value": {
-			input:          []*tree.Value{tree.NewBooleanValue(true)},
-			expectedResult: tree.NewStringValue("True"),
+			input:          []*variable.Value{variable.NewBoolean(true)},
+			expectedResult: variable.NewString("True"),
 		},
 		"empty value": {
-			input:       []*tree.Value{{}},
+			input:       []*variable.Value{{}},
 			expectedErr: errors.New("received a value which was not a number, a boolean or a string"),
 		},
 		"no arguments": {
-			input:       []*tree.Value{},
+			input:       []*variable.Value{},
 			expectedErr: errors.New("expected exactly one argument"),
 		},
 		"too many arguments": {
-			input:       []*tree.Value{tree.NewBooleanValue(true), tree.NewBooleanValue(true)},
+			input:       []*variable.Value{variable.NewBoolean(true), variable.NewBoolean(true)},
 			expectedErr: errors.New("expected exactly one argument"),
 		},
 	}
@@ -265,44 +265,44 @@ func TestToString(t *testing.T) {
 
 func TestToBoolean(t *testing.T) {
 	tests := map[string]struct {
-		input          []*tree.Value
-		expectedResult *tree.Value
+		input          []*variable.Value
+		expectedResult *variable.Value
 		expectedErr    error
 	}{
 		"already a boolean": {
-			input:          []*tree.Value{tree.NewBooleanValue(true)},
-			expectedResult: tree.NewBooleanValue(true),
+			input:          []*variable.Value{variable.NewBoolean(true)},
+			expectedResult: variable.NewBoolean(true),
 		},
 		"number value (non zero)": {
-			input:          []*tree.Value{tree.NewNumberValue(8)},
-			expectedResult: tree.NewBooleanValue(true),
+			input:          []*variable.Value{variable.NewNumber(8)},
+			expectedResult: variable.NewBoolean(true),
 		},
 		"number value (zero)": {
-			input:          []*tree.Value{tree.NewNumberValue(0)},
-			expectedResult: tree.NewBooleanValue(false),
+			input:          []*variable.Value{variable.NewNumber(0)},
+			expectedResult: variable.NewBoolean(false),
 		},
 		"string value (false)": {
-			input:          []*tree.Value{tree.NewStringValue("false")},
-			expectedResult: tree.NewBooleanValue(false),
+			input:          []*variable.Value{variable.NewString("false")},
+			expectedResult: variable.NewBoolean(false),
 		},
 		"string value (true)": {
-			input:          []*tree.Value{tree.NewStringValue("true")},
-			expectedResult: tree.NewBooleanValue(true),
+			input:          []*variable.Value{variable.NewString("true")},
+			expectedResult: variable.NewBoolean(true),
 		},
 		"string value (not a boolean)": {
-			input:       []*tree.Value{tree.NewStringValue("not a boolean")},
+			input:       []*variable.Value{variable.NewString("not a boolean")},
 			expectedErr: errors.New(`failed to parse boolean from string: strconv.ParseBool: parsing "not a boolean": invalid syntax`),
 		},
 		"empty value": {
-			input:       []*tree.Value{{}},
+			input:       []*variable.Value{{}},
 			expectedErr: errors.New("received a value which was not a number, a boolean or a string"),
 		},
 		"no arguments": {
-			input:       []*tree.Value{},
+			input:       []*variable.Value{},
 			expectedErr: errors.New("expected exactly one argument"),
 		},
 		"too many arguments": {
-			input:       []*tree.Value{tree.NewBooleanValue(true), tree.NewBooleanValue(true)},
+			input:       []*variable.Value{variable.NewBoolean(true), variable.NewBoolean(true)},
 			expectedErr: errors.New("expected exactly one argument"),
 		},
 	}
@@ -324,44 +324,44 @@ func TestToBoolean(t *testing.T) {
 
 func TestToFloat(t *testing.T) {
 	tests := map[string]struct {
-		input          []*tree.Value
-		expectedResult *tree.Value
+		input          []*variable.Value
+		expectedResult *variable.Value
 		expectedErr    error
 	}{
 		"already a number": {
-			input:          []*tree.Value{tree.NewNumberValue(1.23)},
-			expectedResult: tree.NewNumberValue(1.23),
+			input:          []*variable.Value{variable.NewNumber(1.23)},
+			expectedResult: variable.NewNumber(1.23),
 		},
 		"boolean value (true)": {
-			input:          []*tree.Value{tree.NewBooleanValue(true)},
-			expectedResult: tree.NewNumberValue(1),
+			input:          []*variable.Value{variable.NewBoolean(true)},
+			expectedResult: variable.NewNumber(1),
 		},
 		"boolean value (false)": {
-			input:          []*tree.Value{tree.NewBooleanValue(false)},
-			expectedResult: tree.NewNumberValue(0),
+			input:          []*variable.Value{variable.NewBoolean(false)},
+			expectedResult: variable.NewNumber(0),
 		},
 		"string value (integer)": {
-			input:          []*tree.Value{tree.NewStringValue("1")},
-			expectedResult: tree.NewNumberValue(1),
+			input:          []*variable.Value{variable.NewString("1")},
+			expectedResult: variable.NewNumber(1),
 		},
 		"string value (negative, with decimals)": {
-			input:          []*tree.Value{tree.NewStringValue("-1.74")},
-			expectedResult: tree.NewNumberValue(-1.74),
+			input:          []*variable.Value{variable.NewString("-1.74")},
+			expectedResult: variable.NewNumber(-1.74),
 		},
 		"string value (not a number)": {
-			input:       []*tree.Value{tree.NewStringValue("not a number")},
+			input:       []*variable.Value{variable.NewString("not a number")},
 			expectedErr: errors.New(`failed to parse number from string: strconv.ParseFloat: parsing "not a number": invalid syntax`),
 		},
 		"empty value": {
-			input:       []*tree.Value{{}},
+			input:       []*variable.Value{{}},
 			expectedErr: errors.New("received a value which was not a number, a boolean or a string"),
 		},
 		"no arguments": {
-			input:       []*tree.Value{},
+			input:       []*variable.Value{},
 			expectedErr: errors.New("expected exactly one argument"),
 		},
 		"too many arguments": {
-			input:       []*tree.Value{tree.NewBooleanValue(true), tree.NewBooleanValue(true)},
+			input:       []*variable.Value{variable.NewBoolean(true), variable.NewBoolean(true)},
 			expectedErr: errors.New("expected exactly one argument"),
 		},
 	}

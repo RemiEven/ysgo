@@ -6,6 +6,7 @@ import (
 	"github.com/RemiEven/ysgo/internal/testutils"
 	"github.com/RemiEven/ysgo/runner"
 	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/variable"
 )
 
 func TestRunnerPlan(t *testing.T) {
@@ -62,7 +63,7 @@ func TestRunnerPlan(t *testing.T) {
 
 			commandOutputs := []string{}
 			addTestCommand := func(commandName string) {
-				dr.AddCommand(commandName, func(args []*tree.Value) <-chan error {
+				dr.AddCommand(commandName, func(args []*variable.Value) <-chan error {
 					output := commandName
 					for _, arg := range args {
 						output += " " + arg.ToString()

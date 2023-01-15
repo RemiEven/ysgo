@@ -1,10 +1,8 @@
 package tree
 
 import (
-	"fmt"
-	"strconv"
-
 	"github.com/RemiEven/ysgo/internal/parser"
+	"github.com/RemiEven/ysgo/variable"
 )
 
 const (
@@ -66,72 +64,19 @@ func tokenToInplaceOperator(token int) (*int, bool) {
 }
 
 type Expression struct {
-	Value                     *Value
+	Value                     *variable.Value
+	VariableID                *string
+	FunctionCall              *FunctionCall
 	NegativeExpression        *Expression
 	NotExpression             *Expression
 	LeftOperand, RightOperand *Expression
 	Operator                  *int
 }
 
-type Value struct {
-	Number       *float64
-	Boolean      *bool
-	String       *string
-	VariableID   *string
-	FunctionCall *FunctionCall
-}
-
-func NewNumberValue(number float64) *Value {
-	return &Value{
-		Number: &number,
+func NewStringExpression(str string) *Expression {
+	return &Expression{
+		Value: variable.NewString(str),
 	}
-}
-
-func NewBooleanValue(boolean bool) *Value {
-	return &Value{
-		Boolean: &boolean,
-	}
-}
-
-func NewStringValue(str string) *Value {
-	return &Value{
-		String: &str,
-	}
-}
-
-func (v *Value) IsNumber() bool {
-	return v.Number != nil || v.FunctionCall != nil
-}
-
-func (v *Value) IsBoolean() bool {
-	return v.Boolean != nil || v.FunctionCall != nil
-}
-
-func (v *Value) IsString() bool {
-	return v.String != nil || v.FunctionCall != nil
-}
-
-func (v *Value) ToString() string {
-	switch {
-	case v.IsNumber():
-		n := *v.Number
-		if n == float64(int(n)) {
-			return strconv.Itoa(int(n))
-		}
-		return fmt.Sprint(n)
-	case v.IsBoolean():
-		if *v.Boolean {
-			return "True"
-		}
-		return "False"
-	case v.IsString():
-		return *v.String
-	case v.VariableID != nil:
-		return "$" + *v.VariableID
-	case v.FunctionCall != nil:
-		return v.FunctionCall.FunctionID + "(...)"
-	}
-	return "empty value"
 }
 
 type FunctionCall struct {

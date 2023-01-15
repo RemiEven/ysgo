@@ -7,30 +7,30 @@ import (
 	"strconv"
 
 	"github.com/RemiEven/ysgo/runner/rng"
-	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/variable"
 )
 
-func toString(args []*tree.Value) (*tree.Value, error) {
+func toString(args []*variable.Value) (*variable.Value, error) {
 	if len(args) != 1 {
 		return nil, fmt.Errorf("expected exactly one argument")
 	}
 	toConvert := args[0]
-	if !(toConvert.IsBoolean() || toConvert.IsString() || toConvert.IsNumber()) {
+	if toConvert.Number == nil && toConvert.Boolean == nil && toConvert.String == nil {
 		return nil, errors.New("received a value which was not a number, a boolean or a string")
 	}
-	return tree.NewStringValue(toConvert.ToString()), nil
+	return variable.NewString(toConvert.ToString()), nil
 }
 
 var _ = (YarnSpinnerFunction)(toString)
 
-func toBoolean(args []*tree.Value) (*tree.Value, error) {
+func toBoolean(args []*variable.Value) (*variable.Value, error) {
 	if len(args) != 1 {
 		return nil, fmt.Errorf("expected exactly one argument")
 	}
 	toConvert := args[0]
 	switch {
 	case toConvert.Number != nil:
-		return tree.NewBooleanValue(*toConvert.Number != 0), nil
+		return variable.NewBoolean(*toConvert.Number != 0), nil
 	case toConvert.Boolean != nil:
 		return toConvert, nil
 	case toConvert.String != nil:
@@ -38,14 +38,14 @@ func toBoolean(args []*tree.Value) (*tree.Value, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse boolean from string: %w", err)
 		}
-		return tree.NewBooleanValue(b), nil
+		return variable.NewBoolean(b), nil
 	}
 	return nil, fmt.Errorf("received a value which was not a number, a boolean or a string")
 }
 
 var _ = (YarnSpinnerFunction)(toBoolean)
 
-func toFloat(args []*tree.Value) (*tree.Value, error) {
+func toFloat(args []*variable.Value) (*variable.Value, error) {
 	if len(args) != 1 {
 		return nil, fmt.Errorf("expected exactly one argument")
 	}
@@ -58,13 +58,13 @@ func toFloat(args []*tree.Value) (*tree.Value, error) {
 		if *toConvert.Boolean {
 			value = 1
 		}
-		return tree.NewNumberValue(value), nil
+		return variable.NewNumber(value), nil
 	case toConvert.String != nil:
 		f, err := strconv.ParseFloat(*toConvert.String, 64)
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse number from string: %w", err)
 		}
-		return tree.NewNumberValue(f), nil
+		return variable.NewNumber(f), nil
 	}
 	return nil, fmt.Errorf("received a value which was not a number, a boolean or a string")
 }

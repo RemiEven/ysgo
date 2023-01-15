@@ -16,13 +16,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)((len=4) "wait"),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)((len=4) "wait")
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -33,13 +33,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(2),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)(<nil>),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)(<nil>)
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -63,13 +63,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)((len=9) "setsprite"),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)((len=9) "setsprite")
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -80,13 +80,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)((len=8) "ShipName"),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)((len=8) "ShipName")
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -97,13 +97,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)((len=5) "happy"),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)((len=5) "happy")
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -127,13 +127,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)((len=8) "fade_out"),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)((len=8) "fade_out")
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -157,13 +157,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)((len=9) "setsprite"),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)((len=9) "setsprite")
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -174,13 +174,9 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
-                    Number: (*float64)(<nil>),
-                    Boolean: (*bool)(<nil>),
-                    String: (*string)(<nil>),
-                    VariableID: (*string)((len=6) "sprite"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
-                  }),
+                  Value: (*variable.Value)(<nil>),
+                  VariableID: (*string)((len=6) "sprite"),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -204,13 +200,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)((len=4) "flip"),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)((len=4) "flip")
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -221,13 +217,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)((len=7) "Harley3"),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)((len=7) "Harley3")
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),
@@ -238,13 +234,13 @@
               (*tree.CommandStatementElement)({
                 text: (string) "",
                 Expression: (*tree.Expression)({
-                  Value: (*tree.Value)({
+                  Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(<nil>),
-                    String: (*string)((len=2) "+1"),
-                    VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>)
+                    String: (*string)((len=2) "+1")
                   }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*tree.FunctionCall)(<nil>),
                   NegativeExpression: (*tree.Expression)(<nil>),
                   NotExpression: (*tree.Expression)(<nil>),
                   LeftOperand: (*tree.Expression)(<nil>),

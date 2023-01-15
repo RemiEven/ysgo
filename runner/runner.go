@@ -10,13 +10,14 @@ import (
 	"github.com/RemiEven/ysgo/markup"
 	"github.com/RemiEven/ysgo/runner/rng"
 	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/variable"
 )
 
 type DialogueRunner struct {
 	dialogue        *tree.Dialogue
 	statementsToRun container.Stack[*statementQueue]
 	lastStatement   *tree.Statement
-	variableStorer  VariableStorer
+	variableStorer  variable.Storer
 	functionStorer  *functionStorer
 	commandStorer   *commandStorer
 	commandErrChan  <-chan error
@@ -167,13 +168,13 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	return nil, errors.New("encountered an unsupported type of statement")
 }
 
-func NewDialogueRunner(dialogue *tree.Dialogue, storer VariableStorer, rngSeed string) (*DialogueRunner, error) {
+func NewDialogueRunner(dialogue *tree.Dialogue, storer variable.Storer, rngSeed string) (*DialogueRunner, error) {
 	statementsToRun := container.Stack[*statementQueue]{}
 	firstNode := dialogue.Nodes[0]
 	statementsToRun.Push(&statementQueue{statements: firstNode.Statements})
 
 	if storer == nil {
-		storer = NewInMemoryVariableStorer()
+		storer = variable.NewInMemoryStorer()
 	}
 
 	rng, err := rng.NewRNG(rngSeed)
@@ -213,9 +214,9 @@ func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) erro
 	previousValue, ok := dr.variableStorer.GetValue(statement.VariableID)
 
 	if ok {
-		bothValuesAreNumbers := value.IsNumber() && previousValue.IsNumber()
-		bothValuesAreBooleans := value.IsBoolean() && previousValue.IsBoolean()
-		bothValuesAreStrings := value.IsString() && previousValue.IsString()
+		bothValuesAreNumbers := value.Number != nil && previousValue.Number != nil
+		bothValuesAreBooleans := value.Boolean != nil && previousValue.Boolean != nil
+		bothValuesAreStrings := value.String != nil && previousValue.String != nil
 		if !(bothValuesAreNumbers || bothValuesAreBooleans || bothValuesAreStrings) {
 			return fmt.Errorf("variable [%s] type cannot be changed", statement.VariableID)
 		}
@@ -224,37 +225,39 @@ func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) erro
 	}
 
 	switch {
-	case value.IsNumber():
+	case value.Number != nil:
 		var newNumberValue float64
+		numberValue := *value.Number
 		switch statement.InPlaceOperator {
 		case tree.AssignmentInPlaceOperator:
-			newNumberValue = *value.Number
+			newNumberValue = numberValue
 		case tree.MultiplicationInPlaceOperator:
-			newNumberValue = (*previousValue.Number) * (*value.Number)
+			newNumberValue = (*previousValue.Number) * (numberValue)
 		case tree.DivisionInPlaceOperator:
-			newNumberValue = (*previousValue.Number) / (*value.Number)
+			newNumberValue = (*previousValue.Number) / (numberValue)
 		case tree.ModuloInPlaceOperator:
-			newNumberValue = math.Mod(*previousValue.Number, *value.Number)
+			newNumberValue = math.Mod(*previousValue.Number, numberValue)
 		case tree.AdditionInPlaceOperator:
-			newNumberValue = (*previousValue.Number) + (*value.Number)
+			newNumberValue = (*previousValue.Number) + (numberValue)
 		case tree.SubtractionInPlaceOperator:
-			newNumberValue = (*previousValue.Number) - (*value.Number)
+			newNumberValue = (*previousValue.Number) - (numberValue)
 		default:
 			return fmt.Errorf("unknown assignment operator encountered")
 		}
 		dr.variableStorer.SetNumberValue(statement.VariableID, newNumberValue)
-	case value.IsBoolean():
+	case value.Boolean != nil:
 		if statement.InPlaceOperator != tree.AssignmentInPlaceOperator {
 			return fmt.Errorf("unsupported assignment operator for boolean variable encountered")
 		}
 		dr.variableStorer.SetBooleanValue(statement.VariableID, *value.Boolean)
-	case value.IsString():
+	case value.String != nil:
 		var newStringValue string
+		stringValue := *value.String
 		switch statement.InPlaceOperator {
 		case tree.AssignmentInPlaceOperator:
-			newStringValue = *value.String
+			newStringValue = stringValue
 		case tree.AdditionInPlaceOperator:
-			newStringValue = (*value.String) + (*previousValue.String)
+			newStringValue = (stringValue) + (*previousValue.String)
 		default:
 			return fmt.Errorf("unsupported assignment operator for string variable encountered")
 		}
@@ -293,7 +296,7 @@ func (dr *DialogueRunner) executeIfStatement(statement *tree.IfStatement) error 
 		condition, err := evaluateExpression(clause.Condition, dr.variableStorer, dr.functionStorer)
 		if err != nil {
 			return fmt.Errorf("failed to evaluate condition: %w", err)
-		} else if !condition.IsBoolean() {
+		} else if condition.Boolean == nil {
 			return fmt.Errorf("condition must be a boolean")
 		}
 		if *condition.Boolean {
@@ -308,7 +311,7 @@ func (dr *DialogueRunner) executeCommandStatement(statement *tree.CommandStateme
 	if len(statement.Elements) == 0 {
 		return false, fmt.Errorf("missing command name")
 	}
-	values := make([]*tree.Value, 0, len(statement.Elements))
+	values := make([]*variable.Value, 0, len(statement.Elements))
 	for i := range statement.Elements {
 		value, err := evaluateExpression(statement.Elements[i].Expression, dr.variableStorer, dr.functionStorer)
 		if err != nil {
@@ -341,7 +344,7 @@ func (dr *DialogueRunner) executeCommandStatement(statement *tree.CommandStateme
 }
 
 func (dr *DialogueRunner) executeCallStatement(statement *tree.CallStatement) error {
-	values := make([]*tree.Value, 0, len(statement.Arguments))
+	values := make([]*variable.Value, 0, len(statement.Arguments))
 	for i := range statement.Arguments {
 		value, err := evaluateExpression(statement.Arguments[i], dr.variableStorer, dr.functionStorer)
 		if err != nil {
@@ -361,9 +364,7 @@ func (dr *DialogueRunner) executeDeclareStatement(statement *tree.DeclareStateme
 	return dr.executeSetStatement(&tree.SetStatement{
 		VariableID:      statement.VariableID,
 		InPlaceOperator: tree.AssignmentInPlaceOperator,
-		Expression: &tree.Expression{
-			Value: statement.Value,
-		},
+		Expression:      statement.Value,
 	})
 }
 

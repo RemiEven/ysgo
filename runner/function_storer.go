@@ -5,14 +5,14 @@ import (
 	"reflect"
 
 	"github.com/RemiEven/ysgo/runner/rng"
-	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/variable"
 )
 
 type functionCaller interface {
-	Call(functionID string, args []*tree.Value) (*tree.Value, error)
+	Call(functionID string, args []*variable.Value) (*variable.Value, error)
 }
 
-type YarnSpinnerFunction func([]*tree.Value) (*tree.Value, error)
+type YarnSpinnerFunction func([]*variable.Value) (*variable.Value, error)
 
 type functionStorer struct {
 	functionsByID map[string]YarnSpinnerFunction
@@ -61,7 +61,7 @@ func (storer *functionStorer) ConvertAndAddFunction(functionID string, function 
 	return nil
 }
 
-func (storer *functionStorer) Call(functionID string, args []*tree.Value) (*tree.Value, error) {
+func (storer *functionStorer) Call(functionID string, args []*variable.Value) (*variable.Value, error) {
 	function, ok := storer.functionsByID[functionID]
 	if !ok {
 		return nil, fmt.Errorf("unknown function")
@@ -91,7 +91,7 @@ func newYarnSpinnerFunction(function any) (YarnSpinnerFunction, error) {
 		return nil, fmt.Errorf("failed to create input converter: %w", err)
 	}
 
-	return func(args []*tree.Value) (*tree.Value, error) {
+	return func(args []*variable.Value) (*variable.Value, error) {
 		inputParameters, err := inputConverter(args)
 		if err != nil {
 			return nil, fmt.Errorf("failed to convert input parameters: %w", err)
@@ -147,16 +147,16 @@ func isTypeConvertibleToValue(t reflect.Type) bool {
 	return false
 }
 
-func getTreeValue(v reflect.Value) (*tree.Value, error) {
+func getTreeValue(v reflect.Value) (*variable.Value, error) {
 	switch {
 	case v.CanFloat():
-		return tree.NewNumberValue(v.Float()), nil
+		return variable.NewNumber(v.Float()), nil
 	case v.CanInt():
-		return tree.NewNumberValue(float64(v.Int())), nil
+		return variable.NewNumber(float64(v.Int())), nil
 	case v.Kind() == reflect.Bool:
-		return tree.NewBooleanValue(v.Bool()), nil
+		return variable.NewBoolean(v.Bool()), nil
 	case v.Kind() == reflect.String:
-		return tree.NewStringValue(v.String()), nil
+		return variable.NewString(v.String()), nil
 	}
 	return nil, fmt.Errorf("unsupported value type received when trying to create a tree value")
 }
@@ -198,14 +198,14 @@ func checkFunctionOutputParameters(functionType reflect.Type) (returnSignature, 
 	}
 }
 
-func createInputConverter(functionType reflect.Type) (func([]*tree.Value) ([]reflect.Value, error), error) {
+func createInputConverter(functionType reflect.Type) (func([]*variable.Value) ([]reflect.Value, error), error) {
 	isVariadic := functionType.IsVariadic()
 	if isVariadic {
 		return createVariadicInputConverter(functionType)
 	}
 
 	numIn := functionType.NumIn()
-	argConverters := make([]func(*tree.Value) (reflect.Value, error), 0, numIn)
+	argConverters := make([]func(*variable.Value) (reflect.Value, error), 0, numIn)
 	for i := 0; i < numIn; i++ {
 		argConverter, ok := argConverterByGoalKind[functionType.In(i).Kind()]
 		if !ok {
@@ -213,7 +213,7 @@ func createInputConverter(functionType reflect.Type) (func([]*tree.Value) ([]ref
 		}
 		argConverters = append(argConverters, argConverter)
 	}
-	return func(args []*tree.Value) ([]reflect.Value, error) {
+	return func(args []*variable.Value) ([]reflect.Value, error) {
 		if len(args) < numIn {
 			return nil, fmt.Errorf("received too few arguments")
 		} else if len(args) > numIn {
@@ -233,9 +233,9 @@ func createInputConverter(functionType reflect.Type) (func([]*tree.Value) ([]ref
 	}, nil
 }
 
-func createVariadicInputConverter(functionType reflect.Type) (func([]*tree.Value) ([]reflect.Value, error), error) {
+func createVariadicInputConverter(functionType reflect.Type) (func([]*variable.Value) ([]reflect.Value, error), error) {
 	numIn := functionType.NumIn()
-	argConverters := make([]func(*tree.Value) (reflect.Value, error), 0, numIn)
+	argConverters := make([]func(*variable.Value) (reflect.Value, error), 0, numIn)
 	for i := 0; i < numIn-1; i++ {
 		argConverter, ok := argConverterByGoalKind[functionType.In(i).Kind()]
 		if !ok {
@@ -249,7 +249,7 @@ func createVariadicInputConverter(functionType reflect.Type) (func([]*tree.Value
 		return nil, fmt.Errorf("argument number %d has an unsupported type %v", numIn-1, functionType.In(numIn-1).Kind())
 	}
 
-	return func(args []*tree.Value) ([]reflect.Value, error) {
+	return func(args []*variable.Value) ([]reflect.Value, error) {
 		if len(args) < numIn-1 {
 			return nil, fmt.Errorf("received too few arguments")
 		}
@@ -275,56 +275,56 @@ func createVariadicInputConverter(functionType reflect.Type) (func([]*tree.Value
 	}, nil
 }
 
-var argConverterByGoalKind map[reflect.Kind]func(*tree.Value) (reflect.Value, error) = map[reflect.Kind]func(*tree.Value) (reflect.Value, error){
-	reflect.Int: func(value *tree.Value) (reflect.Value, error) {
+var argConverterByGoalKind map[reflect.Kind]func(*variable.Value) (reflect.Value, error) = map[reflect.Kind]func(*variable.Value) (reflect.Value, error){
+	reflect.Int: func(value *variable.Value) (reflect.Value, error) {
 		if value.Number == nil {
 			return reflect.Value{}, fmt.Errorf("expected a number value but got something else")
 		}
 		return reflect.ValueOf(int(*value.Number)), nil
 	},
-	reflect.Int8: func(value *tree.Value) (reflect.Value, error) {
+	reflect.Int8: func(value *variable.Value) (reflect.Value, error) {
 		if value.Number == nil {
 			return reflect.Value{}, fmt.Errorf("expected a number value but got something else")
 		}
 		return reflect.ValueOf(int8(*value.Number)), nil
 	},
-	reflect.Int16: func(value *tree.Value) (reflect.Value, error) {
+	reflect.Int16: func(value *variable.Value) (reflect.Value, error) {
 		if value.Number == nil {
 			return reflect.Value{}, fmt.Errorf("expected a number value but got something else")
 		}
 		return reflect.ValueOf(int16(*value.Number)), nil
 	},
-	reflect.Int32: func(value *tree.Value) (reflect.Value, error) {
+	reflect.Int32: func(value *variable.Value) (reflect.Value, error) {
 		if value.Number == nil {
 			return reflect.Value{}, fmt.Errorf("expected a number value but got something else")
 		}
 		return reflect.ValueOf(int32(*value.Number)), nil
 	},
-	reflect.Int64: func(value *tree.Value) (reflect.Value, error) {
+	reflect.Int64: func(value *variable.Value) (reflect.Value, error) {
 		if value.Number == nil {
 			return reflect.Value{}, fmt.Errorf("expected a number value but got something else")
 		}
 		return reflect.ValueOf(int64(*value.Number)), nil
 	},
-	reflect.Float32: func(value *tree.Value) (reflect.Value, error) {
+	reflect.Float32: func(value *variable.Value) (reflect.Value, error) {
 		if value.Number == nil {
 			return reflect.Value{}, fmt.Errorf("expected a number value but got something else")
 		}
 		return reflect.ValueOf(float32(*value.Number)), nil
 	},
-	reflect.Float64: func(value *tree.Value) (reflect.Value, error) {
+	reflect.Float64: func(value *variable.Value) (reflect.Value, error) {
 		if value.Number == nil {
 			return reflect.Value{}, fmt.Errorf("expected a number value but got something else")
 		}
 		return reflect.ValueOf(float64(*value.Number)), nil
 	},
-	reflect.Bool: func(value *tree.Value) (reflect.Value, error) {
+	reflect.Bool: func(value *variable.Value) (reflect.Value, error) {
 		if value.Boolean == nil {
 			return reflect.Value{}, fmt.Errorf("expected a boolean value but got something else")
 		}
 		return reflect.ValueOf(*value.Boolean), nil
 	},
-	reflect.String: func(value *tree.Value) (reflect.Value, error) {
+	reflect.String: func(value *variable.Value) (reflect.Value, error) {
 		if value.String == nil {
 			return reflect.Value{}, fmt.Errorf("expected a string value but got something else")
 		}

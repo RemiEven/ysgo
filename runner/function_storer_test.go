@@ -6,15 +6,15 @@ import (
 	"testing"
 
 	"github.com/RemiEven/ysgo/internal/testutils"
-	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/variable"
 )
 
 func TestNewYarnSpinnerFunction(t *testing.T) {
 	tests := map[string]struct {
 		function                any
 		expectedConversionError error
-		inputParameters         []*tree.Value
-		expectedValue           *tree.Value
+		inputParameters         []*variable.Value
+		expectedValue           *variable.Value
 		expectedError           error
 	}{
 		"input is not a function": {
@@ -26,19 +26,19 @@ func TestNewYarnSpinnerFunction(t *testing.T) {
 		},
 		"no arg, int value return": {
 			function:      func() int { return 1 },
-			expectedValue: tree.NewNumberValue(1),
+			expectedValue: variable.NewNumber(1),
 		},
 		"no arg, float value return": {
 			function:      func() float64 { return 1 },
-			expectedValue: tree.NewNumberValue(1),
+			expectedValue: variable.NewNumber(1),
 		},
 		"no arg, bool value return": {
 			function:      func() bool { return true },
-			expectedValue: tree.NewBooleanValue(true),
+			expectedValue: variable.NewBoolean(true),
 		},
 		"no arg, string value return": {
 			function:      func() string { return "hello world" },
-			expectedValue: tree.NewStringValue("hello world"),
+			expectedValue: variable.NewString("hello world"),
 		},
 		"no arg, error value (nil) return": {
 			function: func() error { return nil },
@@ -49,7 +49,7 @@ func TestNewYarnSpinnerFunction(t *testing.T) {
 		},
 		"no arg, value and error (nil) return": {
 			function:      func() (string, error) { return "hello world", nil },
-			expectedValue: tree.NewStringValue("hello world"),
+			expectedValue: variable.NewString("hello world"),
 		},
 		"no arg, value and error (non-nil) return": {
 			function:      func() (string, error) { return "hello world", errors.New("some error") },
@@ -73,83 +73,83 @@ func TestNewYarnSpinnerFunction(t *testing.T) {
 		},
 		"one int arg": {
 			function:        func(i int) {},
-			inputParameters: []*tree.Value{tree.NewNumberValue(3)},
+			inputParameters: []*variable.Value{variable.NewNumber(3)},
 		},
 		"one int arg, wrong argument when calling function": {
 			function:        func(i int) {},
-			inputParameters: []*tree.Value{tree.NewStringValue("not a number")},
+			inputParameters: []*variable.Value{variable.NewString("not a number")},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a number value but got something else"),
 		},
 		"one int8 arg": {
 			function:        func(i int8) {},
-			inputParameters: []*tree.Value{tree.NewNumberValue(3)},
+			inputParameters: []*variable.Value{variable.NewNumber(3)},
 		},
 		"one int8 arg, wrong argument when calling function": {
 			function:        func(i int8) {},
-			inputParameters: []*tree.Value{tree.NewStringValue("not a number")},
+			inputParameters: []*variable.Value{variable.NewString("not a number")},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a number value but got something else"),
 		},
 		"one int16 arg": {
 			function:        func(i int16) {},
-			inputParameters: []*tree.Value{tree.NewNumberValue(3)},
+			inputParameters: []*variable.Value{variable.NewNumber(3)},
 		},
 		"one int16 arg, wrong argument when calling function": {
 			function:        func(i int16) {},
-			inputParameters: []*tree.Value{tree.NewStringValue("not a number")},
+			inputParameters: []*variable.Value{variable.NewString("not a number")},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a number value but got something else"),
 		},
 		"one int32 arg": {
 			function:        func(i int32) {},
-			inputParameters: []*tree.Value{tree.NewNumberValue(3)},
+			inputParameters: []*variable.Value{variable.NewNumber(3)},
 		},
 		"one int32 arg, wrong argument when calling function": {
 			function:        func(i int32) {},
-			inputParameters: []*tree.Value{tree.NewStringValue("not a number")},
+			inputParameters: []*variable.Value{variable.NewString("not a number")},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a number value but got something else"),
 		},
 		"one int64 arg": {
 			function:        func(i int64) {},
-			inputParameters: []*tree.Value{tree.NewNumberValue(3)},
+			inputParameters: []*variable.Value{variable.NewNumber(3)},
 		},
 		"one int64 arg, wrong argument when calling function": {
 			function:        func(i int64) {},
-			inputParameters: []*tree.Value{tree.NewStringValue("not a number")},
+			inputParameters: []*variable.Value{variable.NewString("not a number")},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a number value but got something else"),
 		},
 		"one float32 arg": {
 			function:        func(f float32) {},
-			inputParameters: []*tree.Value{tree.NewNumberValue(4.6)},
+			inputParameters: []*variable.Value{variable.NewNumber(4.6)},
 		},
 		"one float32 arg, wrong argument when calling function": {
 			function:        func(f float32) {},
-			inputParameters: []*tree.Value{tree.NewStringValue("not a number")},
+			inputParameters: []*variable.Value{variable.NewString("not a number")},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a number value but got something else"),
 		},
 		"one float64 arg": {
 			function:        func(f float64) {},
-			inputParameters: []*tree.Value{tree.NewNumberValue(4.6)},
+			inputParameters: []*variable.Value{variable.NewNumber(4.6)},
 		},
 		"one float64 arg, wrong argument when calling function": {
 			function:        func(f float64) {},
-			inputParameters: []*tree.Value{tree.NewStringValue("not a number")},
+			inputParameters: []*variable.Value{variable.NewString("not a number")},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a number value but got something else"),
 		},
 		"one bool arg": {
 			function:        func(b bool) {},
-			inputParameters: []*tree.Value{tree.NewBooleanValue(true)},
+			inputParameters: []*variable.Value{variable.NewBoolean(true)},
 		},
 		"one bool arg, wrong argument when calling function": {
 			function:        func(b bool) {},
-			inputParameters: []*tree.Value{tree.NewStringValue("not a boolean")},
+			inputParameters: []*variable.Value{variable.NewString("not a boolean")},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a boolean value but got something else"),
 		},
 		"one string arg": {
 			function:        func(s string) {},
-			inputParameters: []*tree.Value{tree.NewStringValue("hello")},
+			inputParameters: []*variable.Value{variable.NewString("hello")},
 		},
 		"one string arg, wrong argument when calling function": {
 			function:        func(s string) {},
-			inputParameters: []*tree.Value{tree.NewBooleanValue(false)},
+			inputParameters: []*variable.Value{variable.NewBoolean(false)},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a string value but got something else"),
 		},
 		"one arg of unsupported type": {
@@ -160,59 +160,59 @@ func TestNewYarnSpinnerFunction(t *testing.T) {
 			function: func(i int, f1 float64, f2 float64, b bool, s string) string {
 				return fmt.Sprintf("%v %v %v %v %v", i, f1, f2, b, s)
 			},
-			inputParameters: []*tree.Value{
-				tree.NewNumberValue(1),
-				tree.NewNumberValue(-3.4),
-				tree.NewNumberValue(999_999.999),
-				tree.NewBooleanValue(false),
-				tree.NewStringValue("hello"),
+			inputParameters: []*variable.Value{
+				variable.NewNumber(1),
+				variable.NewNumber(-3.4),
+				variable.NewNumber(999_999.999),
+				variable.NewBoolean(false),
+				variable.NewString("hello"),
 			},
-			expectedValue: tree.NewStringValue("1 -3.4 999999.999 false hello"),
+			expectedValue: variable.NewString("1 -3.4 999999.999 false hello"),
 		},
 		"non variadic function, passing too many arguments": {
 			function:        func() {},
-			inputParameters: []*tree.Value{tree.NewNumberValue(1)},
+			inputParameters: []*variable.Value{variable.NewNumber(1)},
 			expectedError:   errors.New("failed to convert input parameters: received too many arguments"),
 		},
 		"non variadic function, passing too few arguments": {
 			function:        func(i int) {},
-			inputParameters: []*tree.Value{},
+			inputParameters: []*variable.Value{},
 			expectedError:   errors.New("failed to convert input parameters: received too few arguments"),
 		},
 		"purely variadic function, one return, no variadic argument": {
 			function:        sumInt,
-			inputParameters: []*tree.Value{},
-			expectedValue:   tree.NewNumberValue(0),
+			inputParameters: []*variable.Value{},
+			expectedValue:   variable.NewNumber(0),
 		},
 		"purely variadic function, one return, single variadic argument": {
 			function:        sumInt,
-			inputParameters: []*tree.Value{tree.NewNumberValue(4)},
-			expectedValue:   tree.NewNumberValue(4),
+			inputParameters: []*variable.Value{variable.NewNumber(4)},
+			expectedValue:   variable.NewNumber(4),
 		},
 		"purely variadic function, one return, several variadic arguments": {
 			function:        sumInt,
-			inputParameters: []*tree.Value{tree.NewNumberValue(4), tree.NewNumberValue(2), tree.NewNumberValue(1)},
-			expectedValue:   tree.NewNumberValue(7),
+			inputParameters: []*variable.Value{variable.NewNumber(4), variable.NewNumber(2), variable.NewNumber(1)},
+			expectedValue:   variable.NewNumber(7),
 		},
 		"mixed variadic function, too few arguments": {
 			function:        concatenateNTimes,
-			inputParameters: []*tree.Value{},
+			inputParameters: []*variable.Value{},
 			expectedError:   errors.New("failed to convert input parameters: received too few arguments"),
 		},
 		"mixed variadic function, no variadic arguments": {
 			function:        concatenateNTimes,
-			inputParameters: []*tree.Value{tree.NewNumberValue(2)},
-			expectedValue:   tree.NewStringValue(""),
+			inputParameters: []*variable.Value{variable.NewNumber(2)},
+			expectedValue:   variable.NewString(""),
 		},
 		"mixed variadic function, single variadic argument": {
 			function:        concatenateNTimes,
-			inputParameters: []*tree.Value{tree.NewNumberValue(2), tree.NewStringValue("a")},
-			expectedValue:   tree.NewStringValue("aa"),
+			inputParameters: []*variable.Value{variable.NewNumber(2), variable.NewString("a")},
+			expectedValue:   variable.NewString("aa"),
 		},
 		"mixed variadic function, several variadic arguments": {
 			function:        concatenateNTimes,
-			inputParameters: []*tree.Value{tree.NewNumberValue(2), tree.NewStringValue("a"), tree.NewStringValue("b"), tree.NewStringValue("c")},
-			expectedValue:   tree.NewStringValue("abcabc"),
+			inputParameters: []*variable.Value{variable.NewNumber(2), variable.NewString("a"), variable.NewString("b"), variable.NewString("c")},
+			expectedValue:   variable.NewString("abcabc"),
 		},
 		"variadic function, variadic argument of unsupported type": {
 			function:                func(...complex64) {},
@@ -224,12 +224,12 @@ func TestNewYarnSpinnerFunction(t *testing.T) {
 		},
 		"variadic function, wrong non-variadic argument type when calling": {
 			function:        concatenateNTimes,
-			inputParameters: []*tree.Value{tree.NewBooleanValue(true)},
+			inputParameters: []*variable.Value{variable.NewBoolean(true)},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a number value but got something else"),
 		},
 		"variadic function, wrong variadic argument type when calling": {
 			function:        concatenateNTimes,
-			inputParameters: []*tree.Value{tree.NewNumberValue(3), tree.NewStringValue("a"), tree.NewNumberValue(2)},
+			inputParameters: []*variable.Value{variable.NewNumber(3), variable.NewString("a"), variable.NewNumber(2)},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 2: expected a string value but got something else"),
 		},
 	}
@@ -288,8 +288,8 @@ func TestFunctionStorer(t *testing.T) {
 		t.Errorf("unexpected error: got [%v], wanted [%v]", err, expectedErr)
 	}
 
-	actual, err := storer.Call("round", []*tree.Value{tree.NewNumberValue(3.7)})
-	expected := tree.NewNumberValue(4)
+	actual, err := storer.Call("round", []*variable.Value{variable.NewNumber(3.7)})
+	expected := variable.NewNumber(4)
 	if err != nil {
 		t.Errorf("expected no error while calling a function but got [%v]", err)
 	} else if diff := testutils.DeepEqual(actual, expected); diff != "" {

@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/RemiEven/ysgo/internal/testutils"
-	"github.com/RemiEven/ysgo/tree"
+	"github.com/RemiEven/ysgo/variable"
 )
 
 func TestNewYarnSpinnerCommand(t *testing.T) {
@@ -15,7 +15,7 @@ func TestNewYarnSpinnerCommand(t *testing.T) {
 	tests := map[string]struct {
 		command                 any
 		expectedConversionError error
-		inputParameters         []*tree.Value
+		inputParameters         []*variable.Value
 		expectedError           error
 	}{
 		"input is not a function": {
@@ -102,52 +102,52 @@ func TestNewYarnSpinnerCommand(t *testing.T) {
 				}
 				return nil
 			},
-			inputParameters: []*tree.Value{
-				tree.NewNumberValue(1),
-				tree.NewNumberValue(-3.4),
-				tree.NewNumberValue(999_999.999),
-				tree.NewBooleanValue(false),
-				tree.NewStringValue("hello"),
+			inputParameters: []*variable.Value{
+				variable.NewNumber(1),
+				variable.NewNumber(-3.4),
+				variable.NewNumber(999_999.999),
+				variable.NewBoolean(false),
+				variable.NewString("hello"),
 			},
 		},
 		"non variadic function, passing too many arguments": {
 			command:         func() {},
-			inputParameters: []*tree.Value{tree.NewNumberValue(1)},
+			inputParameters: []*variable.Value{variable.NewNumber(1)},
 			expectedError:   errors.New("failed to convert input parameters: received too many arguments"),
 		},
 		"non variadic function, passing too few arguments": {
 			command:         func(i int) {},
-			inputParameters: []*tree.Value{},
+			inputParameters: []*variable.Value{},
 			expectedError:   errors.New("failed to convert input parameters: received too few arguments"),
 		},
 		"purely variadic function, one return, no variadic argument": {
 			command:         sumIntAndExpect(0),
-			inputParameters: []*tree.Value{},
+			inputParameters: []*variable.Value{},
 		},
 		"purely variadic function, one return, single variadic argument": {
 			command:         sumIntAndExpect(4),
-			inputParameters: []*tree.Value{tree.NewNumberValue(4)},
+			inputParameters: []*variable.Value{variable.NewNumber(4)},
 		},
 		"purely variadic function, one return, several variadic arguments": {
 			command:         sumIntAndExpect(7),
-			inputParameters: []*tree.Value{tree.NewNumberValue(4), tree.NewNumberValue(2), tree.NewNumberValue(1)},
+			inputParameters: []*variable.Value{variable.NewNumber(4), variable.NewNumber(2), variable.NewNumber(1)},
 		},
 		"mixed variadic function, too few arguments": {
 			command:         concatenateNTimesAndExpect(""),
-			inputParameters: []*tree.Value{},
+			inputParameters: []*variable.Value{},
 			expectedError:   errors.New("failed to convert input parameters: received too few arguments"),
 		},
 		"mixed variadic function, no variadic arguments": {
 			command:         concatenateNTimesAndExpect(""),
-			inputParameters: []*tree.Value{tree.NewNumberValue(2)},
+			inputParameters: []*variable.Value{variable.NewNumber(2)},
 		},
 		"mixed variadic function, single variadic argument": {
 			command:         concatenateNTimesAndExpect("aa"),
-			inputParameters: []*tree.Value{tree.NewNumberValue(2), tree.NewStringValue("a")},
+			inputParameters: []*variable.Value{variable.NewNumber(2), variable.NewString("a")},
 		},
 		"mixed variadic function, several variadic arguments": {
 			command:         concatenateNTimesAndExpect("abcabc"),
-			inputParameters: []*tree.Value{tree.NewNumberValue(2), tree.NewStringValue("a"), tree.NewStringValue("b"), tree.NewStringValue("c")},
+			inputParameters: []*variable.Value{variable.NewNumber(2), variable.NewString("a"), variable.NewString("b"), variable.NewString("c")},
 		},
 		"variadic function, variadic argument of unsupported type": {
 			command:                 func(...complex64) {},
@@ -159,12 +159,12 @@ func TestNewYarnSpinnerCommand(t *testing.T) {
 		},
 		"variadic function, wrong non-variadic argument type when calling": {
 			command:         concatenateNTimesAndExpect(""),
-			inputParameters: []*tree.Value{tree.NewBooleanValue(true)},
+			inputParameters: []*variable.Value{variable.NewBoolean(true)},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 0: expected a number value but got something else"),
 		},
 		"variadic function, wrong variadic argument type when calling": {
 			command:         concatenateNTimesAndExpect(""),
-			inputParameters: []*tree.Value{tree.NewNumberValue(3), tree.NewStringValue("a"), tree.NewNumberValue(2)},
+			inputParameters: []*variable.Value{variable.NewNumber(3), variable.NewString("a"), variable.NewNumber(2)},
 			expectedError:   errors.New("failed to convert input parameters: failed to convert argument number 2: expected a string value but got something else"),
 		},
 	}
@@ -230,7 +230,7 @@ func TestCommandStorer(t *testing.T) {
 		t.Errorf("calling an unknown command should result in an immediate error")
 	}
 
-	errChan = storer.Call("wait", []*tree.Value{tree.NewNumberValue(0.02)})
+	errChan = storer.Call("wait", []*variable.Value{variable.NewNumber(0.02)})
 	select {
 	case err := <-errChan:
 		t.Errorf("wait returned too soon with error [%v]", err)

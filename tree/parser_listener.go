@@ -7,6 +7,7 @@ import (
 
 	"github.com/RemiEven/ysgo/internal/container"
 	"github.com/RemiEven/ysgo/internal/parser"
+	"github.com/RemiEven/ysgo/variable"
 )
 
 // parserListener is a complete listener for a parse tree produced by YarnSpinnerParser.
@@ -27,7 +28,6 @@ type parserListener struct {
 	functionCallCallback     func(*FunctionCall)
 	commandTextCallback      func(string)
 	protoCommandStatement    *CommandStatement
-	valueCallbacks           *container.Stack[func(*Value)]
 }
 
 func (pl *parserListener) Dialogue() *Dialogue {
@@ -53,7 +53,6 @@ func (pl *parserListener) EnterDialogue(ctx *parser.DialogueContext) {
 	pl.lineStatementCallbacks = &container.Stack[func(*LineStatement)]{}
 	pl.expressionCallbacks = &container.Stack[func(*Expression)]{}
 	pl.clauseCallbacks = &container.Stack[func(*Clause)]{}
-	pl.valueCallbacks = &container.Stack[func(*Value)]{}
 }
 
 // EnterNode is called when production node is entered.
@@ -173,23 +172,29 @@ func (s *parserListener) ExitShortcut_option(ctx *parser.Shortcut_optionContext)
 // EnterValueNumber is called when production valueNumber is entered.
 func (s *parserListener) EnterValueNumber(ctx *parser.ValueNumberContext) {
 	number, _ := strconv.ParseFloat(ctx.GetText(), 64)
-	s.valueCallbacks.Peek()(NewNumberValue(number))
+	s.expressionCallbacks.Peek()(&Expression{
+		Value: variable.NewNumber(number),
+	})
 }
 
 // EnterValueTrue is called when production valueTrue is entered.
 func (s *parserListener) EnterValueTrue(ctx *parser.ValueTrueContext) {
-	s.valueCallbacks.Peek()(NewBooleanValue(true))
+	s.expressionCallbacks.Peek()(&Expression{
+		Value: variable.NewBoolean(true),
+	})
 }
 
 // EnterValueFalse is called when production valueFalse is entered.
 func (s *parserListener) EnterValueFalse(ctx *parser.ValueFalseContext) {
-	s.valueCallbacks.Peek()(NewBooleanValue(false))
+	s.expressionCallbacks.Peek()(&Expression{
+		Value: variable.NewBoolean(false),
+	})
 }
 
 // EnterValueVar is called when production valueVar is entered.
 func (s *parserListener) EnterValueVar(ctx *parser.ValueVarContext) {
 	variableID := ctx.GetText()[1:]
-	s.valueCallbacks.Peek()(&Value{
+	s.expressionCallbacks.Peek()(&Expression{
 		VariableID: &variableID,
 	})
 }
@@ -198,14 +203,16 @@ func (s *parserListener) EnterValueVar(ctx *parser.ValueVarContext) {
 func (s *parserListener) EnterValueString(ctx *parser.ValueStringContext) {
 	text := ctx.GetText()
 	value := text[1 : len(text)-1]
-	s.valueCallbacks.Peek()(NewStringValue(value))
+	s.expressionCallbacks.Peek()(&Expression{
+		Value: variable.NewString(value),
+	})
 }
 
 // EnterValueFunc is called when production valueFunc is entered.
 func (s *parserListener) EnterValueFunc(ctx *parser.ValueFuncContext) {
 	s.functionCallCallback = func(functionCall *FunctionCall) {
 		s.functionCallCallback = nil
-		s.valueCallbacks.Peek()(&Value{
+		s.expressionCallbacks.Peek()(&Expression{
 			FunctionCall: functionCall,
 		})
 	}
@@ -336,7 +343,7 @@ func (s *parserListener) EnterJumpToNodeName(ctx *parser.JumpToNodeNameContext) 
 	s.statementCallbacks.Peek()(&Statement{
 		JumpStatement: &JumpStatement{
 			Expression: &Expression{
-				Value: NewStringValue(ctx.GetDestination().GetText()),
+				Value: variable.NewString(ctx.GetDestination().GetText()),
 			},
 		},
 	})
@@ -422,7 +429,7 @@ func (s *parserListener) ExitElse_if_clause(ctx *parser.Else_if_clauseContext) {
 func (s *parserListener) EnterElse_clause(ctx *parser.Else_clauseContext) {
 	clause := &Clause{
 		Condition: &Expression{
-			Value: NewBooleanValue(true),
+			Value: variable.NewBoolean(true),
 		},
 	}
 	s.statementCallbacks.Push(func(statement *Statement) {
@@ -483,28 +490,14 @@ func (s *parserListener) ExitCall_statement(ctx *parser.Call_statementContext) {
 	s.functionCallCallback = nil
 }
 
-// EnterExpValue is called when production expValue is entered.
-func (s *parserListener) EnterExpValue(ctx *parser.ExpValueContext) {
-	s.valueCallbacks.Push(func(v *Value) {
-		s.expressionCallbacks.Peek()(&Expression{
-			Value: v,
-		})
-	})
-}
-
-// ExitExpValue is called when production expValue is exited.
-func (s *parserListener) ExitExpValue(ctx *parser.ExpValueContext) {
-	s.valueCallbacks.Pop()
-}
-
 // EnterDeclare_statement is called when production declare_statement is entered.
 func (s *parserListener) EnterDeclare_statement(ctx *parser.Declare_statementContext) {
 	declareStatement := &DeclareStatement{}
 	s.statementCallbacks.Peek()(&Statement{
 		DeclareStatement: declareStatement,
 	})
-	s.valueCallbacks.Push(func(v *Value) {
-		declareStatement.Value = v
+	s.expressionCallbacks.Push(func(e *Expression) {
+		declareStatement.Value = e
 	})
 	s.variableCallback = func(variableID string) {
 		declareStatement.VariableID = variableID
@@ -514,5 +507,5 @@ func (s *parserListener) EnterDeclare_statement(ctx *parser.Declare_statementCon
 
 // ExitDeclare_statement is called when production declare_statement is exited.
 func (s *parserListener) ExitDeclare_statement(ctx *parser.Declare_statementContext) {
-	s.valueCallbacks.Pop()
+	s.expressionCallbacks.Pop()
 }
