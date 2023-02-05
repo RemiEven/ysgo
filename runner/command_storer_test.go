@@ -33,17 +33,13 @@ func TestNewYarnSpinnerCommand(t *testing.T) {
 			expectedError: errors.New("some error"),
 		},
 		"no arg, buffered error chan (sending nil) return": {
-			command: func() chan error {
-				errChan := make(chan error, 1)
-				errChan <- nil
-				return errChan
+			command: func() <-chan error {
+				return chanWithImmediateValue(error(nil))
 			},
 		},
 		"no arg, buffered error chan (sending non-nil) return": {
-			command: func() chan error {
-				errChan := make(chan error, 1)
-				errChan <- errors.New("some error")
-				return errChan
+			command: func() <-chan error {
+				return chanWithImmediateValue(errors.New("some error"))
 			},
 			expectedError: errors.New("some error"),
 		},
@@ -61,7 +57,7 @@ func TestNewYarnSpinnerCommand(t *testing.T) {
 			command: func() chan error {
 				errChan := make(chan error)
 				go func() {
-					<-time.After(10 * time.Millisecond)
+					time.Sleep(10 * time.Millisecond)
 					errChan <- nil
 				}()
 				return errChan
@@ -71,7 +67,7 @@ func TestNewYarnSpinnerCommand(t *testing.T) {
 			command: func() chan error {
 				errChan := make(chan error)
 				go func() {
-					<-time.After(10 * time.Millisecond)
+					time.Sleep(10 * time.Millisecond)
 					errChan <- errors.New("some error")
 				}()
 				return errChan
@@ -238,7 +234,7 @@ func TestCommandStorer(t *testing.T) {
 	default:
 		// go on with the test
 	}
-	<-time.After(25 * time.Millisecond)
+	time.Sleep(25 * time.Millisecond)
 	select {
 	case err := <-errChan:
 		if err != nil {

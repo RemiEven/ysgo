@@ -93,7 +93,7 @@ func (r *Runner) next() {
 	element, err := r.dr.Next(r.choice)
 	if errors.Is(err, runner.ErrWaitingForCommandCompletion) {
 		// do nothing, check again in 1/20th of a second
-		<-time.After(50 * time.Millisecond)
+		time.Sleep(50 * time.Millisecond)
 		r.next()
 	} else if err != nil {
 		r.app.Stop()

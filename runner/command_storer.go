@@ -40,19 +40,23 @@ func (storer *commandStorer) Call(commandID string, args []*variable.Value) <-ch
 	return command(args)
 }
 
+func chanWithImmediateValue[V any](value V) <-chan V {
+	ch := make(chan V, 1)
+	ch <- value
+	return ch
+}
+
 func waitCommand(args []*variable.Value) <-chan error {
-	ch := make(chan error, 1)
 	if len(args) != 1 {
-		ch <- fmt.Errorf("expected exactly one argument")
-		return ch
+		return chanWithImmediateValue(fmt.Errorf("expected exactly one argument"))
 	}
 	duration := args[0]
 	if duration.Number == nil {
-		ch <- fmt.Errorf("received a duration which was not a number")
-		return ch
+		return chanWithImmediateValue(fmt.Errorf("received a duration which was not a number"))
 	}
+	ch := make(chan error, 1)
 	go func() {
-		<-time.After(time.Duration(*duration.Number) * time.Second)
+		time.Sleep(time.Duration(*duration.Number) * time.Second)
 		ch <- nil
 	}()
 	return ch
@@ -101,12 +105,14 @@ func newYarnSpinnerCommand(command any) (YarnSpinnerCommand, error) {
 				errChan <- fmt.Errorf("command returned a nil chan")
 				return errChan
 			}
-			returnChan, ok := outputParameters[0].Interface().(chan error)
-			if !ok {
-				errChan <- fmt.Errorf("command did not return a chan error like expected")
-				return errChan
+			switch returnChan := outputParameters[0].Interface().(type) {
+			case <-chan error:
+				return returnChan
+			case chan error:
+				return returnChan
 			}
-			return returnChan
+			errChan <- fmt.Errorf("command did not return a chan error like expected")
+			return errChan
 		}
 
 		go func() {
