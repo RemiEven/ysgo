@@ -177,7 +177,7 @@ func evaluateFunctionCall(call *tree.FunctionCall, retriever variable.Retriever,
 		evaluatedArgs = append(evaluatedArgs, evaluatedArg)
 	}
 
-	result, err := caller.Call(call.FunctionID, evaluatedArgs)
+	result, err := caller.call(call.FunctionID, evaluatedArgs)
 	if err != nil {
 		return nil, fmt.Errorf("call to function %s failed: %w", call.FunctionID, err)
 	}

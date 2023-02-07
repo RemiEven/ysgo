@@ -63,6 +63,7 @@ func tokenToInplaceOperator(token int) (*int, bool) {
 	return &operator, ok
 }
 
+// Expression represents something that can be evaluated to a YarnSpinner value when a Dialogue is run.
 type Expression struct {
 	Value                     *variable.Value
 	VariableID                *string
@@ -73,12 +74,14 @@ type Expression struct {
 	Operator                  *int
 }
 
+// NewStringExpression creates a new expression holding a constant string.
 func NewStringExpression(str string) *Expression {
 	return &Expression{
 		Value: variable.NewString(str),
 	}
 }
 
+// FunctionCall is used to represent the call of a function from a YarnSpinner script.
 type FunctionCall struct {
 	FunctionID string
 	Arguments  []*Expression

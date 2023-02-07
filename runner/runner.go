@@ -1,3 +1,5 @@
+// Package runner is the main package of ysgo.
+// It defines a DialogueRunner type able to execute dialogues.
 package runner
 
 import (
@@ -7,12 +9,15 @@ import (
 	"strings"
 
 	"github.com/RemiEven/ysgo/internal/container"
+	"github.com/RemiEven/ysgo/internal/rng"
 	"github.com/RemiEven/ysgo/internal/tree"
 	"github.com/RemiEven/ysgo/markup"
-	"github.com/RemiEven/ysgo/runner/rng"
 	"github.com/RemiEven/ysgo/variable"
 )
 
+// DialogueRunner is able to execute a YarnSpinner dialogue.
+// It keeps track of the current state of the dialogue (variables, current and visited steps).
+// It orchestrates the call of Commands and Functions.
 type DialogueRunner struct {
 	dialogue        *tree.Dialogue
 	statementsToRun container.Stack[*statementQueue]
@@ -26,11 +31,14 @@ type DialogueRunner struct {
 	visitedNodes    map[string]int
 }
 
-type DialogueElement struct { // dialogueStep? dialogueElement?
+// DialogueElement represents a step of a dialogue as it is presented in a game.
+// Either Line or Options holds a value.
+type DialogueElement struct {
 	Line    *markup.ParseResult
 	Options []DialogueOption
 }
 
+// DialogueOption holds the data about one possible choice the player is presented with.
 type DialogueOption struct {
 	Line     *markup.ParseResult
 	Disabled bool
@@ -61,6 +69,13 @@ func (dr *DialogueRunner) isWaitingForChoice() bool {
 	return dr.lastStatement != nil && dr.lastStatement.ShortcutOptionStatement != nil
 }
 
+// Next advances the dialogue to the next step.
+// If the previous step was a choice, then the selected option index should be given as an argument,
+// else that argument is ignored.
+// If an ongoing command (eg. <<wait 3>>) from the dialogue is still running, ErrWaitingForCommandCompletion
+// is returned.
+// Else, if no other error is encountered, the next DialogueElement to display is returned.
+// If the Dialogue has ended, then both return values will be nil.
 func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	if dr.commandErrChan != nil {
 		select {
@@ -88,7 +103,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 
 	statementsToRun := dr.statementsToRun.Peek()
 
-	nextStatement, ok := statementsToRun.NextStatement()
+	nextStatement, ok := statementsToRun.nextStatement()
 	if !ok {
 		dr.statementsToRun.Pop()
 		return dr.Next(choice)
@@ -168,6 +183,11 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	return nil, errors.New("encountered an unsupported type of statement")
 }
 
+// NewDialogueRunner creates a new runner working on the given dialogue tree.
+// The storer argument is optional and if provided, allows to store variables
+// elsewhere than in the default in-memory store.
+// The given rngSeed serves to create deterministic random values. It will be
+// used when eg. the dice(6) function is called in a dialogue.
 func NewDialogueRunner(dialogue *tree.Dialogue, storer variable.Storer, rngSeed string) (*DialogueRunner, error) {
 	statementsToRun := container.Stack[*statementQueue]{}
 	firstNode := dialogue.Nodes[0]
@@ -192,11 +212,11 @@ func NewDialogueRunner(dialogue *tree.Dialogue, storer variable.Storer, rngSeed 
 	}
 
 	functionStorer := newFunctionStorer(rng)
-	functionStorer.ConvertAndAddFunction("visited", func(node string) bool {
+	functionStorer.convertAndAddFunction("visited", func(node string) bool {
 		_, ok := runner.visitedNodes[node]
 		return ok
 	})
-	functionStorer.ConvertAndAddFunction("visited_count", func(node string) int {
+	functionStorer.convertAndAddFunction("visited_count", func(node string) int {
 		count := runner.visitedNodes[node]
 		return count
 	})
@@ -330,7 +350,7 @@ func (dr *DialogueRunner) executeCommandStatement(statement *tree.CommandStateme
 		return true, nil
 	}
 
-	errChan := dr.commandStorer.Call(commandName, values[1:])
+	errChan := dr.commandStorer.call(commandName, values[1:])
 	select {
 	case err := <-errChan:
 		if err != nil {
@@ -353,7 +373,7 @@ func (dr *DialogueRunner) executeCallStatement(statement *tree.CallStatement) er
 		values = append(values, value)
 	}
 
-	if _, err := dr.functionStorer.Call(statement.FunctionID, values); err != nil {
+	if _, err := dr.functionStorer.call(statement.FunctionID, values); err != nil {
 		return fmt.Errorf("failed to execute call statement for function [%s]: %w", statement.FunctionID, err)
 	}
 
@@ -368,20 +388,26 @@ func (dr *DialogueRunner) executeDeclareStatement(statement *tree.DeclareStateme
 	})
 }
 
+// AddFunction adds a custom function to the library of functions that can be called from a dialogue.
 func (dr *DialogueRunner) AddFunction(functionID string, function YarnSpinnerFunction) {
-	dr.functionStorer.AddFunction(functionID, function)
+	dr.functionStorer.addFunction(functionID, function)
 }
 
+// ConvertAndAddFunction is a convenience wrapper around AddFunction so that manual conversion to YarnSpinnerFunction isn't needed.
+// Refer to the unit tests of functionStorer to learn more about the limitations on the accepted functions.
 func (dr *DialogueRunner) ConvertAndAddFunction(functionID string, function any) error {
-	return dr.functionStorer.ConvertAndAddFunction(functionID, function)
+	return dr.functionStorer.convertAndAddFunction(functionID, function)
 }
 
+// AddCommand adds a custom command to the library of commands that can be called from a dialogue.
 func (dr *DialogueRunner) AddCommand(commandID string, command YarnSpinnerCommand) {
-	dr.commandStorer.AddCommand(commandID, command)
+	dr.commandStorer.addCommand(commandID, command)
 }
 
+// ConvertAndAddCommand is a convenience wrapper around AddCommand so that manual conversion to YarnSpinnerCommand isn't needed.
+// Refer to the unit tests of commandStorer to learn more about the limitations on the accepted functions.
 func (dr *DialogueRunner) ConvertAndAddCommand(commandID string, command any) error {
-	return dr.commandStorer.ConvertAndAddCommand(commandID, command)
+	return dr.commandStorer.convertAndAddCommand(commandID, command)
 }
 
 type statementQueue struct {
@@ -389,7 +415,7 @@ type statementQueue struct {
 	pointer    int
 }
 
-func (sq *statementQueue) NextStatement() (*tree.Statement, bool) {
+func (sq *statementQueue) nextStatement() (*tree.Statement, bool) {
 	if sq.pointer >= len(sq.statements) {
 		return nil, false
 	}
@@ -401,8 +427,11 @@ func (sq *statementQueue) NextStatement() (*tree.Statement, bool) {
 
 type errWaitingForCommandCompletion string
 
+// Error returns the error message associated with e.
 func (e errWaitingForCommandCompletion) Error() string {
 	return string(e)
 }
 
+// ErrWaitingForCommandCompletion is returned when DialogueRunner#Next(...) is called
+// when an ongoing command hasn't ended yet.
 const ErrWaitingForCommandCompletion errWaitingForCommandCompletion = "waiting for command completion"

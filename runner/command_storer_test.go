@@ -215,7 +215,7 @@ func TestCommandStorer(t *testing.T) {
 	t.Parallel()
 	storer := newCommandStorer()
 
-	errChan := storer.Call("unknown_command", nil)
+	errChan := storer.call("unknown_command", nil)
 	select {
 	case err := <-errChan:
 		expectedError := errors.New("unknown command")
@@ -226,7 +226,7 @@ func TestCommandStorer(t *testing.T) {
 		t.Errorf("calling an unknown command should result in an immediate error")
 	}
 
-	errChan = storer.Call("wait", []*variable.Value{variable.NewNumber(0.02)})
+	errChan = storer.call("wait", []*variable.Value{variable.NewNumber(0.02)})
 	select {
 	case err := <-errChan:
 		t.Errorf("wait returned too soon with error [%v]", err)

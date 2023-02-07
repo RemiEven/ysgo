@@ -1,3 +1,5 @@
+// Package terminal uses the tcell library to provide a tool that can run YarnSpinner scripts
+// in a terminal.
 package terminal
 
 import (
@@ -14,6 +16,7 @@ import (
 	"github.com/RemiEven/ysgo/runner"
 )
 
+// Runner can run and display a dialogue in a terminal.
 type Runner struct {
 	dr       *runner.DialogueRunner
 	app      *tview.Application
@@ -22,6 +25,8 @@ type Runner struct {
 	choice   int
 }
 
+// NewRunner creates a new runner that will execute the dialogue contained in the
+// given filename, with randomness based on rngSeed (if the dialogue uses it).
 func NewRunner(filename string, rngSeed string) (*Runner, error) {
 	di, err := tree.FromFile(filename)
 	if err != nil {
@@ -65,7 +70,7 @@ func (r *Runner) displayDialogueElement(element *runner.DialogueElement) {
 
 func (r *Runner) displayLine(line *markup.ParseResult) {
 	text := toStyledText(line)
-	if characterAttr, ok := line.GetAttributeWithName("character"); ok {
+	if characterAttr, ok := line.Attribute("character"); ok {
 		text = "[yellow::i]" + text[:characterAttr.Length] + "[-::-]\n\t" + text[characterAttr.Length:]
 	}
 	r.textView.SetText(text)
@@ -105,6 +110,8 @@ func (r *Runner) next() {
 	}
 }
 
+// Run starts the execution of the dialogue and its display.
+// It returns once the dialogue has ended or when an error is encountered.
 func (r *Runner) Run() error {
 	r.next()
 	if err := r.app.Run(); err != nil {

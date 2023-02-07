@@ -8,6 +8,8 @@ import (
 	"github.com/RemiEven/ysgo/internal/container"
 )
 
+// IndentAwareLexer is a lexer that keeps track of indentations level when it lexes its input.
+// It's pretty much a direct port of the IndentAwareLexer.cs file of YarnSpinner from C# to Go.
 type IndentAwareLexer struct {
 	*antlr.BaseLexer
 	hitEOF        bool
@@ -15,6 +17,7 @@ type IndentAwareLexer struct {
 	indents       container.Stack[int]
 }
 
+// NextToken returns a token from the lexer source i.e., match a token on the char stream.
 func (ial *IndentAwareLexer) NextToken() antlr.Token {
 	if ial.hitEOF && ial.pendingTokens.Size() > 0 {
 		return ial.pendingTokens.Dequeue()

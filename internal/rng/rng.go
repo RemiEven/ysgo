@@ -10,13 +10,13 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
-// RNG can be used to generate random values
+// RNG can be used to generate random values.
 type RNG struct {
 	seed   string
 	source *rand.Rand
 }
 
-// NewRNG creates a new RNG based on either a given seed or a randomly generated one
+// NewRNG creates a new RNG based on either a given seed or a randomly generated one.
 func NewRNG(seed string) (*RNG, error) {
 	seedValue := int64(0)
 	if seed == "" {
@@ -35,17 +35,17 @@ func NewRNG(seed string) (*RNG, error) {
 	}, nil
 }
 
-// Seed returns the RNG seed
+// Seed returns the RNG seed.
 func (rng *RNG) Seed() string {
 	return rng.seed
 }
 
-// IntBetween returns a random integer value between lower and upper bounds, inclusive
+// IntBetween returns a random integer value between lower and upper bounds, inclusive.
 func (rng *RNG) IntBetween(lowerBound, upperBound int) int {
 	return lowerBound + rng.source.Intn(upperBound-lowerBound+1)
 }
 
-// Float returns a random float between 0 (inclusive) and 1 (exclusive)
+// Float returns a random float between 0 (inclusive) and 1 (exclusive).
 func (rng *RNG) Float() float64 {
 	return rng.source.Float64()
 }

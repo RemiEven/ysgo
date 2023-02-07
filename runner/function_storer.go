@@ -4,14 +4,16 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/RemiEven/ysgo/runner/rng"
+	"github.com/RemiEven/ysgo/internal/rng"
 	"github.com/RemiEven/ysgo/variable"
 )
 
 type functionCaller interface {
-	Call(functionID string, args []*variable.Value) (*variable.Value, error)
+	call(functionID string, args []*variable.Value) (*variable.Value, error)
 }
 
+// YarnSpinnerFunction is a Go function than can be called as a function from a YarnSpinner script.
+// It can take zero, one or more input values, and returns possibly a value and/or an error.
 type YarnSpinnerFunction func([]*variable.Value) (*variable.Value, error)
 
 type functionStorer struct {
@@ -40,7 +42,7 @@ func newFunctionStorer(rng *rng.RNG) *functionStorer {
 		"decimal":      decimal,
 		"integer":      integer,
 	} {
-		if err := storer.ConvertAndAddFunction(functionID, f); err != nil {
+		if err := storer.convertAndAddFunction(functionID, f); err != nil {
 			panic(fmt.Errorf("failed to convert base function %s: %w", functionID, err))
 		}
 	}
@@ -48,20 +50,20 @@ func newFunctionStorer(rng *rng.RNG) *functionStorer {
 	return storer
 }
 
-func (storer *functionStorer) AddFunction(functionID string, function YarnSpinnerFunction) {
+func (storer *functionStorer) addFunction(functionID string, function YarnSpinnerFunction) {
 	storer.functionsByID[functionID] = function
 }
 
-func (storer *functionStorer) ConvertAndAddFunction(functionID string, function any) error {
+func (storer *functionStorer) convertAndAddFunction(functionID string, function any) error {
 	yarnSpinnerFunction, err := newYarnSpinnerFunction(function)
 	if err != nil {
 		return fmt.Errorf("failed to convert function to use yarn spinner values: %w", err)
 	}
-	storer.AddFunction(functionID, yarnSpinnerFunction)
+	storer.addFunction(functionID, yarnSpinnerFunction)
 	return nil
 }
 
-func (storer *functionStorer) Call(functionID string, args []*variable.Value) (*variable.Value, error) {
+func (storer *functionStorer) call(functionID string, args []*variable.Value) (*variable.Value, error) {
 	function, ok := storer.functionsByID[functionID]
 	if !ok {
 		return nil, fmt.Errorf("unknown function")

@@ -22,6 +22,8 @@ const (
 
 var endOfCharacterMarker = regexp.MustCompile(`:\s*`)
 
+// LineParser can parse the markup from a line of text.
+// It's pretty much a direct port of the LineParser.cs file of YarnSpinner from C# to Go.
 type LineParser struct {
 	input          string
 	reader         *strings.Reader
@@ -29,6 +31,7 @@ type LineParser struct {
 	position       int
 }
 
+// ParseMarkup parses a line of text to extract the markup metadata.
 func (lineParser *LineParser) ParseMarkup(input string) (*ParseResult, error) {
 	lineParser.input = input
 	return lineParser.parseMarkup()
@@ -242,7 +245,7 @@ func (lineParser *LineParser) processReplacementMarker(marker attributeMarker, p
 			return "", fmt.Errorf("failed to parse text up to attribute close: %w", err)
 		}
 
-		marker.properties = append(marker.properties, Property{
+		marker.properties = append(marker.properties, property{
 			name: replacementMarkerContents,
 			value: Value{
 				StringValue: markerContents,
@@ -328,7 +331,7 @@ func (lineParser *LineParser) parseAttributeMarker() (attributeMarker, error) {
 	if err != nil {
 		return attributeMarker{}, fmt.Errorf("failed to parse attribute name: %w", err)
 	}
-	properties := []Property{}
+	properties := []property{}
 
 	if match, err := lineParser.expectPeek('='); err != nil {
 		return attributeMarker{}, err
@@ -340,7 +343,7 @@ func (lineParser *LineParser) parseAttributeMarker() (attributeMarker, error) {
 		if err != nil {
 			return attributeMarker{}, fmt.Errorf("failed to parse value: %w", err)
 		}
-		properties = append(properties, Property{attributeName, value})
+		properties = append(properties, property{attributeName, value})
 	}
 
 	for {
@@ -395,7 +398,7 @@ func (lineParser *LineParser) parseAttributeMarker() (attributeMarker, error) {
 		if err != nil {
 			return attributeMarker{}, fmt.Errorf("failed to parse property value: %w", err)
 		}
-		properties = append(properties, Property{propertyName, propertyValue})
+		properties = append(properties, property{propertyName, propertyValue})
 	}
 }
 

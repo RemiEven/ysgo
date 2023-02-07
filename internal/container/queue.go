@@ -1,11 +1,13 @@
 package container
 
+// Queue represents a FIFO list.
 type Queue[T any] struct {
 	base  []T
 	first int
 	next  int
 }
 
+// Enqueue adds another elements to the end of the queue.
 func (q *Queue[T]) Enqueue(i T) {
 	if len(q.base) == 0 {
 		q.base = make([]T, 8) // 8 is arbitrary, any value > 2 would do
@@ -30,6 +32,7 @@ func (q *Queue[T]) Enqueue(i T) {
 	q.next = previousSize + 1
 }
 
+// Dequeue removes the first element from the queue and returns it (or panics if the queue is empty).
 func (q *Queue[T]) Dequeue() T {
 	size := q.Size()
 	if size == 0 {
@@ -44,6 +47,7 @@ func (q *Queue[T]) Dequeue() T {
 	return result
 }
 
+// Peek returns the first element from the queue (or panics if the queue is empty).
 func (q *Queue[T]) Peek() T {
 	size := q.Size()
 	if size == 0 {
@@ -52,6 +56,7 @@ func (q *Queue[T]) Peek() T {
 	return q.base[q.first]
 }
 
+// Size returns the number of elements contained in the queue.
 func (q *Queue[T]) Size() int {
 	if len(q.base) == 0 || q.first == -1 {
 		return 0

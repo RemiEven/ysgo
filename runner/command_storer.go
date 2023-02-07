@@ -9,9 +9,12 @@ import (
 )
 
 type commandCaller interface {
-	Call(commandID string, args []*variable.Value) <-chan error
+	call(commandID string, args []*variable.Value) <-chan error
 }
 
+// YarnSpinnerCommand is a Go function than can be called as a command from a YarnSpinner script.
+// It can take zero, one or more input values, and returns a chan that must return either nil or
+// an error when the command has finished its job.
 type YarnSpinnerCommand func([]*variable.Value) <-chan error
 
 type commandStorer struct {
@@ -30,7 +33,7 @@ func newCommandStorer() *commandStorer {
 	return storer
 }
 
-func (storer *commandStorer) Call(commandID string, args []*variable.Value) <-chan error {
+func (storer *commandStorer) call(commandID string, args []*variable.Value) <-chan error {
 	command, ok := storer.commandsByID[commandID]
 	if !ok {
 		errChan := make(chan error, 1)
@@ -62,16 +65,16 @@ func waitCommand(args []*variable.Value) <-chan error {
 	return ch
 }
 
-func (storer *commandStorer) AddCommand(commandID string, command YarnSpinnerCommand) {
+func (storer *commandStorer) addCommand(commandID string, command YarnSpinnerCommand) {
 	storer.commandsByID[commandID] = command
 }
 
-func (storer *commandStorer) ConvertAndAddCommand(commandID string, command any) error {
+func (storer *commandStorer) convertAndAddCommand(commandID string, command any) error {
 	yarnSpinnerCommand, err := newYarnSpinnerCommand(command)
 	if err != nil {
 		return fmt.Errorf("failed to convert command to use yarn spinner values: %w", err)
 	}
-	storer.AddCommand(commandID, yarnSpinnerCommand)
+	storer.addCommand(commandID, yarnSpinnerCommand)
 	return nil
 }
 

@@ -30,10 +30,6 @@ type parserListener struct {
 	protoCommandStatement    *CommandStatement
 }
 
-func (pl *parserListener) Dialogue() *Dialogue {
-	return pl.dialogue
-}
-
 // VisitTerminal is called when a terminal node is visited.
 func (pl *parserListener) VisitTerminal(node antlr.TerminalNode) {
 	switch node.GetSymbol().GetTokenType() {

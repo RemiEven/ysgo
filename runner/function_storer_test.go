@@ -282,13 +282,13 @@ func concatenateNTimes(n int, strings ...string) string {
 func TestFunctionStorer(t *testing.T) {
 	storer := newFunctionStorer(nil)
 
-	if _, err := storer.Call("unknown_function", nil); err == nil {
+	if _, err := storer.call("unknown_function", nil); err == nil {
 		t.Errorf("expected an error while calling an unknown function but did not get any")
 	} else if expectedErr := errors.New("unknown function"); !testutils.ErrorEqual(err, expectedErr) {
 		t.Errorf("unexpected error: got [%v], wanted [%v]", err, expectedErr)
 	}
 
-	actual, err := storer.Call("round", []*variable.Value{variable.NewNumber(3.7)})
+	actual, err := storer.call("round", []*variable.Value{variable.NewNumber(3.7)})
 	expected := variable.NewNumber(4)
 	if err != nil {
 		t.Errorf("expected no error while calling a function but got [%v]", err)

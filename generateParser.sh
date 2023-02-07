@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script is used to generate the parser and listener of the internal/parser package with Antlr from the g4 files of YarnSpinner
+
 docker pull ghcr.io/remieven/antlr4:latest
 
 docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v `pwd`:/work ghcr.io/remieven/antlr4 -Dlanguage=Go internal/parser/YarnSpinnerLexer.g4

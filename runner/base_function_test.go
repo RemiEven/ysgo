@@ -6,8 +6,8 @@ import (
 	"math"
 	"testing"
 
+	"github.com/RemiEven/ysgo/internal/rng"
 	"github.com/RemiEven/ysgo/internal/testutils"
-	"github.com/RemiEven/ysgo/runner/rng"
 	"github.com/RemiEven/ysgo/variable"
 )
 

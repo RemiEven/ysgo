@@ -5,30 +5,35 @@ import (
 	"strconv"
 )
 
+// Value holds an evaluated value of a YarnSpinner script.
 type Value struct {
 	Number  *float64
 	Boolean *bool
 	String  *string
 }
 
+// NewNumber creates a new YarnSpinner dialogue value from the given number.
 func NewNumber(number float64) *Value {
 	return &Value{
 		Number: &number,
 	}
 }
 
+// NewBoolean creates a new YarnSpinner dialogue value from the given boolean.
 func NewBoolean(boolean bool) *Value {
 	return &Value{
 		Boolean: &boolean,
 	}
 }
 
+// NewString creates a new YarnSpinner dialogue value from the given string.
 func NewString(str string) *Value {
 	return &Value{
 		String: &str,
 	}
 }
 
+// ToString serializes a value into a string.
 func (v *Value) ToString() string {
 	switch {
 	case v.Number != nil:

@@ -20,11 +20,6 @@ func toRadix36(r rune) (int64, error) {
 	return 0, errors.New("only number and lowercase characters are supported")
 }
 
-func isValidSeed(seed string) bool {
-	_, err := seedToInt64(seed)
-	return err == nil
-}
-
 func seedToInt64(seed string) (int64, error) {
 	result := int64(0)
 	for i, r := range []rune(seed) {
@@ -61,7 +56,7 @@ func int64ToSeed(value int64) string {
 	return string(seed)
 }
 
-// RandomSeed generates a random seed
+// RandomSeed generates a random seed.
 func RandomSeed() string {
 	return int64ToSeed(rand.NewSource(time.Now().Unix()).Int63())
 }

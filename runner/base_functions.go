@@ -6,7 +6,7 @@ import (
 	"math"
 	"strconv"
 
-	"github.com/RemiEven/ysgo/runner/rng"
+	"github.com/RemiEven/ysgo/internal/rng"
 	"github.com/RemiEven/ysgo/variable"
 )
 
