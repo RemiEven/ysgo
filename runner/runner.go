@@ -395,6 +395,19 @@ func (dr *DialogueRunner) executeDeclareStatement(statement *tree.DeclareStateme
 	})
 }
 
+// JumpTo moves the dialogue to the beginning of the given node.
+func (dr *DialogueRunner) JumpTo(nodeTitle string) error {
+	node, ok := dr.dialogue.FindNode(nodeTitle)
+	if !ok {
+		return fmt.Errorf("dialogue does not contain a node with title [%s]", nodeTitle)
+	}
+	dr.incrementNodeTrackingIfAllowed()
+	dr.statementsToRun.Clear()
+	dr.statementsToRun.Push(&statementQueue{statements: node.Statements})
+	dr.currentNode = node.Title()
+	return nil
+}
+
 // AddFunction adds a custom function to the library of functions that can be called from a dialogue.
 func (dr *DialogueRunner) AddFunction(functionID string, function YarnSpinnerFunction) {
 	dr.functionStorer.addFunction(functionID, function)

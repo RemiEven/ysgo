@@ -2,6 +2,7 @@ package runner_test
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/RemiEven/ysgo/internal/testutils"
@@ -154,5 +155,51 @@ func TestRunnerPlan(t *testing.T) {
 			}
 		})
 	}
+}
 
+func TestRunnerJumpTo(t *testing.T) {
+	script := `
+title: flavors
+---
+Do you like chocolate?
+Yes!
+Nice! Here, get some icecream!
+===
+title: bakery
+---
+How much for a baguette?
+About 1€!
+===`
+
+	dr, err := runner.NewDialogueRunner(nil, "", strings.NewReader(script))
+	if err != nil {
+		t.Errorf("failed to create dialogue runner: %v", err)
+		return
+	}
+
+	dialogueElement, err := dr.Next(0)
+	if err != nil {
+		t.Errorf("failed to get to first dialogue element: %v", err)
+		return
+	}
+	if expected, actual := "Do you like chocolate?", dialogueElement.Line.Text; expected != actual {
+		t.Errorf("unexpected line text: wanted [%s], got [%s]", expected, actual)
+		return
+	}
+
+	err = dr.JumpTo("bakery")
+	if err != nil {
+		t.Errorf("jump to bakery node failed: %v", err)
+		return
+	}
+
+	dialogueElement, err = dr.Next(0)
+	if err != nil {
+		t.Errorf("failed to get to first dialogue element: %v", err)
+		return
+	}
+	if expected, actual := "How much for a baguette?", dialogueElement.Line.Text; expected != actual {
+		t.Errorf("unexpected line text: wanted [%s], got [%s]", expected, actual)
+		return
+	}
 }
