@@ -6,12 +6,12 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 
-	"github.com/RemiEven/ysgo/internal/tree"
 	"github.com/RemiEven/ysgo/markup"
 	"github.com/RemiEven/ysgo/runner"
 )
@@ -28,14 +28,20 @@ type Runner struct {
 // NewRunner creates a new runner that will execute the dialogue contained in the
 // given filename, with randomness based on rngSeed (if the dialogue uses it).
 func NewRunner(filename string, rngSeed string) (*Runner, error) {
-	di, err := tree.FromFile(filename)
+	dr, err := func() (*runner.DialogueRunner, error) {
+		reader, err := os.Open(filename)
+		if err != nil {
+			return nil, fmt.Errorf("failed to open dialogue file: %w", err)
+		}
+		defer reader.Close()
+		dr, err := runner.NewDialogueRunner(nil, rngSeed, reader)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create dialogue runner: %w", err)
+		}
+		return dr, nil
+	}()
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse dialogue from file: %w", err)
-	}
-
-	dr, err := runner.NewDialogueRunner(di, nil, rngSeed)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create dialogue runner: %w", err)
+		return nil, err
 	}
 
 	tview.Styles.PrimitiveBackgroundColor = tcell.ColorDefault

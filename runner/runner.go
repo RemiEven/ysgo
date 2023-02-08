@@ -5,6 +5,7 @@ package runner
 import (
 	"errors"
 	"fmt"
+	"io"
 	"math"
 	"strings"
 
@@ -183,12 +184,18 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	return nil, errors.New("encountered an unsupported type of statement")
 }
 
-// NewDialogueRunner creates a new runner working on the given dialogue tree.
+// NewDialogueRunner creates a new runner working on the dialogue that can be
+// parsed from the given readers.
 // The storer argument is optional and if provided, allows to store variables
 // elsewhere than in the default in-memory store.
 // The given rngSeed serves to create deterministic random values. It will be
 // used when eg. the dice(6) function is called in a dialogue.
-func NewDialogueRunner(dialogue *tree.Dialogue, storer variable.Storer, rngSeed string) (*DialogueRunner, error) {
+func NewDialogueRunner(storer variable.Storer, rngSeed string, readers ...io.Reader) (*DialogueRunner, error) {
+	dialogue, err := tree.FromReaders(readers...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create dialogue: %w", err)
+	}
+
 	statementsToRun := container.Stack[*statementQueue]{}
 	firstNode := dialogue.Nodes[0]
 	statementsToRun.Push(&statementQueue{statements: firstNode.Statements})

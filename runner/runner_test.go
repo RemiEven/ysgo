@@ -1,10 +1,10 @@
 package runner_test
 
 import (
+	"os"
 	"testing"
 
 	"github.com/RemiEven/ysgo/internal/testutils"
-	"github.com/RemiEven/ysgo/internal/tree"
 	"github.com/RemiEven/ysgo/runner"
 	"github.com/RemiEven/ysgo/variable"
 )
@@ -40,13 +40,14 @@ func TestRunnerPlan(t *testing.T) {
 				return
 			}
 
-			di, err := tree.FromFile("testdata/" + test + ".yarn")
+			reader, err := os.Open("testdata/" + test + ".yarn")
 			if err != nil {
-				t.Errorf("failed to parse dialogue from file: %v", err)
+				t.Errorf("failed to open dialogue file: %v", err)
 				return
 			}
+			defer reader.Close()
 
-			dr, err := runner.NewDialogueRunner(di, nil, "")
+			dr, err := runner.NewDialogueRunner(nil, "", reader)
 			if err != nil {
 				t.Errorf("failed to create dialogue runner: %v", err)
 				return

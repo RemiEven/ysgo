@@ -1,3 +1,5 @@
+// Package main contains a small demo program showing how to use a terminalRunner
+// to parse a YarnSpinner dialogue file, then run and display it in a terminal.
 package main
 
 import (
