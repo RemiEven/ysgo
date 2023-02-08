@@ -1,4 +1,4 @@
-module github.com/RemiEven/ysgo
+module github.com/remieven/ysgo
 
 go 1.19
 

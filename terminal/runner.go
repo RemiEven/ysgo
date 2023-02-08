@@ -12,8 +12,8 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 
-	"github.com/RemiEven/ysgo/markup"
-	"github.com/RemiEven/ysgo/runner"
+	"github.com/remieven/ysgo/markup"
+	"github.com/remieven/ysgo/runner"
 )
 
 // Runner can run and display a dialogue in a terminal.

@@ -6,8 +6,8 @@ import (
 	"math"
 	"strconv"
 
-	"github.com/RemiEven/ysgo/internal/rng"
-	"github.com/RemiEven/ysgo/variable"
+	"github.com/remieven/ysgo/internal/rng"
+	"github.com/remieven/ysgo/variable"
 )
 
 func toString(args []*variable.Value) (*variable.Value, error) {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 
-	"github.com/RemiEven/ysgo/internal/container"
+	"github.com/remieven/ysgo/internal/container"
 )
 
 // IndentAwareLexer is a lexer that keeps track of indentations level when it lexes its input.

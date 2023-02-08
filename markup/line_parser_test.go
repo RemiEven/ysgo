@@ -3,7 +3,7 @@ package markup
 import (
 	"testing"
 
-	"github.com/RemiEven/ysgo/internal/testutils"
+	"github.com/remieven/ysgo/internal/testutils"
 )
 
 type lineParserTest struct {

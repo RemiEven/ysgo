@@ -22,7 +22,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/RemiEven/ysgo/runner"
+	"github.com/remieven/ysgo/runner"
 )
 
 func main() {

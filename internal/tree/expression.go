@@ -1,8 +1,8 @@
 package tree
 
 import (
-	"github.com/RemiEven/ysgo/internal/parser"
-	"github.com/RemiEven/ysgo/variable"
+	"github.com/remieven/ysgo/internal/parser"
+	"github.com/remieven/ysgo/variable"
 )
 
 const (

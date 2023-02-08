@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/RemiEven/ysgo/internal/rng"
-	"github.com/RemiEven/ysgo/variable"
+	"github.com/remieven/ysgo/internal/rng"
+	"github.com/remieven/ysgo/variable"
 )
 
 type functionCaller interface {

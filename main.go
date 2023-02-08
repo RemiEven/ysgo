@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/RemiEven/ysgo/terminal"
+	"github.com/remieven/ysgo/terminal"
 )
 
 func main() {

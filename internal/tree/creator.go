@@ -8,7 +8,7 @@ import (
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 
-	"github.com/RemiEven/ysgo/internal/parser"
+	"github.com/remieven/ysgo/internal/parser"
 )
 
 // FromFile creates a dialogue tree by reading the file located at scriptPath.

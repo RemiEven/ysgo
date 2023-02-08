@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/RemiEven/ysgo/internal/tree"
-	"github.com/RemiEven/ysgo/variable"
+	"github.com/remieven/ysgo/internal/tree"
+	"github.com/remieven/ysgo/variable"
 )
 
 func evaluateExpression(e *tree.Expression, retriever variable.Retriever, caller functionCaller) (*variable.Value, error) {

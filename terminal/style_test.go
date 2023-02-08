@@ -3,7 +3,7 @@ package terminal
 import (
 	"testing"
 
-	"github.com/RemiEven/ysgo/markup"
+	"github.com/remieven/ysgo/markup"
 )
 
 func TestToStyledText(t *testing.T) {

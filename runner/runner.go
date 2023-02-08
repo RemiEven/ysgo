@@ -9,11 +9,11 @@ import (
 	"math"
 	"strings"
 
-	"github.com/RemiEven/ysgo/internal/container"
-	"github.com/RemiEven/ysgo/internal/rng"
-	"github.com/RemiEven/ysgo/internal/tree"
-	"github.com/RemiEven/ysgo/markup"
-	"github.com/RemiEven/ysgo/variable"
+	"github.com/remieven/ysgo/internal/container"
+	"github.com/remieven/ysgo/internal/rng"
+	"github.com/remieven/ysgo/internal/tree"
+	"github.com/remieven/ysgo/markup"
+	"github.com/remieven/ysgo/variable"
 )
 
 // DialogueRunner is able to execute a YarnSpinner dialogue.

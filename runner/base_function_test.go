@@ -6,9 +6,9 @@ import (
 	"math"
 	"testing"
 
-	"github.com/RemiEven/ysgo/internal/rng"
-	"github.com/RemiEven/ysgo/internal/testutils"
-	"github.com/RemiEven/ysgo/variable"
+	"github.com/remieven/ysgo/internal/rng"
+	"github.com/remieven/ysgo/internal/testutils"
+	"github.com/remieven/ysgo/variable"
 )
 
 func TestRound(t *testing.T) {

@@ -3,9 +3,9 @@ package runner
 import (
 	"testing"
 
-	"github.com/RemiEven/ysgo/internal/testutils"
-	"github.com/RemiEven/ysgo/internal/tree"
-	"github.com/RemiEven/ysgo/variable"
+	"github.com/remieven/ysgo/internal/testutils"
+	"github.com/remieven/ysgo/internal/tree"
+	"github.com/remieven/ysgo/variable"
 )
 
 func TestEvaluateExpression(t *testing.T) {

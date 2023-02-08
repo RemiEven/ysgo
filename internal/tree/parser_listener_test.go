@@ -5,7 +5,7 @@ import (
 
 	"github.com/bradleyjkemp/cupaloy"
 
-	"github.com/RemiEven/ysgo/internal/tree"
+	"github.com/remieven/ysgo/internal/tree"
 )
 
 func TestParserListener(t *testing.T) {

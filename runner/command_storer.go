@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/RemiEven/ysgo/variable"
+	"github.com/remieven/ysgo/variable"
 )
 
 type commandCaller interface {
