@@ -1,4 +1,4 @@
-package runner_test
+package ysgo_test
 
 import (
 	"fmt"

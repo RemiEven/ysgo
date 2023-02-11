@@ -1,6 +1,5 @@
-// Package runner is the main package of ysgo.
-// It defines a DialogueRunner type able to execute dialogues.
-package runner
+// Package ysgo defines a DialogueRunner type able to execute dialogues.
+package ysgo
 
 import (
 	"errors"

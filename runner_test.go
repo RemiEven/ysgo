@@ -1,12 +1,12 @@
-package runner_test
+package ysgo_test
 
 import (
 	"os"
 	"strings"
 	"testing"
 
+	"github.com/remieven/ysgo"
 	"github.com/remieven/ysgo/internal/testutils"
-	"github.com/remieven/ysgo/runner"
 	"github.com/remieven/ysgo/variable"
 )
 
@@ -48,7 +48,7 @@ func TestRunnerPlan(t *testing.T) {
 			}
 			defer reader.Close()
 
-			dr, err := runner.NewDialogueRunner(nil, "", reader)
+			dr, err := ysgo.NewDialogueRunner(nil, "", reader)
 			if err != nil {
 				t.Errorf("failed to create dialogue runner: %v", err)
 				return
@@ -171,7 +171,7 @@ How much for a baguette?
 About 1€!
 ===`
 
-	dr, err := runner.NewDialogueRunner(nil, "", strings.NewReader(script))
+	dr, err := ysgo.NewDialogueRunner(nil, "", strings.NewReader(script))
 	if err != nil {
 		t.Errorf("failed to create dialogue runner: %v", err)
 		return

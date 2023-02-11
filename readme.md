@@ -22,7 +22,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/remieven/ysgo/runner"
+	"github.com/remieven/ysgo"
 )
 
 func main() {
@@ -44,7 +44,7 @@ Nice! Here, get some {$flavor} icecream!
 	}
 
 	// NewDialogueRunner parses the dialogue and creates a runner that can execute it
-	dr, err := runner.NewDialogueRunner(nil, "", strings.NewReader(script))
+	dr, err := ysgo.NewDialogueRunner(nil, "", strings.NewReader(script))
 	logFatalIfErr(err)
 
 	// Next advances the dialogue to the next step
