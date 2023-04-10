@@ -1,5 +1,9 @@
 # Ysgo
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/remieven/ysgo.svg)](https://pkg.go.dev/github.com/remieven/ysgo)
+![build](https://github.com/RemiEven/ysgo/actions/workflows/onPush.yml/badge.svg)
+[![codecov](https://codecov.io/gh/RemiEven/ysgo/branch/main/graph/badge.svg)](https://codecov.io/gh/RemiEven/ysgo)
+
 ## Introduction
 
 Ysgo is a Go library that is able to run YarnSpinner dialogues.
@@ -92,3 +96,9 @@ Feel free to open an issue in this repository!
 ## License
 
 Ysgo is licensed under the MIT license (see the `LICENSE.txt` file).
+
+## Credits
+
+Ysgo wouldn't exist if it weren't for all the people behind Yarn Spinner. Big thanks to them.
+
+Also, [this article](https://blog.gopheracademy.com/advent-2017/parsing-with-antlr4-and-go/) has been super helpful to figure out how to use antlr4 with Go.
