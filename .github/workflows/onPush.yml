@@ -18,4 +18,6 @@ jobs:
       - name: Make sure lexer/parser files were already up-to-date
         run: git diff-index --quiet HEAD
       - name: Test
-        run: go test ./...
+        run: go test -coverprofile='coverage.txt' -covermode=atomic ./...
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
