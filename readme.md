@@ -75,6 +75,16 @@ In addition to these missing features, there are key differences between Ysgo an
 
 Ysgo only handles your dialogues when your game is running, during development you're still encouraged to use the vscode plugin and YarnSpinner-Console.
 
+## Ysgo in Action
+
+Despite not having all of YarnSpinner's features, Ysgo still provides enough functionality to recreate sample projects from the YarnSpinner documentation.
+
+Check out the demos:
+
+- *Choose-Your-Path Game*: [doc link](https://docs.yarnspinner.dev/unity-sample-projects/example-project-1), [demo link](https://remieven.itch.io/ysgo-sample-cubeandsphere)
+
+Source code for all demos is available in [the ysgo-examples Github repository](https://github.com/RemiEven/ysgo-examples).
+
 ## Getting help
 
 Feel free to open an issue in this repository!
