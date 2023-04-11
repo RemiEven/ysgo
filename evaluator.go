@@ -106,7 +106,7 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 		if bothOperandsAreNumbers {
 			return variable.NewNumber((*leftOperandValue.Number) - (*rightOperandValue.Number)), nil
 		}
-		return nil, fmt.Errorf("cannot substract two values that are not both numbers")
+		return nil, fmt.Errorf("cannot subtract two values that are not both numbers")
 	case tree.LessThanEqualsBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewBoolean((*leftOperandValue.Number) <= (*rightOperandValue.Number)), nil
