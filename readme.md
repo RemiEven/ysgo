@@ -3,6 +3,8 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/remieven/ysgo.svg)](https://pkg.go.dev/github.com/remieven/ysgo)
 ![build](https://github.com/RemiEven/ysgo/actions/workflows/onPush.yml/badge.svg)
 [![codecov](https://codecov.io/gh/RemiEven/ysgo/branch/main/graph/badge.svg)](https://codecov.io/gh/RemiEven/ysgo)
+[![Go Report Card](https://goreportcard.com/badge/github.com/remieven/ysgo)](https://goreportcard.com/report/github.com/remieven/ysgo)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/RemiEven/ysgo/blob/main/LICENSE)
 
 ## Introduction
 
