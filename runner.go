@@ -429,6 +429,11 @@ func (dr *DialogueRunner) ConvertAndAddCommand(commandID string, command any) er
 	return dr.commandStorer.convertAndAddCommand(commandID, command)
 }
 
+// CurrentNode returns the name of the node the runner is currently visiting.
+func (dr *DialogueRunner) CurrentNode() string {
+	return dr.currentNode
+}
+
 type statementQueue struct {
 	statements []*tree.Statement
 	pointer    int
