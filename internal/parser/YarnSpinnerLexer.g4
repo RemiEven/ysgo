@@ -1,6 +1,6 @@
 lexer grammar YarnSpinnerLexer;
 
-tokens { INDENT, DEDENT }
+tokens { INDENT, DEDENT, BLANK_LINE_FOLLOWING_OPTION }
 
 channels {
     WHITESPACE,
@@ -175,7 +175,7 @@ TEXT_COMMANDHASHTAG_ERROR: . ;
 
 // Hashtags at the end of a Line or Command.
 mode HashtagMode;
-HASHTAG_WS: WS -> skip;
+HASHTAG_WS: WS -> channel(HIDDEN);
 HASHTAG_TAG: HASHTAG -> type(HASHTAG);
 
 // The text of the hashtag. After we parse it, we're done parsing this
@@ -184,7 +184,7 @@ HASHTAG_TEXT: ~[ \t\r\n#$<]+ -> popMode;
 
 // Expressions, involving values and operations on values.
 mode ExpressionMode;
-EXPR_WS : WS -> skip;
+EXPR_WS : WS -> channel(HIDDEN);
 
 // Simple values
 KEYWORD_TRUE  : 'true' ;
@@ -255,7 +255,10 @@ fragment DIGIT: [0-9];
 // (which may contain expressions), which are passed to the game.
 mode CommandMode;
 
-COMMAND_WS: WS -> skip;
+// Newlines aren't allowed in commands, so match against them inside the 
+// CommandMode to produce a token that will lead to parse errors
+COMMAND_NEWLINE: NEWLINE;
+COMMAND_WS: WS -> channel(HIDDEN);
 
 // Special keywords that can appear in commands. If we see one of these after 
 // the <<, it's part of the Yarn language and used for flow control. If we
@@ -297,12 +300,14 @@ COMMAND_ARBITRARY: . -> type(COMMAND_TEXT), mode(CommandTextMode);
 
 // Arbitrary commands, which may contain expressions, and end with a '>>'.
 mode CommandTextMode;
+COMMAND_TEXT_NEWLINE: NEWLINE;
 COMMAND_TEXT_END: '>>' -> popMode;
 COMMAND_EXPRESSION_START: '{' -> pushMode(ExpressionMode);
-COMMAND_TEXT: ~[>{]+;
+COMMAND_TEXT: ~[>{\r\n]+;
 
 // A mode in which we expect to parse a node ID.
 mode CommandIDMode;
+COMMAND_ID_NEWLINE: NEWLINE;
 COMMAND_ID: ID -> type(ID), popMode;
 COMMAND_ID_END: '>>' -> type(COMMAND_END), popMode; // almost certainly a parse error, but not a lex error
 

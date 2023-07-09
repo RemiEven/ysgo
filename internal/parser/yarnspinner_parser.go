@@ -33,35 +33,36 @@ var yarnspinnerparserParserStaticData struct {
 func yarnspinnerparserParserInit() {
 	staticData := &yarnspinnerparserParserStaticData
 	staticData.literalNames = []string{
-		"", "", "", "", "", "", "", "'---'", "", "'#'", "", "", "'==='", "'->'",
-		"'<<'", "", "", "'\\'", "", "", "", "", "", "", "", "", "", "'true'",
-		"'false'", "'null'", "", "", "", "", "", "", "", "", "", "", "", "'+='",
-		"'-='", "'*='", "'%='", "'/='", "'+'", "'-'", "'*'", "'/'", "'%'", "'('",
-		"')'", "','", "'as'", "", "", "'}'", "", "'.'", "", "", "", "", "",
-		"", "'endif'", "", "", "", "", "", "", "", "", "", "'{'", "", "'string'",
-		"'number'", "'bool'",
+		"", "", "", "", "", "", "", "", "'---'", "", "'#'", "", "", "'==='",
+		"'->'", "'<<'", "", "", "'\\'", "", "", "", "", "", "", "", "", "",
+		"'true'", "'false'", "'null'", "", "", "", "", "", "", "", "", "", "",
+		"", "'+='", "'-='", "'*='", "'%='", "'/='", "'+'", "'-'", "'*'", "'/'",
+		"'%'", "'('", "')'", "','", "'as'", "", "", "'}'", "", "'.'", "", "",
+		"", "", "", "", "", "'endif'", "", "", "", "", "", "", "", "", "", "",
+		"'{'", "", "", "'string'", "'number'", "'bool'",
 	}
 	staticData.symbolicNames = []string{
-		"", "INDENT", "DEDENT", "WS", "COMMENT", "NEWLINE", "ID", "BODY_START",
-		"HEADER_DELIMITER", "HASHTAG", "REST_OF_LINE", "BODY_WS", "BODY_END",
-		"SHORTCUT_ARROW", "COMMAND_START", "EXPRESSION_START", "ESCAPED_ANY",
-		"TEXT_ESCAPE", "TEXT_COMMENT", "TEXT", "UNESCAPABLE_CHARACTER", "TEXT_COMMANDHASHTAG_WS",
-		"TEXT_COMMANDHASHTAG_COMMENT", "TEXT_COMMANDHASHTAG_ERROR", "HASHTAG_WS",
-		"HASHTAG_TEXT", "EXPR_WS", "KEYWORD_TRUE", "KEYWORD_FALSE", "KEYWORD_NULL",
-		"OPERATOR_ASSIGNMENT", "OPERATOR_LOGICAL_LESS_THAN_EQUALS", "OPERATOR_LOGICAL_GREATER_THAN_EQUALS",
-		"OPERATOR_LOGICAL_EQUALS", "OPERATOR_LOGICAL_LESS", "OPERATOR_LOGICAL_GREATER",
-		"OPERATOR_LOGICAL_NOT_EQUALS", "OPERATOR_LOGICAL_AND", "OPERATOR_LOGICAL_OR",
-		"OPERATOR_LOGICAL_XOR", "OPERATOR_LOGICAL_NOT", "OPERATOR_MATHS_ADDITION_EQUALS",
-		"OPERATOR_MATHS_SUBTRACTION_EQUALS", "OPERATOR_MATHS_MULTIPLICATION_EQUALS",
-		"OPERATOR_MATHS_MODULUS_EQUALS", "OPERATOR_MATHS_DIVISION_EQUALS", "OPERATOR_MATHS_ADDITION",
-		"OPERATOR_MATHS_SUBTRACTION", "OPERATOR_MATHS_MULTIPLICATION", "OPERATOR_MATHS_DIVISION",
-		"OPERATOR_MATHS_MODULUS", "LPAREN", "RPAREN", "COMMA", "EXPRESSION_AS",
-		"STRING", "FUNC_ID", "EXPRESSION_END", "VAR_ID", "DOT", "NUMBER", "COMMAND_WS",
-		"COMMAND_IF", "COMMAND_ELSEIF", "COMMAND_ELSE", "COMMAND_SET", "COMMAND_ENDIF",
-		"COMMAND_CALL", "COMMAND_DECLARE", "COMMAND_JUMP", "COMMAND_ENUM", "COMMAND_CASE",
-		"COMMAND_ENDENUM", "COMMAND_LOCAL", "COMMAND_END", "COMMAND_TEXT_END",
-		"COMMAND_EXPRESSION_START", "COMMAND_TEXT", "TYPE_STRING", "TYPE_NUMBER",
-		"TYPE_BOOL",
+		"", "INDENT", "DEDENT", "BLANK_LINE_FOLLOWING_OPTION", "WS", "COMMENT",
+		"NEWLINE", "ID", "BODY_START", "HEADER_DELIMITER", "HASHTAG", "REST_OF_LINE",
+		"BODY_WS", "BODY_END", "SHORTCUT_ARROW", "COMMAND_START", "EXPRESSION_START",
+		"ESCAPED_ANY", "TEXT_ESCAPE", "TEXT_COMMENT", "TEXT", "UNESCAPABLE_CHARACTER",
+		"TEXT_COMMANDHASHTAG_WS", "TEXT_COMMANDHASHTAG_COMMENT", "TEXT_COMMANDHASHTAG_ERROR",
+		"HASHTAG_WS", "HASHTAG_TEXT", "EXPR_WS", "KEYWORD_TRUE", "KEYWORD_FALSE",
+		"KEYWORD_NULL", "OPERATOR_ASSIGNMENT", "OPERATOR_LOGICAL_LESS_THAN_EQUALS",
+		"OPERATOR_LOGICAL_GREATER_THAN_EQUALS", "OPERATOR_LOGICAL_EQUALS", "OPERATOR_LOGICAL_LESS",
+		"OPERATOR_LOGICAL_GREATER", "OPERATOR_LOGICAL_NOT_EQUALS", "OPERATOR_LOGICAL_AND",
+		"OPERATOR_LOGICAL_OR", "OPERATOR_LOGICAL_XOR", "OPERATOR_LOGICAL_NOT",
+		"OPERATOR_MATHS_ADDITION_EQUALS", "OPERATOR_MATHS_SUBTRACTION_EQUALS",
+		"OPERATOR_MATHS_MULTIPLICATION_EQUALS", "OPERATOR_MATHS_MODULUS_EQUALS",
+		"OPERATOR_MATHS_DIVISION_EQUALS", "OPERATOR_MATHS_ADDITION", "OPERATOR_MATHS_SUBTRACTION",
+		"OPERATOR_MATHS_MULTIPLICATION", "OPERATOR_MATHS_DIVISION", "OPERATOR_MATHS_MODULUS",
+		"LPAREN", "RPAREN", "COMMA", "EXPRESSION_AS", "STRING", "FUNC_ID", "EXPRESSION_END",
+		"VAR_ID", "DOT", "NUMBER", "COMMAND_NEWLINE", "COMMAND_WS", "COMMAND_IF",
+		"COMMAND_ELSEIF", "COMMAND_ELSE", "COMMAND_SET", "COMMAND_ENDIF", "COMMAND_CALL",
+		"COMMAND_DECLARE", "COMMAND_JUMP", "COMMAND_ENUM", "COMMAND_CASE", "COMMAND_ENDENUM",
+		"COMMAND_LOCAL", "COMMAND_END", "COMMAND_TEXT_NEWLINE", "COMMAND_TEXT_END",
+		"COMMAND_EXPRESSION_START", "COMMAND_TEXT", "COMMAND_ID_NEWLINE", "TYPE_STRING",
+		"TYPE_NUMBER", "TYPE_BOOL",
 	}
 	staticData.ruleNames = []string{
 		"dialogue", "file_hashtag", "node", "header", "body", "statement", "line_statement",
@@ -73,7 +74,7 @@ func yarnspinnerparserParserInit() {
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 80, 310, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 84, 315, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
 		10, 2, 11, 7, 11, 2, 12, 7, 12, 2, 13, 7, 13, 2, 14, 7, 14, 2, 15, 7, 15,
 		2, 16, 7, 16, 2, 17, 7, 17, 2, 18, 7, 18, 2, 19, 7, 19, 2, 20, 7, 20, 2,
@@ -100,117 +101,120 @@ func yarnspinnerparserParserInit() {
 		10, 17, 12, 17, 236, 9, 17, 1, 18, 1, 18, 1, 18, 1, 18, 1, 18, 1, 18, 1,
 		18, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 20, 1, 20, 1, 20, 1, 20, 5, 20,
 		254, 8, 20, 10, 20, 12, 20, 257, 9, 20, 1, 21, 1, 21, 1, 21, 1, 21, 1,
-		21, 5, 21, 264, 8, 21, 10, 21, 12, 21, 267, 9, 21, 1, 22, 4, 22, 270, 8,
-		22, 11, 22, 12, 22, 271, 1, 23, 1, 23, 1, 23, 1, 23, 5, 23, 278, 8, 23,
-		10, 23, 12, 23, 281, 9, 23, 1, 23, 3, 23, 284, 8, 23, 1, 24, 1, 24, 1,
-		24, 1, 24, 1, 24, 1, 24, 1, 24, 3, 24, 293, 8, 24, 1, 24, 1, 24, 1, 25,
-		1, 25, 1, 25, 1, 25, 1, 25, 1, 25, 1, 25, 1, 25, 1, 25, 1, 25, 1, 25, 3,
-		25, 308, 8, 25, 1, 25, 0, 1, 20, 26, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18,
-		20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 0, 6, 1,
-		0, 48, 50, 1, 0, 46, 47, 2, 0, 31, 32, 34, 35, 2, 0, 33, 33, 36, 36, 1,
-		0, 37, 39, 2, 0, 30, 30, 41, 45, 331, 0, 55, 1, 0, 0, 0, 2, 63, 1, 0, 0,
-		0, 4, 67, 1, 0, 0, 0, 6, 75, 1, 0, 0, 0, 8, 83, 1, 0, 0, 0, 10, 102, 1,
-		0, 0, 0, 12, 104, 1, 0, 0, 0, 14, 125, 1, 0, 0, 0, 16, 129, 1, 0, 0, 0,
-		18, 132, 1, 0, 0, 0, 20, 147, 1, 0, 0, 0, 22, 176, 1, 0, 0, 0, 24, 178,
-		1, 0, 0, 0, 26, 180, 1, 0, 0, 0, 28, 194, 1, 0, 0, 0, 30, 208, 1, 0, 0,
-		0, 32, 218, 1, 0, 0, 0, 34, 228, 1, 0, 0, 0, 36, 237, 1, 0, 0, 0, 38, 244,
-		1, 0, 0, 0, 40, 249, 1, 0, 0, 0, 42, 265, 1, 0, 0, 0, 44, 269, 1, 0, 0,
-		0, 46, 273, 1, 0, 0, 0, 48, 285, 1, 0, 0, 0, 50, 307, 1, 0, 0, 0, 52, 54,
-		3, 2, 1, 0, 53, 52, 1, 0, 0, 0, 54, 57, 1, 0, 0, 0, 55, 53, 1, 0, 0, 0,
-		55, 56, 1, 0, 0, 0, 56, 59, 1, 0, 0, 0, 57, 55, 1, 0, 0, 0, 58, 60, 3,
-		4, 2, 0, 59, 58, 1, 0, 0, 0, 60, 61, 1, 0, 0, 0, 61, 59, 1, 0, 0, 0, 61,
-		62, 1, 0, 0, 0, 62, 1, 1, 0, 0, 0, 63, 64, 5, 9, 0, 0, 64, 65, 5, 25, 0,
-		0, 65, 3, 1, 0, 0, 0, 66, 68, 3, 6, 3, 0, 67, 66, 1, 0, 0, 0, 68, 69, 1,
-		0, 0, 0, 69, 67, 1, 0, 0, 0, 69, 70, 1, 0, 0, 0, 70, 71, 1, 0, 0, 0, 71,
-		72, 5, 7, 0, 0, 72, 73, 3, 8, 4, 0, 73, 74, 5, 12, 0, 0, 74, 5, 1, 0, 0,
-		0, 75, 76, 5, 6, 0, 0, 76, 78, 5, 8, 0, 0, 77, 79, 5, 10, 0, 0, 78, 77,
-		1, 0, 0, 0, 78, 79, 1, 0, 0, 0, 79, 7, 1, 0, 0, 0, 80, 82, 3, 10, 5, 0,
-		81, 80, 1, 0, 0, 0, 82, 85, 1, 0, 0, 0, 83, 81, 1, 0, 0, 0, 83, 84, 1,
-		0, 0, 0, 84, 9, 1, 0, 0, 0, 85, 83, 1, 0, 0, 0, 86, 103, 3, 12, 6, 0, 87,
-		103, 3, 28, 14, 0, 88, 103, 3, 36, 18, 0, 89, 103, 3, 44, 22, 0, 90, 103,
-		3, 38, 19, 0, 91, 103, 3, 40, 20, 0, 92, 103, 3, 48, 24, 0, 93, 103, 3,
-		50, 25, 0, 94, 98, 5, 1, 0, 0, 95, 97, 3, 10, 5, 0, 96, 95, 1, 0, 0, 0,
-		97, 100, 1, 0, 0, 0, 98, 96, 1, 0, 0, 0, 98, 99, 1, 0, 0, 0, 99, 101, 1,
-		0, 0, 0, 100, 98, 1, 0, 0, 0, 101, 103, 5, 2, 0, 0, 102, 86, 1, 0, 0, 0,
-		102, 87, 1, 0, 0, 0, 102, 88, 1, 0, 0, 0, 102, 89, 1, 0, 0, 0, 102, 90,
-		1, 0, 0, 0, 102, 91, 1, 0, 0, 0, 102, 92, 1, 0, 0, 0, 102, 93, 1, 0, 0,
-		0, 102, 94, 1, 0, 0, 0, 103, 11, 1, 0, 0, 0, 104, 106, 3, 14, 7, 0, 105,
-		107, 3, 18, 9, 0, 106, 105, 1, 0, 0, 0, 106, 107, 1, 0, 0, 0, 107, 111,
-		1, 0, 0, 0, 108, 110, 3, 16, 8, 0, 109, 108, 1, 0, 0, 0, 110, 113, 1, 0,
-		0, 0, 111, 109, 1, 0, 0, 0, 111, 112, 1, 0, 0, 0, 112, 114, 1, 0, 0, 0,
-		113, 111, 1, 0, 0, 0, 114, 115, 5, 5, 0, 0, 115, 13, 1, 0, 0, 0, 116, 118,
-		5, 19, 0, 0, 117, 116, 1, 0, 0, 0, 118, 119, 1, 0, 0, 0, 119, 117, 1, 0,
-		0, 0, 119, 120, 1, 0, 0, 0, 120, 126, 1, 0, 0, 0, 121, 122, 5, 15, 0, 0,
-		122, 123, 3, 20, 10, 0, 123, 124, 5, 57, 0, 0, 124, 126, 1, 0, 0, 0, 125,
-		117, 1, 0, 0, 0, 125, 121, 1, 0, 0, 0, 126, 127, 1, 0, 0, 0, 127, 125,
-		1, 0, 0, 0, 127, 128, 1, 0, 0, 0, 128, 15, 1, 0, 0, 0, 129, 130, 5, 9,
-		0, 0, 130, 131, 5, 25, 0, 0, 131, 17, 1, 0, 0, 0, 132, 133, 5, 14, 0, 0,
-		133, 134, 5, 62, 0, 0, 134, 135, 3, 20, 10, 0, 135, 136, 5, 74, 0, 0, 136,
-		19, 1, 0, 0, 0, 137, 138, 6, 10, -1, 0, 138, 139, 5, 51, 0, 0, 139, 140,
-		3, 20, 10, 0, 140, 141, 5, 52, 0, 0, 141, 148, 1, 0, 0, 0, 142, 143, 5,
-		47, 0, 0, 143, 148, 3, 20, 10, 8, 144, 145, 5, 40, 0, 0, 145, 148, 3, 20,
-		10, 7, 146, 148, 3, 22, 11, 0, 147, 137, 1, 0, 0, 0, 147, 142, 1, 0, 0,
-		0, 147, 144, 1, 0, 0, 0, 147, 146, 1, 0, 0, 0, 148, 166, 1, 0, 0, 0, 149,
-		150, 10, 6, 0, 0, 150, 151, 7, 0, 0, 0, 151, 165, 3, 20, 10, 7, 152, 153,
-		10, 5, 0, 0, 153, 154, 7, 1, 0, 0, 154, 165, 3, 20, 10, 6, 155, 156, 10,
-		4, 0, 0, 156, 157, 7, 2, 0, 0, 157, 165, 3, 20, 10, 5, 158, 159, 10, 3,
-		0, 0, 159, 160, 7, 3, 0, 0, 160, 165, 3, 20, 10, 4, 161, 162, 10, 2, 0,
-		0, 162, 163, 7, 4, 0, 0, 163, 165, 3, 20, 10, 3, 164, 149, 1, 0, 0, 0,
-		164, 152, 1, 0, 0, 0, 164, 155, 1, 0, 0, 0, 164, 158, 1, 0, 0, 0, 164,
-		161, 1, 0, 0, 0, 165, 168, 1, 0, 0, 0, 166, 164, 1, 0, 0, 0, 166, 167,
-		1, 0, 0, 0, 167, 21, 1, 0, 0, 0, 168, 166, 1, 0, 0, 0, 169, 177, 5, 60,
-		0, 0, 170, 177, 5, 27, 0, 0, 171, 177, 5, 28, 0, 0, 172, 177, 3, 24, 12,
-		0, 173, 177, 5, 55, 0, 0, 174, 177, 5, 29, 0, 0, 175, 177, 3, 26, 13, 0,
-		176, 169, 1, 0, 0, 0, 176, 170, 1, 0, 0, 0, 176, 171, 1, 0, 0, 0, 176,
-		172, 1, 0, 0, 0, 176, 173, 1, 0, 0, 0, 176, 174, 1, 0, 0, 0, 176, 175,
-		1, 0, 0, 0, 177, 23, 1, 0, 0, 0, 178, 179, 5, 58, 0, 0, 179, 25, 1, 0,
-		0, 0, 180, 181, 5, 56, 0, 0, 181, 183, 5, 51, 0, 0, 182, 184, 3, 20, 10,
-		0, 183, 182, 1, 0, 0, 0, 183, 184, 1, 0, 0, 0, 184, 189, 1, 0, 0, 0, 185,
-		186, 5, 53, 0, 0, 186, 188, 3, 20, 10, 0, 187, 185, 1, 0, 0, 0, 188, 191,
-		1, 0, 0, 0, 189, 187, 1, 0, 0, 0, 189, 190, 1, 0, 0, 0, 190, 192, 1, 0,
-		0, 0, 191, 189, 1, 0, 0, 0, 192, 193, 5, 52, 0, 0, 193, 27, 1, 0, 0, 0,
-		194, 198, 3, 30, 15, 0, 195, 197, 3, 32, 16, 0, 196, 195, 1, 0, 0, 0, 197,
-		200, 1, 0, 0, 0, 198, 196, 1, 0, 0, 0, 198, 199, 1, 0, 0, 0, 199, 202,
-		1, 0, 0, 0, 200, 198, 1, 0, 0, 0, 201, 203, 3, 34, 17, 0, 202, 201, 1,
-		0, 0, 0, 202, 203, 1, 0, 0, 0, 203, 204, 1, 0, 0, 0, 204, 205, 5, 14, 0,
-		0, 205, 206, 5, 66, 0, 0, 206, 207, 5, 74, 0, 0, 207, 29, 1, 0, 0, 0, 208,
-		209, 5, 14, 0, 0, 209, 210, 5, 62, 0, 0, 210, 211, 3, 20, 10, 0, 211, 215,
-		5, 74, 0, 0, 212, 214, 3, 10, 5, 0, 213, 212, 1, 0, 0, 0, 214, 217, 1,
-		0, 0, 0, 215, 213, 1, 0, 0, 0, 215, 216, 1, 0, 0, 0, 216, 31, 1, 0, 0,
-		0, 217, 215, 1, 0, 0, 0, 218, 219, 5, 14, 0, 0, 219, 220, 5, 63, 0, 0,
-		220, 221, 3, 20, 10, 0, 221, 225, 5, 74, 0, 0, 222, 224, 3, 10, 5, 0, 223,
-		222, 1, 0, 0, 0, 224, 227, 1, 0, 0, 0, 225, 223, 1, 0, 0, 0, 225, 226,
-		1, 0, 0, 0, 226, 33, 1, 0, 0, 0, 227, 225, 1, 0, 0, 0, 228, 229, 5, 14,
-		0, 0, 229, 230, 5, 64, 0, 0, 230, 234, 5, 74, 0, 0, 231, 233, 3, 10, 5,
-		0, 232, 231, 1, 0, 0, 0, 233, 236, 1, 0, 0, 0, 234, 232, 1, 0, 0, 0, 234,
-		235, 1, 0, 0, 0, 235, 35, 1, 0, 0, 0, 236, 234, 1, 0, 0, 0, 237, 238, 5,
-		14, 0, 0, 238, 239, 5, 65, 0, 0, 239, 240, 3, 24, 12, 0, 240, 241, 7, 5,
-		0, 0, 241, 242, 3, 20, 10, 0, 242, 243, 5, 74, 0, 0, 243, 37, 1, 0, 0,
-		0, 244, 245, 5, 14, 0, 0, 245, 246, 5, 67, 0, 0, 246, 247, 3, 26, 13, 0,
-		247, 248, 5, 74, 0, 0, 248, 39, 1, 0, 0, 0, 249, 250, 5, 14, 0, 0, 250,
-		251, 3, 42, 21, 0, 251, 255, 5, 75, 0, 0, 252, 254, 3, 16, 8, 0, 253, 252,
-		1, 0, 0, 0, 254, 257, 1, 0, 0, 0, 255, 253, 1, 0, 0, 0, 255, 256, 1, 0,
-		0, 0, 256, 41, 1, 0, 0, 0, 257, 255, 1, 0, 0, 0, 258, 264, 5, 77, 0, 0,
-		259, 260, 5, 76, 0, 0, 260, 261, 3, 20, 10, 0, 261, 262, 5, 57, 0, 0, 262,
-		264, 1, 0, 0, 0, 263, 258, 1, 0, 0, 0, 263, 259, 1, 0, 0, 0, 264, 267,
-		1, 0, 0, 0, 265, 263, 1, 0, 0, 0, 265, 266, 1, 0, 0, 0, 266, 43, 1, 0,
-		0, 0, 267, 265, 1, 0, 0, 0, 268, 270, 3, 46, 23, 0, 269, 268, 1, 0, 0,
-		0, 270, 271, 1, 0, 0, 0, 271, 269, 1, 0, 0, 0, 271, 272, 1, 0, 0, 0, 272,
-		45, 1, 0, 0, 0, 273, 274, 5, 13, 0, 0, 274, 283, 3, 12, 6, 0, 275, 279,
-		5, 1, 0, 0, 276, 278, 3, 10, 5, 0, 277, 276, 1, 0, 0, 0, 278, 281, 1, 0,
-		0, 0, 279, 277, 1, 0, 0, 0, 279, 280, 1, 0, 0, 0, 280, 282, 1, 0, 0, 0,
-		281, 279, 1, 0, 0, 0, 282, 284, 5, 2, 0, 0, 283, 275, 1, 0, 0, 0, 283,
-		284, 1, 0, 0, 0, 284, 47, 1, 0, 0, 0, 285, 286, 5, 14, 0, 0, 286, 287,
-		5, 68, 0, 0, 287, 288, 3, 24, 12, 0, 288, 289, 5, 30, 0, 0, 289, 292, 3,
-		22, 11, 0, 290, 291, 5, 54, 0, 0, 291, 293, 5, 56, 0, 0, 292, 290, 1, 0,
-		0, 0, 292, 293, 1, 0, 0, 0, 293, 294, 1, 0, 0, 0, 294, 295, 5, 74, 0, 0,
-		295, 49, 1, 0, 0, 0, 296, 297, 5, 14, 0, 0, 297, 298, 5, 69, 0, 0, 298,
-		299, 5, 6, 0, 0, 299, 308, 5, 74, 0, 0, 300, 301, 5, 14, 0, 0, 301, 302,
-		5, 69, 0, 0, 302, 303, 5, 15, 0, 0, 303, 304, 3, 20, 10, 0, 304, 305, 5,
-		57, 0, 0, 305, 306, 5, 74, 0, 0, 306, 308, 1, 0, 0, 0, 307, 296, 1, 0,
-		0, 0, 307, 300, 1, 0, 0, 0, 308, 51, 1, 0, 0, 0, 31, 55, 61, 69, 78, 83,
-		98, 102, 106, 111, 119, 125, 127, 147, 164, 166, 176, 183, 189, 198, 202,
-		215, 225, 234, 255, 263, 265, 271, 279, 283, 292, 307,
+		21, 5, 21, 264, 8, 21, 10, 21, 12, 21, 267, 9, 21, 1, 22, 5, 22, 270, 8,
+		22, 10, 22, 12, 22, 273, 9, 22, 1, 22, 1, 22, 3, 22, 277, 8, 22, 1, 23,
+		1, 23, 1, 23, 1, 23, 5, 23, 283, 8, 23, 10, 23, 12, 23, 286, 9, 23, 1,
+		23, 3, 23, 289, 8, 23, 1, 24, 1, 24, 1, 24, 1, 24, 1, 24, 1, 24, 1, 24,
+		3, 24, 298, 8, 24, 1, 24, 1, 24, 1, 25, 1, 25, 1, 25, 1, 25, 1, 25, 1,
+		25, 1, 25, 1, 25, 1, 25, 1, 25, 1, 25, 3, 25, 313, 8, 25, 1, 25, 0, 1,
+		20, 26, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32,
+		34, 36, 38, 40, 42, 44, 46, 48, 50, 0, 6, 1, 0, 49, 51, 1, 0, 47, 48, 2,
+		0, 32, 33, 35, 36, 2, 0, 34, 34, 37, 37, 1, 0, 38, 40, 2, 0, 31, 31, 42,
+		46, 337, 0, 55, 1, 0, 0, 0, 2, 63, 1, 0, 0, 0, 4, 67, 1, 0, 0, 0, 6, 75,
+		1, 0, 0, 0, 8, 83, 1, 0, 0, 0, 10, 102, 1, 0, 0, 0, 12, 104, 1, 0, 0, 0,
+		14, 125, 1, 0, 0, 0, 16, 129, 1, 0, 0, 0, 18, 132, 1, 0, 0, 0, 20, 147,
+		1, 0, 0, 0, 22, 176, 1, 0, 0, 0, 24, 178, 1, 0, 0, 0, 26, 180, 1, 0, 0,
+		0, 28, 194, 1, 0, 0, 0, 30, 208, 1, 0, 0, 0, 32, 218, 1, 0, 0, 0, 34, 228,
+		1, 0, 0, 0, 36, 237, 1, 0, 0, 0, 38, 244, 1, 0, 0, 0, 40, 249, 1, 0, 0,
+		0, 42, 265, 1, 0, 0, 0, 44, 271, 1, 0, 0, 0, 46, 278, 1, 0, 0, 0, 48, 290,
+		1, 0, 0, 0, 50, 312, 1, 0, 0, 0, 52, 54, 3, 2, 1, 0, 53, 52, 1, 0, 0, 0,
+		54, 57, 1, 0, 0, 0, 55, 53, 1, 0, 0, 0, 55, 56, 1, 0, 0, 0, 56, 59, 1,
+		0, 0, 0, 57, 55, 1, 0, 0, 0, 58, 60, 3, 4, 2, 0, 59, 58, 1, 0, 0, 0, 60,
+		61, 1, 0, 0, 0, 61, 59, 1, 0, 0, 0, 61, 62, 1, 0, 0, 0, 62, 1, 1, 0, 0,
+		0, 63, 64, 5, 10, 0, 0, 64, 65, 5, 26, 0, 0, 65, 3, 1, 0, 0, 0, 66, 68,
+		3, 6, 3, 0, 67, 66, 1, 0, 0, 0, 68, 69, 1, 0, 0, 0, 69, 67, 1, 0, 0, 0,
+		69, 70, 1, 0, 0, 0, 70, 71, 1, 0, 0, 0, 71, 72, 5, 8, 0, 0, 72, 73, 3,
+		8, 4, 0, 73, 74, 5, 13, 0, 0, 74, 5, 1, 0, 0, 0, 75, 76, 5, 7, 0, 0, 76,
+		78, 5, 9, 0, 0, 77, 79, 5, 11, 0, 0, 78, 77, 1, 0, 0, 0, 78, 79, 1, 0,
+		0, 0, 79, 7, 1, 0, 0, 0, 80, 82, 3, 10, 5, 0, 81, 80, 1, 0, 0, 0, 82, 85,
+		1, 0, 0, 0, 83, 81, 1, 0, 0, 0, 83, 84, 1, 0, 0, 0, 84, 9, 1, 0, 0, 0,
+		85, 83, 1, 0, 0, 0, 86, 103, 3, 12, 6, 0, 87, 103, 3, 28, 14, 0, 88, 103,
+		3, 36, 18, 0, 89, 103, 3, 44, 22, 0, 90, 103, 3, 38, 19, 0, 91, 103, 3,
+		40, 20, 0, 92, 103, 3, 48, 24, 0, 93, 103, 3, 50, 25, 0, 94, 98, 5, 1,
+		0, 0, 95, 97, 3, 10, 5, 0, 96, 95, 1, 0, 0, 0, 97, 100, 1, 0, 0, 0, 98,
+		96, 1, 0, 0, 0, 98, 99, 1, 0, 0, 0, 99, 101, 1, 0, 0, 0, 100, 98, 1, 0,
+		0, 0, 101, 103, 5, 2, 0, 0, 102, 86, 1, 0, 0, 0, 102, 87, 1, 0, 0, 0, 102,
+		88, 1, 0, 0, 0, 102, 89, 1, 0, 0, 0, 102, 90, 1, 0, 0, 0, 102, 91, 1, 0,
+		0, 0, 102, 92, 1, 0, 0, 0, 102, 93, 1, 0, 0, 0, 102, 94, 1, 0, 0, 0, 103,
+		11, 1, 0, 0, 0, 104, 106, 3, 14, 7, 0, 105, 107, 3, 18, 9, 0, 106, 105,
+		1, 0, 0, 0, 106, 107, 1, 0, 0, 0, 107, 111, 1, 0, 0, 0, 108, 110, 3, 16,
+		8, 0, 109, 108, 1, 0, 0, 0, 110, 113, 1, 0, 0, 0, 111, 109, 1, 0, 0, 0,
+		111, 112, 1, 0, 0, 0, 112, 114, 1, 0, 0, 0, 113, 111, 1, 0, 0, 0, 114,
+		115, 5, 6, 0, 0, 115, 13, 1, 0, 0, 0, 116, 118, 5, 20, 0, 0, 117, 116,
+		1, 0, 0, 0, 118, 119, 1, 0, 0, 0, 119, 117, 1, 0, 0, 0, 119, 120, 1, 0,
+		0, 0, 120, 126, 1, 0, 0, 0, 121, 122, 5, 16, 0, 0, 122, 123, 3, 20, 10,
+		0, 123, 124, 5, 58, 0, 0, 124, 126, 1, 0, 0, 0, 125, 117, 1, 0, 0, 0, 125,
+		121, 1, 0, 0, 0, 126, 127, 1, 0, 0, 0, 127, 125, 1, 0, 0, 0, 127, 128,
+		1, 0, 0, 0, 128, 15, 1, 0, 0, 0, 129, 130, 5, 10, 0, 0, 130, 131, 5, 26,
+		0, 0, 131, 17, 1, 0, 0, 0, 132, 133, 5, 15, 0, 0, 133, 134, 5, 64, 0, 0,
+		134, 135, 3, 20, 10, 0, 135, 136, 5, 76, 0, 0, 136, 19, 1, 0, 0, 0, 137,
+		138, 6, 10, -1, 0, 138, 139, 5, 52, 0, 0, 139, 140, 3, 20, 10, 0, 140,
+		141, 5, 53, 0, 0, 141, 148, 1, 0, 0, 0, 142, 143, 5, 48, 0, 0, 143, 148,
+		3, 20, 10, 8, 144, 145, 5, 41, 0, 0, 145, 148, 3, 20, 10, 7, 146, 148,
+		3, 22, 11, 0, 147, 137, 1, 0, 0, 0, 147, 142, 1, 0, 0, 0, 147, 144, 1,
+		0, 0, 0, 147, 146, 1, 0, 0, 0, 148, 166, 1, 0, 0, 0, 149, 150, 10, 6, 0,
+		0, 150, 151, 7, 0, 0, 0, 151, 165, 3, 20, 10, 7, 152, 153, 10, 5, 0, 0,
+		153, 154, 7, 1, 0, 0, 154, 165, 3, 20, 10, 6, 155, 156, 10, 4, 0, 0, 156,
+		157, 7, 2, 0, 0, 157, 165, 3, 20, 10, 5, 158, 159, 10, 3, 0, 0, 159, 160,
+		7, 3, 0, 0, 160, 165, 3, 20, 10, 4, 161, 162, 10, 2, 0, 0, 162, 163, 7,
+		4, 0, 0, 163, 165, 3, 20, 10, 3, 164, 149, 1, 0, 0, 0, 164, 152, 1, 0,
+		0, 0, 164, 155, 1, 0, 0, 0, 164, 158, 1, 0, 0, 0, 164, 161, 1, 0, 0, 0,
+		165, 168, 1, 0, 0, 0, 166, 164, 1, 0, 0, 0, 166, 167, 1, 0, 0, 0, 167,
+		21, 1, 0, 0, 0, 168, 166, 1, 0, 0, 0, 169, 177, 5, 61, 0, 0, 170, 177,
+		5, 28, 0, 0, 171, 177, 5, 29, 0, 0, 172, 177, 3, 24, 12, 0, 173, 177, 5,
+		56, 0, 0, 174, 177, 5, 30, 0, 0, 175, 177, 3, 26, 13, 0, 176, 169, 1, 0,
+		0, 0, 176, 170, 1, 0, 0, 0, 176, 171, 1, 0, 0, 0, 176, 172, 1, 0, 0, 0,
+		176, 173, 1, 0, 0, 0, 176, 174, 1, 0, 0, 0, 176, 175, 1, 0, 0, 0, 177,
+		23, 1, 0, 0, 0, 178, 179, 5, 59, 0, 0, 179, 25, 1, 0, 0, 0, 180, 181, 5,
+		57, 0, 0, 181, 183, 5, 52, 0, 0, 182, 184, 3, 20, 10, 0, 183, 182, 1, 0,
+		0, 0, 183, 184, 1, 0, 0, 0, 184, 189, 1, 0, 0, 0, 185, 186, 5, 54, 0, 0,
+		186, 188, 3, 20, 10, 0, 187, 185, 1, 0, 0, 0, 188, 191, 1, 0, 0, 0, 189,
+		187, 1, 0, 0, 0, 189, 190, 1, 0, 0, 0, 190, 192, 1, 0, 0, 0, 191, 189,
+		1, 0, 0, 0, 192, 193, 5, 53, 0, 0, 193, 27, 1, 0, 0, 0, 194, 198, 3, 30,
+		15, 0, 195, 197, 3, 32, 16, 0, 196, 195, 1, 0, 0, 0, 197, 200, 1, 0, 0,
+		0, 198, 196, 1, 0, 0, 0, 198, 199, 1, 0, 0, 0, 199, 202, 1, 0, 0, 0, 200,
+		198, 1, 0, 0, 0, 201, 203, 3, 34, 17, 0, 202, 201, 1, 0, 0, 0, 202, 203,
+		1, 0, 0, 0, 203, 204, 1, 0, 0, 0, 204, 205, 5, 15, 0, 0, 205, 206, 5, 68,
+		0, 0, 206, 207, 5, 76, 0, 0, 207, 29, 1, 0, 0, 0, 208, 209, 5, 15, 0, 0,
+		209, 210, 5, 64, 0, 0, 210, 211, 3, 20, 10, 0, 211, 215, 5, 76, 0, 0, 212,
+		214, 3, 10, 5, 0, 213, 212, 1, 0, 0, 0, 214, 217, 1, 0, 0, 0, 215, 213,
+		1, 0, 0, 0, 215, 216, 1, 0, 0, 0, 216, 31, 1, 0, 0, 0, 217, 215, 1, 0,
+		0, 0, 218, 219, 5, 15, 0, 0, 219, 220, 5, 65, 0, 0, 220, 221, 3, 20, 10,
+		0, 221, 225, 5, 76, 0, 0, 222, 224, 3, 10, 5, 0, 223, 222, 1, 0, 0, 0,
+		224, 227, 1, 0, 0, 0, 225, 223, 1, 0, 0, 0, 225, 226, 1, 0, 0, 0, 226,
+		33, 1, 0, 0, 0, 227, 225, 1, 0, 0, 0, 228, 229, 5, 15, 0, 0, 229, 230,
+		5, 66, 0, 0, 230, 234, 5, 76, 0, 0, 231, 233, 3, 10, 5, 0, 232, 231, 1,
+		0, 0, 0, 233, 236, 1, 0, 0, 0, 234, 232, 1, 0, 0, 0, 234, 235, 1, 0, 0,
+		0, 235, 35, 1, 0, 0, 0, 236, 234, 1, 0, 0, 0, 237, 238, 5, 15, 0, 0, 238,
+		239, 5, 67, 0, 0, 239, 240, 3, 24, 12, 0, 240, 241, 7, 5, 0, 0, 241, 242,
+		3, 20, 10, 0, 242, 243, 5, 76, 0, 0, 243, 37, 1, 0, 0, 0, 244, 245, 5,
+		15, 0, 0, 245, 246, 5, 69, 0, 0, 246, 247, 3, 26, 13, 0, 247, 248, 5, 76,
+		0, 0, 248, 39, 1, 0, 0, 0, 249, 250, 5, 15, 0, 0, 250, 251, 3, 42, 21,
+		0, 251, 255, 5, 78, 0, 0, 252, 254, 3, 16, 8, 0, 253, 252, 1, 0, 0, 0,
+		254, 257, 1, 0, 0, 0, 255, 253, 1, 0, 0, 0, 255, 256, 1, 0, 0, 0, 256,
+		41, 1, 0, 0, 0, 257, 255, 1, 0, 0, 0, 258, 264, 5, 80, 0, 0, 259, 260,
+		5, 79, 0, 0, 260, 261, 3, 20, 10, 0, 261, 262, 5, 58, 0, 0, 262, 264, 1,
+		0, 0, 0, 263, 258, 1, 0, 0, 0, 263, 259, 1, 0, 0, 0, 264, 267, 1, 0, 0,
+		0, 265, 263, 1, 0, 0, 0, 265, 266, 1, 0, 0, 0, 266, 43, 1, 0, 0, 0, 267,
+		265, 1, 0, 0, 0, 268, 270, 3, 46, 23, 0, 269, 268, 1, 0, 0, 0, 270, 273,
+		1, 0, 0, 0, 271, 269, 1, 0, 0, 0, 271, 272, 1, 0, 0, 0, 272, 274, 1, 0,
+		0, 0, 273, 271, 1, 0, 0, 0, 274, 276, 3, 46, 23, 0, 275, 277, 5, 3, 0,
+		0, 276, 275, 1, 0, 0, 0, 276, 277, 1, 0, 0, 0, 277, 45, 1, 0, 0, 0, 278,
+		279, 5, 14, 0, 0, 279, 288, 3, 12, 6, 0, 280, 284, 5, 1, 0, 0, 281, 283,
+		3, 10, 5, 0, 282, 281, 1, 0, 0, 0, 283, 286, 1, 0, 0, 0, 284, 282, 1, 0,
+		0, 0, 284, 285, 1, 0, 0, 0, 285, 287, 1, 0, 0, 0, 286, 284, 1, 0, 0, 0,
+		287, 289, 5, 2, 0, 0, 288, 280, 1, 0, 0, 0, 288, 289, 1, 0, 0, 0, 289,
+		47, 1, 0, 0, 0, 290, 291, 5, 15, 0, 0, 291, 292, 5, 70, 0, 0, 292, 293,
+		3, 24, 12, 0, 293, 294, 5, 31, 0, 0, 294, 297, 3, 22, 11, 0, 295, 296,
+		5, 55, 0, 0, 296, 298, 5, 57, 0, 0, 297, 295, 1, 0, 0, 0, 297, 298, 1,
+		0, 0, 0, 298, 299, 1, 0, 0, 0, 299, 300, 5, 76, 0, 0, 300, 49, 1, 0, 0,
+		0, 301, 302, 5, 15, 0, 0, 302, 303, 5, 71, 0, 0, 303, 304, 5, 7, 0, 0,
+		304, 313, 5, 76, 0, 0, 305, 306, 5, 15, 0, 0, 306, 307, 5, 71, 0, 0, 307,
+		308, 5, 16, 0, 0, 308, 309, 3, 20, 10, 0, 309, 310, 5, 58, 0, 0, 310, 311,
+		5, 76, 0, 0, 311, 313, 1, 0, 0, 0, 312, 301, 1, 0, 0, 0, 312, 305, 1, 0,
+		0, 0, 313, 51, 1, 0, 0, 0, 32, 55, 61, 69, 78, 83, 98, 102, 106, 111, 119,
+		125, 127, 147, 164, 166, 176, 183, 189, 198, 202, 215, 225, 234, 255, 263,
+		265, 271, 276, 284, 288, 297, 312,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -251,84 +255,88 @@ const (
 	YarnSpinnerParserEOF                                  = antlr.TokenEOF
 	YarnSpinnerParserINDENT                               = 1
 	YarnSpinnerParserDEDENT                               = 2
-	YarnSpinnerParserWS                                   = 3
-	YarnSpinnerParserCOMMENT                              = 4
-	YarnSpinnerParserNEWLINE                              = 5
-	YarnSpinnerParserID                                   = 6
-	YarnSpinnerParserBODY_START                           = 7
-	YarnSpinnerParserHEADER_DELIMITER                     = 8
-	YarnSpinnerParserHASHTAG                              = 9
-	YarnSpinnerParserREST_OF_LINE                         = 10
-	YarnSpinnerParserBODY_WS                              = 11
-	YarnSpinnerParserBODY_END                             = 12
-	YarnSpinnerParserSHORTCUT_ARROW                       = 13
-	YarnSpinnerParserCOMMAND_START                        = 14
-	YarnSpinnerParserEXPRESSION_START                     = 15
-	YarnSpinnerParserESCAPED_ANY                          = 16
-	YarnSpinnerParserTEXT_ESCAPE                          = 17
-	YarnSpinnerParserTEXT_COMMENT                         = 18
-	YarnSpinnerParserTEXT                                 = 19
-	YarnSpinnerParserUNESCAPABLE_CHARACTER                = 20
-	YarnSpinnerParserTEXT_COMMANDHASHTAG_WS               = 21
-	YarnSpinnerParserTEXT_COMMANDHASHTAG_COMMENT          = 22
-	YarnSpinnerParserTEXT_COMMANDHASHTAG_ERROR            = 23
-	YarnSpinnerParserHASHTAG_WS                           = 24
-	YarnSpinnerParserHASHTAG_TEXT                         = 25
-	YarnSpinnerParserEXPR_WS                              = 26
-	YarnSpinnerParserKEYWORD_TRUE                         = 27
-	YarnSpinnerParserKEYWORD_FALSE                        = 28
-	YarnSpinnerParserKEYWORD_NULL                         = 29
-	YarnSpinnerParserOPERATOR_ASSIGNMENT                  = 30
-	YarnSpinnerParserOPERATOR_LOGICAL_LESS_THAN_EQUALS    = 31
-	YarnSpinnerParserOPERATOR_LOGICAL_GREATER_THAN_EQUALS = 32
-	YarnSpinnerParserOPERATOR_LOGICAL_EQUALS              = 33
-	YarnSpinnerParserOPERATOR_LOGICAL_LESS                = 34
-	YarnSpinnerParserOPERATOR_LOGICAL_GREATER             = 35
-	YarnSpinnerParserOPERATOR_LOGICAL_NOT_EQUALS          = 36
-	YarnSpinnerParserOPERATOR_LOGICAL_AND                 = 37
-	YarnSpinnerParserOPERATOR_LOGICAL_OR                  = 38
-	YarnSpinnerParserOPERATOR_LOGICAL_XOR                 = 39
-	YarnSpinnerParserOPERATOR_LOGICAL_NOT                 = 40
-	YarnSpinnerParserOPERATOR_MATHS_ADDITION_EQUALS       = 41
-	YarnSpinnerParserOPERATOR_MATHS_SUBTRACTION_EQUALS    = 42
-	YarnSpinnerParserOPERATOR_MATHS_MULTIPLICATION_EQUALS = 43
-	YarnSpinnerParserOPERATOR_MATHS_MODULUS_EQUALS        = 44
-	YarnSpinnerParserOPERATOR_MATHS_DIVISION_EQUALS       = 45
-	YarnSpinnerParserOPERATOR_MATHS_ADDITION              = 46
-	YarnSpinnerParserOPERATOR_MATHS_SUBTRACTION           = 47
-	YarnSpinnerParserOPERATOR_MATHS_MULTIPLICATION        = 48
-	YarnSpinnerParserOPERATOR_MATHS_DIVISION              = 49
-	YarnSpinnerParserOPERATOR_MATHS_MODULUS               = 50
-	YarnSpinnerParserLPAREN                               = 51
-	YarnSpinnerParserRPAREN                               = 52
-	YarnSpinnerParserCOMMA                                = 53
-	YarnSpinnerParserEXPRESSION_AS                        = 54
-	YarnSpinnerParserSTRING                               = 55
-	YarnSpinnerParserFUNC_ID                              = 56
-	YarnSpinnerParserEXPRESSION_END                       = 57
-	YarnSpinnerParserVAR_ID                               = 58
-	YarnSpinnerParserDOT                                  = 59
-	YarnSpinnerParserNUMBER                               = 60
-	YarnSpinnerParserCOMMAND_WS                           = 61
-	YarnSpinnerParserCOMMAND_IF                           = 62
-	YarnSpinnerParserCOMMAND_ELSEIF                       = 63
-	YarnSpinnerParserCOMMAND_ELSE                         = 64
-	YarnSpinnerParserCOMMAND_SET                          = 65
-	YarnSpinnerParserCOMMAND_ENDIF                        = 66
-	YarnSpinnerParserCOMMAND_CALL                         = 67
-	YarnSpinnerParserCOMMAND_DECLARE                      = 68
-	YarnSpinnerParserCOMMAND_JUMP                         = 69
-	YarnSpinnerParserCOMMAND_ENUM                         = 70
-	YarnSpinnerParserCOMMAND_CASE                         = 71
-	YarnSpinnerParserCOMMAND_ENDENUM                      = 72
-	YarnSpinnerParserCOMMAND_LOCAL                        = 73
-	YarnSpinnerParserCOMMAND_END                          = 74
-	YarnSpinnerParserCOMMAND_TEXT_END                     = 75
-	YarnSpinnerParserCOMMAND_EXPRESSION_START             = 76
-	YarnSpinnerParserCOMMAND_TEXT                         = 77
-	YarnSpinnerParserTYPE_STRING                          = 78
-	YarnSpinnerParserTYPE_NUMBER                          = 79
-	YarnSpinnerParserTYPE_BOOL                            = 80
+	YarnSpinnerParserBLANK_LINE_FOLLOWING_OPTION          = 3
+	YarnSpinnerParserWS                                   = 4
+	YarnSpinnerParserCOMMENT                              = 5
+	YarnSpinnerParserNEWLINE                              = 6
+	YarnSpinnerParserID                                   = 7
+	YarnSpinnerParserBODY_START                           = 8
+	YarnSpinnerParserHEADER_DELIMITER                     = 9
+	YarnSpinnerParserHASHTAG                              = 10
+	YarnSpinnerParserREST_OF_LINE                         = 11
+	YarnSpinnerParserBODY_WS                              = 12
+	YarnSpinnerParserBODY_END                             = 13
+	YarnSpinnerParserSHORTCUT_ARROW                       = 14
+	YarnSpinnerParserCOMMAND_START                        = 15
+	YarnSpinnerParserEXPRESSION_START                     = 16
+	YarnSpinnerParserESCAPED_ANY                          = 17
+	YarnSpinnerParserTEXT_ESCAPE                          = 18
+	YarnSpinnerParserTEXT_COMMENT                         = 19
+	YarnSpinnerParserTEXT                                 = 20
+	YarnSpinnerParserUNESCAPABLE_CHARACTER                = 21
+	YarnSpinnerParserTEXT_COMMANDHASHTAG_WS               = 22
+	YarnSpinnerParserTEXT_COMMANDHASHTAG_COMMENT          = 23
+	YarnSpinnerParserTEXT_COMMANDHASHTAG_ERROR            = 24
+	YarnSpinnerParserHASHTAG_WS                           = 25
+	YarnSpinnerParserHASHTAG_TEXT                         = 26
+	YarnSpinnerParserEXPR_WS                              = 27
+	YarnSpinnerParserKEYWORD_TRUE                         = 28
+	YarnSpinnerParserKEYWORD_FALSE                        = 29
+	YarnSpinnerParserKEYWORD_NULL                         = 30
+	YarnSpinnerParserOPERATOR_ASSIGNMENT                  = 31
+	YarnSpinnerParserOPERATOR_LOGICAL_LESS_THAN_EQUALS    = 32
+	YarnSpinnerParserOPERATOR_LOGICAL_GREATER_THAN_EQUALS = 33
+	YarnSpinnerParserOPERATOR_LOGICAL_EQUALS              = 34
+	YarnSpinnerParserOPERATOR_LOGICAL_LESS                = 35
+	YarnSpinnerParserOPERATOR_LOGICAL_GREATER             = 36
+	YarnSpinnerParserOPERATOR_LOGICAL_NOT_EQUALS          = 37
+	YarnSpinnerParserOPERATOR_LOGICAL_AND                 = 38
+	YarnSpinnerParserOPERATOR_LOGICAL_OR                  = 39
+	YarnSpinnerParserOPERATOR_LOGICAL_XOR                 = 40
+	YarnSpinnerParserOPERATOR_LOGICAL_NOT                 = 41
+	YarnSpinnerParserOPERATOR_MATHS_ADDITION_EQUALS       = 42
+	YarnSpinnerParserOPERATOR_MATHS_SUBTRACTION_EQUALS    = 43
+	YarnSpinnerParserOPERATOR_MATHS_MULTIPLICATION_EQUALS = 44
+	YarnSpinnerParserOPERATOR_MATHS_MODULUS_EQUALS        = 45
+	YarnSpinnerParserOPERATOR_MATHS_DIVISION_EQUALS       = 46
+	YarnSpinnerParserOPERATOR_MATHS_ADDITION              = 47
+	YarnSpinnerParserOPERATOR_MATHS_SUBTRACTION           = 48
+	YarnSpinnerParserOPERATOR_MATHS_MULTIPLICATION        = 49
+	YarnSpinnerParserOPERATOR_MATHS_DIVISION              = 50
+	YarnSpinnerParserOPERATOR_MATHS_MODULUS               = 51
+	YarnSpinnerParserLPAREN                               = 52
+	YarnSpinnerParserRPAREN                               = 53
+	YarnSpinnerParserCOMMA                                = 54
+	YarnSpinnerParserEXPRESSION_AS                        = 55
+	YarnSpinnerParserSTRING                               = 56
+	YarnSpinnerParserFUNC_ID                              = 57
+	YarnSpinnerParserEXPRESSION_END                       = 58
+	YarnSpinnerParserVAR_ID                               = 59
+	YarnSpinnerParserDOT                                  = 60
+	YarnSpinnerParserNUMBER                               = 61
+	YarnSpinnerParserCOMMAND_NEWLINE                      = 62
+	YarnSpinnerParserCOMMAND_WS                           = 63
+	YarnSpinnerParserCOMMAND_IF                           = 64
+	YarnSpinnerParserCOMMAND_ELSEIF                       = 65
+	YarnSpinnerParserCOMMAND_ELSE                         = 66
+	YarnSpinnerParserCOMMAND_SET                          = 67
+	YarnSpinnerParserCOMMAND_ENDIF                        = 68
+	YarnSpinnerParserCOMMAND_CALL                         = 69
+	YarnSpinnerParserCOMMAND_DECLARE                      = 70
+	YarnSpinnerParserCOMMAND_JUMP                         = 71
+	YarnSpinnerParserCOMMAND_ENUM                         = 72
+	YarnSpinnerParserCOMMAND_CASE                         = 73
+	YarnSpinnerParserCOMMAND_ENDENUM                      = 74
+	YarnSpinnerParserCOMMAND_LOCAL                        = 75
+	YarnSpinnerParserCOMMAND_END                          = 76
+	YarnSpinnerParserCOMMAND_TEXT_NEWLINE                 = 77
+	YarnSpinnerParserCOMMAND_TEXT_END                     = 78
+	YarnSpinnerParserCOMMAND_EXPRESSION_START             = 79
+	YarnSpinnerParserCOMMAND_TEXT                         = 80
+	YarnSpinnerParserCOMMAND_ID_NEWLINE                   = 81
+	YarnSpinnerParserTYPE_STRING                          = 82
+	YarnSpinnerParserTYPE_NUMBER                          = 83
+	YarnSpinnerParserTYPE_BOOL                            = 84
 )
 
 // YarnSpinnerParser rules.
@@ -1127,7 +1135,7 @@ func (p *YarnSpinnerParser) Body() (localctx IBodyContext) {
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&581634) != 0 {
+	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1163266) != 0 {
 		{
 			p.SetState(80)
 			p.Statement()
@@ -1469,7 +1477,7 @@ func (p *YarnSpinnerParser) Statement() (localctx IStatementContext) {
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
-		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&581634) != 0 {
+		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1163266) != 0 {
 			{
 				p.SetState(95)
 				p.Statement()
@@ -2967,7 +2975,7 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 
 					_la = p.GetTokenStream().LA(1)
 
-					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1970324836974592) != 0) {
+					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&3940649673949184) != 0) {
 						var _ri = p.GetErrorHandler().RecoverInline(p)
 
 						localctx.(*ExpMultDivModContext).op = _ri
@@ -3029,7 +3037,7 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 
 					_la = p.GetTokenStream().LA(1)
 
-					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&57982058496) != 0) {
+					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&115964116992) != 0) {
 						var _ri = p.GetErrorHandler().RecoverInline(p)
 
 						localctx.(*ExpComparisonContext).op = _ri
@@ -3091,7 +3099,7 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 
 					_la = p.GetTokenStream().LA(1)
 
-					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&962072674304) != 0) {
+					if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1924145348608) != 0) {
 						var _ri = p.GetErrorHandler().RecoverInline(p)
 
 						localctx.(*ExpAndOrXorContext).op = _ri
@@ -3768,7 +3776,7 @@ func (p *YarnSpinnerParser) Function_call() (localctx IFunction_callContext) {
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1551631909568643072) != 0 {
+	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&3103263819137286144) != 0 {
 		{
 			p.SetState(182)
 			p.expression(0)
@@ -4746,7 +4754,7 @@ func (p *YarnSpinnerParser) Set_statement() (localctx ISet_statementContext) {
 
 		_la = p.GetTokenStream().LA(1)
 
-		if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&68170794663936) != 0) {
+		if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&136341589327872) != 0) {
 			var _ri = p.GetErrorHandler().RecoverInline(p)
 
 			localctx.(*Set_statementContext).op = _ri
@@ -5344,6 +5352,10 @@ func (s *Shortcut_option_statementContext) Shortcut_option(i int) IShortcut_opti
 	return t.(IShortcut_optionContext)
 }
 
+func (s *Shortcut_option_statementContext) BLANK_LINE_FOLLOWING_OPTION() antlr.TerminalNode {
+	return s.GetToken(YarnSpinnerParserBLANK_LINE_FOLLOWING_OPTION, 0)
+}
+
 func (s *Shortcut_option_statementContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -5370,6 +5382,7 @@ func (p *YarnSpinnerParser) Shortcut_option_statement() (localctx IShortcut_opti
 
 	localctx = NewShortcut_option_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 44, YarnSpinnerParserRULE_shortcut_option_statement)
+	var _la int
 
 	defer func() {
 		p.ExitRule()
@@ -5390,24 +5403,37 @@ func (p *YarnSpinnerParser) Shortcut_option_statement() (localctx IShortcut_opti
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(269)
+	p.SetState(271)
 	p.GetErrorHandler().Sync(p)
-	_alt = 1
-	for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
-		switch _alt {
-		case 1:
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 26, p.GetParserRuleContext())
+
+	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
+		if _alt == 1 {
 			{
 				p.SetState(268)
 				p.Shortcut_option()
 			}
 
-		default:
-			panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 		}
-
-		p.SetState(271)
+		p.SetState(273)
 		p.GetErrorHandler().Sync(p)
 		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 26, p.GetParserRuleContext())
+	}
+
+	{
+		p.SetState(274)
+		p.Shortcut_option()
+	}
+	p.SetState(276)
+	p.GetErrorHandler().Sync(p)
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == YarnSpinnerParserBLANK_LINE_FOLLOWING_OPTION {
+		{
+			p.SetState(275)
+			p.Match(YarnSpinnerParserBLANK_LINE_FOLLOWING_OPTION)
+		}
+
 	}
 
 	return localctx
@@ -5566,37 +5592,37 @@ func (p *YarnSpinnerParser) Shortcut_option() (localctx IShortcut_optionContext)
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(273)
+		p.SetState(278)
 		p.Match(YarnSpinnerParserSHORTCUT_ARROW)
 	}
 	{
-		p.SetState(274)
+		p.SetState(279)
 		p.Line_statement()
 	}
-	p.SetState(283)
+	p.SetState(288)
 	p.GetErrorHandler().Sync(p)
 
-	if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 28, p.GetParserRuleContext()) == 1 {
+	if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 29, p.GetParserRuleContext()) == 1 {
 		{
-			p.SetState(275)
+			p.SetState(280)
 			p.Match(YarnSpinnerParserINDENT)
 		}
-		p.SetState(279)
+		p.SetState(284)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
-		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&581634) != 0 {
+		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1163266) != 0 {
 			{
-				p.SetState(276)
+				p.SetState(281)
 				p.Statement()
 			}
 
-			p.SetState(281)
+			p.SetState(286)
 			p.GetErrorHandler().Sync(p)
 			_la = p.GetTokenStream().LA(1)
 		}
 		{
-			p.SetState(282)
+			p.SetState(287)
 			p.Match(YarnSpinnerParserDEDENT)
 		}
 
@@ -5756,36 +5782,36 @@ func (p *YarnSpinnerParser) Declare_statement() (localctx IDeclare_statementCont
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(285)
+		p.SetState(290)
 		p.Match(YarnSpinnerParserCOMMAND_START)
 	}
 	{
-		p.SetState(286)
+		p.SetState(291)
 		p.Match(YarnSpinnerParserCOMMAND_DECLARE)
 	}
 	{
-		p.SetState(287)
+		p.SetState(292)
 		p.Variable()
 	}
 	{
-		p.SetState(288)
+		p.SetState(293)
 		p.Match(YarnSpinnerParserOPERATOR_ASSIGNMENT)
 	}
 	{
-		p.SetState(289)
+		p.SetState(294)
 		p.Value()
 	}
-	p.SetState(292)
+	p.SetState(297)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == YarnSpinnerParserEXPRESSION_AS {
 		{
-			p.SetState(290)
+			p.SetState(295)
 			p.Match(YarnSpinnerParserEXPRESSION_AS)
 		}
 		{
-			p.SetState(291)
+			p.SetState(296)
 
 			var _m = p.Match(YarnSpinnerParserFUNC_ID)
 
@@ -5794,7 +5820,7 @@ func (p *YarnSpinnerParser) Declare_statement() (localctx IDeclare_statementCont
 
 	}
 	{
-		p.SetState(294)
+		p.SetState(299)
 		p.Match(YarnSpinnerParserCOMMAND_END)
 	}
 
@@ -5991,29 +6017,29 @@ func (p *YarnSpinnerParser) Jump_statement() (localctx IJump_statementContext) {
 		}
 	}()
 
-	p.SetState(307)
+	p.SetState(312)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 30, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 31, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewJumpToNodeNameContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(296)
+			p.SetState(301)
 			p.Match(YarnSpinnerParserCOMMAND_START)
 		}
 		{
-			p.SetState(297)
+			p.SetState(302)
 			p.Match(YarnSpinnerParserCOMMAND_JUMP)
 		}
 		{
-			p.SetState(298)
+			p.SetState(303)
 
 			var _m = p.Match(YarnSpinnerParserID)
 
 			localctx.(*JumpToNodeNameContext).destination = _m
 		}
 		{
-			p.SetState(299)
+			p.SetState(304)
 			p.Match(YarnSpinnerParserCOMMAND_END)
 		}
 
@@ -6021,27 +6047,27 @@ func (p *YarnSpinnerParser) Jump_statement() (localctx IJump_statementContext) {
 		localctx = NewJumpToExpressionContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(300)
+			p.SetState(305)
 			p.Match(YarnSpinnerParserCOMMAND_START)
 		}
 		{
-			p.SetState(301)
+			p.SetState(306)
 			p.Match(YarnSpinnerParserCOMMAND_JUMP)
 		}
 		{
-			p.SetState(302)
+			p.SetState(307)
 			p.Match(YarnSpinnerParserEXPRESSION_START)
 		}
 		{
-			p.SetState(303)
+			p.SetState(308)
 			p.expression(0)
 		}
 		{
-			p.SetState(304)
+			p.SetState(309)
 			p.Match(YarnSpinnerParserEXPRESSION_END)
 		}
 		{
-			p.SetState(305)
+			p.SetState(310)
 			p.Match(YarnSpinnerParserCOMMAND_END)
 		}
 
