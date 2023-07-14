@@ -1,13 +1,12 @@
-// Code generated from java-escape by ANTLR 4.11.1. DO NOT EDIT.
+// Code generated from internal/parser/YarnSpinnerLexer.g4 by ANTLR 4.13.0. DO NOT EDIT.
 
 package parser
 
 import (
 	"fmt"
+	"github.com/antlr4-go/antlr/v4"
 	"sync"
 	"unicode"
-
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 )
 
 // Suppress unused import error
@@ -22,30 +21,30 @@ type YarnSpinnerLexer struct {
 	// TODO: EOF string
 }
 
-var yarnspinnerlexerLexerStaticData struct {
+var YarnSpinnerLexerLexerStaticData struct {
 	once                   sync.Once
 	serializedATN          []int32
-	channelNames           []string
-	modeNames              []string
-	literalNames           []string
-	symbolicNames          []string
-	ruleNames              []string
-	predictionContextCache *antlr.PredictionContextCache
+	ChannelNames           []string
+	ModeNames              []string
+	LiteralNames           []string
+	SymbolicNames          []string
+	RuleNames              []string
+	PredictionContextCache *antlr.PredictionContextCache
 	atn                    *antlr.ATN
 	decisionToDFA          []*antlr.DFA
 }
 
 func yarnspinnerlexerLexerInit() {
-	staticData := &yarnspinnerlexerLexerStaticData
-	staticData.channelNames = []string{
+	staticData := &YarnSpinnerLexerLexerStaticData
+	staticData.ChannelNames = []string{
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN", "WHITESPACE", "COMMENTS",
 	}
-	staticData.modeNames = []string{
+	staticData.ModeNames = []string{
 		"DEFAULT_MODE", "HeaderMode", "BodyMode", "TextMode", "TextEscapedMode",
 		"TextCommandOrHashtagMode", "HashtagMode", "ExpressionMode", "CommandMode",
 		"CommandTextMode", "CommandIDMode", "CommandIDOrExpressionMode",
 	}
-	staticData.literalNames = []string{
+	staticData.LiteralNames = []string{
 		"", "", "", "", "", "", "", "", "'---'", "", "'#'", "", "", "'==='",
 		"'->'", "'<<'", "", "", "'\\'", "", "", "", "", "", "", "", "", "",
 		"'true'", "'false'", "'null'", "", "", "", "", "", "", "", "", "", "",
@@ -54,7 +53,7 @@ func yarnspinnerlexerLexerInit() {
 		"", "", "", "", "", "'endif'", "", "", "", "", "", "", "", "", "", "",
 		"'{'", "", "", "'string'", "'number'", "'bool'",
 	}
-	staticData.symbolicNames = []string{
+	staticData.SymbolicNames = []string{
 		"", "INDENT", "DEDENT", "BLANK_LINE_FOLLOWING_OPTION", "WS", "COMMENT",
 		"NEWLINE", "ID", "BODY_START", "HEADER_DELIMITER", "HASHTAG", "REST_OF_LINE",
 		"BODY_WS", "BODY_END", "SHORTCUT_ARROW", "COMMAND_START", "EXPRESSION_START",
@@ -77,7 +76,7 @@ func yarnspinnerlexerLexerInit() {
 		"COMMAND_EXPRESSION_START", "COMMAND_TEXT", "COMMAND_ID_NEWLINE", "TYPE_STRING",
 		"TYPE_NUMBER", "TYPE_BOOL",
 	}
-	staticData.ruleNames = []string{
+	staticData.RuleNames = []string{
 		"WS", "COMMENT", "NEWLINE", "ID", "IDENTIFIER_HEAD", "IDENTIFIER_CHARACTER",
 		"IDENTIFIER_CHARACTERS", "BODY_START", "HEADER_DELIMITER", "HASHTAG",
 		"REST_OF_LINE", "HEADER_NEWLINE", "BODY_WS", "BODY_NEWLINE", "BODY_COMMENT",
@@ -106,7 +105,7 @@ func yarnspinnerlexerLexerInit() {
 		"COMMAND_TEXT", "COMMAND_ID_NEWLINE", "COMMAND_ID", "COMMAND_ID_END",
 		"COMMAND_ID_OR_EXPRESSION_ID", "COMMAND_ID_OR_EXPRESSION_START", "COMMAND_ID_OR_EXPRESSION_END",
 	}
-	staticData.predictionContextCache = antlr.NewPredictionContextCache()
+	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
 		4, 0, 84, 818, 6, -1, 6, -1, 6, -1, 6, -1, 6, -1, 6, -1, 6, -1, 6, -1,
 		6, -1, 6, -1, 6, -1, 6, -1, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7,
@@ -498,7 +497,7 @@ func yarnspinnerlexerLexerInit() {
 // NewYarnSpinnerLexer(). You can call this function if you wish to initialize the static state ahead
 // of time.
 func YarnSpinnerLexerInit() {
-	staticData := &yarnspinnerlexerLexerStaticData
+	staticData := &YarnSpinnerLexerLexerStaticData
 	staticData.once.Do(yarnspinnerlexerLexerInit)
 }
 
@@ -507,13 +506,13 @@ func NewYarnSpinnerLexer(input antlr.CharStream) *YarnSpinnerLexer {
 	YarnSpinnerLexerInit()
 	l := new(YarnSpinnerLexer)
 	l.BaseLexer = antlr.NewBaseLexer(input)
-	staticData := &yarnspinnerlexerLexerStaticData
-	l.Interpreter = antlr.NewLexerATNSimulator(l, staticData.atn, staticData.decisionToDFA, staticData.predictionContextCache)
-	l.channelNames = staticData.channelNames
-	l.modeNames = staticData.modeNames
-	l.RuleNames = staticData.ruleNames
-	l.LiteralNames = staticData.literalNames
-	l.SymbolicNames = staticData.symbolicNames
+	staticData := &YarnSpinnerLexerLexerStaticData
+	l.Interpreter = antlr.NewLexerATNSimulator(l, staticData.atn, staticData.decisionToDFA, staticData.PredictionContextCache)
+	l.channelNames = staticData.ChannelNames
+	l.modeNames = staticData.ModeNames
+	l.RuleNames = staticData.RuleNames
+	l.LiteralNames = staticData.LiteralNames
+	l.SymbolicNames = staticData.SymbolicNames
 	l.GrammarFileName = "YarnSpinnerLexer.g4"
 	// TODO: l.EOF = antlr.TokenEOF
 

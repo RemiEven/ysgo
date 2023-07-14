@@ -1,4 +1,4 @@
-// Code generated from java-escape by ANTLR 4.11.1. DO NOT EDIT.
+// Code generated from internal/parser/YarnSpinnerParser.g4 by ANTLR 4.13.0. DO NOT EDIT.
 
 package parser // YarnSpinnerParser
 
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+	"github.com/antlr4-go/antlr/v4"
 )
 
 // Suppress unused import errors
@@ -19,20 +19,20 @@ type YarnSpinnerParser struct {
 	*antlr.BaseParser
 }
 
-var yarnspinnerparserParserStaticData struct {
+var YarnSpinnerParserParserStaticData struct {
 	once                   sync.Once
 	serializedATN          []int32
-	literalNames           []string
-	symbolicNames          []string
-	ruleNames              []string
-	predictionContextCache *antlr.PredictionContextCache
+	LiteralNames           []string
+	SymbolicNames          []string
+	RuleNames              []string
+	PredictionContextCache *antlr.PredictionContextCache
 	atn                    *antlr.ATN
 	decisionToDFA          []*antlr.DFA
 }
 
 func yarnspinnerparserParserInit() {
-	staticData := &yarnspinnerparserParserStaticData
-	staticData.literalNames = []string{
+	staticData := &YarnSpinnerParserParserStaticData
+	staticData.LiteralNames = []string{
 		"", "", "", "", "", "", "", "", "'---'", "", "'#'", "", "", "'==='",
 		"'->'", "'<<'", "", "", "'\\'", "", "", "", "", "", "", "", "", "",
 		"'true'", "'false'", "'null'", "", "", "", "", "", "", "", "", "", "",
@@ -41,7 +41,7 @@ func yarnspinnerparserParserInit() {
 		"", "", "", "", "", "'endif'", "", "", "", "", "", "", "", "", "", "",
 		"'{'", "", "", "'string'", "'number'", "'bool'",
 	}
-	staticData.symbolicNames = []string{
+	staticData.SymbolicNames = []string{
 		"", "INDENT", "DEDENT", "BLANK_LINE_FOLLOWING_OPTION", "WS", "COMMENT",
 		"NEWLINE", "ID", "BODY_START", "HEADER_DELIMITER", "HASHTAG", "REST_OF_LINE",
 		"BODY_WS", "BODY_END", "SHORTCUT_ARROW", "COMMAND_START", "EXPRESSION_START",
@@ -64,7 +64,7 @@ func yarnspinnerparserParserInit() {
 		"COMMAND_EXPRESSION_START", "COMMAND_TEXT", "COMMAND_ID_NEWLINE", "TYPE_STRING",
 		"TYPE_NUMBER", "TYPE_BOOL",
 	}
-	staticData.ruleNames = []string{
+	staticData.RuleNames = []string{
 		"dialogue", "file_hashtag", "node", "header", "body", "statement", "line_statement",
 		"line_formatted_text", "hashtag", "line_condition", "expression", "value",
 		"variable", "function_call", "if_statement", "if_clause", "else_if_clause",
@@ -72,7 +72,7 @@ func yarnspinnerparserParserInit() {
 		"command_formatted_text", "shortcut_option_statement", "shortcut_option",
 		"declare_statement", "jump_statement",
 	}
-	staticData.predictionContextCache = antlr.NewPredictionContextCache()
+	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
 		4, 1, 84, 315, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
@@ -231,7 +231,7 @@ func yarnspinnerparserParserInit() {
 // NewYarnSpinnerParser(). You can call this function if you wish to initialize the static state ahead
 // of time.
 func YarnSpinnerParserInit() {
-	staticData := &yarnspinnerparserParserStaticData
+	staticData := &YarnSpinnerParserParserStaticData
 	staticData.once.Do(yarnspinnerparserParserInit)
 }
 
@@ -240,12 +240,12 @@ func NewYarnSpinnerParser(input antlr.TokenStream) *YarnSpinnerParser {
 	YarnSpinnerParserInit()
 	this := new(YarnSpinnerParser)
 	this.BaseParser = antlr.NewBaseParser(input)
-	staticData := &yarnspinnerparserParserStaticData
-	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.predictionContextCache)
-	this.RuleNames = staticData.ruleNames
-	this.LiteralNames = staticData.literalNames
-	this.SymbolicNames = staticData.symbolicNames
-	this.GrammarFileName = "java-escape"
+	staticData := &YarnSpinnerParserParserStaticData
+	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.PredictionContextCache)
+	this.RuleNames = staticData.RuleNames
+	this.LiteralNames = staticData.LiteralNames
+	this.SymbolicNames = staticData.SymbolicNames
+	this.GrammarFileName = "YarnSpinnerParser.g4"
 
 	return this
 }
@@ -376,20 +376,31 @@ type IDialogueContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	AllNode() []INodeContext
+	Node(i int) INodeContext
+	AllFile_hashtag() []IFile_hashtagContext
+	File_hashtag(i int) IFile_hashtagContext
+
 	// IsDialogueContext differentiates from other interfaces.
 	IsDialogueContext()
 }
 
 type DialogueContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyDialogueContext() *DialogueContext {
 	var p = new(DialogueContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_dialogue
 	return p
+}
+
+func InitEmptyDialogueContext(p *DialogueContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_dialogue
 }
 
 func (*DialogueContext) IsDialogueContext() {}
@@ -397,7 +408,7 @@ func (*DialogueContext) IsDialogueContext() {}
 func NewDialogueContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *DialogueContext {
 	var p = new(DialogueContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_dialogue
@@ -510,32 +521,16 @@ func (s *DialogueContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Dialogue() (localctx IDialogueContext) {
-	this := p
-	_ = this
-
 	localctx = NewDialogueContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 0, YarnSpinnerParserRULE_dialogue)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(55)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == YarnSpinnerParserHASHTAG {
@@ -546,11 +541,17 @@ func (p *YarnSpinnerParser) Dialogue() (localctx IDialogueContext) {
 
 		p.SetState(57)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
 	p.SetState(59)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for ok := true; ok; ok = _la == YarnSpinnerParserID {
@@ -561,10 +562,23 @@ func (p *YarnSpinnerParser) Dialogue() (localctx IDialogueContext) {
 
 		p.SetState(61)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IFile_hashtagContext is an interface to support dynamic dispatch.
@@ -580,21 +594,30 @@ type IFile_hashtagContext interface {
 	// SetText sets the text token.
 	SetText(antlr.Token)
 
+	// Getter signatures
+	HASHTAG() antlr.TerminalNode
+	HASHTAG_TEXT() antlr.TerminalNode
+
 	// IsFile_hashtagContext differentiates from other interfaces.
 	IsFile_hashtagContext()
 }
 
 type File_hashtagContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 	text   antlr.Token
 }
 
 func NewEmptyFile_hashtagContext() *File_hashtagContext {
 	var p = new(File_hashtagContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_file_hashtag
 	return p
+}
+
+func InitEmptyFile_hashtagContext(p *File_hashtagContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_file_hashtag
 }
 
 func (*File_hashtagContext) IsFile_hashtagContext() {}
@@ -602,7 +625,7 @@ func (*File_hashtagContext) IsFile_hashtagContext() {}
 func NewFile_hashtagContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *File_hashtagContext {
 	var p = new(File_hashtagContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_file_hashtag
@@ -645,32 +668,16 @@ func (s *File_hashtagContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) File_hashtag() (localctx IFile_hashtagContext) {
-	this := p
-	_ = this
-
 	localctx = NewFile_hashtagContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 2, YarnSpinnerParserRULE_file_hashtag)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(63)
 		p.Match(YarnSpinnerParserHASHTAG)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(64)
@@ -678,9 +685,23 @@ func (p *YarnSpinnerParser) File_hashtag() (localctx IFile_hashtagContext) {
 		var _m = p.Match(YarnSpinnerParserHASHTAG_TEXT)
 
 		localctx.(*File_hashtagContext).text = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // INodeContext is an interface to support dynamic dispatch.
@@ -690,20 +711,32 @@ type INodeContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	BODY_START() antlr.TerminalNode
+	Body() IBodyContext
+	BODY_END() antlr.TerminalNode
+	AllHeader() []IHeaderContext
+	Header(i int) IHeaderContext
+
 	// IsNodeContext differentiates from other interfaces.
 	IsNodeContext()
 }
 
 type NodeContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyNodeContext() *NodeContext {
 	var p = new(NodeContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_node
 	return p
+}
+
+func InitEmptyNodeContext(p *NodeContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_node
 }
 
 func (*NodeContext) IsNodeContext() {}
@@ -711,7 +744,7 @@ func (*NodeContext) IsNodeContext() {}
 func NewNodeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *NodeContext {
 	var p = new(NodeContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_node
@@ -807,32 +840,16 @@ func (s *NodeContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Node() (localctx INodeContext) {
-	this := p
-	_ = this
-
 	localctx = NewNodeContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 4, YarnSpinnerParserRULE_node)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(67)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for ok := true; ok; ok = _la == YarnSpinnerParserID {
@@ -843,11 +860,18 @@ func (p *YarnSpinnerParser) Node() (localctx INodeContext) {
 
 		p.SetState(69)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
 		p.SetState(71)
 		p.Match(YarnSpinnerParserBODY_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(72)
@@ -856,9 +880,23 @@ func (p *YarnSpinnerParser) Node() (localctx INodeContext) {
 	{
 		p.SetState(73)
 		p.Match(YarnSpinnerParserBODY_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IHeaderContext is an interface to support dynamic dispatch.
@@ -880,12 +918,17 @@ type IHeaderContext interface {
 	// SetHeader_value sets the header_value token.
 	SetHeader_value(antlr.Token)
 
+	// Getter signatures
+	HEADER_DELIMITER() antlr.TerminalNode
+	ID() antlr.TerminalNode
+	REST_OF_LINE() antlr.TerminalNode
+
 	// IsHeaderContext differentiates from other interfaces.
 	IsHeaderContext()
 }
 
 type HeaderContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser       antlr.Parser
 	header_key   antlr.Token
 	header_value antlr.Token
@@ -893,9 +936,14 @@ type HeaderContext struct {
 
 func NewEmptyHeaderContext() *HeaderContext {
 	var p = new(HeaderContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_header
 	return p
+}
+
+func InitEmptyHeaderContext(p *HeaderContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_header
 }
 
 func (*HeaderContext) IsHeaderContext() {}
@@ -903,7 +951,7 @@ func (*HeaderContext) IsHeaderContext() {}
 func NewHeaderContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *HeaderContext {
 	var p = new(HeaderContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_header
@@ -954,28 +1002,9 @@ func (s *HeaderContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Header() (localctx IHeaderContext) {
-	this := p
-	_ = this
-
 	localctx = NewHeaderContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 6, YarnSpinnerParserRULE_header)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -984,13 +1013,24 @@ func (p *YarnSpinnerParser) Header() (localctx IHeaderContext) {
 		var _m = p.Match(YarnSpinnerParserID)
 
 		localctx.(*HeaderContext).header_key = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(76)
 		p.Match(YarnSpinnerParserHEADER_DELIMITER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(78)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == YarnSpinnerParserREST_OF_LINE {
@@ -1000,11 +1040,25 @@ func (p *YarnSpinnerParser) Header() (localctx IHeaderContext) {
 			var _m = p.Match(YarnSpinnerParserREST_OF_LINE)
 
 			localctx.(*HeaderContext).header_value = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IBodyContext is an interface to support dynamic dispatch.
@@ -1014,20 +1068,29 @@ type IBodyContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	AllStatement() []IStatementContext
+	Statement(i int) IStatementContext
+
 	// IsBodyContext differentiates from other interfaces.
 	IsBodyContext()
 }
 
 type BodyContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyBodyContext() *BodyContext {
 	var p = new(BodyContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_body
 	return p
+}
+
+func InitEmptyBodyContext(p *BodyContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_body
 }
 
 func (*BodyContext) IsBodyContext() {}
@@ -1035,7 +1098,7 @@ func (*BodyContext) IsBodyContext() {}
 func NewBodyContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *BodyContext {
 	var p = new(BodyContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_body
@@ -1107,32 +1170,16 @@ func (s *BodyContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Body() (localctx IBodyContext) {
-	this := p
-	_ = this
-
 	localctx = NewBodyContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 8, YarnSpinnerParserRULE_body)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(83)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1163266) != 0 {
@@ -1143,10 +1190,23 @@ func (p *YarnSpinnerParser) Body() (localctx IBodyContext) {
 
 		p.SetState(85)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IStatementContext is an interface to support dynamic dispatch.
@@ -1156,20 +1216,39 @@ type IStatementContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	Line_statement() ILine_statementContext
+	If_statement() IIf_statementContext
+	Set_statement() ISet_statementContext
+	Shortcut_option_statement() IShortcut_option_statementContext
+	Call_statement() ICall_statementContext
+	Command_statement() ICommand_statementContext
+	Declare_statement() IDeclare_statementContext
+	Jump_statement() IJump_statementContext
+	INDENT() antlr.TerminalNode
+	DEDENT() antlr.TerminalNode
+	AllStatement() []IStatementContext
+	Statement(i int) IStatementContext
+
 	// IsStatementContext differentiates from other interfaces.
 	IsStatementContext()
 }
 
 type StatementContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyStatementContext() *StatementContext {
 	var p = new(StatementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_statement
 	return p
+}
+
+func InitEmptyStatementContext(p *StatementContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_statement
 }
 
 func (*StatementContext) IsStatementContext() {}
@@ -1177,7 +1256,7 @@ func (*StatementContext) IsStatementContext() {}
 func NewStatementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *StatementContext {
 	var p = new(StatementContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_statement
@@ -1385,32 +1464,17 @@ func (s *StatementContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Statement() (localctx IStatementContext) {
-	this := p
-	_ = this
-
 	localctx = NewStatementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 10, YarnSpinnerParserRULE_statement)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.SetState(102)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext()) {
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 6, p.GetParserRuleContext()) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
@@ -1472,9 +1536,16 @@ func (p *YarnSpinnerParser) Statement() (localctx IStatementContext) {
 		{
 			p.SetState(94)
 			p.Match(YarnSpinnerParserINDENT)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		p.SetState(98)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 
 		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1163266) != 0 {
@@ -1485,16 +1556,35 @@ func (p *YarnSpinnerParser) Statement() (localctx IStatementContext) {
 
 			p.SetState(100)
 			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
 			_la = p.GetTokenStream().LA(1)
 		}
 		{
 			p.SetState(101)
 			p.Match(YarnSpinnerParserDEDENT)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
+	case antlr.ATNInvalidAltNumber:
+		goto errorExit
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ILine_statementContext is an interface to support dynamic dispatch.
@@ -1504,20 +1594,32 @@ type ILine_statementContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	Line_formatted_text() ILine_formatted_textContext
+	NEWLINE() antlr.TerminalNode
+	Line_condition() ILine_conditionContext
+	AllHashtag() []IHashtagContext
+	Hashtag(i int) IHashtagContext
+
 	// IsLine_statementContext differentiates from other interfaces.
 	IsLine_statementContext()
 }
 
 type Line_statementContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyLine_statementContext() *Line_statementContext {
 	var p = new(Line_statementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_line_statement
 	return p
+}
+
+func InitEmptyLine_statementContext(p *Line_statementContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_line_statement
 }
 
 func (*Line_statementContext) IsLine_statementContext() {}
@@ -1525,7 +1627,7 @@ func (*Line_statementContext) IsLine_statementContext() {}
 func NewLine_statementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Line_statementContext {
 	var p = new(Line_statementContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_line_statement
@@ -1633,28 +1735,9 @@ func (s *Line_statementContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Line_statement() (localctx ILine_statementContext) {
-	this := p
-	_ = this
-
 	localctx = NewLine_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 12, YarnSpinnerParserRULE_line_statement)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
@@ -1663,6 +1746,9 @@ func (p *YarnSpinnerParser) Line_statement() (localctx ILine_statementContext) {
 	}
 	p.SetState(106)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == YarnSpinnerParserCOMMAND_START {
@@ -1674,6 +1760,9 @@ func (p *YarnSpinnerParser) Line_statement() (localctx ILine_statementContext) {
 	}
 	p.SetState(111)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == YarnSpinnerParserHASHTAG {
@@ -1684,14 +1773,31 @@ func (p *YarnSpinnerParser) Line_statement() (localctx ILine_statementContext) {
 
 		p.SetState(113)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
 		p.SetState(114)
 		p.Match(YarnSpinnerParserNEWLINE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ILine_formatted_textContext is an interface to support dynamic dispatch.
@@ -1701,20 +1807,35 @@ type ILine_formatted_textContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	AllEXPRESSION_START() []antlr.TerminalNode
+	EXPRESSION_START(i int) antlr.TerminalNode
+	AllExpression() []IExpressionContext
+	Expression(i int) IExpressionContext
+	AllEXPRESSION_END() []antlr.TerminalNode
+	EXPRESSION_END(i int) antlr.TerminalNode
+	AllTEXT() []antlr.TerminalNode
+	TEXT(i int) antlr.TerminalNode
+
 	// IsLine_formatted_textContext differentiates from other interfaces.
 	IsLine_formatted_textContext()
 }
 
 type Line_formatted_textContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyLine_formatted_textContext() *Line_formatted_textContext {
 	var p = new(Line_formatted_textContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_line_formatted_text
 	return p
+}
+
+func InitEmptyLine_formatted_textContext(p *Line_formatted_textContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_line_formatted_text
 }
 
 func (*Line_formatted_textContext) IsLine_formatted_textContext() {}
@@ -1722,7 +1843,7 @@ func (*Line_formatted_textContext) IsLine_formatted_textContext() {}
 func NewLine_formatted_textContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Line_formatted_textContext {
 	var p = new(Line_formatted_textContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_line_formatted_text
@@ -1818,44 +1939,34 @@ func (s *Line_formatted_textContext) ExitRule(listener antlr.ParseTreeListener) 
 }
 
 func (p *YarnSpinnerParser) Line_formatted_text() (localctx ILine_formatted_textContext) {
-	this := p
-	_ = this
-
 	localctx = NewLine_formatted_textContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 14, YarnSpinnerParserRULE_line_formatted_text)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(125)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for ok := true; ok; ok = _la == YarnSpinnerParserEXPRESSION_START || _la == YarnSpinnerParserTEXT {
 		p.SetState(125)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 
 		switch p.GetTokenStream().LA(1) {
 		case YarnSpinnerParserTEXT:
 			p.SetState(117)
 			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
 			_alt = 1
 			for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 				switch _alt {
@@ -1863,21 +1974,33 @@ func (p *YarnSpinnerParser) Line_formatted_text() (localctx ILine_formatted_text
 					{
 						p.SetState(116)
 						p.Match(YarnSpinnerParserTEXT)
+						if p.HasError() {
+							// Recognition error - abort rule
+							goto errorExit
+						}
 					}
 
 				default:
-					panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+					p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+					goto errorExit
 				}
 
 				p.SetState(119)
 				p.GetErrorHandler().Sync(p)
-				_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 9, p.GetParserRuleContext())
+				_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 9, p.GetParserRuleContext())
+				if p.HasError() {
+					goto errorExit
+				}
 			}
 
 		case YarnSpinnerParserEXPRESSION_START:
 			{
 				p.SetState(121)
 				p.Match(YarnSpinnerParserEXPRESSION_START)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
 			}
 			{
 				p.SetState(122)
@@ -1886,18 +2009,36 @@ func (p *YarnSpinnerParser) Line_formatted_text() (localctx ILine_formatted_text
 			{
 				p.SetState(123)
 				p.Match(YarnSpinnerParserEXPRESSION_END)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
 			}
 
 		default:
-			panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+			p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+			goto errorExit
 		}
 
 		p.SetState(127)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IHashtagContext is an interface to support dynamic dispatch.
@@ -1913,21 +2054,30 @@ type IHashtagContext interface {
 	// SetText sets the text token.
 	SetText(antlr.Token)
 
+	// Getter signatures
+	HASHTAG() antlr.TerminalNode
+	HASHTAG_TEXT() antlr.TerminalNode
+
 	// IsHashtagContext differentiates from other interfaces.
 	IsHashtagContext()
 }
 
 type HashtagContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 	text   antlr.Token
 }
 
 func NewEmptyHashtagContext() *HashtagContext {
 	var p = new(HashtagContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_hashtag
 	return p
+}
+
+func InitEmptyHashtagContext(p *HashtagContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_hashtag
 }
 
 func (*HashtagContext) IsHashtagContext() {}
@@ -1935,7 +2085,7 @@ func (*HashtagContext) IsHashtagContext() {}
 func NewHashtagContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *HashtagContext {
 	var p = new(HashtagContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_hashtag
@@ -1978,32 +2128,16 @@ func (s *HashtagContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Hashtag() (localctx IHashtagContext) {
-	this := p
-	_ = this
-
 	localctx = NewHashtagContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 16, YarnSpinnerParserRULE_hashtag)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(129)
 		p.Match(YarnSpinnerParserHASHTAG)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(130)
@@ -2011,9 +2145,23 @@ func (p *YarnSpinnerParser) Hashtag() (localctx IHashtagContext) {
 		var _m = p.Match(YarnSpinnerParserHASHTAG_TEXT)
 
 		localctx.(*HashtagContext).text = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ILine_conditionContext is an interface to support dynamic dispatch.
@@ -2023,20 +2171,31 @@ type ILine_conditionContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	COMMAND_START() antlr.TerminalNode
+	COMMAND_IF() antlr.TerminalNode
+	Expression() IExpressionContext
+	COMMAND_END() antlr.TerminalNode
+
 	// IsLine_conditionContext differentiates from other interfaces.
 	IsLine_conditionContext()
 }
 
 type Line_conditionContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyLine_conditionContext() *Line_conditionContext {
 	var p = new(Line_conditionContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_line_condition
 	return p
+}
+
+func InitEmptyLine_conditionContext(p *Line_conditionContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_line_condition
 }
 
 func (*Line_conditionContext) IsLine_conditionContext() {}
@@ -2044,7 +2203,7 @@ func (*Line_conditionContext) IsLine_conditionContext() {}
 func NewLine_conditionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Line_conditionContext {
 	var p = new(Line_conditionContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_line_condition
@@ -2103,36 +2262,24 @@ func (s *Line_conditionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Line_condition() (localctx ILine_conditionContext) {
-	this := p
-	_ = this
-
 	localctx = NewLine_conditionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 18, YarnSpinnerParserRULE_line_condition)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(132)
 		p.Match(YarnSpinnerParserCOMMAND_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(133)
 		p.Match(YarnSpinnerParserCOMMAND_IF)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(134)
@@ -2141,9 +2288,23 @@ func (p *YarnSpinnerParser) Line_condition() (localctx ILine_conditionContext) {
 	{
 		p.SetState(135)
 		p.Match(YarnSpinnerParserCOMMAND_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IExpressionContext is an interface to support dynamic dispatch.
@@ -2152,21 +2313,25 @@ type IExpressionContext interface {
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
-
 	// IsExpressionContext differentiates from other interfaces.
 	IsExpressionContext()
 }
 
 type ExpressionContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyExpressionContext() *ExpressionContext {
 	var p = new(ExpressionContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_expression
 	return p
+}
+
+func InitEmptyExpressionContext(p *ExpressionContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_expression
 }
 
 func (*ExpressionContext) IsExpressionContext() {}
@@ -2174,7 +2339,7 @@ func (*ExpressionContext) IsExpressionContext() {}
 func NewExpressionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ExpressionContext {
 	var p = new(ExpressionContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_expression
@@ -2184,8 +2349,8 @@ func NewExpressionContext(parser antlr.Parser, parent antlr.ParserRuleContext, i
 
 func (s *ExpressionContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ExpressionContext) CopyFrom(ctx *ExpressionContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
+func (s *ExpressionContext) CopyAll(ctx *ExpressionContext) {
+	s.CopyFrom(&ctx.BaseParserRuleContext)
 }
 
 func (s *ExpressionContext) GetRuleContext() antlr.RuleContext {
@@ -2197,15 +2362,15 @@ func (s *ExpressionContext) ToStringTree(ruleNames []string, recog antlr.Recogni
 }
 
 type ExpParensContext struct {
-	*ExpressionContext
+	ExpressionContext
 }
 
 func NewExpParensContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExpParensContext {
 	var p = new(ExpParensContext)
 
-	p.ExpressionContext = NewEmptyExpressionContext()
+	InitEmptyExpressionContext(&p.ExpressionContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ExpressionContext))
+	p.CopyAll(ctx.(*ExpressionContext))
 
 	return p
 }
@@ -2251,16 +2416,16 @@ func (s *ExpParensContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExpMultDivModContext struct {
-	*ExpressionContext
+	ExpressionContext
 	op antlr.Token
 }
 
 func NewExpMultDivModContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExpMultDivModContext {
 	var p = new(ExpMultDivModContext)
 
-	p.ExpressionContext = NewEmptyExpressionContext()
+	InitEmptyExpressionContext(&p.ExpressionContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ExpressionContext))
+	p.CopyAll(ctx.(*ExpressionContext))
 
 	return p
 }
@@ -2339,16 +2504,16 @@ func (s *ExpMultDivModContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExpComparisonContext struct {
-	*ExpressionContext
+	ExpressionContext
 	op antlr.Token
 }
 
 func NewExpComparisonContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExpComparisonContext {
 	var p = new(ExpComparisonContext)
 
-	p.ExpressionContext = NewEmptyExpressionContext()
+	InitEmptyExpressionContext(&p.ExpressionContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ExpressionContext))
+	p.CopyAll(ctx.(*ExpressionContext))
 
 	return p
 }
@@ -2431,16 +2596,16 @@ func (s *ExpComparisonContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExpNegativeContext struct {
-	*ExpressionContext
+	ExpressionContext
 	op antlr.Token
 }
 
 func NewExpNegativeContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExpNegativeContext {
 	var p = new(ExpNegativeContext)
 
-	p.ExpressionContext = NewEmptyExpressionContext()
+	InitEmptyExpressionContext(&p.ExpressionContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ExpressionContext))
+	p.CopyAll(ctx.(*ExpressionContext))
 
 	return p
 }
@@ -2486,16 +2651,16 @@ func (s *ExpNegativeContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExpAndOrXorContext struct {
-	*ExpressionContext
+	ExpressionContext
 	op antlr.Token
 }
 
 func NewExpAndOrXorContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExpAndOrXorContext {
 	var p = new(ExpAndOrXorContext)
 
-	p.ExpressionContext = NewEmptyExpressionContext()
+	InitEmptyExpressionContext(&p.ExpressionContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ExpressionContext))
+	p.CopyAll(ctx.(*ExpressionContext))
 
 	return p
 }
@@ -2574,16 +2739,16 @@ func (s *ExpAndOrXorContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExpAddSubContext struct {
-	*ExpressionContext
+	ExpressionContext
 	op antlr.Token
 }
 
 func NewExpAddSubContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExpAddSubContext {
 	var p = new(ExpAddSubContext)
 
-	p.ExpressionContext = NewEmptyExpressionContext()
+	InitEmptyExpressionContext(&p.ExpressionContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ExpressionContext))
+	p.CopyAll(ctx.(*ExpressionContext))
 
 	return p
 }
@@ -2658,16 +2823,16 @@ func (s *ExpAddSubContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExpNotContext struct {
-	*ExpressionContext
+	ExpressionContext
 	op antlr.Token
 }
 
 func NewExpNotContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExpNotContext {
 	var p = new(ExpNotContext)
 
-	p.ExpressionContext = NewEmptyExpressionContext()
+	InitEmptyExpressionContext(&p.ExpressionContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ExpressionContext))
+	p.CopyAll(ctx.(*ExpressionContext))
 
 	return p
 }
@@ -2713,15 +2878,15 @@ func (s *ExpNotContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExpValueContext struct {
-	*ExpressionContext
+	ExpressionContext
 }
 
 func NewExpValueContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExpValueContext {
 	var p = new(ExpValueContext)
 
-	p.ExpressionContext = NewEmptyExpressionContext()
+	InitEmptyExpressionContext(&p.ExpressionContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ExpressionContext))
+	p.CopyAll(ctx.(*ExpressionContext))
 
 	return p
 }
@@ -2759,16 +2924,16 @@ func (s *ExpValueContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExpEqualityContext struct {
-	*ExpressionContext
+	ExpressionContext
 	op antlr.Token
 }
 
 func NewExpEqualityContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExpEqualityContext {
 	var p = new(ExpEqualityContext)
 
-	p.ExpressionContext = NewEmptyExpressionContext()
+	InitEmptyExpressionContext(&p.ExpressionContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ExpressionContext))
+	p.CopyAll(ctx.(*ExpressionContext))
 
 	return p
 }
@@ -2847,10 +3012,8 @@ func (p *YarnSpinnerParser) Expression() (localctx IExpressionContext) {
 }
 
 func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
-	this := p
-	_ = this
-
 	var _parentctx antlr.ParserRuleContext = p.GetParserRuleContext()
+
 	_parentState := p.GetState()
 	localctx = NewExpressionContext(p, p.GetParserRuleContext(), _parentState)
 	var _prevctx IExpressionContext = localctx
@@ -2859,27 +3022,14 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 	p.EnterRecursionRule(localctx, 20, YarnSpinnerParserRULE_expression, _p)
 	var _la int
 
-	defer func() {
-		p.UnrollRecursionContexts(_parentctx)
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(147)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 
 	switch p.GetTokenStream().LA(1) {
 	case YarnSpinnerParserLPAREN:
@@ -2890,6 +3040,10 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 		{
 			p.SetState(138)
 			p.Match(YarnSpinnerParserLPAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(139)
@@ -2898,6 +3052,10 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 		{
 			p.SetState(140)
 			p.Match(YarnSpinnerParserRPAREN)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case YarnSpinnerParserOPERATOR_MATHS_SUBTRACTION:
@@ -2910,6 +3068,10 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 			var _m = p.Match(YarnSpinnerParserOPERATOR_MATHS_SUBTRACTION)
 
 			localctx.(*ExpNegativeContext).op = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(143)
@@ -2926,6 +3088,10 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 			var _m = p.Match(YarnSpinnerParserOPERATOR_LOGICAL_NOT)
 
 			localctx.(*ExpNotContext).op = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(145)
@@ -2942,13 +3108,19 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 		}
 
 	default:
-		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
 	p.SetState(166)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 14, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 14, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			if p.GetParseListeners() != nil {
@@ -2957,14 +3129,19 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 			_prevctx = localctx
 			p.SetState(164)
 			p.GetErrorHandler().Sync(p)
-			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 13, p.GetParserRuleContext()) {
+			if p.HasError() {
+				goto errorExit
+			}
+
+			switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 13, p.GetParserRuleContext()) {
 			case 1:
 				localctx = NewExpMultDivModContext(p, NewExpressionContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, YarnSpinnerParserRULE_expression)
 				p.SetState(149)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 6)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 6)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 6)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(150)
@@ -2995,7 +3172,8 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 				p.SetState(152)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 5)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(153)
@@ -3026,7 +3204,8 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 				p.SetState(155)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 4)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(156)
@@ -3057,7 +3236,8 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 				p.SetState(158)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(159)
@@ -3088,7 +3268,8 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 				p.SetState(161)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 2)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 2)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 2)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(162)
@@ -3113,15 +3294,33 @@ func (p *YarnSpinnerParser) expression(_p int) (localctx IExpressionContext) {
 					p.expression(3)
 				}
 
+			case antlr.ATNInvalidAltNumber:
+				goto errorExit
 			}
 
 		}
 		p.SetState(168)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 14, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 14, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.UnrollRecursionContexts(_parentctx)
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IValueContext is an interface to support dynamic dispatch.
@@ -3130,21 +3329,25 @@ type IValueContext interface {
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
-
 	// IsValueContext differentiates from other interfaces.
 	IsValueContext()
 }
 
 type ValueContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyValueContext() *ValueContext {
 	var p = new(ValueContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_value
 	return p
+}
+
+func InitEmptyValueContext(p *ValueContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_value
 }
 
 func (*ValueContext) IsValueContext() {}
@@ -3152,7 +3355,7 @@ func (*ValueContext) IsValueContext() {}
 func NewValueContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ValueContext {
 	var p = new(ValueContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_value
@@ -3162,8 +3365,8 @@ func NewValueContext(parser antlr.Parser, parent antlr.ParserRuleContext, invoki
 
 func (s *ValueContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ValueContext) CopyFrom(ctx *ValueContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
+func (s *ValueContext) CopyAll(ctx *ValueContext) {
+	s.CopyFrom(&ctx.BaseParserRuleContext)
 }
 
 func (s *ValueContext) GetRuleContext() antlr.RuleContext {
@@ -3175,15 +3378,15 @@ func (s *ValueContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) 
 }
 
 type ValueNullContext struct {
-	*ValueContext
+	ValueContext
 }
 
 func NewValueNullContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ValueNullContext {
 	var p = new(ValueNullContext)
 
-	p.ValueContext = NewEmptyValueContext()
+	InitEmptyValueContext(&p.ValueContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ValueContext))
+	p.CopyAll(ctx.(*ValueContext))
 
 	return p
 }
@@ -3209,15 +3412,15 @@ func (s *ValueNullContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ValueNumberContext struct {
-	*ValueContext
+	ValueContext
 }
 
 func NewValueNumberContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ValueNumberContext {
 	var p = new(ValueNumberContext)
 
-	p.ValueContext = NewEmptyValueContext()
+	InitEmptyValueContext(&p.ValueContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ValueContext))
+	p.CopyAll(ctx.(*ValueContext))
 
 	return p
 }
@@ -3243,15 +3446,15 @@ func (s *ValueNumberContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ValueTrueContext struct {
-	*ValueContext
+	ValueContext
 }
 
 func NewValueTrueContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ValueTrueContext {
 	var p = new(ValueTrueContext)
 
-	p.ValueContext = NewEmptyValueContext()
+	InitEmptyValueContext(&p.ValueContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ValueContext))
+	p.CopyAll(ctx.(*ValueContext))
 
 	return p
 }
@@ -3277,15 +3480,15 @@ func (s *ValueTrueContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ValueFalseContext struct {
-	*ValueContext
+	ValueContext
 }
 
 func NewValueFalseContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ValueFalseContext {
 	var p = new(ValueFalseContext)
 
-	p.ValueContext = NewEmptyValueContext()
+	InitEmptyValueContext(&p.ValueContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ValueContext))
+	p.CopyAll(ctx.(*ValueContext))
 
 	return p
 }
@@ -3311,15 +3514,15 @@ func (s *ValueFalseContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ValueFuncContext struct {
-	*ValueContext
+	ValueContext
 }
 
 func NewValueFuncContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ValueFuncContext {
 	var p = new(ValueFuncContext)
 
-	p.ValueContext = NewEmptyValueContext()
+	InitEmptyValueContext(&p.ValueContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ValueContext))
+	p.CopyAll(ctx.(*ValueContext))
 
 	return p
 }
@@ -3357,15 +3560,15 @@ func (s *ValueFuncContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ValueVarContext struct {
-	*ValueContext
+	ValueContext
 }
 
 func NewValueVarContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ValueVarContext {
 	var p = new(ValueVarContext)
 
-	p.ValueContext = NewEmptyValueContext()
+	InitEmptyValueContext(&p.ValueContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ValueContext))
+	p.CopyAll(ctx.(*ValueContext))
 
 	return p
 }
@@ -3403,15 +3606,15 @@ func (s *ValueVarContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ValueStringContext struct {
-	*ValueContext
+	ValueContext
 }
 
 func NewValueStringContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ValueStringContext {
 	var p = new(ValueStringContext)
 
-	p.ValueContext = NewEmptyValueContext()
+	InitEmptyValueContext(&p.ValueContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*ValueContext))
+	p.CopyAll(ctx.(*ValueContext))
 
 	return p
 }
@@ -3437,30 +3640,13 @@ func (s *ValueStringContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Value() (localctx IValueContext) {
-	this := p
-	_ = this
-
 	localctx = NewValueContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 22, YarnSpinnerParserRULE_value)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.SetState(176)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 
 	switch p.GetTokenStream().LA(1) {
 	case YarnSpinnerParserNUMBER:
@@ -3469,6 +3655,10 @@ func (p *YarnSpinnerParser) Value() (localctx IValueContext) {
 		{
 			p.SetState(169)
 			p.Match(YarnSpinnerParserNUMBER)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case YarnSpinnerParserKEYWORD_TRUE:
@@ -3477,6 +3667,10 @@ func (p *YarnSpinnerParser) Value() (localctx IValueContext) {
 		{
 			p.SetState(170)
 			p.Match(YarnSpinnerParserKEYWORD_TRUE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case YarnSpinnerParserKEYWORD_FALSE:
@@ -3485,6 +3679,10 @@ func (p *YarnSpinnerParser) Value() (localctx IValueContext) {
 		{
 			p.SetState(171)
 			p.Match(YarnSpinnerParserKEYWORD_FALSE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case YarnSpinnerParserVAR_ID:
@@ -3501,6 +3699,10 @@ func (p *YarnSpinnerParser) Value() (localctx IValueContext) {
 		{
 			p.SetState(173)
 			p.Match(YarnSpinnerParserSTRING)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case YarnSpinnerParserKEYWORD_NULL:
@@ -3509,6 +3711,10 @@ func (p *YarnSpinnerParser) Value() (localctx IValueContext) {
 		{
 			p.SetState(174)
 			p.Match(YarnSpinnerParserKEYWORD_NULL)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case YarnSpinnerParserFUNC_ID:
@@ -3520,10 +3726,21 @@ func (p *YarnSpinnerParser) Value() (localctx IValueContext) {
 		}
 
 	default:
-		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IVariableContext is an interface to support dynamic dispatch.
@@ -3533,20 +3750,28 @@ type IVariableContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	VAR_ID() antlr.TerminalNode
+
 	// IsVariableContext differentiates from other interfaces.
 	IsVariableContext()
 }
 
 type VariableContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyVariableContext() *VariableContext {
 	var p = new(VariableContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_variable
 	return p
+}
+
+func InitEmptyVariableContext(p *VariableContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_variable
 }
 
 func (*VariableContext) IsVariableContext() {}
@@ -3554,7 +3779,7 @@ func (*VariableContext) IsVariableContext() {}
 func NewVariableContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *VariableContext {
 	var p = new(VariableContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_variable
@@ -3589,35 +3814,29 @@ func (s *VariableContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Variable() (localctx IVariableContext) {
-	this := p
-	_ = this
-
 	localctx = NewVariableContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 24, YarnSpinnerParserRULE_variable)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(178)
 		p.Match(YarnSpinnerParserVAR_ID)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IFunction_callContext is an interface to support dynamic dispatch.
@@ -3627,20 +3846,34 @@ type IFunction_callContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	FUNC_ID() antlr.TerminalNode
+	LPAREN() antlr.TerminalNode
+	RPAREN() antlr.TerminalNode
+	AllExpression() []IExpressionContext
+	Expression(i int) IExpressionContext
+	AllCOMMA() []antlr.TerminalNode
+	COMMA(i int) antlr.TerminalNode
+
 	// IsFunction_callContext differentiates from other interfaces.
 	IsFunction_callContext()
 }
 
 type Function_callContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyFunction_callContext() *Function_callContext {
 	var p = new(Function_callContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_function_call
 	return p
+}
+
+func InitEmptyFunction_callContext(p *Function_callContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_function_call
 }
 
 func (*Function_callContext) IsFunction_callContext() {}
@@ -3648,7 +3881,7 @@ func (*Function_callContext) IsFunction_callContext() {}
 func NewFunction_callContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Function_callContext {
 	var p = new(Function_callContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_function_call
@@ -3740,40 +3973,32 @@ func (s *Function_callContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Function_call() (localctx IFunction_callContext) {
-	this := p
-	_ = this
-
 	localctx = NewFunction_callContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 26, YarnSpinnerParserRULE_function_call)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(180)
 		p.Match(YarnSpinnerParserFUNC_ID)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(181)
 		p.Match(YarnSpinnerParserLPAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(183)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&3103263819137286144) != 0 {
@@ -3785,12 +4010,19 @@ func (p *YarnSpinnerParser) Function_call() (localctx IFunction_callContext) {
 	}
 	p.SetState(189)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == YarnSpinnerParserCOMMA {
 		{
 			p.SetState(185)
 			p.Match(YarnSpinnerParserCOMMA)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(186)
@@ -3799,14 +4031,31 @@ func (p *YarnSpinnerParser) Function_call() (localctx IFunction_callContext) {
 
 		p.SetState(191)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
 		p.SetState(192)
 		p.Match(YarnSpinnerParserRPAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IIf_statementContext is an interface to support dynamic dispatch.
@@ -3816,20 +4065,34 @@ type IIf_statementContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	If_clause() IIf_clauseContext
+	COMMAND_START() antlr.TerminalNode
+	COMMAND_ENDIF() antlr.TerminalNode
+	COMMAND_END() antlr.TerminalNode
+	AllElse_if_clause() []IElse_if_clauseContext
+	Else_if_clause(i int) IElse_if_clauseContext
+	Else_clause() IElse_clauseContext
+
 	// IsIf_statementContext differentiates from other interfaces.
 	IsIf_statementContext()
 }
 
 type If_statementContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyIf_statementContext() *If_statementContext {
 	var p = new(If_statementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_if_statement
 	return p
+}
+
+func InitEmptyIf_statementContext(p *If_statementContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_if_statement
 }
 
 func (*If_statementContext) IsIf_statementContext() {}
@@ -3837,7 +4100,7 @@ func (*If_statementContext) IsIf_statementContext() {}
 func NewIf_statementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *If_statementContext {
 	var p = new(If_statementContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_if_statement
@@ -3953,28 +4216,8 @@ func (s *If_statementContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) If_statement() (localctx IIf_statementContext) {
-	this := p
-	_ = this
-
 	localctx = NewIf_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 28, YarnSpinnerParserRULE_if_statement)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
@@ -3984,8 +4227,13 @@ func (p *YarnSpinnerParser) If_statement() (localctx IIf_statementContext) {
 	}
 	p.SetState(198)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 18, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 18, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
@@ -3996,32 +4244,62 @@ func (p *YarnSpinnerParser) If_statement() (localctx IIf_statementContext) {
 		}
 		p.SetState(200)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 18, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 18, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 	p.SetState(202)
 	p.GetErrorHandler().Sync(p)
 
-	if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 19, p.GetParserRuleContext()) == 1 {
+	if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 19, p.GetParserRuleContext()) == 1 {
 		{
 			p.SetState(201)
 			p.Else_clause()
 		}
 
+	} else if p.HasError() { // JIM
+		goto errorExit
 	}
 	{
 		p.SetState(204)
 		p.Match(YarnSpinnerParserCOMMAND_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(205)
 		p.Match(YarnSpinnerParserCOMMAND_ENDIF)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(206)
 		p.Match(YarnSpinnerParserCOMMAND_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IIf_clauseContext is an interface to support dynamic dispatch.
@@ -4031,20 +4309,33 @@ type IIf_clauseContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	COMMAND_START() antlr.TerminalNode
+	COMMAND_IF() antlr.TerminalNode
+	Expression() IExpressionContext
+	COMMAND_END() antlr.TerminalNode
+	AllStatement() []IStatementContext
+	Statement(i int) IStatementContext
+
 	// IsIf_clauseContext differentiates from other interfaces.
 	IsIf_clauseContext()
 }
 
 type If_clauseContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyIf_clauseContext() *If_clauseContext {
 	var p = new(If_clauseContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_if_clause
 	return p
+}
+
+func InitEmptyIf_clauseContext(p *If_clauseContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_if_clause
 }
 
 func (*If_clauseContext) IsIf_clauseContext() {}
@@ -4052,7 +4343,7 @@ func (*If_clauseContext) IsIf_clauseContext() {}
 func NewIf_clauseContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *If_clauseContext {
 	var p = new(If_clauseContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_if_clause
@@ -4152,38 +4443,26 @@ func (s *If_clauseContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) If_clause() (localctx IIf_clauseContext) {
-	this := p
-	_ = this
-
 	localctx = NewIf_clauseContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 30, YarnSpinnerParserRULE_if_clause)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(208)
 		p.Match(YarnSpinnerParserCOMMAND_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(209)
 		p.Match(YarnSpinnerParserCOMMAND_IF)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(210)
@@ -4192,11 +4471,20 @@ func (p *YarnSpinnerParser) If_clause() (localctx IIf_clauseContext) {
 	{
 		p.SetState(211)
 		p.Match(YarnSpinnerParserCOMMAND_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(215)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 20, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 20, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
@@ -4207,10 +4495,26 @@ func (p *YarnSpinnerParser) If_clause() (localctx IIf_clauseContext) {
 		}
 		p.SetState(217)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 20, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 20, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IElse_if_clauseContext is an interface to support dynamic dispatch.
@@ -4220,20 +4524,33 @@ type IElse_if_clauseContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	COMMAND_START() antlr.TerminalNode
+	COMMAND_ELSEIF() antlr.TerminalNode
+	Expression() IExpressionContext
+	COMMAND_END() antlr.TerminalNode
+	AllStatement() []IStatementContext
+	Statement(i int) IStatementContext
+
 	// IsElse_if_clauseContext differentiates from other interfaces.
 	IsElse_if_clauseContext()
 }
 
 type Else_if_clauseContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyElse_if_clauseContext() *Else_if_clauseContext {
 	var p = new(Else_if_clauseContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_else_if_clause
 	return p
+}
+
+func InitEmptyElse_if_clauseContext(p *Else_if_clauseContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_else_if_clause
 }
 
 func (*Else_if_clauseContext) IsElse_if_clauseContext() {}
@@ -4241,7 +4558,7 @@ func (*Else_if_clauseContext) IsElse_if_clauseContext() {}
 func NewElse_if_clauseContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Else_if_clauseContext {
 	var p = new(Else_if_clauseContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_else_if_clause
@@ -4341,38 +4658,26 @@ func (s *Else_if_clauseContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Else_if_clause() (localctx IElse_if_clauseContext) {
-	this := p
-	_ = this
-
 	localctx = NewElse_if_clauseContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 32, YarnSpinnerParserRULE_else_if_clause)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(218)
 		p.Match(YarnSpinnerParserCOMMAND_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(219)
 		p.Match(YarnSpinnerParserCOMMAND_ELSEIF)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(220)
@@ -4381,11 +4686,20 @@ func (p *YarnSpinnerParser) Else_if_clause() (localctx IElse_if_clauseContext) {
 	{
 		p.SetState(221)
 		p.Match(YarnSpinnerParserCOMMAND_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(225)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 21, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 21, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
@@ -4396,10 +4710,26 @@ func (p *YarnSpinnerParser) Else_if_clause() (localctx IElse_if_clauseContext) {
 		}
 		p.SetState(227)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 21, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 21, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IElse_clauseContext is an interface to support dynamic dispatch.
@@ -4409,20 +4739,32 @@ type IElse_clauseContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	COMMAND_START() antlr.TerminalNode
+	COMMAND_ELSE() antlr.TerminalNode
+	COMMAND_END() antlr.TerminalNode
+	AllStatement() []IStatementContext
+	Statement(i int) IStatementContext
+
 	// IsElse_clauseContext differentiates from other interfaces.
 	IsElse_clauseContext()
 }
 
 type Else_clauseContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyElse_clauseContext() *Else_clauseContext {
 	var p = new(Else_clauseContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_else_clause
 	return p
+}
+
+func InitEmptyElse_clauseContext(p *Else_clauseContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_else_clause
 }
 
 func (*Else_clauseContext) IsElse_clauseContext() {}
@@ -4430,7 +4772,7 @@ func (*Else_clauseContext) IsElse_clauseContext() {}
 func NewElse_clauseContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Else_clauseContext {
 	var p = new(Else_clauseContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_else_clause
@@ -4514,47 +4856,44 @@ func (s *Else_clauseContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Else_clause() (localctx IElse_clauseContext) {
-	this := p
-	_ = this
-
 	localctx = NewElse_clauseContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 34, YarnSpinnerParserRULE_else_clause)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(228)
 		p.Match(YarnSpinnerParserCOMMAND_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(229)
 		p.Match(YarnSpinnerParserCOMMAND_ELSE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(230)
 		p.Match(YarnSpinnerParserCOMMAND_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(234)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 22, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 22, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
@@ -4565,10 +4904,26 @@ func (p *YarnSpinnerParser) Else_clause() (localctx IElse_clauseContext) {
 		}
 		p.SetState(236)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 22, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 22, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ISet_statementContext is an interface to support dynamic dispatch.
@@ -4584,21 +4939,39 @@ type ISet_statementContext interface {
 	// SetOp sets the op token.
 	SetOp(antlr.Token)
 
+	// Getter signatures
+	COMMAND_START() antlr.TerminalNode
+	COMMAND_SET() antlr.TerminalNode
+	Variable() IVariableContext
+	Expression() IExpressionContext
+	COMMAND_END() antlr.TerminalNode
+	OPERATOR_ASSIGNMENT() antlr.TerminalNode
+	OPERATOR_MATHS_MULTIPLICATION_EQUALS() antlr.TerminalNode
+	OPERATOR_MATHS_DIVISION_EQUALS() antlr.TerminalNode
+	OPERATOR_MATHS_MODULUS_EQUALS() antlr.TerminalNode
+	OPERATOR_MATHS_ADDITION_EQUALS() antlr.TerminalNode
+	OPERATOR_MATHS_SUBTRACTION_EQUALS() antlr.TerminalNode
+
 	// IsSet_statementContext differentiates from other interfaces.
 	IsSet_statementContext()
 }
 
 type Set_statementContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 	op     antlr.Token
 }
 
 func NewEmptySet_statementContext() *Set_statementContext {
 	var p = new(Set_statementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_set_statement
 	return p
+}
+
+func InitEmptySet_statementContext(p *Set_statementContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_set_statement
 }
 
 func (*Set_statementContext) IsSet_statementContext() {}
@@ -4606,7 +4979,7 @@ func (*Set_statementContext) IsSet_statementContext() {}
 func NewSet_statementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Set_statementContext {
 	var p = new(Set_statementContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_set_statement
@@ -4709,37 +5082,26 @@ func (s *Set_statementContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Set_statement() (localctx ISet_statementContext) {
-	this := p
-	_ = this
-
 	localctx = NewSet_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 36, YarnSpinnerParserRULE_set_statement)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(237)
 		p.Match(YarnSpinnerParserCOMMAND_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(238)
 		p.Match(YarnSpinnerParserCOMMAND_SET)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(239)
@@ -4770,9 +5132,23 @@ func (p *YarnSpinnerParser) Set_statement() (localctx ISet_statementContext) {
 	{
 		p.SetState(242)
 		p.Match(YarnSpinnerParserCOMMAND_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ICall_statementContext is an interface to support dynamic dispatch.
@@ -4782,20 +5158,31 @@ type ICall_statementContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	COMMAND_START() antlr.TerminalNode
+	COMMAND_CALL() antlr.TerminalNode
+	Function_call() IFunction_callContext
+	COMMAND_END() antlr.TerminalNode
+
 	// IsCall_statementContext differentiates from other interfaces.
 	IsCall_statementContext()
 }
 
 type Call_statementContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyCall_statementContext() *Call_statementContext {
 	var p = new(Call_statementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_call_statement
 	return p
+}
+
+func InitEmptyCall_statementContext(p *Call_statementContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_call_statement
 }
 
 func (*Call_statementContext) IsCall_statementContext() {}
@@ -4803,7 +5190,7 @@ func (*Call_statementContext) IsCall_statementContext() {}
 func NewCall_statementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Call_statementContext {
 	var p = new(Call_statementContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_call_statement
@@ -4862,36 +5249,24 @@ func (s *Call_statementContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Call_statement() (localctx ICall_statementContext) {
-	this := p
-	_ = this
-
 	localctx = NewCall_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 38, YarnSpinnerParserRULE_call_statement)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(244)
 		p.Match(YarnSpinnerParserCOMMAND_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(245)
 		p.Match(YarnSpinnerParserCOMMAND_CALL)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(246)
@@ -4900,9 +5275,23 @@ func (p *YarnSpinnerParser) Call_statement() (localctx ICall_statementContext) {
 	{
 		p.SetState(247)
 		p.Match(YarnSpinnerParserCOMMAND_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ICommand_statementContext is an interface to support dynamic dispatch.
@@ -4912,20 +5301,32 @@ type ICommand_statementContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	COMMAND_START() antlr.TerminalNode
+	Command_formatted_text() ICommand_formatted_textContext
+	COMMAND_TEXT_END() antlr.TerminalNode
+	AllHashtag() []IHashtagContext
+	Hashtag(i int) IHashtagContext
+
 	// IsCommand_statementContext differentiates from other interfaces.
 	IsCommand_statementContext()
 }
 
 type Command_statementContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyCommand_statementContext() *Command_statementContext {
 	var p = new(Command_statementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_command_statement
 	return p
+}
+
+func InitEmptyCommand_statementContext(p *Command_statementContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_command_statement
 }
 
 func (*Command_statementContext) IsCommand_statementContext() {}
@@ -4933,7 +5334,7 @@ func (*Command_statementContext) IsCommand_statementContext() {}
 func NewCommand_statementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Command_statementContext {
 	var p = new(Command_statementContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_command_statement
@@ -5029,33 +5430,18 @@ func (s *Command_statementContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Command_statement() (localctx ICommand_statementContext) {
-	this := p
-	_ = this
-
 	localctx = NewCommand_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 40, YarnSpinnerParserRULE_command_statement)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(249)
 		p.Match(YarnSpinnerParserCOMMAND_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(250)
@@ -5064,10 +5450,17 @@ func (p *YarnSpinnerParser) Command_statement() (localctx ICommand_statementCont
 	{
 		p.SetState(251)
 		p.Match(YarnSpinnerParserCOMMAND_TEXT_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
 	p.SetState(255)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == YarnSpinnerParserHASHTAG {
@@ -5078,10 +5471,23 @@ func (p *YarnSpinnerParser) Command_statement() (localctx ICommand_statementCont
 
 		p.SetState(257)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ICommand_formatted_textContext is an interface to support dynamic dispatch.
@@ -5091,20 +5497,35 @@ type ICommand_formatted_textContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	AllCOMMAND_TEXT() []antlr.TerminalNode
+	COMMAND_TEXT(i int) antlr.TerminalNode
+	AllCOMMAND_EXPRESSION_START() []antlr.TerminalNode
+	COMMAND_EXPRESSION_START(i int) antlr.TerminalNode
+	AllExpression() []IExpressionContext
+	Expression(i int) IExpressionContext
+	AllEXPRESSION_END() []antlr.TerminalNode
+	EXPRESSION_END(i int) antlr.TerminalNode
+
 	// IsCommand_formatted_textContext differentiates from other interfaces.
 	IsCommand_formatted_textContext()
 }
 
 type Command_formatted_textContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyCommand_formatted_textContext() *Command_formatted_textContext {
 	var p = new(Command_formatted_textContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_command_formatted_text
 	return p
+}
+
+func InitEmptyCommand_formatted_textContext(p *Command_formatted_textContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_command_formatted_text
 }
 
 func (*Command_formatted_textContext) IsCommand_formatted_textContext() {}
@@ -5112,7 +5533,7 @@ func (*Command_formatted_textContext) IsCommand_formatted_textContext() {}
 func NewCommand_formatted_textContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Command_formatted_textContext {
 	var p = new(Command_formatted_textContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_command_formatted_text
@@ -5208,49 +5629,44 @@ func (s *Command_formatted_textContext) ExitRule(listener antlr.ParseTreeListene
 }
 
 func (p *YarnSpinnerParser) Command_formatted_text() (localctx ICommand_formatted_textContext) {
-	this := p
-	_ = this
-
 	localctx = NewCommand_formatted_textContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 42, YarnSpinnerParserRULE_command_formatted_text)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(265)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == YarnSpinnerParserCOMMAND_EXPRESSION_START || _la == YarnSpinnerParserCOMMAND_TEXT {
 		p.SetState(263)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 
 		switch p.GetTokenStream().LA(1) {
 		case YarnSpinnerParserCOMMAND_TEXT:
 			{
 				p.SetState(258)
 				p.Match(YarnSpinnerParserCOMMAND_TEXT)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
 			}
 
 		case YarnSpinnerParserCOMMAND_EXPRESSION_START:
 			{
 				p.SetState(259)
 				p.Match(YarnSpinnerParserCOMMAND_EXPRESSION_START)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
 			}
 			{
 				p.SetState(260)
@@ -5259,18 +5675,36 @@ func (p *YarnSpinnerParser) Command_formatted_text() (localctx ICommand_formatte
 			{
 				p.SetState(261)
 				p.Match(YarnSpinnerParserEXPRESSION_END)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
 			}
 
 		default:
-			panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+			p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+			goto errorExit
 		}
 
 		p.SetState(267)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IShortcut_option_statementContext is an interface to support dynamic dispatch.
@@ -5280,20 +5714,30 @@ type IShortcut_option_statementContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	AllShortcut_option() []IShortcut_optionContext
+	Shortcut_option(i int) IShortcut_optionContext
+	BLANK_LINE_FOLLOWING_OPTION() antlr.TerminalNode
+
 	// IsShortcut_option_statementContext differentiates from other interfaces.
 	IsShortcut_option_statementContext()
 }
 
 type Shortcut_option_statementContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyShortcut_option_statementContext() *Shortcut_option_statementContext {
 	var p = new(Shortcut_option_statementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_shortcut_option_statement
 	return p
+}
+
+func InitEmptyShortcut_option_statementContext(p *Shortcut_option_statementContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_shortcut_option_statement
 }
 
 func (*Shortcut_option_statementContext) IsShortcut_option_statementContext() {}
@@ -5301,7 +5745,7 @@ func (*Shortcut_option_statementContext) IsShortcut_option_statementContext() {}
 func NewShortcut_option_statementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Shortcut_option_statementContext {
 	var p = new(Shortcut_option_statementContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_shortcut_option_statement
@@ -5377,36 +5821,22 @@ func (s *Shortcut_option_statementContext) ExitRule(listener antlr.ParseTreeList
 }
 
 func (p *YarnSpinnerParser) Shortcut_option_statement() (localctx IShortcut_option_statementContext) {
-	this := p
-	_ = this
-
 	localctx = NewShortcut_option_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 44, YarnSpinnerParserRULE_shortcut_option_statement)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(271)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 26, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 26, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
@@ -5417,7 +5847,13 @@ func (p *YarnSpinnerParser) Shortcut_option_statement() (localctx IShortcut_opti
 		}
 		p.SetState(273)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 26, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 26, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
 	{
@@ -5426,17 +5862,34 @@ func (p *YarnSpinnerParser) Shortcut_option_statement() (localctx IShortcut_opti
 	}
 	p.SetState(276)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == YarnSpinnerParserBLANK_LINE_FOLLOWING_OPTION {
 		{
 			p.SetState(275)
 			p.Match(YarnSpinnerParserBLANK_LINE_FOLLOWING_OPTION)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IShortcut_optionContext is an interface to support dynamic dispatch.
@@ -5446,20 +5899,33 @@ type IShortcut_optionContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	SHORTCUT_ARROW() antlr.TerminalNode
+	Line_statement() ILine_statementContext
+	INDENT() antlr.TerminalNode
+	DEDENT() antlr.TerminalNode
+	AllStatement() []IStatementContext
+	Statement(i int) IStatementContext
+
 	// IsShortcut_optionContext differentiates from other interfaces.
 	IsShortcut_optionContext()
 }
 
 type Shortcut_optionContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyShortcut_optionContext() *Shortcut_optionContext {
 	var p = new(Shortcut_optionContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_shortcut_option
 	return p
+}
+
+func InitEmptyShortcut_optionContext(p *Shortcut_optionContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_shortcut_option
 }
 
 func (*Shortcut_optionContext) IsShortcut_optionContext() {}
@@ -5467,7 +5933,7 @@ func (*Shortcut_optionContext) IsShortcut_optionContext() {}
 func NewShortcut_optionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Shortcut_optionContext {
 	var p = new(Shortcut_optionContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_shortcut_option
@@ -5567,33 +6033,18 @@ func (s *Shortcut_optionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Shortcut_option() (localctx IShortcut_optionContext) {
-	this := p
-	_ = this
-
 	localctx = NewShortcut_optionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 46, YarnSpinnerParserRULE_shortcut_option)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(278)
 		p.Match(YarnSpinnerParserSHORTCUT_ARROW)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(279)
@@ -5602,13 +6053,20 @@ func (p *YarnSpinnerParser) Shortcut_option() (localctx IShortcut_optionContext)
 	p.SetState(288)
 	p.GetErrorHandler().Sync(p)
 
-	if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 29, p.GetParserRuleContext()) == 1 {
+	if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 29, p.GetParserRuleContext()) == 1 {
 		{
 			p.SetState(280)
 			p.Match(YarnSpinnerParserINDENT)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		p.SetState(284)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 
 		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1163266) != 0 {
@@ -5619,16 +6077,35 @@ func (p *YarnSpinnerParser) Shortcut_option() (localctx IShortcut_optionContext)
 
 			p.SetState(286)
 			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
 			_la = p.GetTokenStream().LA(1)
 		}
 		{
 			p.SetState(287)
 			p.Match(YarnSpinnerParserDEDENT)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
+	} else if p.HasError() { // JIM
+		goto errorExit
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IDeclare_statementContext is an interface to support dynamic dispatch.
@@ -5644,21 +6121,36 @@ type IDeclare_statementContext interface {
 	// SetType_ sets the type_ token.
 	SetType_(antlr.Token)
 
+	// Getter signatures
+	COMMAND_START() antlr.TerminalNode
+	COMMAND_DECLARE() antlr.TerminalNode
+	Variable() IVariableContext
+	OPERATOR_ASSIGNMENT() antlr.TerminalNode
+	Value() IValueContext
+	COMMAND_END() antlr.TerminalNode
+	EXPRESSION_AS() antlr.TerminalNode
+	FUNC_ID() antlr.TerminalNode
+
 	// IsDeclare_statementContext differentiates from other interfaces.
 	IsDeclare_statementContext()
 }
 
 type Declare_statementContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 	type_  antlr.Token
 }
 
 func NewEmptyDeclare_statementContext() *Declare_statementContext {
 	var p = new(Declare_statementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_declare_statement
 	return p
+}
+
+func InitEmptyDeclare_statementContext(p *Declare_statementContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_declare_statement
 }
 
 func (*Declare_statementContext) IsDeclare_statementContext() {}
@@ -5666,7 +6158,7 @@ func (*Declare_statementContext) IsDeclare_statementContext() {}
 func NewDeclare_statementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Declare_statementContext {
 	var p = new(Declare_statementContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_declare_statement
@@ -5757,37 +6249,26 @@ func (s *Declare_statementContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Declare_statement() (localctx IDeclare_statementContext) {
-	this := p
-	_ = this
-
 	localctx = NewDeclare_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 48, YarnSpinnerParserRULE_declare_statement)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(290)
 		p.Match(YarnSpinnerParserCOMMAND_START)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(291)
 		p.Match(YarnSpinnerParserCOMMAND_DECLARE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(292)
@@ -5796,6 +6277,10 @@ func (p *YarnSpinnerParser) Declare_statement() (localctx IDeclare_statementCont
 	{
 		p.SetState(293)
 		p.Match(YarnSpinnerParserOPERATOR_ASSIGNMENT)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(294)
@@ -5803,12 +6288,19 @@ func (p *YarnSpinnerParser) Declare_statement() (localctx IDeclare_statementCont
 	}
 	p.SetState(297)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == YarnSpinnerParserEXPRESSION_AS {
 		{
 			p.SetState(295)
 			p.Match(YarnSpinnerParserEXPRESSION_AS)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(296)
@@ -5816,15 +6308,33 @@ func (p *YarnSpinnerParser) Declare_statement() (localctx IDeclare_statementCont
 			var _m = p.Match(YarnSpinnerParserFUNC_ID)
 
 			localctx.(*Declare_statementContext).type_ = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	}
 	{
 		p.SetState(299)
 		p.Match(YarnSpinnerParserCOMMAND_END)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IJump_statementContext is an interface to support dynamic dispatch.
@@ -5833,21 +6343,25 @@ type IJump_statementContext interface {
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
-
 	// IsJump_statementContext differentiates from other interfaces.
 	IsJump_statementContext()
 }
 
 type Jump_statementContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyJump_statementContext() *Jump_statementContext {
 	var p = new(Jump_statementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = YarnSpinnerParserRULE_jump_statement
 	return p
+}
+
+func InitEmptyJump_statementContext(p *Jump_statementContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YarnSpinnerParserRULE_jump_statement
 }
 
 func (*Jump_statementContext) IsJump_statementContext() {}
@@ -5855,7 +6369,7 @@ func (*Jump_statementContext) IsJump_statementContext() {}
 func NewJump_statementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Jump_statementContext {
 	var p = new(Jump_statementContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = YarnSpinnerParserRULE_jump_statement
@@ -5865,8 +6379,8 @@ func NewJump_statementContext(parser antlr.Parser, parent antlr.ParserRuleContex
 
 func (s *Jump_statementContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Jump_statementContext) CopyFrom(ctx *Jump_statementContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
+func (s *Jump_statementContext) CopyAll(ctx *Jump_statementContext) {
+	s.CopyFrom(&ctx.BaseParserRuleContext)
 }
 
 func (s *Jump_statementContext) GetRuleContext() antlr.RuleContext {
@@ -5878,16 +6392,16 @@ func (s *Jump_statementContext) ToStringTree(ruleNames []string, recog antlr.Rec
 }
 
 type JumpToNodeNameContext struct {
-	*Jump_statementContext
+	Jump_statementContext
 	destination antlr.Token
 }
 
 func NewJumpToNodeNameContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *JumpToNodeNameContext {
 	var p = new(JumpToNodeNameContext)
 
-	p.Jump_statementContext = NewEmptyJump_statementContext()
+	InitEmptyJump_statementContext(&p.Jump_statementContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*Jump_statementContext))
+	p.CopyAll(ctx.(*Jump_statementContext))
 
 	return p
 }
@@ -5929,15 +6443,15 @@ func (s *JumpToNodeNameContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type JumpToExpressionContext struct {
-	*Jump_statementContext
+	Jump_statementContext
 }
 
 func NewJumpToExpressionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *JumpToExpressionContext {
 	var p = new(JumpToExpressionContext)
 
-	p.Jump_statementContext = NewEmptyJump_statementContext()
+	InitEmptyJump_statementContext(&p.Jump_statementContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*Jump_statementContext))
+	p.CopyAll(ctx.(*Jump_statementContext))
 
 	return p
 }
@@ -5995,41 +6509,33 @@ func (s *JumpToExpressionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *YarnSpinnerParser) Jump_statement() (localctx IJump_statementContext) {
-	this := p
-	_ = this
-
 	localctx = NewJump_statementContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 50, YarnSpinnerParserRULE_jump_statement)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.SetState(312)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 31, p.GetParserRuleContext()) {
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 31, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewJumpToNodeNameContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
 			p.SetState(301)
 			p.Match(YarnSpinnerParserCOMMAND_START)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(302)
 			p.Match(YarnSpinnerParserCOMMAND_JUMP)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(303)
@@ -6037,10 +6543,18 @@ func (p *YarnSpinnerParser) Jump_statement() (localctx IJump_statementContext) {
 			var _m = p.Match(YarnSpinnerParserID)
 
 			localctx.(*JumpToNodeNameContext).destination = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(304)
 			p.Match(YarnSpinnerParserCOMMAND_END)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 2:
@@ -6049,14 +6563,26 @@ func (p *YarnSpinnerParser) Jump_statement() (localctx IJump_statementContext) {
 		{
 			p.SetState(305)
 			p.Match(YarnSpinnerParserCOMMAND_START)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(306)
 			p.Match(YarnSpinnerParserCOMMAND_JUMP)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(307)
 			p.Match(YarnSpinnerParserEXPRESSION_START)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(308)
@@ -6065,15 +6591,35 @@ func (p *YarnSpinnerParser) Jump_statement() (localctx IJump_statementContext) {
 		{
 			p.SetState(309)
 			p.Match(YarnSpinnerParserEXPRESSION_END)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(310)
 			p.Match(YarnSpinnerParserCOMMAND_END)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
+	case antlr.ATNInvalidAltNumber:
+		goto errorExit
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 func (p *YarnSpinnerParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
@@ -6091,9 +6637,6 @@ func (p *YarnSpinnerParser) Sempred(localctx antlr.RuleContext, ruleIndex, predI
 }
 
 func (p *YarnSpinnerParser) Expression_Sempred(localctx antlr.RuleContext, predIndex int) bool {
-	this := p
-	_ = this
-
 	switch predIndex {
 	case 0:
 		return p.Precpred(p.GetParserRuleContext(), 6)

@@ -3,7 +3,7 @@ package tree_test
 import (
 	"testing"
 
-	"github.com/bradleyjkemp/cupaloy"
+	"github.com/bradleyjkemp/cupaloy/v2"
 
 	"github.com/remieven/ysgo/internal/tree"
 )
