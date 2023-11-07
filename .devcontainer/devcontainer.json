@@ -10,5 +10,12 @@
 			"version": "latest",
 			"dockerDashComposeVersion": "none"
 		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"github.vscode-github-actions"
+			]
+		}
 	}
 }

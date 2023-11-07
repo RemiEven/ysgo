@@ -5,12 +5,11 @@ import (
 	"io"
 	"math"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"unicode"
 	"unicode/utf16"
-
-	"golang.org/x/exp/slices"
 )
 
 const (
@@ -229,7 +228,7 @@ func (lineParser *LineParser) buildAttributesFromMarkers(markers []attributeMark
 		}
 	}
 
-	slices.SortStableFunc(attributes, func(a, b Attribute) bool { return a.Position < b.Position })
+	slices.SortStableFunc(attributes, func(a, b Attribute) int { return a.Position - b.Position })
 
 	return attributes, nil
 }
