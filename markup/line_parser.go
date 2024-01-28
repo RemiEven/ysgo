@@ -191,7 +191,7 @@ func (lineParser *LineParser) buildAttributesFromMarkers(markers []attributeMark
 			}
 
 			matchedOpenMarker := unclosedMarkers[matchedOpenMarkerIndex]
-			unclosedMarkers = slices.Delete(unclosedMarkers, matchedOpenMarkerIndex, matchedOpenMarkerIndex)
+			unclosedMarkers = slices.Delete(unclosedMarkers, matchedOpenMarkerIndex, matchedOpenMarkerIndex+1)
 
 			length := marker.position - matchedOpenMarker.position
 			attribute := Attribute{

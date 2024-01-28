@@ -29,6 +29,28 @@ func TestLineParser(t *testing.T) {
 				},
 			},
 		},
+		"attribute appearing twice": {
+			input: `Oh, [wave]hello[/wave] [wave](twice)[/wave] there!`,
+			expectedResult: &ParseResult{
+				Text: `Oh, hello (twice) there!`,
+				Attributes: []Attribute{
+					{
+						Name:           "wave",
+						Position:       4,
+						SourcePosition: 4,
+						Length:         5,
+						Properties:     map[string]Value{},
+					},
+					{
+						Name:           "wave",
+						Position:       10,
+						SourcePosition: 23,
+						Length:         7,
+						Properties:     map[string]Value{},
+					},
+				},
+			},
+		},
 		"overlapping attributes": {
 			input: `Oh, [wave]hello [bounce]there![/bounce][/wave]`,
 			expectedResult: &ParseResult{
