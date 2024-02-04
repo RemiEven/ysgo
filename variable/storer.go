@@ -4,6 +4,8 @@ package variable
 type Retriever interface {
 	GetValue(variableName string) (*Value, bool)
 
+	GetValues() map[string]Value
+
 	Contains(variableName string) bool
 }
 

@@ -157,18 +157,22 @@ func TestRunnerPlan(t *testing.T) {
 	}
 }
 
-func TestRunnerJumpTo(t *testing.T) {
+func TestRunnerRestoreAt(t *testing.T) {
 	script := `
-title: flavors
+title: node_1
 ---
-Do you like chocolate?
-Yes!
-Nice! Here, get some icecream!
+Do you like chocolate? Here, get some icecream!
+<<declare $flavor to "chocolate">>
+Thanks!
+<<jump node_2>>
 ===
-title: bakery
+title: node_2
 ---
-How much for a baguette?
-About 1€!
+You like {$flavor}, right? Here's more icecream!
+Actually, I'd like raspberries this time!
+<<declare $flavor to "raspberries">>
+Oh ok, {$flavor} it is then!
+Thanks!
 ===`
 
 	dr, err := ysgo.NewDialogueRunner(nil, "", strings.NewReader(script))
@@ -177,29 +181,29 @@ About 1€!
 		return
 	}
 
-	dialogueElement, err := dr.Next(0)
-	if err != nil {
-		t.Errorf("failed to get to first dialogue element: %v", err)
-		return
-	}
-	if expected, actual := "Do you like chocolate?", dialogueElement.Line.Text; expected != actual {
-		t.Errorf("unexpected line text: wanted [%s], got [%s]", expected, actual)
-		return
-	}
-
-	err = dr.JumpTo("bakery")
-	if err != nil {
-		t.Errorf("jump to bakery node failed: %v", err)
-		return
+	assertNextLine := func(expectedLine string) {
+		dialogueElement, err := dr.Next(0)
+		if err != nil {
+			t.Errorf("failed to get to dialogue element: %v", err)
+			return
+		}
+		if expected, actual := expectedLine, dialogueElement.Line.Text; expected != actual {
+			t.Errorf("unexpected line text: wanted [%s], got [%s]", expected, actual)
+			return
+		}
 	}
 
-	dialogueElement, err = dr.Next(0)
-	if err != nil {
-		t.Errorf("failed to get to first dialogue element: %v", err)
-		return
+	assertNextLine("Do you like chocolate? Here, get some icecream!")
+	assertNextLine("Thanks!")
+	assertNextLine("You like chocolate, right? Here's more icecream!")
+	assertNextLine("Actually, I'd like raspberries this time!")
+	assertNextLine("Oh ok, raspberries it is then!")
+
+	snapshot := dr.Snapshot()
+
+	if err := dr.RestoreAt(snapshot); err != nil {
+		t.Errorf("unexpected error when restoring snapshot: %v", err)
 	}
-	if expected, actual := "How much for a baguette?", dialogueElement.Line.Text; expected != actual {
-		t.Errorf("unexpected line text: wanted [%s], got [%s]", expected, actual)
-		return
-	}
+
+	assertNextLine("You like chocolate, right? Here's more icecream!")
 }

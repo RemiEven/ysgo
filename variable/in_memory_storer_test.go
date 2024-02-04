@@ -1,6 +1,10 @@
 package variable
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/remieven/ysgo/internal/testutils"
+)
 
 func TestInMemoryStorer(t *testing.T) {
 	storer := NewInMemoryStorer()
@@ -144,5 +148,33 @@ func TestInMemoryStorer(t *testing.T) {
 			t.Errorf("Contains returned that variable was stored when it should have been cleared")
 			return
 		}
+	})
+
+	t.Run("Export of empty store", func(t *testing.T) {
+		storer := NewInMemoryStorer()
+
+		if len(storer.GetValues()) != 0 {
+			t.Errorf("expected GetValues of empty storer to return 0 values but got %v", len(storer.GetValues()))
+		}
+	})
+
+	t.Run("Export of filled store", func(t *testing.T) {
+		storer := NewInMemoryStorer()
+		storer.SetBooleanValue("bool1", true)
+		storer.SetBooleanValue("bool2", false)
+		storer.SetNumberValue("number", 70400)
+		storer.SetStringValue("string", "some string value")
+
+		expected := map[string]Value{
+			"bool1":  *NewBoolean(true),
+			"bool2":  *NewBoolean(false),
+			"number": *NewNumber(70400),
+			"string": *NewString("some string value"),
+		}
+
+		if diff := testutils.DeepEqual(storer.GetValues(), expected); diff != "" {
+			t.Errorf("unexpected result from GetValues: " + diff)
+		}
+
 	})
 }

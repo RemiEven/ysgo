@@ -19,16 +19,17 @@ import (
 // It keeps track of the current state of the dialogue (variables, current and visited steps).
 // It orchestrates the call of Commands and Functions.
 type DialogueRunner struct {
-	dialogue        *tree.Dialogue
-	statementsToRun container.Stack[*statementQueue]
-	lastStatement   *tree.Statement
-	variableStorer  variable.Storer
-	functionStorer  *functionStorer
-	commandStorer   *commandStorer
-	commandErrChan  <-chan error
-	lineParser      markup.LineParser
-	currentNode     string
-	visitedNodes    map[string]int
+	dialogue         *tree.Dialogue
+	statementsToRun  container.Stack[*statementQueue]
+	lastStatement    *tree.Statement
+	variableStorer   variable.Storer
+	functionStorer   *functionStorer
+	commandStorer    *commandStorer
+	commandErrChan   <-chan error
+	lineParser       markup.LineParser
+	currentNode      string
+	visitedNodes     map[string]int
+	variableSnapshot map[string]variable.Value
 }
 
 // DialogueElement represents a step of a dialogue as it is presented in a game.
@@ -303,6 +304,7 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 		return fmt.Errorf("node [%s] not found in dialogue", *value.String)
 	} else {
 		dr.incrementNodeTrackingIfAllowed()
+		dr.variableSnapshot = dr.variableStorer.GetValues()
 		dr.statementsToRun.Clear()
 		dr.statementsToRun.Push(&statementQueue{statements: node.Statements})
 		dr.currentNode = node.Title()
@@ -394,13 +396,27 @@ func (dr *DialogueRunner) executeDeclareStatement(statement *tree.DeclareStateme
 	})
 }
 
-// JumpTo moves the dialogue to the beginning of the given node.
-func (dr *DialogueRunner) JumpTo(nodeTitle string) error {
-	node, ok := dr.dialogue.FindNode(nodeTitle)
+// RestoreAt uses a snapshot to restore a dialogue runner to a former state.
+func (dr *DialogueRunner) RestoreAt(snapshot *Snapshot) error {
+	node, ok := dr.dialogue.FindNode(snapshot.CurrentNode)
 	if !ok {
-		return fmt.Errorf("dialogue does not contain a node with title [%s]", nodeTitle)
+		return fmt.Errorf("dialogue does not contain a node with title [%s]", snapshot.CurrentNode)
 	}
-	dr.incrementNodeTrackingIfAllowed()
+
+	dr.visitedNodes = snapshot.VisitedNodes
+	dr.variableStorer.Clear()
+	for variable, value := range snapshot.Variables {
+		if value.Boolean != nil {
+			dr.variableStorer.SetBooleanValue(variable, *value.Boolean)
+		}
+		if value.Number != nil {
+			dr.variableStorer.SetNumberValue(variable, *value.Number)
+		}
+		if value.String != nil {
+			dr.variableStorer.SetStringValue(variable, *value.String)
+		}
+	}
+
 	dr.statementsToRun.Clear()
 	dr.statementsToRun.Push(&statementQueue{statements: node.Statements})
 	dr.currentNode = node.Title()
@@ -429,9 +445,14 @@ func (dr *DialogueRunner) ConvertAndAddCommand(commandID string, command any) er
 	return dr.commandStorer.convertAndAddCommand(commandID, command)
 }
 
-// CurrentNode returns the name of the node the runner is currently visiting.
-func (dr *DialogueRunner) CurrentNode() string {
-	return dr.currentNode
+// Snapshot returns the state of the dialogue runner as of the last time a node was entered.
+// It can then be used to later restore the state of the dialogue runner.
+func (dr *DialogueRunner) Snapshot() *Snapshot {
+	return &Snapshot{
+		Variables:    dr.variableSnapshot,
+		CurrentNode:  dr.currentNode,
+		VisitedNodes: dr.visitedNodes,
+	}
 }
 
 type statementQueue struct {

@@ -26,6 +26,23 @@ func (storer *InMemoryStorer) GetValue(variableName string) (*Value, bool) {
 	return nil, false
 }
 
+// GetValues returns a map of all stored values.
+func (storer *InMemoryStorer) GetValues() map[string]Value {
+	values := make(map[string]Value, len(storer.booleans)+len(storer.numbers)+len(storer.strings))
+
+	for variable, value := range storer.booleans {
+		values[variable] = *NewBoolean(value)
+	}
+	for variable, value := range storer.numbers {
+		values[variable] = *NewNumber(value)
+	}
+	for variable, value := range storer.strings {
+		values[variable] = *NewString(value)
+	}
+
+	return values
+}
+
 // SetNumberValue stores a number.
 func (storer *InMemoryStorer) SetNumberValue(variableName string, value float64) {
 	storer.numbers[variableName] = value
