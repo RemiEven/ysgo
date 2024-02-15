@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version: '1.21'
       - name: Generate lexer/parser files with antlr
@@ -17,6 +17,12 @@ jobs:
         run: git diff
       - name: Make sure lexer/parser files were already up-to-date
         run: git diff-index --quiet HEAD
+      - name: Run go vet
+        run: go list ./... | grep -v parser | xargs go vet
+      - name: Run staticcheck
+        run: |
+          go install honnef.co/go/tools/cmd/staticcheck@v0.4.6
+          staticcheck ./...
       - name: Test
         run: go test -coverprofile='coverage.txt' -covermode=atomic ./...
       - name: Run govulncheck
