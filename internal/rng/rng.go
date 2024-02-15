@@ -3,12 +3,7 @@ package rng
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
-
-func init() {
-	rand.Seed(time.Now().Unix())
-}
 
 // RNG can be used to generate random values.
 type RNG struct {
