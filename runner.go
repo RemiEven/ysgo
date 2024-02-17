@@ -34,7 +34,9 @@ type DialogueRunner struct {
 
 // DialogueElement represents a step of a dialogue as it is presented in a game.
 // Either Line or Options holds a value.
+// Node holds the name of the dialogue node that contains the element.
 type DialogueElement struct {
+	Node    string
 	Line    *markup.ParseResult
 	Options []DialogueOption
 }
@@ -118,6 +120,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			return nil, fmt.Errorf("failed to prepare line: %w", err)
 		}
 		return &DialogueElement{
+			Node: dr.currentNode,
 			Line: markupResult,
 		}, nil
 	case nextStatement.ShortcutOptionStatement != nil:
@@ -143,6 +146,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			})
 		}
 		return &DialogueElement{
+			Node:    dr.currentNode,
 			Options: options,
 		}, nil
 	case nextStatement.SetStatement != nil:
