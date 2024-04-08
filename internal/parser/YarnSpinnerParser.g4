@@ -16,7 +16,13 @@ node
     ;
 
 header 
-    : header_key=ID HEADER_DELIMITER  header_value=REST_OF_LINE?
+    : header_key=ID HEADER_DELIMITER (header_value=REST_OF_LINE|header_expression=header_when_expression NEWLINE)?
+    ;
+
+header_when_expression
+    : expression 
+    | (always=EXPRESSION_WHEN_ALWAYS) 
+    | once=COMMAND_ONCE (COMMAND_IF expression)? 
     ;
 
 body
@@ -31,7 +37,11 @@ statement
     | call_statement
     | command_statement
     | declare_statement
+    | enum_statement
     | jump_statement
+    | return_statement
+    | line_group_statement
+    | once_statement
     | INDENT statement* DEDENT
     ;
 
@@ -54,7 +64,8 @@ hashtag
     ;
 
 line_condition
-    : COMMAND_START COMMAND_IF expression COMMAND_END
+    : COMMAND_START COMMAND_IF expression COMMAND_END #lineCondition
+    | COMMAND_START COMMAND_ONCE (COMMAND_IF expression)? COMMAND_END #lineOnceCondition
     ;
 
 expression
@@ -75,8 +86,8 @@ value
     | KEYWORD_FALSE  #valueFalse
     | variable       #valueVar
     | STRING #valueString
-    | KEYWORD_NULL   #valueNull
     | function_call       #valueFunc
+    | typeMemberReference #valueTypeMemberReference
 
     ;
 variable
@@ -85,6 +96,10 @@ variable
 
 function_call 
     : FUNC_ID '(' expression? (COMMA expression)* ')' ;
+
+typeMemberReference
+    : (typeName=FUNC_ID)? '.' memberName=FUNC_ID
+    ;
 
 if_statement
     : if_clause                                 // <<if foo>> statements...
@@ -129,10 +144,47 @@ shortcut_option
     : '->' line_statement (INDENT statement* DEDENT)?
     ;
 
+line_group_statement
+    : line_group_item* (line_group_item BLANK_LINE_FOLLOWING_OPTION?)
+    ;
+
+line_group_item
+    : '=>' line_statement (INDENT statement* DEDENT)?
+    ;
+
 declare_statement
-    : COMMAND_START COMMAND_DECLARE variable OPERATOR_ASSIGNMENT value ('as' type=FUNC_ID)? COMMAND_END ;
+    : COMMAND_START COMMAND_DECLARE variable OPERATOR_ASSIGNMENT expression ('as' type=FUNC_ID)? COMMAND_END
+    ;
+
+enum_statement
+    : COMMAND_START COMMAND_ENUM name=ID COMMAND_END enum_case_statement+ COMMAND_START COMMAND_ENDENUM COMMAND_END
+    ;
+
+enum_case_statement
+    : INDENT? COMMAND_START COMMAND_CASE name=FUNC_ID (OPERATOR_ASSIGNMENT rawValue=value)? COMMAND_END DEDENT?
+    ;
 
 jump_statement
     : COMMAND_START COMMAND_JUMP destination=ID COMMAND_END #jumpToNodeName
     | COMMAND_START COMMAND_JUMP EXPRESSION_START expression EXPRESSION_END COMMAND_END #jumpToExpression
+    | COMMAND_START COMMAND_DETOUR destination=ID COMMAND_END #detourToNodeName
+    | COMMAND_START COMMAND_DETOUR EXPRESSION_START expression EXPRESSION_END COMMAND_END #detourToExpression
+    ;
+
+return_statement
+    : COMMAND_START COMMAND_RETURN COMMAND_END
+    ;
+
+once_statement
+    : once_primary_clause 
+      once_alternate_clause? 
+      COMMAND_START COMMAND_ENDONCE COMMAND_END
+    ;
+    
+once_primary_clause
+    : COMMAND_START COMMAND_ONCE (COMMAND_IF expression)? COMMAND_END statement*
+    ;
+
+once_alternate_clause
+    : COMMAND_START COMMAND_ELSE COMMAND_END statement*
     ;
