@@ -2,7 +2,7 @@
   Nodes: ([]tree.Node) (len=1) {
     (tree.Node) {
       Headers: (map[string]string) (len=1) {
-        (string) (len=5) "title": (string) (len=19) "Boolean expressions"
+        (string) (len=5) "title": (string) (len=18) "BooleanExpressions"
       },
       Statements: ([]*tree.Statement) (len=15) {
         (*tree.Statement)({

@@ -2,7 +2,7 @@
   Nodes: ([]tree.Node) (len=1) {
     (tree.Node) {
       Headers: (map[string]string) (len=1) {
-        (string) (len=5) "title": (string) (len=14) "Function calls"
+        (string) (len=5) "title": (string) (len=13) "FunctionCalls"
       },
       Statements: ([]*tree.Statement) (len=5) {
         (*tree.Statement)({

@@ -2,7 +2,7 @@
   Nodes: ([]tree.Node) (len=1) {
     (tree.Node) {
       Headers: (map[string]string) (len=1) {
-        (string) (len=5) "title": (string) (len=16) "Shortcut options"
+        (string) (len=5) "title": (string) (len=15) "ShortcutOptions"
       },
       Statements: ([]*tree.Statement) (len=3) {
         (*tree.Statement)({

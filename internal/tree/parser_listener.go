@@ -84,6 +84,11 @@ func (s *parserListener) EnterHeader(ctx *parser.HeaderContext) {
 	s.node.Headers[headerKey] = headerValue
 }
 
+// EnterTitle_header is called when production title_header is entered.
+func (s *parserListener) EnterTitle_header(ctx *parser.Title_headerContext) {
+	s.node.Headers["title"] = ctx.GetTitle().GetText()
+}
+
 // EnterLine_statement is called when production line_statement is entered.
 func (s *parserListener) EnterLine_statement(ctx *parser.Line_statementContext) {
 	s.lineStatement = &LineStatement{}

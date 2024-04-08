@@ -2,7 +2,7 @@
   Nodes: ([]tree.Node) (len=1) {
     (tree.Node) {
       Headers: (map[string]string) (len=1) {
-        (string) (len=5) "title": (string) (len=23) "Nested shortcut options"
+        (string) (len=5) "title": (string) (len=21) "NestedShortcutOptions"
       },
       Statements: ([]*tree.Statement) (len=3) {
         (*tree.Statement)({

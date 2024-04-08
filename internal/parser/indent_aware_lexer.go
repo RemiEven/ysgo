@@ -1,6 +1,8 @@
 package parser
 
 import (
+	"strings"
+
 	"github.com/antlr4-go/antlr/v4"
 
 	"github.com/remieven/ysgo/internal/container"
@@ -10,30 +12,37 @@ import (
 // It's pretty much a direct port of the IndentAwareLexer.cs file of YarnSpinner from C# to Go.
 type IndentAwareLexer struct {
 	*antlr.BaseLexer
-	hitEOF                       bool
-	pendingTokens                container.Queue[antlr.Token]
-	unbalancedIndents            container.Stack[int]
-	lastIndent                   int
-	lineContainsShortcut         bool
-	lastToken                    antlr.Token
-	lastSeenOptionContentPlusOne int
+	hitEOF                               bool
+	pendingTokens                        container.Queue[antlr.Token]
+	unbalancedIndents                    container.Stack[int]
+	lastIndent                           int
+	lineContainsIndentTrackingToken      bool
+	lastToken                            antlr.Token
+	lastSeenIndentTrackingContentPlusOne int
+	inWhenClause                         bool
+	tokens                               container.Queue[antlr.Token]
 }
 
 // NextToken returns a token from the lexer source i.e., match a token on the char stream.
 func (ial *IndentAwareLexer) NextToken() antlr.Token {
+	var tokenToReturn antlr.Token
+
 	if ial.hitEOF && ial.pendingTokens.Size() > 0 {
-		return ial.pendingTokens.Dequeue()
-	}
-	if ial.GetInputStream().Size() == 0 {
+		tokenToReturn = ial.pendingTokens.Dequeue()
+	} else if ial.GetInputStream().Size() == 0 {
 		ial.hitEOF = true
-		return antlr.NewCommonToken(nil, antlr.TokenEOF, antlr.TokenDefaultChannel, -1, -1)
+		tokenToReturn = antlr.NewCommonToken(nil, antlr.TokenEOF, antlr.TokenDefaultChannel, -1, -1)
+	} else {
+		ial.checkNextToken()
+		if ial.pendingTokens.Size() > 0 {
+			tokenToReturn = ial.pendingTokens.Dequeue()
+		}
 	}
 
-	ial.checkNextToken()
-	if ial.pendingTokens.Size() > 0 {
-		return ial.pendingTokens.Dequeue()
+	if tokenToReturn != nil {
+		ial.pushToken(tokenToReturn)
 	}
-	return nil
+	return tokenToReturn
 }
 
 func (ial *IndentAwareLexer) checkNextToken() {
@@ -44,14 +53,14 @@ func (ial *IndentAwareLexer) checkNextToken() {
 		ial.handleNewLineToken(currentToken)
 	case antlr.TokenEOF:
 		ial.handleEndOfFileToken(currentToken)
-	case YarnSpinnerLexerSHORTCUT_ARROW:
+	case YarnSpinnerLexerSHORTCUT_ARROW, YarnSpinnerLexerLINE_GROUP_ARROW:
 		ial.pendingTokens.Enqueue(currentToken)
-		ial.lineContainsShortcut = true
+		ial.lineContainsIndentTrackingToken = true
 	case YarnSpinnerLexerBODY_END:
-		ial.lineContainsShortcut = false
+		ial.lineContainsIndentTrackingToken = false
 		ial.lastIndent = 0
 		ial.unbalancedIndents.Clear()
-		ial.lastSeenOptionContentPlusOne = 0
+		ial.lastSeenIndentTrackingContentPlusOne = 0
 		ial.pendingTokens.Enqueue(currentToken)
 	default:
 		ial.pendingTokens.Enqueue(currentToken)
@@ -64,22 +73,22 @@ func (ial *IndentAwareLexer) handleNewLineToken(currentToken antlr.Token) {
 
 	currentIndentationLength := ial.getLengthOfNewlineToken(currentToken)
 
-	if ial.lastSeenOptionContentPlusOne != 0 {
+	if ial.lastSeenIndentTrackingContentPlusOne != 0 {
 		if currentToken.GetTokenType() == ial.lastToken.GetTokenType() {
-			if ial.GetLine()-ial.lastSeenOptionContentPlusOne == 0 {
+			if ial.GetLine()-ial.lastSeenIndentTrackingContentPlusOne == 0 {
 				ial.insertToken("", YarnSpinnerLexerBLANK_LINE_FOLLOWING_OPTION)
 			}
-			ial.lastSeenOptionContentPlusOne = 0
+			ial.lastSeenIndentTrackingContentPlusOne = 0
 		}
 	}
 
-	if ial.lineContainsShortcut {
+	if ial.lineContainsIndentTrackingToken {
 		if currentIndentationLength > ial.lastIndent {
 			ial.unbalancedIndents.Push(currentIndentationLength)
 			ial.insertToken("", YarnSpinnerLexerINDENT)
 		}
-		ial.lineContainsShortcut = false
-		ial.lastSeenOptionContentPlusOne = ial.GetLine() + 1
+		ial.lineContainsIndentTrackingToken = false
+		ial.lastSeenIndentTrackingContentPlusOne = ial.GetLine() + 1
 	}
 
 	if ial.unbalancedIndents.Size() > 0 {
@@ -92,7 +101,7 @@ func (ial *IndentAwareLexer) handleNewLineToken(currentToken antlr.Token) {
 				top = ial.unbalancedIndents.Peek()
 			} else {
 				top = 0
-				ial.lastSeenOptionContentPlusOne = ial.GetLine() + 1
+				ial.lastSeenIndentTrackingContentPlusOne = ial.GetLine() + 1
 			}
 		}
 	}
@@ -137,4 +146,20 @@ func (ial *IndentAwareLexer) insertToken(text string, tokenType int) {
 	token := antlr.NewCommonToken(ial.GetTokenSourceCharStreamPair(), tokenType, antlr.TokenDefaultChannel, startIndex, stopIndex)
 	token.SetText(text)
 	ial.pendingTokens.Enqueue(token)
+}
+
+func (ial *IndentAwareLexer) pushToken(token antlr.Token) {
+	ial.tokens.Enqueue(token)
+	if ial.tokens.Size() > 5 {
+		ial.tokens.Dequeue()
+	}
+}
+
+func (ial *IndentAwareLexer) lastTokenWas(tokenType int, text string) bool {
+	if ial.tokens.Size() == 0 {
+		return false
+	}
+
+	token := ial.tokens.Peek()
+	return token.GetTokenType() == tokenType && strings.EqualFold(token.GetText(), text)
 }

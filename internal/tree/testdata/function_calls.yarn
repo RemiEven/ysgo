@@ -1,4 +1,4 @@
-title: Function calls
+title: FunctionCalls
 ---
 1 { no_arg() }
 2 { one_arg(1) }

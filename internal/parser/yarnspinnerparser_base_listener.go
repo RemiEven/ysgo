@@ -39,11 +39,31 @@ func (s *BaseYarnSpinnerParserListener) EnterNode(ctx *NodeContext) {}
 // ExitNode is called when production node is exited.
 func (s *BaseYarnSpinnerParserListener) ExitNode(ctx *NodeContext) {}
 
+// EnterTitle_header is called when production title_header is entered.
+func (s *BaseYarnSpinnerParserListener) EnterTitle_header(ctx *Title_headerContext) {}
+
+// ExitTitle_header is called when production title_header is exited.
+func (s *BaseYarnSpinnerParserListener) ExitTitle_header(ctx *Title_headerContext) {}
+
+// EnterWhen_header is called when production when_header is entered.
+func (s *BaseYarnSpinnerParserListener) EnterWhen_header(ctx *When_headerContext) {}
+
+// ExitWhen_header is called when production when_header is exited.
+func (s *BaseYarnSpinnerParserListener) ExitWhen_header(ctx *When_headerContext) {}
+
 // EnterHeader is called when production header is entered.
 func (s *BaseYarnSpinnerParserListener) EnterHeader(ctx *HeaderContext) {}
 
 // ExitHeader is called when production header is exited.
 func (s *BaseYarnSpinnerParserListener) ExitHeader(ctx *HeaderContext) {}
+
+// EnterHeader_when_expression is called when production header_when_expression is entered.
+func (s *BaseYarnSpinnerParserListener) EnterHeader_when_expression(ctx *Header_when_expressionContext) {
+}
+
+// ExitHeader_when_expression is called when production header_when_expression is exited.
+func (s *BaseYarnSpinnerParserListener) ExitHeader_when_expression(ctx *Header_when_expressionContext) {
+}
 
 // EnterBody is called when production body is entered.
 func (s *BaseYarnSpinnerParserListener) EnterBody(ctx *BodyContext) {}
@@ -75,11 +95,17 @@ func (s *BaseYarnSpinnerParserListener) EnterHashtag(ctx *HashtagContext) {}
 // ExitHashtag is called when production hashtag is exited.
 func (s *BaseYarnSpinnerParserListener) ExitHashtag(ctx *HashtagContext) {}
 
-// EnterLine_condition is called when production line_condition is entered.
-func (s *BaseYarnSpinnerParserListener) EnterLine_condition(ctx *Line_conditionContext) {}
+// EnterLineCondition is called when production lineCondition is entered.
+func (s *BaseYarnSpinnerParserListener) EnterLineCondition(ctx *LineConditionContext) {}
 
-// ExitLine_condition is called when production line_condition is exited.
-func (s *BaseYarnSpinnerParserListener) ExitLine_condition(ctx *Line_conditionContext) {}
+// ExitLineCondition is called when production lineCondition is exited.
+func (s *BaseYarnSpinnerParserListener) ExitLineCondition(ctx *LineConditionContext) {}
+
+// EnterLineOnceCondition is called when production lineOnceCondition is entered.
+func (s *BaseYarnSpinnerParserListener) EnterLineOnceCondition(ctx *LineOnceConditionContext) {}
+
+// ExitLineOnceCondition is called when production lineOnceCondition is exited.
+func (s *BaseYarnSpinnerParserListener) ExitLineOnceCondition(ctx *LineOnceConditionContext) {}
 
 // EnterExpParens is called when production expParens is entered.
 func (s *BaseYarnSpinnerParserListener) EnterExpParens(ctx *ExpParensContext) {}
@@ -165,17 +191,19 @@ func (s *BaseYarnSpinnerParserListener) EnterValueString(ctx *ValueStringContext
 // ExitValueString is called when production valueString is exited.
 func (s *BaseYarnSpinnerParserListener) ExitValueString(ctx *ValueStringContext) {}
 
-// EnterValueNull is called when production valueNull is entered.
-func (s *BaseYarnSpinnerParserListener) EnterValueNull(ctx *ValueNullContext) {}
-
-// ExitValueNull is called when production valueNull is exited.
-func (s *BaseYarnSpinnerParserListener) ExitValueNull(ctx *ValueNullContext) {}
-
 // EnterValueFunc is called when production valueFunc is entered.
 func (s *BaseYarnSpinnerParserListener) EnterValueFunc(ctx *ValueFuncContext) {}
 
 // ExitValueFunc is called when production valueFunc is exited.
 func (s *BaseYarnSpinnerParserListener) ExitValueFunc(ctx *ValueFuncContext) {}
+
+// EnterValueTypeMemberReference is called when production valueTypeMemberReference is entered.
+func (s *BaseYarnSpinnerParserListener) EnterValueTypeMemberReference(ctx *ValueTypeMemberReferenceContext) {
+}
+
+// ExitValueTypeMemberReference is called when production valueTypeMemberReference is exited.
+func (s *BaseYarnSpinnerParserListener) ExitValueTypeMemberReference(ctx *ValueTypeMemberReferenceContext) {
+}
 
 // EnterVariable is called when production variable is entered.
 func (s *BaseYarnSpinnerParserListener) EnterVariable(ctx *VariableContext) {}
@@ -188,6 +216,12 @@ func (s *BaseYarnSpinnerParserListener) EnterFunction_call(ctx *Function_callCon
 
 // ExitFunction_call is called when production function_call is exited.
 func (s *BaseYarnSpinnerParserListener) ExitFunction_call(ctx *Function_callContext) {}
+
+// EnterTypeMemberReference is called when production typeMemberReference is entered.
+func (s *BaseYarnSpinnerParserListener) EnterTypeMemberReference(ctx *TypeMemberReferenceContext) {}
+
+// ExitTypeMemberReference is called when production typeMemberReference is exited.
+func (s *BaseYarnSpinnerParserListener) ExitTypeMemberReference(ctx *TypeMemberReferenceContext) {}
 
 // EnterIf_statement is called when production if_statement is entered.
 func (s *BaseYarnSpinnerParserListener) EnterIf_statement(ctx *If_statementContext) {}
@@ -253,11 +287,35 @@ func (s *BaseYarnSpinnerParserListener) EnterShortcut_option(ctx *Shortcut_optio
 // ExitShortcut_option is called when production shortcut_option is exited.
 func (s *BaseYarnSpinnerParserListener) ExitShortcut_option(ctx *Shortcut_optionContext) {}
 
+// EnterLine_group_statement is called when production line_group_statement is entered.
+func (s *BaseYarnSpinnerParserListener) EnterLine_group_statement(ctx *Line_group_statementContext) {}
+
+// ExitLine_group_statement is called when production line_group_statement is exited.
+func (s *BaseYarnSpinnerParserListener) ExitLine_group_statement(ctx *Line_group_statementContext) {}
+
+// EnterLine_group_item is called when production line_group_item is entered.
+func (s *BaseYarnSpinnerParserListener) EnterLine_group_item(ctx *Line_group_itemContext) {}
+
+// ExitLine_group_item is called when production line_group_item is exited.
+func (s *BaseYarnSpinnerParserListener) ExitLine_group_item(ctx *Line_group_itemContext) {}
+
 // EnterDeclare_statement is called when production declare_statement is entered.
 func (s *BaseYarnSpinnerParserListener) EnterDeclare_statement(ctx *Declare_statementContext) {}
 
 // ExitDeclare_statement is called when production declare_statement is exited.
 func (s *BaseYarnSpinnerParserListener) ExitDeclare_statement(ctx *Declare_statementContext) {}
+
+// EnterEnum_statement is called when production enum_statement is entered.
+func (s *BaseYarnSpinnerParserListener) EnterEnum_statement(ctx *Enum_statementContext) {}
+
+// ExitEnum_statement is called when production enum_statement is exited.
+func (s *BaseYarnSpinnerParserListener) ExitEnum_statement(ctx *Enum_statementContext) {}
+
+// EnterEnum_case_statement is called when production enum_case_statement is entered.
+func (s *BaseYarnSpinnerParserListener) EnterEnum_case_statement(ctx *Enum_case_statementContext) {}
+
+// ExitEnum_case_statement is called when production enum_case_statement is exited.
+func (s *BaseYarnSpinnerParserListener) ExitEnum_case_statement(ctx *Enum_case_statementContext) {}
 
 // EnterJumpToNodeName is called when production jumpToNodeName is entered.
 func (s *BaseYarnSpinnerParserListener) EnterJumpToNodeName(ctx *JumpToNodeNameContext) {}
@@ -270,3 +328,55 @@ func (s *BaseYarnSpinnerParserListener) EnterJumpToExpression(ctx *JumpToExpress
 
 // ExitJumpToExpression is called when production jumpToExpression is exited.
 func (s *BaseYarnSpinnerParserListener) ExitJumpToExpression(ctx *JumpToExpressionContext) {}
+
+// EnterDetourToNodeName is called when production detourToNodeName is entered.
+func (s *BaseYarnSpinnerParserListener) EnterDetourToNodeName(ctx *DetourToNodeNameContext) {}
+
+// ExitDetourToNodeName is called when production detourToNodeName is exited.
+func (s *BaseYarnSpinnerParserListener) ExitDetourToNodeName(ctx *DetourToNodeNameContext) {}
+
+// EnterDetourToExpression is called when production detourToExpression is entered.
+func (s *BaseYarnSpinnerParserListener) EnterDetourToExpression(ctx *DetourToExpressionContext) {}
+
+// ExitDetourToExpression is called when production detourToExpression is exited.
+func (s *BaseYarnSpinnerParserListener) ExitDetourToExpression(ctx *DetourToExpressionContext) {}
+
+// EnterReturn_statement is called when production return_statement is entered.
+func (s *BaseYarnSpinnerParserListener) EnterReturn_statement(ctx *Return_statementContext) {}
+
+// ExitReturn_statement is called when production return_statement is exited.
+func (s *BaseYarnSpinnerParserListener) ExitReturn_statement(ctx *Return_statementContext) {}
+
+// EnterOnce_statement is called when production once_statement is entered.
+func (s *BaseYarnSpinnerParserListener) EnterOnce_statement(ctx *Once_statementContext) {}
+
+// ExitOnce_statement is called when production once_statement is exited.
+func (s *BaseYarnSpinnerParserListener) ExitOnce_statement(ctx *Once_statementContext) {}
+
+// EnterOnce_primary_clause is called when production once_primary_clause is entered.
+func (s *BaseYarnSpinnerParserListener) EnterOnce_primary_clause(ctx *Once_primary_clauseContext) {}
+
+// ExitOnce_primary_clause is called when production once_primary_clause is exited.
+func (s *BaseYarnSpinnerParserListener) ExitOnce_primary_clause(ctx *Once_primary_clauseContext) {}
+
+// EnterOnce_alternate_clause is called when production once_alternate_clause is entered.
+func (s *BaseYarnSpinnerParserListener) EnterOnce_alternate_clause(ctx *Once_alternate_clauseContext) {
+}
+
+// ExitOnce_alternate_clause is called when production once_alternate_clause is exited.
+func (s *BaseYarnSpinnerParserListener) ExitOnce_alternate_clause(ctx *Once_alternate_clauseContext) {
+}
+
+// EnterStructured_command is called when production structured_command is entered.
+func (s *BaseYarnSpinnerParserListener) EnterStructured_command(ctx *Structured_commandContext) {}
+
+// ExitStructured_command is called when production structured_command is exited.
+func (s *BaseYarnSpinnerParserListener) ExitStructured_command(ctx *Structured_commandContext) {}
+
+// EnterStructured_command_value is called when production structured_command_value is entered.
+func (s *BaseYarnSpinnerParserListener) EnterStructured_command_value(ctx *Structured_command_valueContext) {
+}
+
+// ExitStructured_command_value is called when production structured_command_value is exited.
+func (s *BaseYarnSpinnerParserListener) ExitStructured_command_value(ctx *Structured_command_valueContext) {
+}
