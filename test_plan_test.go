@@ -13,6 +13,7 @@ const (
 	stepTypeSelect
 	stepTypeCommand
 	stepTypeStop
+	stepTypeSet
 )
 
 type TestPlanStep struct {

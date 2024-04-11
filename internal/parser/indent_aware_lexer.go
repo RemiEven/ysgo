@@ -1,8 +1,6 @@
 package parser
 
 import (
-	"strconv"
-
 	"github.com/antlr4-go/antlr/v4"
 
 	"github.com/remieven/ysgo/internal/container"
@@ -12,9 +10,13 @@ import (
 // It's pretty much a direct port of the IndentAwareLexer.cs file of YarnSpinner from C# to Go.
 type IndentAwareLexer struct {
 	*antlr.BaseLexer
-	hitEOF        bool
-	pendingTokens container.Queue[antlr.Token]
-	indents       container.Stack[int]
+	hitEOF                       bool
+	pendingTokens                container.Queue[antlr.Token]
+	unbalancedIndents            container.Stack[int]
+	lastIndent                   int
+	lineContainsShortcut         bool
+	lastToken                    antlr.Token
+	lastSeenOptionContentPlusOne int
 }
 
 // NextToken returns a token from the lexer source i.e., match a token on the char stream.
@@ -42,9 +44,19 @@ func (ial *IndentAwareLexer) checkNextToken() {
 		ial.handleNewLineToken(currentToken)
 	case antlr.TokenEOF:
 		ial.handleEndOfFileToken(currentToken)
+	case YarnSpinnerLexerSHORTCUT_ARROW:
+		ial.pendingTokens.Enqueue(currentToken)
+		ial.lineContainsShortcut = true
+	case YarnSpinnerLexerBODY_END:
+		ial.lineContainsShortcut = false
+		ial.lastIndent = 0
+		ial.unbalancedIndents.Clear()
+		ial.lastSeenOptionContentPlusOne = 0
+		ial.pendingTokens.Enqueue(currentToken)
 	default:
 		ial.pendingTokens.Enqueue(currentToken)
 	}
+	ial.lastToken = currentToken
 }
 
 func (ial *IndentAwareLexer) handleNewLineToken(currentToken antlr.Token) {
@@ -52,27 +64,40 @@ func (ial *IndentAwareLexer) handleNewLineToken(currentToken antlr.Token) {
 
 	currentIndentationLength := ial.getLengthOfNewlineToken(currentToken)
 
-	previousIndent := 0
-	if ial.indents.Size() > 0 {
-		previousIndent = ial.indents.Peek()
+	if ial.lastSeenOptionContentPlusOne != 0 {
+		if currentToken.GetTokenType() == ial.lastToken.GetTokenType() {
+			if ial.GetLine()-ial.lastSeenOptionContentPlusOne == 0 {
+				ial.insertToken("", YarnSpinnerLexerBLANK_LINE_FOLLOWING_OPTION)
+			}
+			ial.lastSeenOptionContentPlusOne = 0
+		}
 	}
 
-	if currentIndentationLength > previousIndent {
-		ial.indents.Push(currentIndentationLength)
-		ial.insertToken("<indent to "+strconv.Itoa(currentIndentationLength)+">", YarnSpinnerLexerINDENT)
-	} else if currentIndentationLength < previousIndent {
-		for currentIndentationLength < previousIndent {
-			previousIndent = ial.indents.Pop()
+	if ial.lineContainsShortcut {
+		if currentIndentationLength > ial.lastIndent {
+			ial.unbalancedIndents.Push(currentIndentationLength)
+			ial.insertToken("", YarnSpinnerLexerINDENT)
+		}
+		ial.lineContainsShortcut = false
+		ial.lastSeenOptionContentPlusOne = ial.GetLine() + 1
+	}
 
-			ial.insertToken("<dedent from "+strconv.Itoa(previousIndent)+">", YarnSpinnerLexerDEDENT)
+	if ial.unbalancedIndents.Size() > 0 {
+		top := ial.unbalancedIndents.Peek()
 
-			if ial.indents.Size() > 0 {
-				previousIndent = ial.indents.Peek()
+		for currentIndentationLength < top {
+			ial.insertToken("", YarnSpinnerLexerDEDENT)
+			ial.unbalancedIndents.Pop()
+			if ial.unbalancedIndents.Size() > 0 {
+				top = ial.unbalancedIndents.Peek()
 			} else {
-				previousIndent = 0
+				top = 0
+				ial.lastSeenOptionContentPlusOne = ial.GetLine() + 1
 			}
 		}
 	}
+
+	ial.lastIndent = currentIndentationLength
 }
 
 func (ial *IndentAwareLexer) getLengthOfNewlineToken(currentToken antlr.Token) int {
@@ -98,10 +123,9 @@ func (ial *IndentAwareLexer) getLengthOfNewlineToken(currentToken antlr.Token) i
 }
 
 func (ial *IndentAwareLexer) handleEndOfFileToken(currentToken antlr.Token) {
-	for ial.indents.Size() > 0 {
-		previousIndent := ial.indents.Pop()
-
-		ial.insertToken("<dedent from "+strconv.Itoa(previousIndent)+">", YarnSpinnerLexerDEDENT)
+	for ial.unbalancedIndents.Size() > 0 {
+		ial.unbalancedIndents.Pop()
+		ial.insertToken("", YarnSpinnerLexerDEDENT)
 	}
 
 	ial.pendingTokens.Enqueue(currentToken)

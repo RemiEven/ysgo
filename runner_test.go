@@ -20,6 +20,7 @@ func TestRunnerPlan(t *testing.T) {
 		"Functions",
 		"Identifiers",
 		"IfStatements",
+		"Indentation",
 		"InlineExpressions",
 		"Jumps",
 		"Lines",
@@ -77,7 +78,7 @@ func TestRunnerPlan(t *testing.T) {
 				})
 			}
 
-			for _, commandName := range []string{"number", "expression", "string", "bool", "variable", "flip", "toggle", "settings", "iffy", "nulled", "orion", "andorian", "note", "isActive", "p", "hide"} {
+			for _, commandName := range []string{"number", "expression", "string", "bool", "variable", "flip", "toggle", "settings", "iffy", "nulled", "orion", "andorian", "note", "isActive", "p", "hide", "show"} {
 				addTestCommand(commandName)
 			}
 

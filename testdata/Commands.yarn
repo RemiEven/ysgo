@@ -29,4 +29,12 @@ title: Start
 
 // Commands with colons
 <<hide Collision:GermOnPorch>>
+
+// command with replacements
+<<show {1}>>
+
+// command with variable replacement
+<<declare $replacement = "1">>
+<<show {$replacement}>>
+
 ===
