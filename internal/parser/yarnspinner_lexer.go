@@ -705,11 +705,11 @@ func (l *YarnSpinnerLexer) Action(localctx antlr.RuleContext, ruleIndex, actionI
 func (l *YarnSpinnerLexer) HEADER_DELIMITER_Action(localctx antlr.RuleContext, actionIndex int) {
 	switch actionIndex {
 	case 0:
-		if LastTokenWas(ID, "when") {
-			SetInWhenClause(true)
-			PushMode(ExpressionMode)
+		if l.lastTokenWas(YarnSpinnerLexerID, "when") {
+			l.inWhenClause = (true)
+			l.PushMode(YarnSpinnerLexerExpressionMode)
 		} else {
-			PushMode(HeaderMode)
+			l.PushMode(YarnSpinnerLexerHeaderMode)
 		}
 
 	default:
@@ -719,7 +719,7 @@ func (l *YarnSpinnerLexer) HEADER_DELIMITER_Action(localctx antlr.RuleContext, a
 func (l *YarnSpinnerLexer) EXPRESSION_NEWLINE_Action(localctx antlr.RuleContext, actionIndex int) {
 	switch actionIndex {
 	case 1:
-		SetInWhenClause(false)
+		l.inWhenClause = (false)
 
 	default:
 		panic("No registered action for: " + fmt.Sprint(actionIndex))
@@ -745,40 +745,40 @@ func (l *YarnSpinnerLexer) Sempred(localctx antlr.RuleContext, ruleIndex, predIn
 	}
 }
 
-func (p *YarnSpinnerLexer) EXPRESSION_WHEN_ALWAYS_Sempred(localctx antlr.RuleContext, predIndex int) bool {
+func (l *YarnSpinnerLexer) EXPRESSION_WHEN_ALWAYS_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 0:
-		return IsInWhenClause()
+		return l.inWhenClause
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))
 	}
 }
 
-func (p *YarnSpinnerLexer) EXPRESSION_WHEN_ONCE_Sempred(localctx antlr.RuleContext, predIndex int) bool {
+func (l *YarnSpinnerLexer) EXPRESSION_WHEN_ONCE_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 1:
-		return IsInWhenClause()
+		return l.inWhenClause
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))
 	}
 }
 
-func (p *YarnSpinnerLexer) EXPRESSION_WHEN_IF_Sempred(localctx antlr.RuleContext, predIndex int) bool {
+func (l *YarnSpinnerLexer) EXPRESSION_WHEN_IF_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 2:
-		return IsInWhenClause()
+		return l.inWhenClause
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))
 	}
 }
 
-func (p *YarnSpinnerLexer) EXPRESSION_NEWLINE_Sempred(localctx antlr.RuleContext, predIndex int) bool {
+func (l *YarnSpinnerLexer) EXPRESSION_NEWLINE_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 3:
-		return IsInWhenClause()
+		return l.inWhenClause
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))
