@@ -161,5 +161,5 @@ func (ial *IndentAwareLexer) lastTokenWas(tokenType int, text string) bool {
 	}
 
 	token := ial.tokens.Peek()
-	return token.GetTokenType() == tokenType && strings.EqualFold(token.GetText(), text) 
+	return token.GetTokenType() == tokenType && strings.EqualFold(token.GetText(), text)
 }

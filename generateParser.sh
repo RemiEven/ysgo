@@ -15,7 +15,6 @@ sed -i 's/PushMode(/l.PushMode(YarnSpinnerLexer/g' internal/parser/yarnspinner_l
 sed -i 's/LastTokenWas(ID/l.lastTokenWas(YarnSpinnerLexerID/g' internal/parser/yarnspinner_lexer.go
 sed -i 's/SetInWhenClause/l.inWhenClause = /g' internal/parser/yarnspinner_lexer.go
 
-
 sed -i 's/GetText()/GetInnerText()/g' internal/parser/yarnspinner_parser.go
 sed -i 's/\/\/ GetText/\/\/ GetInnerText/g' internal/parser/yarnspinner_parser.go
 
