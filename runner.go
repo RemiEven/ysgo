@@ -37,14 +37,20 @@ type DialogueRunner struct {
 // Node holds the name of the dialogue node that contains the element.
 type DialogueElement struct {
 	Node    string
-	Line    *markup.ParseResult
+	Line    *Line
 	Options []DialogueOption
 }
 
 // DialogueOption holds the data about one possible choice the player is presented with.
 type DialogueOption struct {
-	Line     *markup.ParseResult
+	Line     *Line
 	Disabled bool
+}
+
+// Line contains an interpolated text line along with its tags, if any.
+type Line struct {
+	markup.ParseResult
+	Tags []string
 }
 
 func (dr *DialogueRunner) textElementsToMarkup(elements []*tree.LineFormattedTextElement) (*markup.ParseResult, error) {
@@ -121,7 +127,10 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 		}
 		return &DialogueElement{
 			Node: dr.currentNode,
-			Line: markupResult,
+			Line: &Line{
+				ParseResult: *markupResult,
+				Tags:        nextStatement.LineStatement.Tags,
+			},
 		}, nil
 	case nextStatement.ShortcutOptionStatement != nil:
 		options := make([]DialogueOption, 0, len(nextStatement.ShortcutOptionStatement.Options))
@@ -141,7 +150,10 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 				disabled = !*enabled.Boolean
 			}
 			options = append(options, DialogueOption{
-				Line:     markupResult,
+				Line: &Line{
+					ParseResult: *markupResult,
+					Tags:        option.LineStatement.Tags,
+				},
 				Disabled: disabled,
 			})
 		}

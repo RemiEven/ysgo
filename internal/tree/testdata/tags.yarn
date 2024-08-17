@@ -1,0 +1,9 @@
+title: Tags
+---
+Which flavor do you prefer? #start
+-> Chocolate #chocolate
+	<<set $flavor to "chocolate">>
+-> Raspberry <<if false>> #tone:sarcastic #duplicate
+	<<set $flavor to "raspberry">>
+Nice! Here, get some {$flavor} icecream! #end #goodending
+===

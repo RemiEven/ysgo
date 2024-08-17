@@ -27,6 +27,7 @@ type parserListener struct {
 	clauseCallbacks          *container.Stack[func(*Clause)]
 	functionCallCallback     func(*FunctionCall)
 	commandTextCallback      func(string)
+	hashtagCallback          func(string)
 	protoCommandStatement    *CommandStatement
 }
 
@@ -86,6 +87,9 @@ func (s *parserListener) EnterHeader(ctx *parser.HeaderContext) {
 // EnterLine_statement is called when production line_statement is entered.
 func (s *parserListener) EnterLine_statement(ctx *parser.Line_statementContext) {
 	s.lineStatement = &LineStatement{}
+	s.hashtagCallback = func(tag string) {
+		s.lineStatement.Tags = append(s.lineStatement.Tags, tag)
+	}
 	s.expressionCallbacks.Push(func(e *Expression) {
 		s.lineStatement.Condition = e
 	})
@@ -93,6 +97,7 @@ func (s *parserListener) EnterLine_statement(ctx *parser.Line_statementContext) 
 
 // ExitLine_statement is called when production line_statement is exited.
 func (s *parserListener) ExitLine_statement(ctx *parser.Line_statementContext) {
+	s.hashtagCallback = nil
 	s.expressionCallbacks.Pop()
 	s.lineStatementCallbacks.Peek()(s.lineStatement)
 	s.lineStatement = nil
@@ -125,6 +130,11 @@ func (s *parserListener) EnterLine_formatted_text(ctx *parser.Line_formatted_tex
 func (s *parserListener) ExitLine_formatted_text(ctx *parser.Line_formatted_textContext) {
 	s.textCallback = nil
 	s.expressionCallbacks.Pop()
+}
+
+// EnterHashtag is called when production hashtag is entered.
+func (s *parserListener) EnterHashtag(ctx *parser.HashtagContext) {
+	s.hashtagCallback(ctx.GetText()[1:])
 }
 
 // EnterShortcut_option_statement is called when production shortcut_option_statement is entered.

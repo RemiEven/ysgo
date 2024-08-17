@@ -42,7 +42,8 @@
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>)
+            Condition: (*tree.Expression)(<nil>),
+            Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
@@ -62,7 +63,8 @@
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>)
+            Condition: (*tree.Expression)(<nil>),
+            Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
@@ -82,7 +84,8 @@
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>)
+            Condition: (*tree.Expression)(<nil>),
+            Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
@@ -106,7 +109,8 @@
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>)
+                  Condition: (*tree.Expression)(<nil>),
+                  Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=1) {
                   (*tree.Statement)({
@@ -148,7 +152,8 @@
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>)
+                  Condition: (*tree.Expression)(<nil>),
+                  Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=1) {
                   (*tree.Statement)({
@@ -190,7 +195,8 @@
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>)
+                  Condition: (*tree.Expression)(<nil>),
+                  Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=2) {
                   (*tree.Statement)({
@@ -304,7 +310,8 @@
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>)
+                      Condition: (*tree.Expression)(<nil>),
+                      Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
@@ -324,7 +331,8 @@
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>)
+                      Condition: (*tree.Expression)(<nil>),
+                      Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
@@ -362,7 +370,8 @@
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>)
+                      Condition: (*tree.Expression)(<nil>),
+                      Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
@@ -399,7 +408,8 @@
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>)
+                      Condition: (*tree.Expression)(<nil>),
+                      Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
@@ -419,7 +429,8 @@
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>)
+                      Condition: (*tree.Expression)(<nil>),
+                      Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),

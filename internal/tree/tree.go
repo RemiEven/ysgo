@@ -43,6 +43,7 @@ type Statement struct {
 type LineStatement struct {
 	Text      *LineFormattedText
 	Condition *Expression
+	Tags      []string
 }
 
 type LineFormattedText struct {
