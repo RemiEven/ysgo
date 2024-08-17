@@ -8,9 +8,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: '1.22'
       - name: Generate lexer/parser files with antlr
         run: ./generateParser.sh
       - name: Display potential updates
