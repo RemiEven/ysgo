@@ -30,7 +30,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -57,7 +58,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -84,7 +86,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -105,7 +108,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -126,7 +130,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
       }
     },
@@ -154,7 +159,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -232,7 +238,8 @@
                     IfStatement: (*tree.IfStatement)(<nil>),
                     CommandStatement: (*tree.CommandStatement)(<nil>),
                     CallStatement: (*tree.CallStatement)(<nil>),
-                    DeclareStatement: (*tree.DeclareStatement)(<nil>)
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
                   })
                 }
               }),
@@ -315,7 +322,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -336,7 +344,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -357,7 +366,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
       }
     },
@@ -385,7 +395,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -481,7 +492,8 @@
                     IfStatement: (*tree.IfStatement)(<nil>),
                     CommandStatement: (*tree.CommandStatement)(<nil>),
                     CallStatement: (*tree.CallStatement)(<nil>),
-                    DeclareStatement: (*tree.DeclareStatement)(<nil>)
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
                   })
                 }
               }),
@@ -564,7 +576,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -585,7 +598,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -606,7 +620,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
       }
     },
@@ -634,7 +649,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -730,7 +746,8 @@
                     IfStatement: (*tree.IfStatement)(<nil>),
                     CommandStatement: (*tree.CommandStatement)(<nil>),
                     CallStatement: (*tree.CallStatement)(<nil>),
-                    DeclareStatement: (*tree.DeclareStatement)(<nil>)
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
                   })
                 }
               }),
@@ -813,7 +830,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -834,7 +852,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -855,7 +874,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
       }
     },
@@ -883,7 +903,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -922,7 +943,8 @@
                     IfStatement: (*tree.IfStatement)(<nil>),
                     CommandStatement: (*tree.CommandStatement)(<nil>),
                     CallStatement: (*tree.CallStatement)(<nil>),
-                    DeclareStatement: (*tree.DeclareStatement)(<nil>)
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
                   }),
                   (*tree.Statement)({
                     LineStatement: (*tree.LineStatement)(<nil>),
@@ -1032,12 +1054,14 @@
                                   LeftOperand: (*tree.Expression)(<nil>),
                                   RightOperand: (*tree.Expression)(<nil>),
                                   Operator: (*int)(<nil>)
-                                })
+                                }),
+                                Detour: (bool) false
                               }),
                               IfStatement: (*tree.IfStatement)(<nil>),
                               CommandStatement: (*tree.CommandStatement)(<nil>),
                               CallStatement: (*tree.CallStatement)(<nil>),
-                              DeclareStatement: (*tree.DeclareStatement)(<nil>)
+                              DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                              ReturnStatement: (*tree.ReturnStatement)(<nil>)
                             })
                           }
                         })
@@ -1048,7 +1072,8 @@
                     IfStatement: (*tree.IfStatement)(<nil>),
                     CommandStatement: (*tree.CommandStatement)(<nil>),
                     CallStatement: (*tree.CallStatement)(<nil>),
-                    DeclareStatement: (*tree.DeclareStatement)(<nil>)
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
                   }),
                   (*tree.Statement)({
                     LineStatement: (*tree.LineStatement)({
@@ -1069,7 +1094,8 @@
                     IfStatement: (*tree.IfStatement)(<nil>),
                     CommandStatement: (*tree.CommandStatement)(<nil>),
                     CallStatement: (*tree.CallStatement)(<nil>),
-                    DeclareStatement: (*tree.DeclareStatement)(<nil>)
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
                   })
                 }
               }),
@@ -1095,7 +1121,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         }),
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -1116,7 +1143,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
       }
     },
@@ -1144,7 +1172,8 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)(<nil>),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
       }
     }

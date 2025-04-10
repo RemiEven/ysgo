@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"maps"
 	"math"
 	"strings"
 
@@ -19,17 +20,19 @@ import (
 // It keeps track of the current state of the dialogue (variables, current and visited steps).
 // It orchestrates the call of Commands and Functions.
 type DialogueRunner struct {
-	dialogue         *tree.Dialogue
-	statementsToRun  container.Stack[*statementQueue]
-	lastStatement    *tree.Statement
-	variableStorer   variable.Storer
-	functionStorer   *functionStorer
-	commandStorer    *commandStorer
-	commandErrChan   <-chan error
-	lineParser       markup.LineParser
-	currentNode      string
-	visitedNodes     map[string]int
-	variableSnapshot map[string]variable.Value
+	dialogue        *tree.Dialogue
+	statementsToRun container.Stack[*container.Stack[*statementQueue]]
+	lastStatement   *tree.Statement
+	variableStorer  variable.Storer
+	functionStorer  *functionStorer
+	commandStorer   *commandStorer
+	commandErrChan  <-chan error
+	lineParser      markup.LineParser
+
+	currentNodes         container.Stack[string]
+	visitedNodes         map[string]int
+	variableSnapshot     map[string]variable.Value
+	visitedNodesSnapshot map[string]int
 }
 
 // DialogueElement represents a step of a dialogue as it is presented in a game.
@@ -100,10 +103,15 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 
 	if dr.isWaitingForChoice() {
 		if statements := dr.lastStatement.ShortcutOptionStatement.Options[choice].Statements; len(statements) != 0 {
-			dr.statementsToRun.Push(&statementQueue{
+			statementsToRun := dr.statementsToRun.Peek()
+			statementsToRun.Push(&statementQueue{
 				statements: statements,
 			})
 		}
+	}
+
+	if dr.statementsToRun.Size() > 0 && dr.statementsToRun.Peek().Size() == 0 {
+		dr.statementsToRun.Pop()
 	}
 
 	if dr.statementsToRun.Size() == 0 {
@@ -112,9 +120,9 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 
 	statementsToRun := dr.statementsToRun.Peek()
 
-	nextStatement, ok := statementsToRun.nextStatement()
+	nextStatement, ok := statementsToRun.Peek().nextStatement()
 	if !ok {
-		dr.statementsToRun.Pop()
+		statementsToRun.Pop()
 		return dr.Next(choice)
 	}
 
@@ -126,7 +134,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			return nil, fmt.Errorf("failed to prepare line: %w", err)
 		}
 		return &DialogueElement{
-			Node: dr.currentNode,
+			Node: dr.currentNodes.Peek(),
 			Line: &Line{
 				ParseResult: *markupResult,
 				Tags:        nextStatement.LineStatement.Tags,
@@ -158,7 +166,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			})
 		}
 		return &DialogueElement{
-			Node:    dr.currentNode,
+			Node:    dr.currentNodes.Peek(),
 			Options: options,
 		}, nil
 	case nextStatement.SetStatement != nil:
@@ -212,7 +220,7 @@ func NewDialogueRunner(storer variable.Storer, rngSeed string, readers ...io.Rea
 		return nil, fmt.Errorf("failed to create dialogue: %w", err)
 	}
 
-	statementsToRun := container.Stack[*statementQueue]{}
+	statementsToRun := &container.Stack[*statementQueue]{}
 	firstNode := dialogue.Nodes[0]
 	statementsToRun.Push(&statementQueue{statements: firstNode.Statements})
 
@@ -227,11 +235,11 @@ func NewDialogueRunner(storer variable.Storer, rngSeed string, readers ...io.Rea
 
 	runner := &DialogueRunner{
 		dialogue:        dialogue,
-		statementsToRun: statementsToRun,
+		statementsToRun: container.Stack[*container.Stack[*statementQueue]]{statementsToRun},
 		variableStorer:  storer,
 		commandStorer:   newCommandStorer(),
 		visitedNodes:    map[string]int{},
-		currentNode:     firstNode.Title(),
+		currentNodes:    container.Stack[string]{firstNode.Title()},
 	}
 
 	functionStorer := newFunctionStorer(rng)
@@ -318,20 +326,25 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 		return fmt.Errorf("destination must be a string")
 	} else if node, ok := dr.dialogue.FindNode(*value.String); !ok {
 		return fmt.Errorf("node [%s] not found in dialogue", *value.String)
-	} else {
+	} else if !statement.Detour {
 		dr.incrementNodeTrackingIfAllowed()
 		dr.variableSnapshot = dr.variableStorer.GetValues()
+		dr.visitedNodesSnapshot = maps.Clone(dr.visitedNodes)
 		dr.statementsToRun.Clear()
-		dr.statementsToRun.Push(&statementQueue{statements: node.Statements})
-		dr.currentNode = node.Title()
+		dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
+		dr.currentNodes.Clear()
+		dr.currentNodes.Push(node.Title())
+	} else {
+		panic("detour not supported in runner yet")
 	}
 	return nil
 }
 
 func (dr *DialogueRunner) incrementNodeTrackingIfAllowed() {
-	node, ok := dr.dialogue.FindNode(dr.currentNode)
+	currentNodeName := dr.currentNodes.Peek()
+	node, ok := dr.dialogue.FindNode(currentNodeName)
 	if ok && node.Headers != nil && node.Headers["tracking"] != "never" {
-		dr.visitedNodes[dr.currentNode]++
+		dr.visitedNodes[currentNodeName]++
 	}
 }
 
@@ -344,7 +357,8 @@ func (dr *DialogueRunner) executeIfStatement(statement *tree.IfStatement) error 
 			return fmt.Errorf("condition must be a boolean")
 		}
 		if *condition.Boolean {
-			dr.statementsToRun.Push(&statementQueue{statements: clause.Statements})
+			statementsToRun := dr.statementsToRun.Peek()
+			statementsToRun.Push(&statementQueue{statements: clause.Statements})
 			return nil
 		}
 	}
@@ -434,8 +448,9 @@ func (dr *DialogueRunner) RestoreAt(snapshot *Snapshot) error {
 	}
 
 	dr.statementsToRun.Clear()
-	dr.statementsToRun.Push(&statementQueue{statements: node.Statements})
-	dr.currentNode = node.Title()
+	dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
+	dr.currentNodes.Clear()
+	dr.currentNodes.Push(node.Title())
 	return nil
 }
 
@@ -466,7 +481,7 @@ func (dr *DialogueRunner) ConvertAndAddCommand(commandID string, command any) er
 func (dr *DialogueRunner) Snapshot() *Snapshot {
 	return &Snapshot{
 		Variables:    dr.variableSnapshot,
-		CurrentNode:  dr.currentNode,
+		CurrentNode:  dr.currentNodes.Peek(),
 		VisitedNodes: dr.visitedNodes,
 	}
 }

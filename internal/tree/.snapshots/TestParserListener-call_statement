@@ -33,7 +33,8 @@
               }
             })
           }),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>)
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
       }
     }

@@ -100,7 +100,10 @@ func TestRunnerPlan(t *testing.T) {
 						return
 					}
 					choice = 0
-					if line := element.Line; line == nil {
+					if element == nil {
+						t.Errorf("expected a line at test plan step [%v] but got none", testPlanIndex)
+						return
+					} else if line := element.Line; line == nil {
 						t.Errorf("expected a line at test plan step [%v] but got none", testPlanIndex)
 						return
 					} else if actual, expected := line.Text, testPlanStep.stringValue; actual != expected {

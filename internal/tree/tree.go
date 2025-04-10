@@ -38,6 +38,7 @@ type Statement struct {
 	CommandStatement        *CommandStatement
 	CallStatement           *CallStatement
 	DeclareStatement        *DeclareStatement
+	ReturnStatement         *ReturnStatement
 }
 
 type LineStatement struct {
@@ -72,6 +73,7 @@ type SetStatement struct {
 
 type JumpStatement struct {
 	Expression *Expression
+	Detour     bool
 }
 
 type IfStatement struct {
@@ -152,4 +154,7 @@ type CallStatement struct {
 type DeclareStatement struct {
 	VariableID string
 	Value      *Expression
+}
+
+type ReturnStatement struct {
 }

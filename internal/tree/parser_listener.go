@@ -376,6 +376,42 @@ func (s *parserListener) ExitJumpToExpression(ctx *parser.JumpToExpressionContex
 	s.expressionCallbacks.Pop()
 }
 
+// EnterDetourToNodeName is called when production detourToNodeName is entered.
+func (s *parserListener) EnterDetourToNodeName(ctx *parser.DetourToNodeNameContext) {
+	s.statementCallbacks.Peek()(&Statement{
+		JumpStatement: &JumpStatement{
+			Expression: &Expression{
+				Value: variable.NewString(ctx.GetDestination().GetText()),
+			},
+			Detour: true,
+		},
+	})
+}
+
+// EnterDetourToExpression is called when production detourToExpression is entered.
+func (s *parserListener) EnterDetourToExpression(ctx *parser.DetourToExpressionContext) {
+	s.expressionCallbacks.Push(func(e *Expression) {
+		s.statementCallbacks.Peek()(&Statement{
+			JumpStatement: &JumpStatement{
+				Expression: e,
+				Detour:     true,
+			},
+		})
+	})
+}
+
+// ExitDetourToExpression is called when production detourToExpression is exited.
+func (s *parserListener) ExitDetourToExpression(ctx *parser.DetourToExpressionContext) {
+	s.expressionCallbacks.Pop()
+}
+
+// EnterReturn_statement is called when production return_statement is entered.
+func (s *parserListener) EnterReturn_statement(ctx *parser.Return_statementContext) {
+	s.statementCallbacks.Peek()(&Statement{
+		ReturnStatement: &ReturnStatement{},
+	})
+}
+
 // EnterIf_statement is called when production if_statement is entered.
 func (s *parserListener) EnterIf_statement(ctx *parser.If_statementContext) {
 	statement := &IfStatement{}
