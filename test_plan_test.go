@@ -54,6 +54,8 @@ func newTestPlanStep(line string) (*TestPlanStep, error) {
 		step.intValue = i
 	case strings.HasPrefix(line, "stop:"):
 		step.stepType = stepTypeStop
+	case line == "stop":
+		return nil, nil
 	}
 
 	return step, nil

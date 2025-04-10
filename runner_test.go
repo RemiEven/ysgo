@@ -14,6 +14,7 @@ func TestRunnerPlan(t *testing.T) {
 	tests := []string{
 		"Commands",
 		"DecimalNumbers",
+		"Detours",
 		"Escaping",
 		"Expressions",
 		"FormatFunctions",

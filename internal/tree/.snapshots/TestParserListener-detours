@@ -1,0 +1,113 @@
+(*tree.Dialogue)({
+  Nodes: ([]tree.Node) (len=3) {
+    (tree.Node) {
+      Headers: (map[string]string) (len=1) {
+        (string) (len=5) "title": (string) (len=5) "Start"
+      },
+      Statements: ([]*tree.Statement) (len=1) {
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)({
+            Expression: (*tree.Expression)({
+              Value: (*variable.Value)({
+                Number: (*float64)(<nil>),
+                Boolean: (*bool)(<nil>),
+                String: (*string)((len=5) "Node2")
+              }),
+              VariableID: (*string)(<nil>),
+              FunctionCall: (*tree.FunctionCall)(<nil>),
+              NegativeExpression: (*tree.Expression)(<nil>),
+              NotExpression: (*tree.Expression)(<nil>),
+              LeftOperand: (*tree.Expression)(<nil>),
+              RightOperand: (*tree.Expression)(<nil>),
+              Operator: (*int)(<nil>)
+            }),
+            Detour: (bool) true
+          }),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        })
+      }
+    },
+    (tree.Node) {
+      Headers: (map[string]string) (len=1) {
+        (string) (len=5) "title": (string) (len=5) "Node2"
+      },
+      Statements: ([]*tree.Statement) (len=1) {
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)({
+            Expression: (*tree.Expression)({
+              Value: (*variable.Value)(<nil>),
+              VariableID: (*string)(<nil>),
+              FunctionCall: (*tree.FunctionCall)(<nil>),
+              NegativeExpression: (*tree.Expression)(<nil>),
+              NotExpression: (*tree.Expression)(<nil>),
+              LeftOperand: (*tree.Expression)({
+                Value: (*variable.Value)({
+                  Number: (*float64)(<nil>),
+                  Boolean: (*bool)(<nil>),
+                  String: (*string)((len=4) "Node")
+                }),
+                VariableID: (*string)(<nil>),
+                FunctionCall: (*tree.FunctionCall)(<nil>),
+                NegativeExpression: (*tree.Expression)(<nil>),
+                NotExpression: (*tree.Expression)(<nil>),
+                LeftOperand: (*tree.Expression)(<nil>),
+                RightOperand: (*tree.Expression)(<nil>),
+                Operator: (*int)(<nil>)
+              }),
+              RightOperand: (*tree.Expression)({
+                Value: (*variable.Value)({
+                  Number: (*float64)(<nil>),
+                  Boolean: (*bool)(<nil>),
+                  String: (*string)((len=1) "3")
+                }),
+                VariableID: (*string)(<nil>),
+                FunctionCall: (*tree.FunctionCall)(<nil>),
+                NegativeExpression: (*tree.Expression)(<nil>),
+                NotExpression: (*tree.Expression)(<nil>),
+                LeftOperand: (*tree.Expression)(<nil>),
+                RightOperand: (*tree.Expression)(<nil>),
+                Operator: (*int)(<nil>)
+              }),
+              Operator: (*int)(3)
+            }),
+            Detour: (bool) true
+          }),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        })
+      }
+    },
+    (tree.Node) {
+      Headers: (map[string]string) (len=1) {
+        (string) (len=5) "title": (string) (len=5) "Node3"
+      },
+      Statements: ([]*tree.Statement) (len=1) {
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)({
+          })
+        })
+      }
+    }
+  }
+})

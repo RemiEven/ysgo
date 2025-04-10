@@ -111,6 +111,8 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	}
 
 	if dr.statementsToRun.Size() > 0 && dr.statementsToRun.Peek().Size() == 0 {
+		dr.incrementNodeTrackingIfAllowed(dr.currentNodes.Peek())
+		dr.currentNodes.Pop()
 		dr.statementsToRun.Pop()
 	}
 
@@ -202,6 +204,11 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 		if err := dr.executeDeclareStatement(nextStatement.DeclareStatement); err != nil {
 			return nil, fmt.Errorf("failed to execute declare statement: %w", err)
 		}
+		return dr.Next(choice)
+	case nextStatement.ReturnStatement != nil:
+		dr.incrementNodeTrackingIfAllowed(dr.currentNodes.Peek())
+		dr.currentNodes.Pop()
+		dr.statementsToRun.Pop()
 		return dr.Next(choice)
 	}
 
@@ -326,25 +333,27 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 		return fmt.Errorf("destination must be a string")
 	} else if node, ok := dr.dialogue.FindNode(*value.String); !ok {
 		return fmt.Errorf("node [%s] not found in dialogue", *value.String)
-	} else if !statement.Detour {
-		dr.incrementNodeTrackingIfAllowed()
+	} else if statement.Detour {
+		dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
+		dr.currentNodes.Push(node.Title())
+	} else {
+		for _, node := range dr.currentNodes {
+			dr.incrementNodeTrackingIfAllowed(node)
+		}
 		dr.variableSnapshot = dr.variableStorer.GetValues()
 		dr.visitedNodesSnapshot = maps.Clone(dr.visitedNodes)
 		dr.statementsToRun.Clear()
 		dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
 		dr.currentNodes.Clear()
 		dr.currentNodes.Push(node.Title())
-	} else {
-		panic("detour not supported in runner yet")
 	}
 	return nil
 }
 
-func (dr *DialogueRunner) incrementNodeTrackingIfAllowed() {
-	currentNodeName := dr.currentNodes.Peek()
-	node, ok := dr.dialogue.FindNode(currentNodeName)
+func (dr *DialogueRunner) incrementNodeTrackingIfAllowed(nodeName string) {
+	node, ok := dr.dialogue.FindNode(nodeName)
 	if ok && node.Headers != nil && node.Headers["tracking"] != "never" {
-		dr.visitedNodes[currentNodeName]++
+		dr.visitedNodes[nodeName]++
 	}
 }
 

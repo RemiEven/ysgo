@@ -1,0 +1,12 @@
+title: Start
+---
+<<detour Node2>>
+===
+title: Node2
+---
+<<detour {"Node" + "3"}>>
+===
+title: Node3
+---
+<<return>>
+===

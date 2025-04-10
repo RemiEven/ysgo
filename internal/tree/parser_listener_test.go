@@ -24,6 +24,7 @@ func TestParserListener(t *testing.T) {
 		"commands",
 		"call_statement",
 		"tags",
+		"detours",
 	}
 
 	for _, name := range tests {
