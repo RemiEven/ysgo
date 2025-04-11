@@ -380,3 +380,41 @@ func TestToFloat(t *testing.T) {
 		})
 	}
 }
+
+func TestMin(t *testing.T) {
+	tests := []struct {
+		a, b, expected float64
+	}{
+		{-1, 3, -1},
+		{3, 2, 2},
+		{4, 4, 4},
+	}
+
+	for _, test := range tests {
+		t.Run(fmt.Sprint(test.a, test.b), func(t *testing.T) {
+			if actual := min(test.a, test.b); actual != test.expected {
+				t.Errorf("unexpected result: got [%v], wanted [%v]", actual, test.expected)
+				return
+			}
+		})
+	}
+}
+
+func TestMax(t *testing.T) {
+	tests := []struct {
+		a, b, expected float64
+	}{
+		{-1, 3, 3},
+		{3, 2, 3},
+		{4, 4, 4},
+	}
+
+	for _, test := range tests {
+		t.Run(fmt.Sprint(test.a, test.b), func(t *testing.T) {
+			if actual := max(test.a, test.b); actual != test.expected {
+				t.Errorf("unexpected result: got [%v], wanted [%v]", actual, test.expected)
+				return
+			}
+		})
+	}
+}

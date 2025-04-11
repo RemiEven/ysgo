@@ -132,3 +132,19 @@ func decimal(f float64) float64 {
 func integer(f float64) float64 {
 	return math.Trunc(f)
 }
+
+// min returns the smaller value between a and b
+func min(a, b float64) float64 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+// max returns the bigger value between a and b
+func max(a, b float64) float64 {
+	if a > b {
+		return a
+	}
+	return b
+}

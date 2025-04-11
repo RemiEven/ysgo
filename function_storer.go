@@ -41,6 +41,8 @@ func newFunctionStorer(rng *rng.RNG) *functionStorer {
 		"dec":          dec,
 		"decimal":      decimal,
 		"integer":      integer,
+		"min":          min,
+		"max":          max,
 	} {
 		if err := storer.convertAndAddFunction(functionID, f); err != nil {
 			panic(fmt.Errorf("failed to convert base function %s: %w", functionID, err))
