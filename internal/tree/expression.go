@@ -74,6 +74,36 @@ type Expression struct {
 	Operator                  *int
 }
 
+// ComplexityScore returns a score representing how complex an expression is.
+// This value can be useful for saliency strategies.
+func (e *Expression) ComplexityScore() int {
+	return 1 + e.booleanOperatorCount()
+}
+
+// booleanOperatorCount returns the total number of boolean operations - ands, ors, nots, and
+// xors - present in an expression and its sub-expressions.
+func (e *Expression) booleanOperatorCount() int {
+	switch {
+	case e.FunctionCall != nil:
+		count := 0
+		for _, argument := range e.FunctionCall.Arguments {
+			count += argument.booleanOperatorCount()
+		}
+		return count
+	case e.NegativeExpression != nil:
+		return e.NegativeExpression.booleanOperatorCount()
+	case e.NotExpression != nil:
+		return 1 + e.NotExpression.booleanOperatorCount()
+	case e.Operator != nil:
+		count := 0
+		if *e.Operator == AndBinaryOperator || *e.Operator == OrBinaryOperator || *e.Operator == XorBinaryOperator {
+			count++
+		}
+		return count + e.LeftOperand.booleanOperatorCount() + e.RightOperand.booleanOperatorCount()
+	}
+	return 0
+}
+
 // NewStringExpression creates a new expression holding a constant string.
 func NewStringExpression(str string) *Expression {
 	return &Expression{
