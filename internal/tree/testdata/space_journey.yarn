@@ -1,4 +1,5 @@
 title: Start
+when: always
 ---
 Player: Another day in Space Fleet. Might go have a chat...
 // pick a person to speak to

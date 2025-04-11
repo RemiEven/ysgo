@@ -1,4 +1,5 @@
 title: Start
+when: always
 ---
 <<set $shapes_like_you to true>>
 Sphere: Hello, I am Blue Sphere.

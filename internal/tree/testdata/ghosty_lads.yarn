@@ -1,4 +1,5 @@
 title: Start
+when: always
 ---
 <<set $hasClueA to false>>
 <<set $hasClueB to false>>

@@ -1,4 +1,5 @@
 title: Start
+when: always
 ---
 Companion: Hi there! What do you feel like doing today?
 

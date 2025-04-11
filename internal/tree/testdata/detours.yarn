@@ -1,12 +1,15 @@
 title: Start
+when: always
 ---
 <<detour Node2>>
 ===
 title: Node2
+when: always
 ---
 <<detour {"Node" + "3"}>>
 ===
 title: Node3
+when: always
 ---
 <<return>>
 ===

@@ -1,4 +1,5 @@
 title: FunctionCalls
+when: always
 ---
 1 { no_arg() }
 2 { one_arg(1) }
