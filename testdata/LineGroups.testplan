@@ -1,0 +1,6 @@
+line: Baker: Hey there! Fresh pies, right out of the oven!
+line: Baker: What d'ya say?
+option: Buy Pie
+option: Don't Buy Pie
+select: 1
+line: Baker: Thank you kindly!

@@ -24,6 +24,7 @@ func TestRunnerPlan(t *testing.T) {
 		"Indentation",
 		"InlineExpressions",
 		"Jumps",
+		"LineGroups",
 		"Lines",
 		"NodeHeaders",
 		"ShortcutOptions",

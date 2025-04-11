@@ -150,7 +150,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 				return nil, fmt.Errorf("failed to prepare option %v: %w", i, err)
 			}
 			disabled := false
-			if option.LineStatement.Condition != nil {
+			if condition := option.LineStatement.Condition; condition != nil {
 				enabled, err := evaluateExpression(option.LineStatement.Condition, dr.variableStorer, dr.functionStorer)
 				if err != nil {
 					return nil, fmt.Errorf("failed to evaluate line condition: %w", err)
@@ -171,6 +171,35 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			Node:    dr.currentNodes.Peek(),
 			Options: options,
 		}, nil
+	case nextStatement.LineGroupStatement != nil:
+		items := make([]tree.LineGroupItem, 0, len(nextStatement.LineGroupStatement.Items))
+		for _, item := range nextStatement.LineGroupStatement.Items {
+			if condition := item.LineStatement.Condition; condition != nil {
+				possible, err := evaluateExpression(condition, dr.variableStorer, dr.functionStorer)
+				if err != nil {
+					return nil, fmt.Errorf("failed to evaluate item condition: %w", err)
+				} else if possible.Boolean == nil {
+					return nil, fmt.Errorf("encountered non boolean item condition")
+				} else if !*possible.Boolean {
+					continue // this item cannot be run now
+				}
+			}
+			items = append(items, *item)
+		}
+		if len(items) == 0 {
+			// no items can be run, continue the dialogue
+			return dr.Next(choice)
+		}
+		item := items[0]
+
+		statementsToRun := dr.statementsToRun.Peek()
+		statementsToAdd := make([]*tree.Statement, 1, 1+len(item.Statements))
+		statementsToAdd[0] = &tree.Statement{
+			LineStatement: item.LineStatement,
+		}
+		statementsToAdd = append(statementsToAdd, item.Statements...)
+		statementsToRun.Push(&statementQueue{statements: statementsToAdd})
+		return dr.Next(choice)
 	case nextStatement.SetStatement != nil:
 		if err := dr.executeSetStatement(nextStatement.SetStatement); err != nil {
 			return nil, fmt.Errorf("failed to execute set statement: %w", err)
