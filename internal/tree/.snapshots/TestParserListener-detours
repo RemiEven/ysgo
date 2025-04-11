@@ -8,6 +8,7 @@
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)({
             Expression: (*tree.Expression)({
@@ -42,6 +43,7 @@
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)({
             Expression: (*tree.Expression)({
@@ -98,6 +100,7 @@
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
           IfStatement: (*tree.IfStatement)(<nil>),

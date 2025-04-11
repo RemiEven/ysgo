@@ -19,6 +19,7 @@
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
           IfStatement: (*tree.IfStatement)(<nil>),
@@ -30,6 +31,7 @@
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
           SetStatement: (*tree.SetStatement)({
             VariableID: (string) (len=11) "gold_amount",
             InPlaceOperator: (int) 14,
@@ -58,6 +60,7 @@
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
           IfStatement: (*tree.IfStatement)({
@@ -110,6 +113,7 @@
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
                     IfStatement: (*tree.IfStatement)(<nil>),
@@ -168,6 +172,7 @@
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
                     IfStatement: (*tree.IfStatement)(<nil>),
@@ -208,6 +213,7 @@
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)(<nil>),
                     JumpStatement: (*tree.JumpStatement)(<nil>),
                     IfStatement: (*tree.IfStatement)(<nil>),

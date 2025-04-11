@@ -19,6 +19,8 @@ type parserListener struct {
 	lineStatement            *LineStatement
 	shortcutOptionStatements *container.Stack[*ShortcutOptionStatement]
 	shortcutOptions          *container.Stack[*ShortcutOption]
+	lineGroupStatements      *container.Stack[*LineGroupStatement]
+	lineGroupItems           *container.Stack[*LineGroupItem]
 	statementCallbacks       *container.Stack[func(*Statement)]
 	textCallback             func(string)
 	expressionCallbacks      *container.Stack[func(*Expression)]
@@ -46,6 +48,8 @@ func (pl *parserListener) EnterDialogue(ctx *parser.DialogueContext) {
 	pl.dialogue = &Dialogue{}
 	pl.shortcutOptionStatements = &container.Stack[*ShortcutOptionStatement]{}
 	pl.shortcutOptions = &container.Stack[*ShortcutOption]{}
+	pl.lineGroupStatements = &container.Stack[*LineGroupStatement]{}
+	pl.lineGroupItems = &container.Stack[*LineGroupItem]{}
 	pl.statementCallbacks = &container.Stack[func(*Statement)]{}
 	pl.lineStatementCallbacks = &container.Stack[func(*LineStatement)]{}
 	pl.expressionCallbacks = &container.Stack[func(*Expression)]{}
@@ -176,6 +180,44 @@ func (s *parserListener) EnterShortcut_option(ctx *parser.Shortcut_optionContext
 
 // ExitShortcut_option is called when production shortcut_option is exited.
 func (s *parserListener) ExitShortcut_option(ctx *parser.Shortcut_optionContext) {
+	s.lineStatementCallbacks.Pop()
+	s.statementCallbacks.Pop()
+}
+
+// EnterLine_group_statement is called when production line_group_statement is entered.
+func (s *parserListener) EnterLine_group_statement(ctx *parser.Line_group_statementContext) {
+	s.lineGroupStatements.Push(&LineGroupStatement{})
+}
+
+// ExitLine_group_statement is called when production line_group_statement is exited.
+func (s *parserListener) ExitLine_group_statement(ctx *parser.Line_group_statementContext) {
+	statement := s.lineGroupStatements.Pop()
+	s.statementCallbacks.Peek()(&Statement{
+		LineGroupStatement: statement,
+	})
+}
+
+// EnterLine_group_item is called when production line_group_item is entered.
+func (s *parserListener) EnterLine_group_item(ctx *parser.Line_group_itemContext) {
+	lineGroupItem := &LineGroupItem{}
+	lineGroupStatement := s.lineGroupStatements.Peek()
+	lineGroupStatement.Items = append(lineGroupStatement.Items, lineGroupItem)
+	s.lineStatementCallbacks.Push(func(lineStatement *LineStatement) {
+		if lineGroupItem.LineStatement == nil {
+			lineGroupItem.LineStatement = lineStatement
+		} else {
+			lineGroupItem.Statements = append(lineGroupItem.Statements, &Statement{
+				LineStatement: lineStatement,
+			})
+		}
+	})
+	s.statementCallbacks.Push(func(statement *Statement) {
+		lineGroupItem.Statements = append(lineGroupItem.Statements, statement)
+	})
+}
+
+// ExitLine_group_item is called when production line_group_item is exited.
+func (s *parserListener) ExitLine_group_item(ctx *parser.Line_group_itemContext) {
 	s.lineStatementCallbacks.Pop()
 	s.statementCallbacks.Pop()
 }

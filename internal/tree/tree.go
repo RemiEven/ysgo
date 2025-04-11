@@ -32,6 +32,7 @@ func (n *Node) Title() string {
 type Statement struct {
 	LineStatement           *LineStatement
 	ShortcutOptionStatement *ShortcutOptionStatement
+	LineGroupStatement      *LineGroupStatement
 	SetStatement            *SetStatement
 	JumpStatement           *JumpStatement
 	IfStatement             *IfStatement
@@ -61,6 +62,15 @@ type ShortcutOptionStatement struct {
 }
 
 type ShortcutOption struct {
+	LineStatement *LineStatement
+	Statements    []*Statement
+}
+
+type LineGroupStatement struct {
+	Items []*LineGroupItem
+}
+
+type LineGroupItem struct {
 	LineStatement *LineStatement
 	Statements    []*Statement
 }

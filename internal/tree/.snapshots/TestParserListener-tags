@@ -21,6 +21,7 @@
             }
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
           IfStatement: (*tree.IfStatement)(<nil>),
@@ -52,6 +53,7 @@
                   (*tree.Statement)({
                     LineStatement: (*tree.LineStatement)(<nil>),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)({
                       VariableID: (string) (len=6) "flavor",
                       InPlaceOperator: (int) 14,
@@ -112,6 +114,7 @@
                   (*tree.Statement)({
                     LineStatement: (*tree.LineStatement)(<nil>),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
                     SetStatement: (*tree.SetStatement)({
                       VariableID: (string) (len=6) "flavor",
                       InPlaceOperator: (int) 14,
@@ -141,6 +144,7 @@
               })
             }
           }),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
           IfStatement: (*tree.IfStatement)(<nil>),
@@ -183,6 +187,7 @@
             }
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
           SetStatement: (*tree.SetStatement)(<nil>),
           JumpStatement: (*tree.JumpStatement)(<nil>),
           IfStatement: (*tree.IfStatement)(<nil>),
