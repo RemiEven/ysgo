@@ -7,9 +7,9 @@ import (
 
 // Value holds an evaluated value of a YarnSpinner script.
 type Value struct {
-	Number  *float64
-	Boolean *bool
-	String  *string
+	Number  *float64 `json:"n,omitempty"`
+	Boolean *bool    `json:"b,omitempty"`
+	String  *string  `json:"s,omitempty"`
 }
 
 // NewNumber creates a new YarnSpinner dialogue value from the given number.

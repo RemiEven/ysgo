@@ -65,13 +65,14 @@ func tokenToInplaceOperator(token int) (*int, bool) {
 
 // Expression represents something that can be evaluated to a YarnSpinner value when a Dialogue is run.
 type Expression struct {
-	Value                     *variable.Value
-	VariableID                *string
-	FunctionCall              *FunctionCall
-	NegativeExpression        *Expression
-	NotExpression             *Expression
-	LeftOperand, RightOperand *Expression
-	Operator                  *int
+	Value              *variable.Value `json:"val,omitempty"`
+	VariableID         *string         `json:"var,omitempty"`
+	FunctionCall       *FunctionCall   `json:"fc,omitempty"`
+	NegativeExpression *Expression     `json:"ne,omitempty"`
+	NotExpression      *Expression     `json:"not-e,omitempty"`
+	LeftOperand        *Expression     `json:"lo,omitempty"`
+	RightOperand       *Expression     `json:"ro,omitempty"`
+	Operator           *int            `json:"o,omitempty"`
 }
 
 // ComplexityScore returns a score representing how complex an expression is.

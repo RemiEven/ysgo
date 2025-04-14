@@ -8,7 +8,7 @@ import (
 )
 
 type Dialogue struct {
-	Nodes []Node
+	Nodes []Node `json:"n"`
 }
 
 func (d *Dialogue) FindNode(title string) (*Node, bool) {
@@ -21,8 +21,8 @@ func (d *Dialogue) FindNode(title string) (*Node, bool) {
 }
 
 type Node struct {
-	Headers    map[string]string
-	Statements []*Statement
+	Headers    map[string]string `json:"h,omitempty"`
+	Statements []*Statement      `json:"s"`
 }
 
 func (n *Node) Title() string {
@@ -30,78 +30,78 @@ func (n *Node) Title() string {
 }
 
 type Statement struct {
-	LineStatement           *LineStatement
-	ShortcutOptionStatement *ShortcutOptionStatement
-	LineGroupStatement      *LineGroupStatement
-	SetStatement            *SetStatement
-	JumpStatement           *JumpStatement
-	IfStatement             *IfStatement
-	CommandStatement        *CommandStatement
-	CallStatement           *CallStatement
-	DeclareStatement        *DeclareStatement
-	ReturnStatement         *ReturnStatement
+	LineStatement           *LineStatement           `json:"ls,omitempty"`
+	ShortcutOptionStatement *ShortcutOptionStatement `json:"sos,omitempty"`
+	LineGroupStatement      *LineGroupStatement      `json:"lgs,omitempty"`
+	SetStatement            *SetStatement            `json:"set-s,omitempty"`
+	JumpStatement           *JumpStatement           `json:"js,omitempty"`
+	IfStatement             *IfStatement             `json:"is,omitempty"`
+	CommandStatement        *CommandStatement        `json:"cs,omitempty"`
+	CallStatement           *CallStatement           `json:"call-s,omitempty"`
+	DeclareStatement        *DeclareStatement        `json:"ds,omitempty"`
+	ReturnStatement         *ReturnStatement         `json:"rs,omitempty"`
 }
 
 type LineStatement struct {
-	Text      *LineFormattedText
-	Condition *Expression
-	Tags      []string
+	Text      *LineFormattedText `json:"t,omitempty"`
+	Condition *Expression        `json:"c,omitempty"`
+	Tags      []string           `json:"tags,omitempty"`
 }
 
 type LineFormattedText struct {
-	Elements []*LineFormattedTextElement
+	Elements []*LineFormattedTextElement `json:"e"`
 }
 
 type LineFormattedTextElement struct {
-	Text       string
-	Expression *Expression
+	Text       string      `json:"t"`
+	Expression *Expression `json:"e,omitempty"`
 }
 
 type ShortcutOptionStatement struct {
-	Options []*ShortcutOption
+	Options []*ShortcutOption `json:"so"`
 }
 
 type ShortcutOption struct {
-	LineStatement *LineStatement
-	Statements    []*Statement
+	LineStatement *LineStatement `json:"ls"`
+	Statements    []*Statement   `json:"s,omitempty"`
 }
 
 type LineGroupStatement struct {
-	Items []*LineGroupItem
+	Items []*LineGroupItem `json:"i"`
 }
 
 type LineGroupItem struct {
-	LineStatement *LineStatement
-	Statements    []*Statement
+	LineStatement *LineStatement `json:"ls"`
+	Statements    []*Statement   `json:"s,omitempty"`
 }
 
 type SetStatement struct {
-	VariableID      string
-	InPlaceOperator int
-	Expression      *Expression
+	VariableID      string      `json:"v"`
+	InPlaceOperator int         `json:"ipo"`
+	Expression      *Expression `json:"e"`
 }
 
 type JumpStatement struct {
-	Expression *Expression
-	Detour     bool
+	Expression *Expression `json:"e"`
+	Detour     bool        `json:"d"`
 }
 
 type IfStatement struct {
-	Clauses []*Clause
+	Clauses []*Clause `json:"c"`
 }
 
 type Clause struct {
-	Condition  *Expression
-	Statements []*Statement
+	Condition  *Expression  `json:"c"`
+	Statements []*Statement `json:"s"`
 }
 
 type CommandStatement struct {
-	Elements []*CommandStatementElement
+	Elements []*CommandStatementElement `json:"e"`
 }
 
 type CommandStatementElement struct {
 	text       string
-	Expression *Expression
+	Expression *Expression `json:"e,omitempty"`
 }
 
 func (cs *CommandStatement) rearrange() {
@@ -158,12 +158,12 @@ func valueFromCommandText(commandText string) *variable.Value {
 }
 
 type CallStatement struct {
-	*FunctionCall
+	*FunctionCall  `json:"fc"`
 }
 
 type DeclareStatement struct {
-	VariableID string
-	Value      *Expression
+	VariableID string `json:"c"`
+	Value      *Expression `json:"val,omitempty"`
 }
 
 type ReturnStatement struct {
