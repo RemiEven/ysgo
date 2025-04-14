@@ -249,7 +249,7 @@ func TestNewYarnSpinnerFunction(t *testing.T) {
 				t.Errorf("unexpected error while calling function: got [%v], wanted [%v]", err, test.expectedError)
 			}
 			if diff := testutils.DeepEqual(value, test.expectedValue); diff != "" {
-				t.Errorf("unexpected returned value: " + diff)
+				t.Error("unexpected returned value: " + diff)
 			}
 		})
 	}

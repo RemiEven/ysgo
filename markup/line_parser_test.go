@@ -322,7 +322,7 @@ func TestLineParser(t *testing.T) {
 				return
 			}
 			if diff := testutils.DeepEqual(parseResult, test.expectedResult); diff != "" {
-				t.Errorf("unexpected parse result: " + diff)
+				t.Error("unexpected parse result: " + diff)
 				return
 			}
 		})

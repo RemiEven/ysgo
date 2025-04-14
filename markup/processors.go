@@ -2,7 +2,6 @@ package markup
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 )
 
@@ -39,7 +38,7 @@ func processSelect(marker *attributeMarker) (string, error) {
 
 	replacement, ok := marker.GetProperty(valueString)
 	if !ok {
-		return "", fmt.Errorf(`no replacement found for "` + valueString + `"`)
+		return "", errors.New(`no replacement found for "` + valueString + `"`)
 	}
 	replacementString := replacement.toString()
 
@@ -67,7 +66,7 @@ func processPlural(marker *attributeMarker) (string, error) {
 
 	replacement, ok := marker.GetProperty(pluralCase)
 	if !ok {
-		return "", fmt.Errorf(`no replacement found for case "` + pluralCase + `"`)
+		return "", errors.New(`no replacement found for case "` + pluralCase + `"`)
 	}
 	replacementString := replacement.toString()
 
@@ -97,7 +96,7 @@ func processOrdinal(marker *attributeMarker) (string, error) {
 
 	replacement, ok := marker.GetProperty(pluralCase)
 	if !ok {
-		return "", fmt.Errorf(`no replacement found for case "` + pluralCase + `"`)
+		return "", errors.New(`no replacement found for case "` + pluralCase + `"`)
 	}
 	replacementString := replacement.toString()
 

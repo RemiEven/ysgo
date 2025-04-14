@@ -157,7 +157,7 @@ func TestRunnerPlan(t *testing.T) {
 			}
 
 			if diff := testutils.DeepEqual(commandOutputs, expectedCommandOutputs); diff != "" {
-				t.Errorf("unexpected command outputs: " + diff)
+				t.Error("unexpected command outputs: " + diff)
 			}
 		})
 	}

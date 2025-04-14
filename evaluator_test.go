@@ -52,7 +52,7 @@ func TestEvaluateExpression(t *testing.T) {
 				t.Errorf("unexpected err: wanted [%v], got [%v]", test.expectedError, err)
 			}
 			if diff := testutils.DeepEqual(actualValue, test.expectedValue); diff != "" {
-				t.Errorf("unexpected value: " + diff)
+				t.Error("unexpected value: " + diff)
 			}
 		})
 	}

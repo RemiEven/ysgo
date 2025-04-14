@@ -1,6 +1,6 @@
 module github.com/remieven/ysgo
 
-go 1.22
+go 1.24
 
 require (
 	github.com/antlr4-go/antlr/v4 v4.13.1

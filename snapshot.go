@@ -10,4 +10,3 @@ type Snapshot struct {
 
 	VisitedNodes map[string]int
 }
-

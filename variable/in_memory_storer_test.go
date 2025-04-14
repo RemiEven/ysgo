@@ -173,7 +173,7 @@ func TestInMemoryStorer(t *testing.T) {
 		}
 
 		if diff := testutils.DeepEqual(storer.GetValues(), expected); diff != "" {
-			t.Errorf("unexpected result from GetValues: " + diff)
+			t.Error("unexpected result from GetValues: " + diff)
 		}
 
 	})
