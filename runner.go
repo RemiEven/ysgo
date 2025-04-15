@@ -251,11 +251,30 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 // The given rngSeed serves to create deterministic random values. It will be
 // used when eg. the dice(6) function is called in a dialogue.
 func NewDialogueRunner(storer variable.Storer, rngSeed string, readers ...io.Reader) (*DialogueRunner, error) {
-	dialogue, err := tree.FromReaders(readers...)
+	dialogue, err := tree.FromReader(io.MultiReader(readers...))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create dialogue: %w", err)
 	}
 
+	return newDialogueRunner(storer, rngSeed, dialogue)
+}
+
+// NewDialogueRunnerFromMarshaled creates a new runner working on the previously
+// parsed and marshaled dialogue in the given reader.
+// The storer argument is optional and if provided, allows to store variables
+// elsewhere than in the default in-memory store.
+// The given rngSeed serves to create deterministic random values. It will be
+// used when eg. the dice(6) function is called in a dialogue.
+func NewDialogueRunnerFromMarshaled(storer variable.Storer, rngSeed string, reader io.Reader) (*DialogueRunner, error) {
+	dialogue, err := tree.FromMarshaledReader(reader)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create dialogue: %w", err)
+	}
+
+	return newDialogueRunner(storer, rngSeed, dialogue)
+}
+
+func newDialogueRunner(storer variable.Storer, rngSeed string, dialogue *tree.Dialogue) (*DialogueRunner, error) {
 	statementsToRun := &container.Stack[*statementQueue]{}
 	firstNode := dialogue.Nodes[0]
 	statementsToRun.Push(&statementQueue{statements: firstNode.Statements})

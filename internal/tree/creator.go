@@ -1,6 +1,7 @@
 package tree
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -20,11 +21,6 @@ func FromFile(scriptPath string) (*Dialogue, error) {
 	return FromReader(fileReader)
 }
 
-// FromReaders creates a dialogue tree by reading the content of readers.
-func FromReaders(readers ...io.Reader) (*Dialogue, error) {
-	return FromReader(io.MultiReader(readers...))
-}
-
 // FromReader creates a dialogue tree by reading the content of reader.
 func FromReader(reader io.Reader) (*Dialogue, error) {
 	scriptData, err := io.ReadAll(reader)
@@ -42,4 +38,14 @@ func FromReader(reader io.Reader) (*Dialogue, error) {
 	antlr.ParseTreeWalkerDefault.Walk(listener, p.Dialogue())
 
 	return listener.dialogue, nil
+}
+
+// FromMarshaledReader creates a dialogue tree by reading a previously
+// parsed and marshaled dialogue in reader.
+func FromMarshaledReader(reader io.Reader) (*Dialogue, error) {
+	var d Dialogue
+	if err := json.NewDecoder(reader).Decode(&d); err != nil {
+		return nil, fmt.Errorf("failed to decode marshaled dialogue: %w", err)
+	}
+	return &d, nil
 }

@@ -1,0 +1,53 @@
+title: Start
+when: always
+---
+Player: Another day in Space Fleet. Might go have a chat...
+// pick a person to speak to
+-> Go see the Engineer as per orders
+    <<jump TalkToEngineer>>
+-> Meet up with your friend
+    <<jump TalkToCrewmate>>
+-> Go and talk to the Captain
+    <<jump TalkToCaptain>>
+===
+title: TalkToEngineer
+---
+Engineer: Hello! I am the Engineer.
+<<jump BridgeEnding>>
+===
+title: TalkToCrewmate
+---
+Crewmate: Hello! I am your Crewmate.
+<<jump BridgeEnding>>
+===
+title: TalkToCaptain
+---
+Captain: Hello! I am the Captain.
+Player: I want to talk to go on more missions.
+Captain: Do you think you are ready?
+-> Yes
+    <<set $away_mission_readiness += 1>>
+    // if so, ask again
+    Captain: Really?
+    -> ...yes?
+        <<set $away_mission_readiness += 1>>
+    -> Actually, no.
+-> No
+// now go to the ending
+<<jump BridgeEnding>>
+===
+title: BridgeEnding
+---
+// everyone reports to the bridge
+Captain: Pirates!
+Player: Oh no!
+// now change who goes depending on player actions
+<<if $away_mission_readiness < 2>>
+    Captain: Crewmate, go deal with those pirates!
+    Crewmate: Yes, Captain.
+<<else>>
+    Captain: Player, you were just telling me how ready for this you are. 
+    Captain: Go deal with those pirates!
+    Player: Hooray!
+<<endif>>
+===
