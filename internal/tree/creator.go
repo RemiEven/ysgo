@@ -1,7 +1,6 @@
 package tree
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -23,21 +22,7 @@ func FromFile(scriptPath string) (*Dialogue, error) {
 
 // FromReaders creates a dialogue tree by reading the content of readers.
 func FromReaders(readers ...io.Reader) (*Dialogue, error) {
-	if len(readers) == 0 {
-		return nil, errors.New("at least one argument is required")
-	}
-
-	dialogue := &Dialogue{}
-
-	for _, reader := range readers {
-		d, err := FromReader(reader)
-		if err != nil {
-			return nil, err
-		}
-		dialogue.Nodes = append(dialogue.Nodes, d.Nodes...)
-	}
-
-	return dialogue, nil
+	return FromReader(io.MultiReader(readers...))
 }
 
 // FromReader creates a dialogue tree by reading the content of reader.
