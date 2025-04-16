@@ -78,6 +78,9 @@ type Expression struct {
 // ComplexityScore returns a score representing how complex an expression is.
 // This value can be useful for saliency strategies.
 func (e *Expression) ComplexityScore() int {
+	if e == nil {
+		return 0
+	}
 	return 1 + e.booleanOperatorCount()
 }
 

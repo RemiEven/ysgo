@@ -48,6 +48,17 @@ type LineStatement struct {
 	Tags      []string           `json:"tags,omitempty"`
 }
 
+// LineId returns the value of the line tag associated to this statement, or
+// an empty string.
+func (ls *LineStatement) LineId() string {
+	for _, tag := range ls.Tags {
+		if strings.HasPrefix(tag, "line:") {
+			return tag[5:]
+		}
+	}
+	return ""
+}
+
 type LineFormattedText struct {
 	Elements []*LineFormattedTextElement `json:"e"`
 }
@@ -158,11 +169,11 @@ func valueFromCommandText(commandText string) *variable.Value {
 }
 
 type CallStatement struct {
-	*FunctionCall  `json:"fc"`
+	*FunctionCall `json:"fc"`
 }
 
 type DeclareStatement struct {
-	VariableID string `json:"c"`
+	VariableID string      `json:"c"`
 	Value      *Expression `json:"val,omitempty"`
 }
 

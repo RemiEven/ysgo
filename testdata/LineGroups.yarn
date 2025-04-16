@@ -5,28 +5,28 @@ title: Start
 <<declare $knows_player = false>>
 <<declare $pies_bought = 0>>
 
-=> Baker: Hey there! Fresh pies, right out of the oven!
+=> Baker: Hey there! Fresh pies, right out of the oven! #line:z0
 
 // Choose a single line to run.
 // These three will only appear if the player bought a pie earlier.
-=> Baker: Want another? <<if $pies_bought > 0>>
-=> Baker: How about another pie? <<if $pies_bought > 0>>
-=> Baker: Another pie? <<if $pies_bought > 0>>
+=> Baker: Want another? <<if $pies_bought > 0>> #line:a1
+=> Baker: How about another pie? <<if $pies_bought > 0>> #line:b2
+=> Baker: Another pie? <<if $pies_bought > 0>> #line:c3
 // This line will only appear if the player bought a pie AND the baker already knows us.
-=> Baker: Another pie for my best customer? <<if $knows_player && $pies_bought > 0>>
+=> Baker: Another pie for my best customer? <<if $knows_player && $pies_bought > 0>> #line:d4
 // These lines can always appear.
-=> Baker: What d'ya say?
-=> Baker: How about it?
-=> Baker: Want one?
+=> Baker: What d'ya say? #line:e5
+=> Baker: How about it? #line:f6
+=> Baker: Want one? #line:g7
 
 -> Buy Pie
-    => Baker: Thank you kindly!
-    => Baker: Pleasure doin' business with you!
-    => Baker: Enjoy!
+    => Baker: Thank you kindly! #line:h8
+    => Baker: Pleasure doin' business with you! #line:i9
+    => Baker: Enjoy! #line:j10
     <<set $pies_bought += 1>>
 -> Don't Buy Pie
-    => Baker: Aw, that's a shame!
-    => Baker: Dang, no sale today!
-    => Baker: Come back another time, then!
+    => Baker: Aw, that's a shame! #line:k11
+    => Baker: Dang, no sale today! #line:l12
+    => Baker: Come back another time, then! #line:m13
 
 ===

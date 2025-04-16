@@ -7,6 +7,7 @@ import (
 	"io"
 	"maps"
 	"math"
+	"slices"
 	"strings"
 
 	"github.com/remieven/ysgo/internal/container"
@@ -28,6 +29,9 @@ type DialogueRunner struct {
 	commandStorer   *commandStorer
 	commandErrChan  <-chan error
 	lineParser      markup.LineParser
+
+	saliencyStrategies      map[string]ContentSaliencyStrategy
+	currentSaliencyStrategy ContentSaliencyStrategy
 
 	currentNodes         container.Stack[string]
 	visitedNodes         map[string]int
@@ -172,33 +176,9 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			Options: options,
 		}, nil
 	case nextStatement.LineGroupStatement != nil:
-		items := make([]tree.LineGroupItem, 0, len(nextStatement.LineGroupStatement.Items))
-		for _, item := range nextStatement.LineGroupStatement.Items {
-			if condition := item.LineStatement.Condition; condition != nil {
-				possible, err := evaluateExpression(condition, dr.variableStorer, dr.functionStorer)
-				if err != nil {
-					return nil, fmt.Errorf("failed to evaluate item condition: %w", err)
-				} else if possible.Boolean == nil {
-					return nil, fmt.Errorf("encountered non boolean item condition")
-				} else if !*possible.Boolean {
-					continue // this item cannot be run now
-				}
-			}
-			items = append(items, *item)
+		if err := dr.executeLineGroupStatement(nextStatement.LineGroupStatement); err != nil {
+			return nil, fmt.Errorf("failed to execute line group statement: %w", err)
 		}
-		if len(items) == 0 {
-			// no items can be run, continue the dialogue
-			return dr.Next(choice)
-		}
-		item := items[0]
-
-		statementsToRun := dr.statementsToRun.Peek()
-		statementsToAdd := make([]*tree.Statement, 1, 1+len(item.Statements))
-		statementsToAdd[0] = &tree.Statement{
-			LineStatement: item.LineStatement,
-		}
-		statementsToAdd = append(statementsToAdd, item.Statements...)
-		statementsToRun.Push(&statementQueue{statements: statementsToAdd})
 		return dr.Next(choice)
 	case nextStatement.SetStatement != nil:
 		if err := dr.executeSetStatement(nextStatement.SetStatement); err != nil {
@@ -295,7 +275,15 @@ func newDialogueRunner(storer variable.Storer, rngSeed string, dialogue *tree.Di
 		commandStorer:   newCommandStorer(),
 		visitedNodes:    map[string]int{},
 		currentNodes:    container.Stack[string]{firstNode.Title()},
+
+		saliencyStrategies: map[string]ContentSaliencyStrategy{
+			FirstSaliencyStrategyName:                         &FirstSaliencyStrategy{},
+			BestSaliencyStrategyName:                          &BestSaliencyStrategy{},
+			BestLeastRecentlyViewedSaliencyStrategyName:       &BestLeastRecentlyViewedSaliencyStrategy{},
+			RandomBestLeastRecentlyViewedSaliencyStrategyName: &RandomBestLeastRecentlyViewedSaliencyStrategy{},
+		},
 	}
+	runner.currentSaliencyStrategy = runner.saliencyStrategies[FirstSaliencyStrategyName]
 
 	functionStorer := newFunctionStorer(rng)
 	functionStorer.convertAndAddFunction("visited", func(node string) bool {
@@ -310,6 +298,70 @@ func newDialogueRunner(storer variable.Storer, rngSeed string, dialogue *tree.Di
 	runner.functionStorer = functionStorer
 
 	return runner, nil
+}
+
+func (dr *DialogueRunner) executeLineGroupStatement(statement *tree.LineGroupStatement) error {
+	// find items that can be selected
+	items := make([]*tree.LineGroupItem, 0, len(statement.Items))
+	for _, item := range statement.Items {
+		if condition := item.LineStatement.Condition; condition != nil {
+			possible, err := evaluateExpression(condition, dr.variableStorer, dr.functionStorer)
+			if err != nil {
+				return fmt.Errorf("failed to evaluate item condition: %w", err)
+			} else if possible.Boolean == nil {
+				return fmt.Errorf("encountered non boolean item condition")
+			} else if !*possible.Boolean {
+				continue // this item cannot be run now
+			}
+		}
+		items = append(items, item)
+	}
+
+	// turn those items into options for the saliency strategy
+	itemsByOption := make(map[*ContentSaliencyOption]*tree.LineGroupItem, len(items))
+	for _, item := range items {
+		contentID := item.LineStatement.LineId()
+		if contentID == "" {
+			return fmt.Errorf("encountered a line without an ID in a line group")
+		}
+
+		viewCount := 0
+		viewCountVariableName := viewCountVariableNameForContent(contentID)
+		if viewCountVariable, ok := dr.variableStorer.GetValue(viewCountVariableName); ok {
+			if viewCountVariable.Number == nil {
+				return fmt.Errorf("variable [%s] should be a number", viewCountVariableName)
+			}
+			viewCount = (int)(*viewCountVariable.Number)
+		}
+
+		itemsByOption[&ContentSaliencyOption{
+			ContentID:  contentID,
+			Complexity: item.LineStatement.Condition.ComplexityScore(),
+			ViewCount:  viewCount,
+		}] = item
+	}
+	options := make([]*ContentSaliencyOption, 0, len(itemsByOption))
+	options = slices.AppendSeq(options, maps.Keys(itemsByOption))
+
+	// select the most salient option, and update state accordingly
+	selectedOption, ok := dr.currentSaliencyStrategy.QueryBestContent(options)
+	if !ok {
+		// no items can be run, continue the dialogue
+		return nil
+	}
+	dr.currentSaliencyStrategy.ContentWasSelected(selectedOption)
+	dr.variableStorer.SetNumberValue(viewCountVariableNameForContent(selectedOption.ContentID), float64(selectedOption.ViewCount+1))
+
+	// stack the statements of the selected item on top of the queue
+	selectedItem := itemsByOption[selectedOption]
+	statementsToRun := dr.statementsToRun.Peek()
+	statementsToAdd := make([]*tree.Statement, 1, 1+len(selectedItem.Statements))
+	statementsToAdd[0] = &tree.Statement{
+		LineStatement: selectedItem.LineStatement,
+	}
+	statementsToAdd = append(statementsToAdd, selectedItem.Statements...)
+	statementsToRun.Push(&statementQueue{statements: statementsToAdd})
+	return nil
 }
 
 func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) error {
@@ -531,6 +583,21 @@ func (dr *DialogueRunner) AddCommand(commandID string, command YarnSpinnerComman
 // Refer to the unit tests of commandStorer to learn more about the limitations on the accepted functions.
 func (dr *DialogueRunner) ConvertAndAddCommand(commandID string, command any) error {
 	return dr.commandStorer.convertAndAddCommand(commandID, command)
+}
+
+// AddSaliencyStrategy adds a custom saliency strategy, which can be used later to select content.
+func (dr *DialogueRunner) AddSaliencyStrategy(name string, strategy ContentSaliencyStrategy) {
+	dr.saliencyStrategies[name] = strategy
+}
+
+// SetSaliencyStrategy sets the saliency strategy the dialogue runner should use when selecting content, or returns an error.
+func (dr *DialogueRunner) SetSaliencyStrategy(name string) error {
+	strategy, ok := dr.saliencyStrategies[name]
+	if !ok {
+		return fmt.Errorf("unknown saliency strategy [%s]", name)
+	}
+	dr.currentSaliencyStrategy = strategy
+	return nil
 }
 
 // Snapshot returns the state of the dialogue runner as of the last time a node was entered.

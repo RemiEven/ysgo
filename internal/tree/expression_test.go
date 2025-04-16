@@ -35,4 +35,11 @@ title: start
 			}
 		})
 	}
+
+	t.Run("nil expression", func(t *testing.T) {
+		var e *Expression
+		if actual := e.ComplexityScore(); actual != 0 {
+			t.Errorf("unexpected result: got [%v], wanted [%v]", actual, 0)
+		}
+	})
 }
