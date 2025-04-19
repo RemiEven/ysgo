@@ -319,7 +319,7 @@ func (dr *DialogueRunner) executeLineGroupStatement(statement *tree.LineGroupSta
 
 	// turn those items into options for the saliency strategy
 	itemsByOption := make(map[*ContentSaliencyOption]*tree.LineGroupItem, len(items))
-	for _, item := range items {
+	for index, item := range items {
 		contentID := item.LineStatement.LineId()
 		if contentID == "" {
 			return fmt.Errorf("encountered a line without an ID in a line group")
@@ -338,10 +338,14 @@ func (dr *DialogueRunner) executeLineGroupStatement(statement *tree.LineGroupSta
 			ContentID:  contentID,
 			Complexity: item.LineStatement.Condition.ComplexityScore(),
 			ViewCount:  viewCount,
+			index:      index,
 		}] = item
 	}
 	options := make([]*ContentSaliencyOption, 0, len(itemsByOption))
 	options = slices.AppendSeq(options, maps.Keys(itemsByOption))
+	slices.SortFunc(options, func(a, b *ContentSaliencyOption) int {
+		return a.index - b.index
+	})
 
 	// select the most salient option, and update state accordingly
 	selectedOption, ok := dr.currentSaliencyStrategy.QueryBestContent(options)

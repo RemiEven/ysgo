@@ -11,6 +11,7 @@ type ContentSaliencyOption struct {
 	ContentID  string
 	Complexity int
 	ViewCount  int
+	index      int
 }
 
 // ContentSaliencyStrategy chooses a piece of content from a collection of options.
