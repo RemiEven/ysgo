@@ -10,7 +10,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: '1.24'
       - name: Generate lexer/parser files with antlr
         run: ./generateParser.sh
       - name: Display potential updates
@@ -21,7 +21,7 @@ jobs:
         run: go list ./... | grep -v parser | xargs go vet
       - name: Run staticcheck
         run: |
-          go install honnef.co/go/tools/cmd/staticcheck@v0.4.6
+          go install honnef.co/go/tools/cmd/staticcheck@v0.6.1
           staticcheck ./...
       - name: Test
         run: go test -coverprofile='coverage.txt' -covermode=atomic ./...
