@@ -79,6 +79,14 @@ In addition to these missing features, there are key differences between Ysgo an
 - No built-in integration with any game engines (however, it works well with Ebitengine)
 - Dialogue runners are only in "pull" mode, meaning they won't emit events or control UI components on their own.
 
+Some YarnSpinner v3 features are supported, most notably:
+
+- detour
+- line groups and saliency strategies
+- smart variables
+
+The `once` keyword, node groups and enums aren't supported right now, but might be at some point.
+
 Ysgo only handles your dialogues when your game is running, during development you're still encouraged to use the vscode plugin and YarnSpinner-Console.
 
 ## Ysgo in Action
