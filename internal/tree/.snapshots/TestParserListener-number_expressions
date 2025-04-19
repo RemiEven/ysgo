@@ -11,28 +11,28 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=2) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=2) "1 ",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 }),
                 (*tree.LineFormattedTextElement)({
                   Text: (string) "",
-                  Expression: (*tree.Expression)({
+                  Expression: (*variable.Expression)({
                     Value: (*variable.Value)({
                       Number: (*float64)(1),
                       Boolean: (*bool)(<nil>),
                       String: (*string)(<nil>)
                     }),
                     VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   })
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -51,37 +51,37 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=2) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=2) "2 ",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 }),
                 (*tree.LineFormattedTextElement)({
                   Text: (string) "",
-                  Expression: (*tree.Expression)({
+                  Expression: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)({
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)({
                       Value: (*variable.Value)({
                         Number: (*float64)(1),
                         Boolean: (*bool)(<nil>),
                         String: (*string)(<nil>)
                       }),
                       VariableID: (*string)(<nil>),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)(<nil>),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)(<nil>),
+                      RightOperand: (*variable.Expression)(<nil>),
                       Operator: (*int)(<nil>)
                     }),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   })
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -100,42 +100,42 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=2) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=2) "3 ",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 }),
                 (*tree.LineFormattedTextElement)({
                   Text: (string) "",
-                  Expression: (*tree.Expression)({
+                  Expression: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)({
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)({
                       Value: (*variable.Value)({
                         Number: (*float64)(1),
                         Boolean: (*bool)(<nil>),
                         String: (*string)(<nil>)
                       }),
                       VariableID: (*string)(<nil>),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)(<nil>),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)(<nil>),
+                      RightOperand: (*variable.Expression)(<nil>),
                       Operator: (*int)(<nil>)
                     }),
-                    RightOperand: (*tree.Expression)({
+                    RightOperand: (*variable.Expression)({
                       Value: (*variable.Value)({
                         Number: (*float64)(2),
                         Boolean: (*bool)(<nil>),
                         String: (*string)(<nil>)
                       }),
                       VariableID: (*string)(<nil>),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)(<nil>),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)(<nil>),
+                      RightOperand: (*variable.Expression)(<nil>),
                       Operator: (*int)(<nil>)
                     }),
                     Operator: (*int)(3)
@@ -143,7 +143,7 @@
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -162,130 +162,130 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=2) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=2) "4 ",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 }),
                 (*tree.LineFormattedTextElement)({
                   Text: (string) "",
-                  Expression: (*tree.Expression)({
+                  Expression: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)({
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)({
                       Value: (*variable.Value)(<nil>),
                       VariableID: (*string)(<nil>),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)(<nil>),
-                      LeftOperand: (*tree.Expression)({
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)({
                         Value: (*variable.Value)(<nil>),
                         VariableID: (*string)(<nil>),
-                        FunctionCall: (*tree.FunctionCall)(<nil>),
-                        NegativeExpression: (*tree.Expression)(<nil>),
-                        NotExpression: (*tree.Expression)(<nil>),
-                        LeftOperand: (*tree.Expression)({
+                        FunctionCall: (*variable.FunctionCall)(<nil>),
+                        NegativeExpression: (*variable.Expression)(<nil>),
+                        NotExpression: (*variable.Expression)(<nil>),
+                        LeftOperand: (*variable.Expression)({
                           Value: (*variable.Value)({
                             Number: (*float64)(1),
                             Boolean: (*bool)(<nil>),
                             String: (*string)(<nil>)
                           }),
                           VariableID: (*string)(<nil>),
-                          FunctionCall: (*tree.FunctionCall)(<nil>),
-                          NegativeExpression: (*tree.Expression)(<nil>),
-                          NotExpression: (*tree.Expression)(<nil>),
-                          LeftOperand: (*tree.Expression)(<nil>),
-                          RightOperand: (*tree.Expression)(<nil>),
+                          FunctionCall: (*variable.FunctionCall)(<nil>),
+                          NegativeExpression: (*variable.Expression)(<nil>),
+                          NotExpression: (*variable.Expression)(<nil>),
+                          LeftOperand: (*variable.Expression)(<nil>),
+                          RightOperand: (*variable.Expression)(<nil>),
                           Operator: (*int)(<nil>)
                         }),
-                        RightOperand: (*tree.Expression)({
+                        RightOperand: (*variable.Expression)({
                           Value: (*variable.Value)(<nil>),
                           VariableID: (*string)(<nil>),
-                          FunctionCall: (*tree.FunctionCall)(<nil>),
-                          NegativeExpression: (*tree.Expression)(<nil>),
-                          NotExpression: (*tree.Expression)(<nil>),
-                          LeftOperand: (*tree.Expression)({
+                          FunctionCall: (*variable.FunctionCall)(<nil>),
+                          NegativeExpression: (*variable.Expression)(<nil>),
+                          NotExpression: (*variable.Expression)(<nil>),
+                          LeftOperand: (*variable.Expression)({
                             Value: (*variable.Value)({
                               Number: (*float64)(2),
                               Boolean: (*bool)(<nil>),
                               String: (*string)(<nil>)
                             }),
                             VariableID: (*string)(<nil>),
-                            FunctionCall: (*tree.FunctionCall)(<nil>),
-                            NegativeExpression: (*tree.Expression)(<nil>),
-                            NotExpression: (*tree.Expression)(<nil>),
-                            LeftOperand: (*tree.Expression)(<nil>),
-                            RightOperand: (*tree.Expression)(<nil>),
+                            FunctionCall: (*variable.FunctionCall)(<nil>),
+                            NegativeExpression: (*variable.Expression)(<nil>),
+                            NotExpression: (*variable.Expression)(<nil>),
+                            LeftOperand: (*variable.Expression)(<nil>),
+                            RightOperand: (*variable.Expression)(<nil>),
                             Operator: (*int)(<nil>)
                           }),
-                          RightOperand: (*tree.Expression)({
+                          RightOperand: (*variable.Expression)({
                             Value: (*variable.Value)({
                               Number: (*float64)(3),
                               Boolean: (*bool)(<nil>),
                               String: (*string)(<nil>)
                             }),
                             VariableID: (*string)(<nil>),
-                            FunctionCall: (*tree.FunctionCall)(<nil>),
-                            NegativeExpression: (*tree.Expression)(<nil>),
-                            NotExpression: (*tree.Expression)(<nil>),
-                            LeftOperand: (*tree.Expression)(<nil>),
-                            RightOperand: (*tree.Expression)(<nil>),
+                            FunctionCall: (*variable.FunctionCall)(<nil>),
+                            NegativeExpression: (*variable.Expression)(<nil>),
+                            NotExpression: (*variable.Expression)(<nil>),
+                            LeftOperand: (*variable.Expression)(<nil>),
+                            RightOperand: (*variable.Expression)(<nil>),
                             Operator: (*int)(<nil>)
                           }),
                           Operator: (*int)(3)
                         }),
                         Operator: (*int)(0)
                       }),
-                      RightOperand: (*tree.Expression)({
+                      RightOperand: (*variable.Expression)({
                         Value: (*variable.Value)(<nil>),
                         VariableID: (*string)(<nil>),
-                        FunctionCall: (*tree.FunctionCall)(<nil>),
-                        NegativeExpression: (*tree.Expression)(<nil>),
-                        NotExpression: (*tree.Expression)(<nil>),
-                        LeftOperand: (*tree.Expression)({
+                        FunctionCall: (*variable.FunctionCall)(<nil>),
+                        NegativeExpression: (*variable.Expression)(<nil>),
+                        NotExpression: (*variable.Expression)(<nil>),
+                        LeftOperand: (*variable.Expression)({
                           Value: (*variable.Value)({
                             Number: (*float64)(4),
                             Boolean: (*bool)(<nil>),
                             String: (*string)(<nil>)
                           }),
                           VariableID: (*string)(<nil>),
-                          FunctionCall: (*tree.FunctionCall)(<nil>),
-                          NegativeExpression: (*tree.Expression)(<nil>),
-                          NotExpression: (*tree.Expression)(<nil>),
-                          LeftOperand: (*tree.Expression)(<nil>),
-                          RightOperand: (*tree.Expression)(<nil>),
+                          FunctionCall: (*variable.FunctionCall)(<nil>),
+                          NegativeExpression: (*variable.Expression)(<nil>),
+                          NotExpression: (*variable.Expression)(<nil>),
+                          LeftOperand: (*variable.Expression)(<nil>),
+                          RightOperand: (*variable.Expression)(<nil>),
                           Operator: (*int)(<nil>)
                         }),
-                        RightOperand: (*tree.Expression)({
+                        RightOperand: (*variable.Expression)({
                           Value: (*variable.Value)({
                             Number: (*float64)(5),
                             Boolean: (*bool)(<nil>),
                             String: (*string)(<nil>)
                           }),
                           VariableID: (*string)(<nil>),
-                          FunctionCall: (*tree.FunctionCall)(<nil>),
-                          NegativeExpression: (*tree.Expression)(<nil>),
-                          NotExpression: (*tree.Expression)(<nil>),
-                          LeftOperand: (*tree.Expression)(<nil>),
-                          RightOperand: (*tree.Expression)(<nil>),
+                          FunctionCall: (*variable.FunctionCall)(<nil>),
+                          NegativeExpression: (*variable.Expression)(<nil>),
+                          NotExpression: (*variable.Expression)(<nil>),
+                          LeftOperand: (*variable.Expression)(<nil>),
+                          RightOperand: (*variable.Expression)(<nil>),
                           Operator: (*int)(<nil>)
                         }),
                         Operator: (*int)(1)
                       }),
                       Operator: (*int)(2)
                     }),
-                    RightOperand: (*tree.Expression)({
+                    RightOperand: (*variable.Expression)({
                       Value: (*variable.Value)({
                         Number: (*float64)(6),
                         Boolean: (*bool)(<nil>),
                         String: (*string)(<nil>)
                       }),
                       VariableID: (*string)(<nil>),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)(<nil>),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)(<nil>),
+                      RightOperand: (*variable.Expression)(<nil>),
                       Operator: (*int)(<nil>)
                     }),
                     Operator: (*int)(4)
@@ -293,7 +293,7 @@
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),

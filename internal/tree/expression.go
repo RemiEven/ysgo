@@ -5,46 +5,22 @@ import (
 	"github.com/remieven/ysgo/variable"
 )
 
-const (
-	MultiplicationBinaryOperator = iota
-	DivisionBinaryOperator
-	ModuloBinaryOperator
-	AdditionBinaryOperator
-	SubtractionBinaryOperator
-	LessThanEqualsBinaryOperator
-	GreaterThanEqualsBinaryOperator
-	LessBinaryOperator
-	GreaterBinaryOperator
-	EqualsBinaryOperator
-	NotEqualsBinaryOperator
-	AndBinaryOperator
-	OrBinaryOperator
-	XorBinaryOperator
-
-	AssignmentInPlaceOperator = iota
-	MultiplicationInPlaceOperator
-	DivisionInPlaceOperator
-	ModuloInPlaceOperator
-	AdditionInPlaceOperator
-	SubtractionInPlaceOperator
-)
-
 func tokenToBinaryOperator(token int) (*int, bool) {
 	operator, ok := map[int]int{
-		parser.YarnSpinnerLexerOPERATOR_LOGICAL_LESS_THAN_EQUALS:    LessThanEqualsBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_LOGICAL_GREATER_THAN_EQUALS: GreaterThanEqualsBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_LOGICAL_EQUALS:              EqualsBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_LOGICAL_LESS:                LessBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_LOGICAL_GREATER:             GreaterBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_LOGICAL_NOT_EQUALS:          NotEqualsBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_LOGICAL_AND:                 AndBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_LOGICAL_OR:                  OrBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_LOGICAL_XOR:                 XorBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_ADDITION:              AdditionBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_SUBTRACTION:           SubtractionBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_MULTIPLICATION:        MultiplicationBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_DIVISION:              DivisionBinaryOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_MODULUS:               ModuloBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_LOGICAL_LESS_THAN_EQUALS:    variable.LessThanEqualsBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_LOGICAL_GREATER_THAN_EQUALS: variable.GreaterThanEqualsBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_LOGICAL_EQUALS:              variable.EqualsBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_LOGICAL_LESS:                variable.LessBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_LOGICAL_GREATER:             variable.GreaterBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_LOGICAL_NOT_EQUALS:          variable.NotEqualsBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_LOGICAL_AND:                 variable.AndBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_LOGICAL_OR:                  variable.OrBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_LOGICAL_XOR:                 variable.XorBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_ADDITION:              variable.AdditionBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_SUBTRACTION:           variable.SubtractionBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_MULTIPLICATION:        variable.MultiplicationBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_DIVISION:              variable.DivisionBinaryOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_MODULUS:               variable.ModuloBinaryOperator,
 	}[token]
 
 	return &operator, ok
@@ -52,71 +28,13 @@ func tokenToBinaryOperator(token int) (*int, bool) {
 
 func tokenToInplaceOperator(token int) (*int, bool) {
 	operator, ok := map[int]int{
-		parser.YarnSpinnerLexerOPERATOR_ASSIGNMENT:                  AssignmentInPlaceOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_MULTIPLICATION_EQUALS: MultiplicationInPlaceOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_DIVISION_EQUALS:       DivisionInPlaceOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_MODULUS_EQUALS:        ModuloInPlaceOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_ADDITION_EQUALS:       AdditionInPlaceOperator,
-		parser.YarnSpinnerLexerOPERATOR_MATHS_SUBTRACTION_EQUALS:    SubtractionInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_ASSIGNMENT:                  variable.AssignmentInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_MULTIPLICATION_EQUALS: variable.MultiplicationInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_DIVISION_EQUALS:       variable.DivisionInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_MODULUS_EQUALS:        variable.ModuloInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_ADDITION_EQUALS:       variable.AdditionInPlaceOperator,
+		parser.YarnSpinnerLexerOPERATOR_MATHS_SUBTRACTION_EQUALS:    variable.SubtractionInPlaceOperator,
 	}[token]
 
 	return &operator, ok
-}
-
-// Expression represents something that can be evaluated to a YarnSpinner value when a Dialogue is run.
-type Expression struct {
-	Value              *variable.Value `json:"val,omitempty"`
-	VariableID         *string         `json:"var,omitempty"`
-	FunctionCall       *FunctionCall   `json:"fc,omitempty"`
-	NegativeExpression *Expression     `json:"ne,omitempty"`
-	NotExpression      *Expression     `json:"not-e,omitempty"`
-	LeftOperand        *Expression     `json:"lo,omitempty"`
-	RightOperand       *Expression     `json:"ro,omitempty"`
-	Operator           *int            `json:"o,omitempty"`
-}
-
-// ComplexityScore returns a score representing how complex an expression is.
-// This value can be useful for saliency strategies.
-func (e *Expression) ComplexityScore() int {
-	if e == nil {
-		return 0
-	}
-	return 1 + e.booleanOperatorCount()
-}
-
-// booleanOperatorCount returns the total number of boolean operations - ands, ors, nots, and
-// xors - present in an expression and its sub-expressions.
-func (e *Expression) booleanOperatorCount() int {
-	switch {
-	case e.FunctionCall != nil:
-		count := 0
-		for _, argument := range e.FunctionCall.Arguments {
-			count += argument.booleanOperatorCount()
-		}
-		return count
-	case e.NegativeExpression != nil:
-		return e.NegativeExpression.booleanOperatorCount()
-	case e.NotExpression != nil:
-		return 1 + e.NotExpression.booleanOperatorCount()
-	case e.Operator != nil:
-		count := 0
-		if *e.Operator == AndBinaryOperator || *e.Operator == OrBinaryOperator || *e.Operator == XorBinaryOperator {
-			count++
-		}
-		return count + e.LeftOperand.booleanOperatorCount() + e.RightOperand.booleanOperatorCount()
-	}
-	return 0
-}
-
-// NewStringExpression creates a new expression holding a constant string.
-func NewStringExpression(str string) *Expression {
-	return &Expression{
-		Value: variable.NewString(str),
-	}
-}
-
-// FunctionCall is used to represent the call of a function from a YarnSpinner script.
-type FunctionCall struct {
-	FunctionID string
-	Arguments  []*Expression
 }

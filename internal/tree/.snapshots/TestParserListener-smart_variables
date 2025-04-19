@@ -1,0 +1,405 @@
+(*tree.Dialogue)({
+  Nodes: ([]tree.Node) (len=1) {
+    (tree.Node) {
+      Headers: (map[string]string) (len=1) {
+        (string) (len=5) "title": (string) (len=5) "Start"
+      },
+      Statements: ([]*tree.Statement) (len=7) {
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)({
+            VariableID: (string) (len=21) "player_can_afford_pie",
+            Value: (*variable.Expression)({
+              Value: (*variable.Value)(<nil>),
+              VariableID: (*string)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)({
+                Value: (*variable.Value)(<nil>),
+                VariableID: (*string)((len=12) "player_money"),
+                FunctionCall: (*variable.FunctionCall)(<nil>),
+                NegativeExpression: (*variable.Expression)(<nil>),
+                NotExpression: (*variable.Expression)(<nil>),
+                LeftOperand: (*variable.Expression)(<nil>),
+                RightOperand: (*variable.Expression)(<nil>),
+                Operator: (*int)(<nil>)
+              }),
+              RightOperand: (*variable.Expression)({
+                Value: (*variable.Value)({
+                  Number: (*float64)(10),
+                  Boolean: (*bool)(<nil>),
+                  String: (*string)(<nil>)
+                }),
+                VariableID: (*string)(<nil>),
+                FunctionCall: (*variable.FunctionCall)(<nil>),
+                NegativeExpression: (*variable.Expression)(<nil>),
+                NotExpression: (*variable.Expression)(<nil>),
+                LeftOperand: (*variable.Expression)(<nil>),
+                RightOperand: (*variable.Expression)(<nil>),
+                Operator: (*int)(<nil>)
+              }),
+              Operator: (*int)(8)
+            })
+          }),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)({
+            Clauses: ([]*tree.Clause) (len=2) {
+              (*tree.Clause)({
+                Condition: (*variable.Expression)({
+                  Value: (*variable.Value)(<nil>),
+                  VariableID: (*string)((len=21) "player_can_afford_pie"),
+                  FunctionCall: (*variable.FunctionCall)(<nil>),
+                  NegativeExpression: (*variable.Expression)(<nil>),
+                  NotExpression: (*variable.Expression)(<nil>),
+                  LeftOperand: (*variable.Expression)(<nil>),
+                  RightOperand: (*variable.Expression)(<nil>),
+                  Operator: (*int)(<nil>)
+                }),
+                Statements: ([]*tree.Statement) (len=2) {
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=24) "Player: One pie, please.",
+                            Expression: (*variable.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*variable.Expression)(<nil>),
+                      Tags: ([]string) <nil>
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>),
+                    CallStatement: (*tree.CallStatement)(<nil>),
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
+                  }),
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=20) "PieMaker: Certainly!",
+                            Expression: (*variable.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*variable.Expression)(<nil>),
+                      Tags: ([]string) <nil>
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>),
+                    CallStatement: (*tree.CallStatement)(<nil>),
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
+                  })
+                }
+              }),
+              (*tree.Clause)({
+                Condition: (*variable.Expression)({
+                  Value: (*variable.Value)({
+                    Number: (*float64)(<nil>),
+                    Boolean: (*bool)(true),
+                    String: (*string)(<nil>)
+                  }),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*variable.FunctionCall)(<nil>),
+                  NegativeExpression: (*variable.Expression)(<nil>),
+                  NotExpression: (*variable.Expression)(<nil>),
+                  LeftOperand: (*variable.Expression)(<nil>),
+                  RightOperand: (*variable.Expression)(<nil>),
+                  Operator: (*int)(<nil>)
+                }),
+                Statements: ([]*tree.Statement) (len=2) {
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=25) "Player: Can I have a pie?",
+                            Expression: (*variable.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*variable.Expression)(<nil>),
+                      Tags: ([]string) <nil>
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>),
+                    CallStatement: (*tree.CallStatement)(<nil>),
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
+                  }),
+                  (*tree.Statement)({
+                    LineStatement: (*tree.LineStatement)({
+                      Text: (*tree.LineFormattedText)({
+                        Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                          (*tree.LineFormattedTextElement)({
+                            Text: (string) (len=31) "PieMaker: You can't afford one!",
+                            Expression: (*variable.Expression)(<nil>)
+                          })
+                        }
+                      }),
+                      Condition: (*variable.Expression)(<nil>),
+                      Tags: ([]string) <nil>
+                    }),
+                    ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+                    LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+                    SetStatement: (*tree.SetStatement)(<nil>),
+                    JumpStatement: (*tree.JumpStatement)(<nil>),
+                    IfStatement: (*tree.IfStatement)(<nil>),
+                    CommandStatement: (*tree.CommandStatement)(<nil>),
+                    CallStatement: (*tree.CallStatement)(<nil>),
+                    DeclareStatement: (*tree.DeclareStatement)(<nil>),
+                    ReturnStatement: (*tree.ReturnStatement)(<nil>)
+                  })
+                }
+              })
+            }
+          }),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)({
+            VariableID: (string) (len=1) "a",
+            Value: (*variable.Expression)({
+              Value: (*variable.Value)({
+                Number: (*float64)(<nil>),
+                Boolean: (*bool)(false),
+                String: (*string)(<nil>)
+              }),
+              VariableID: (*string)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)(<nil>),
+              RightOperand: (*variable.Expression)(<nil>),
+              Operator: (*int)(<nil>)
+            })
+          }),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)({
+            VariableID: (string) (len=1) "b",
+            Value: (*variable.Expression)({
+              Value: (*variable.Value)({
+                Number: (*float64)(<nil>),
+                Boolean: (*bool)(false),
+                String: (*string)(<nil>)
+              }),
+              VariableID: (*string)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)(<nil>),
+              RightOperand: (*variable.Expression)(<nil>),
+              Operator: (*int)(<nil>)
+            })
+          }),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)({
+            VariableID: (string) (len=1) "C",
+            Value: (*variable.Expression)({
+              Value: (*variable.Value)(<nil>),
+              VariableID: (*string)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)({
+                Value: (*variable.Value)(<nil>),
+                VariableID: (*string)(<nil>),
+                FunctionCall: (*variable.FunctionCall)(<nil>),
+                NegativeExpression: (*variable.Expression)(<nil>),
+                NotExpression: (*variable.Expression)(<nil>),
+                LeftOperand: (*variable.Expression)({
+                  Value: (*variable.Value)(<nil>),
+                  VariableID: (*string)(<nil>),
+                  FunctionCall: (*variable.FunctionCall)(<nil>),
+                  NegativeExpression: (*variable.Expression)(<nil>),
+                  NotExpression: (*variable.Expression)({
+                    Value: (*variable.Value)(<nil>),
+                    VariableID: (*string)((len=1) "a"),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
+                    Operator: (*int)(<nil>)
+                  }),
+                  LeftOperand: (*variable.Expression)(<nil>),
+                  RightOperand: (*variable.Expression)(<nil>),
+                  Operator: (*int)(<nil>)
+                }),
+                RightOperand: (*variable.Expression)({
+                  Value: (*variable.Value)(<nil>),
+                  VariableID: (*string)((len=1) "b"),
+                  FunctionCall: (*variable.FunctionCall)(<nil>),
+                  NegativeExpression: (*variable.Expression)(<nil>),
+                  NotExpression: (*variable.Expression)(<nil>),
+                  LeftOperand: (*variable.Expression)(<nil>),
+                  RightOperand: (*variable.Expression)(<nil>),
+                  Operator: (*int)(<nil>)
+                }),
+                Operator: (*int)(11)
+              }),
+              RightOperand: (*variable.Expression)({
+                Value: (*variable.Value)(<nil>),
+                VariableID: (*string)((len=1) "b"),
+                FunctionCall: (*variable.FunctionCall)(<nil>),
+                NegativeExpression: (*variable.Expression)(<nil>),
+                NotExpression: (*variable.Expression)(<nil>),
+                LeftOperand: (*variable.Expression)(<nil>),
+                RightOperand: (*variable.Expression)(<nil>),
+                Operator: (*int)(<nil>)
+              }),
+              Operator: (*int)(12)
+            })
+          }),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)({
+            VariableID: (string) (len=1) "D",
+            Value: (*variable.Expression)({
+              Value: (*variable.Value)(<nil>),
+              VariableID: (*string)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)({
+                Value: (*variable.Value)(<nil>),
+                VariableID: (*string)((len=1) "C"),
+                FunctionCall: (*variable.FunctionCall)(<nil>),
+                NegativeExpression: (*variable.Expression)(<nil>),
+                NotExpression: (*variable.Expression)(<nil>),
+                LeftOperand: (*variable.Expression)(<nil>),
+                RightOperand: (*variable.Expression)(<nil>),
+                Operator: (*int)(<nil>)
+              }),
+              RightOperand: (*variable.Expression)({
+                Value: (*variable.Value)(<nil>),
+                VariableID: (*string)((len=21) "player_can_afford_pie"),
+                FunctionCall: (*variable.FunctionCall)(<nil>),
+                NegativeExpression: (*variable.Expression)(<nil>),
+                NotExpression: (*variable.Expression)(<nil>),
+                LeftOperand: (*variable.Expression)(<nil>),
+                RightOperand: (*variable.Expression)(<nil>),
+                Operator: (*int)(<nil>)
+              }),
+              Operator: (*int)(12)
+            })
+          }),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)({
+            VariableID: (string) (len=1) "E",
+            Value: (*variable.Expression)({
+              Value: (*variable.Value)(<nil>),
+              VariableID: (*string)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)({
+                Value: (*variable.Value)(<nil>),
+                VariableID: (*string)((len=1) "C"),
+                FunctionCall: (*variable.FunctionCall)(<nil>),
+                NegativeExpression: (*variable.Expression)(<nil>),
+                NotExpression: (*variable.Expression)(<nil>),
+                LeftOperand: (*variable.Expression)(<nil>),
+                RightOperand: (*variable.Expression)(<nil>),
+                Operator: (*int)(<nil>)
+              }),
+              RightOperand: (*variable.Expression)({
+                Value: (*variable.Value)(<nil>),
+                VariableID: (*string)((len=1) "C"),
+                FunctionCall: (*variable.FunctionCall)(<nil>),
+                NegativeExpression: (*variable.Expression)(<nil>),
+                NotExpression: (*variable.Expression)(<nil>),
+                LeftOperand: (*variable.Expression)(<nil>),
+                RightOperand: (*variable.Expression)(<nil>),
+                Operator: (*int)(<nil>)
+              }),
+              Operator: (*int)(12)
+            })
+          }),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        })
+      }
+    }
+  }
+})

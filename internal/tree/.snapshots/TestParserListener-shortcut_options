@@ -11,11 +11,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=55) "Companion: Hi there! What do you feel like doing today?",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -38,11 +38,11 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=30) "Player: I want to go swimming.",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>),
+                  Condition: (*variable.Expression)(<nil>),
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=1) {
@@ -52,11 +52,11 @@
                         Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                           (*tree.LineFormattedTextElement)({
                             Text: (string) (len=35) "Companion: Okay, let's go swimming.",
-                            Expression: (*tree.Expression)(<nil>)
+                            Expression: (*variable.Expression)(<nil>)
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>),
+                      Condition: (*variable.Expression)(<nil>),
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -77,11 +77,11 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=32) "Player: I'd prefer to go hiking.",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>),
+                  Condition: (*variable.Expression)(<nil>),
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=1) {
@@ -91,11 +91,11 @@
                         Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                           (*tree.LineFormattedTextElement)({
                             Text: (string) (len=38) "Companion: Cool, we'll go hiking then.",
-                            Expression: (*tree.Expression)(<nil>)
+                            Expression: (*variable.Expression)(<nil>)
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>),
+                      Condition: (*variable.Expression)(<nil>),
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -127,11 +127,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=20) "Player: Sounds good!",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),

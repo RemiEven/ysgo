@@ -25,6 +25,7 @@ type DialogueRunner struct {
 	statementsToRun container.Stack[*container.Stack[*statementQueue]]
 	lastStatement   *tree.Statement
 	variableStorer  variable.Storer
+	smartVariables  map[string]*variable.Expression
 	functionStorer  *functionStorer
 	commandStorer   *commandStorer
 	commandErrChan  <-chan error
@@ -33,10 +34,11 @@ type DialogueRunner struct {
 	saliencyStrategies      map[string]ContentSaliencyStrategy
 	currentSaliencyStrategy ContentSaliencyStrategy
 
-	currentNodes         container.Stack[string]
-	visitedNodes         map[string]int
-	variableSnapshot     map[string]variable.Value
-	visitedNodesSnapshot map[string]int
+	currentNodes          container.Stack[string]
+	visitedNodes          map[string]int
+	variableSnapshot      map[string]variable.Value
+	smartVariableSnapshot map[string]variable.Expression
+	visitedNodesSnapshot  map[string]int
 }
 
 // DialogueElement represents a step of a dialogue as it is presented in a game.
@@ -66,7 +68,7 @@ func (dr *DialogueRunner) textElementsToMarkup(elements []*tree.LineFormattedTex
 		if elements[i].Text != "" {
 			builder.WriteString(elements[i].Text)
 		} else if expression := elements[i].Expression; expression != nil {
-			value, err := evaluateExpression(expression, dr.variableStorer, dr.functionStorer)
+			value, err := dr.evaluateExpression(expression)
 			if err != nil {
 				return nil, fmt.Errorf("failed to evaluate expression: %w", err)
 			}
@@ -155,7 +157,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			}
 			disabled := false
 			if condition := option.LineStatement.Condition; condition != nil {
-				enabled, err := evaluateExpression(option.LineStatement.Condition, dr.variableStorer, dr.functionStorer)
+				enabled, err := dr.evaluateExpression(option.LineStatement.Condition)
 				if err != nil {
 					return nil, fmt.Errorf("failed to evaluate line condition: %w", err)
 				} else if enabled.Boolean == nil {
@@ -275,7 +277,7 @@ func newDialogueRunner(storer variable.Storer, rngSeed string, dialogue *tree.Di
 		commandStorer:   newCommandStorer(),
 		visitedNodes:    map[string]int{},
 		currentNodes:    container.Stack[string]{firstNode.Title()},
-
+		smartVariables:  map[string]*variable.Expression{},
 		saliencyStrategies: map[string]ContentSaliencyStrategy{
 			FirstSaliencyStrategyName:                         &FirstSaliencyStrategy{},
 			BestSaliencyStrategyName:                          &BestSaliencyStrategy{},
@@ -305,7 +307,7 @@ func (dr *DialogueRunner) executeLineGroupStatement(statement *tree.LineGroupSta
 	items := make([]*tree.LineGroupItem, 0, len(statement.Items))
 	for _, item := range statement.Items {
 		if condition := item.LineStatement.Condition; condition != nil {
-			possible, err := evaluateExpression(condition, dr.variableStorer, dr.functionStorer)
+			possible, err := dr.evaluateExpression(condition)
 			if err != nil {
 				return fmt.Errorf("failed to evaluate item condition: %w", err)
 			} else if possible.Boolean == nil {
@@ -369,7 +371,7 @@ func (dr *DialogueRunner) executeLineGroupStatement(statement *tree.LineGroupSta
 }
 
 func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) error {
-	value, err := evaluateExpression(statement.Expression, dr.variableStorer, dr.functionStorer)
+	value, err := dr.evaluateExpression(statement.Expression)
 	if err != nil {
 		return fmt.Errorf("failed to evaluate expression: %w", err)
 	}
@@ -382,7 +384,7 @@ func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) erro
 		if !(bothValuesAreNumbers || bothValuesAreBooleans || bothValuesAreStrings) {
 			return fmt.Errorf("variable [%s] type cannot be changed", statement.VariableID)
 		}
-	} else if statement.InPlaceOperator != tree.AssignmentInPlaceOperator {
+	} else if statement.InPlaceOperator != variable.AssignmentInPlaceOperator {
 		return fmt.Errorf("variable [%s] not found in storage, only assignment is allowed", statement.VariableID)
 	}
 
@@ -391,24 +393,24 @@ func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) erro
 		var newNumberValue float64
 		numberValue := *value.Number
 		switch statement.InPlaceOperator {
-		case tree.AssignmentInPlaceOperator:
+		case variable.AssignmentInPlaceOperator:
 			newNumberValue = numberValue
-		case tree.MultiplicationInPlaceOperator:
+		case variable.MultiplicationInPlaceOperator:
 			newNumberValue = (*previousValue.Number) * (numberValue)
-		case tree.DivisionInPlaceOperator:
+		case variable.DivisionInPlaceOperator:
 			newNumberValue = (*previousValue.Number) / (numberValue)
-		case tree.ModuloInPlaceOperator:
+		case variable.ModuloInPlaceOperator:
 			newNumberValue = math.Mod(*previousValue.Number, numberValue)
-		case tree.AdditionInPlaceOperator:
+		case variable.AdditionInPlaceOperator:
 			newNumberValue = (*previousValue.Number) + (numberValue)
-		case tree.SubtractionInPlaceOperator:
+		case variable.SubtractionInPlaceOperator:
 			newNumberValue = (*previousValue.Number) - (numberValue)
 		default:
 			return fmt.Errorf("unknown assignment operator encountered")
 		}
 		dr.variableStorer.SetNumberValue(statement.VariableID, newNumberValue)
 	case value.Boolean != nil:
-		if statement.InPlaceOperator != tree.AssignmentInPlaceOperator {
+		if statement.InPlaceOperator != variable.AssignmentInPlaceOperator {
 			return fmt.Errorf("unsupported assignment operator for boolean variable encountered")
 		}
 		dr.variableStorer.SetBooleanValue(statement.VariableID, *value.Boolean)
@@ -416,9 +418,9 @@ func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) erro
 		var newStringValue string
 		stringValue := *value.String
 		switch statement.InPlaceOperator {
-		case tree.AssignmentInPlaceOperator:
+		case variable.AssignmentInPlaceOperator:
 			newStringValue = stringValue
-		case tree.AdditionInPlaceOperator:
+		case variable.AdditionInPlaceOperator:
 			newStringValue = (stringValue) + (*previousValue.String)
 		default:
 			return fmt.Errorf("unsupported assignment operator for string variable encountered")
@@ -430,7 +432,7 @@ func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) erro
 }
 
 func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) error {
-	value, err := evaluateExpression(statement.Expression, dr.variableStorer, dr.functionStorer)
+	value, err := dr.evaluateExpression(statement.Expression)
 	if err != nil {
 		return fmt.Errorf("failed to evaluate expression: %w", err)
 	} else if value.String == nil {
@@ -445,6 +447,7 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 			dr.incrementNodeTrackingIfAllowed(node)
 		}
 		dr.variableSnapshot = dr.variableStorer.GetValues()
+		dr.smartVariableSnapshot = maps.Clone(dr.smartVariableSnapshot)
 		dr.visitedNodesSnapshot = maps.Clone(dr.visitedNodes)
 		dr.statementsToRun.Clear()
 		dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
@@ -463,7 +466,7 @@ func (dr *DialogueRunner) incrementNodeTrackingIfAllowed(nodeName string) {
 
 func (dr *DialogueRunner) executeIfStatement(statement *tree.IfStatement) error {
 	for _, clause := range statement.Clauses {
-		condition, err := evaluateExpression(clause.Condition, dr.variableStorer, dr.functionStorer)
+		condition, err := dr.evaluateExpression(clause.Condition)
 		if err != nil {
 			return fmt.Errorf("failed to evaluate condition: %w", err)
 		} else if condition.Boolean == nil {
@@ -484,7 +487,7 @@ func (dr *DialogueRunner) executeCommandStatement(statement *tree.CommandStateme
 	}
 	values := make([]*variable.Value, 0, len(statement.Elements))
 	for i := range statement.Elements {
-		value, err := evaluateExpression(statement.Elements[i].Expression, dr.variableStorer, dr.functionStorer)
+		value, err := dr.evaluateExpression(statement.Elements[i].Expression)
 		if err != nil {
 			return false, fmt.Errorf("failed to evaluate element [%v] of command: %w", i, err)
 		}
@@ -517,7 +520,7 @@ func (dr *DialogueRunner) executeCommandStatement(statement *tree.CommandStateme
 func (dr *DialogueRunner) executeCallStatement(statement *tree.CallStatement) error {
 	values := make([]*variable.Value, 0, len(statement.Arguments))
 	for i := range statement.Arguments {
-		value, err := evaluateExpression(statement.Arguments[i], dr.variableStorer, dr.functionStorer)
+		value, err := dr.evaluateExpression(statement.Arguments[i])
 		if err != nil {
 			return fmt.Errorf("failed to evaluate argument [%v] of call statement: %w", i, err)
 		}
@@ -532,11 +535,20 @@ func (dr *DialogueRunner) executeCallStatement(statement *tree.CallStatement) er
 }
 
 func (dr *DialogueRunner) executeDeclareStatement(statement *tree.DeclareStatement) error {
-	return dr.executeSetStatement(&tree.SetStatement{
-		VariableID:      statement.VariableID,
-		InPlaceOperator: tree.AssignmentInPlaceOperator,
-		Expression:      statement.Value,
-	})
+	if statement.Value.IsConstant() {
+		return dr.executeSetStatement(&tree.SetStatement{
+			VariableID:      statement.VariableID,
+			InPlaceOperator: variable.AssignmentInPlaceOperator,
+			Expression:      statement.Value,
+		})
+	}
+
+	dr.smartVariables[statement.VariableID] = statement.Value
+	return nil
+}
+
+func (dr *DialogueRunner) evaluateExpression(expression *variable.Expression) (*variable.Value, error) {
+	return evaluateExpression(expression, dr.variableStorer, dr.functionStorer, dr.smartVariables)
 }
 
 // RestoreAt uses a snapshot to restore a dialogue runner to a former state.
@@ -560,10 +572,20 @@ func (dr *DialogueRunner) RestoreAt(snapshot *Snapshot) error {
 		}
 	}
 
+	clear(dr.smartVariables)
+	for variable, expression := range snapshot.SmartVariables {
+		dr.smartVariables[variable] = &expression
+	}
+
 	dr.statementsToRun.Clear()
 	dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
 	dr.currentNodes.Clear()
 	dr.currentNodes.Push(node.Title())
+
+	dr.visitedNodesSnapshot = snapshot.VisitedNodes
+	dr.variableSnapshot = dr.variableStorer.GetValues()
+	dr.smartVariableSnapshot = snapshot.SmartVariables
+
 	return nil
 }
 
@@ -608,9 +630,10 @@ func (dr *DialogueRunner) SetSaliencyStrategy(name string) error {
 // It can then be used to later restore the state of the dialogue runner.
 func (dr *DialogueRunner) Snapshot() *Snapshot {
 	return &Snapshot{
-		Variables:    dr.variableSnapshot,
-		CurrentNode:  dr.currentNodes.Peek(),
-		VisitedNodes: dr.visitedNodes,
+		Variables:      dr.variableSnapshot,
+		SmartVariables: dr.smartVariableSnapshot,
+		CurrentNode:    dr.currentNodes.Peek(),
+		VisitedNodes:   dr.visitedNodes,
 	}
 }
 

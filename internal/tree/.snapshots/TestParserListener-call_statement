@@ -14,21 +14,21 @@
           IfStatement: (*tree.IfStatement)(<nil>),
           CommandStatement: (*tree.CommandStatement)(<nil>),
           CallStatement: (*tree.CallStatement)({
-            FunctionCall: (*tree.FunctionCall)({
+            FunctionCall: (*variable.FunctionCall)({
               FunctionID: (string) (len=6) "assert",
-              Arguments: ([]*tree.Expression) (len=1) {
-                (*tree.Expression)({
+              Arguments: ([]*variable.Expression) (len=1) {
+                (*variable.Expression)({
                   Value: (*variable.Value)({
                     Number: (*float64)(1),
                     Boolean: (*bool)(<nil>),
                     String: (*string)(<nil>)
                   }),
                   VariableID: (*string)(<nil>),
-                  FunctionCall: (*tree.FunctionCall)(<nil>),
-                  NegativeExpression: (*tree.Expression)(<nil>),
-                  NotExpression: (*tree.Expression)(<nil>),
-                  LeftOperand: (*tree.Expression)(<nil>),
-                  RightOperand: (*tree.Expression)(<nil>),
+                  FunctionCall: (*variable.FunctionCall)(<nil>),
+                  NegativeExpression: (*variable.Expression)(<nil>),
+                  NotExpression: (*variable.Expression)(<nil>),
+                  LeftOperand: (*variable.Expression)(<nil>),
+                  RightOperand: (*variable.Expression)(<nil>),
                   Operator: (*int)(<nil>)
                 })
               }

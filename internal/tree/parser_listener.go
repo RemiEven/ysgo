@@ -23,11 +23,11 @@ type parserListener struct {
 	lineGroupItems           *container.Stack[*LineGroupItem]
 	statementCallbacks       *container.Stack[func(*Statement)]
 	textCallback             func(string)
-	expressionCallbacks      *container.Stack[func(*Expression)]
+	expressionCallbacks      *container.Stack[func(*variable.Expression)]
 	lineStatementCallbacks   *container.Stack[func(*LineStatement)]
 	variableCallback         func(string)
 	clauseCallbacks          *container.Stack[func(*Clause)]
-	functionCallCallback     func(*FunctionCall)
+	functionCallCallback     func(*variable.FunctionCall)
 	commandTextCallback      func(string)
 	hashtagCallback          func(string)
 	protoCommandStatement    *CommandStatement
@@ -52,7 +52,7 @@ func (pl *parserListener) EnterDialogue(ctx *parser.DialogueContext) {
 	pl.lineGroupItems = &container.Stack[*LineGroupItem]{}
 	pl.statementCallbacks = &container.Stack[func(*Statement)]{}
 	pl.lineStatementCallbacks = &container.Stack[func(*LineStatement)]{}
-	pl.expressionCallbacks = &container.Stack[func(*Expression)]{}
+	pl.expressionCallbacks = &container.Stack[func(*variable.Expression)]{}
 	pl.clauseCallbacks = &container.Stack[func(*Clause)]{}
 }
 
@@ -99,7 +99,7 @@ func (s *parserListener) EnterLine_statement(ctx *parser.Line_statementContext) 
 	s.hashtagCallback = func(tag string) {
 		s.lineStatement.Tags = append(s.lineStatement.Tags, tag)
 	}
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		s.lineStatement.Condition = e
 	})
 }
@@ -127,7 +127,7 @@ func (s *parserListener) EnterLine_formatted_text(ctx *parser.Line_formatted_tex
 		}
 		lineStatementText.Elements = append(lineStatementText.Elements, element)
 	}
-	s.expressionCallbacks.Push(func(expression *Expression) {
+	s.expressionCallbacks.Push(func(expression *variable.Expression) {
 		element := &LineFormattedTextElement{
 			Expression: expression,
 		}
@@ -225,21 +225,21 @@ func (s *parserListener) ExitLine_group_item(ctx *parser.Line_group_itemContext)
 // EnterValueNumber is called when production valueNumber is entered.
 func (s *parserListener) EnterValueNumber(ctx *parser.ValueNumberContext) {
 	number, _ := strconv.ParseFloat(ctx.GetText(), 64)
-	s.expressionCallbacks.Peek()(&Expression{
+	s.expressionCallbacks.Peek()(&variable.Expression{
 		Value: variable.NewNumber(number),
 	})
 }
 
 // EnterValueTrue is called when production valueTrue is entered.
 func (s *parserListener) EnterValueTrue(ctx *parser.ValueTrueContext) {
-	s.expressionCallbacks.Peek()(&Expression{
+	s.expressionCallbacks.Peek()(&variable.Expression{
 		Value: variable.NewBoolean(true),
 	})
 }
 
 // EnterValueFalse is called when production valueFalse is entered.
 func (s *parserListener) EnterValueFalse(ctx *parser.ValueFalseContext) {
-	s.expressionCallbacks.Peek()(&Expression{
+	s.expressionCallbacks.Peek()(&variable.Expression{
 		Value: variable.NewBoolean(false),
 	})
 }
@@ -247,7 +247,7 @@ func (s *parserListener) EnterValueFalse(ctx *parser.ValueFalseContext) {
 // EnterValueVar is called when production valueVar is entered.
 func (s *parserListener) EnterValueVar(ctx *parser.ValueVarContext) {
 	variableID := ctx.GetText()[1:]
-	s.expressionCallbacks.Peek()(&Expression{
+	s.expressionCallbacks.Peek()(&variable.Expression{
 		VariableID: &variableID,
 	})
 }
@@ -256,16 +256,16 @@ func (s *parserListener) EnterValueVar(ctx *parser.ValueVarContext) {
 func (s *parserListener) EnterValueString(ctx *parser.ValueStringContext) {
 	text := ctx.GetText()
 	value := text[1 : len(text)-1]
-	s.expressionCallbacks.Peek()(&Expression{
+	s.expressionCallbacks.Peek()(&variable.Expression{
 		Value: variable.NewString(value),
 	})
 }
 
 // EnterValueFunc is called when production valueFunc is entered.
 func (s *parserListener) EnterValueFunc(ctx *parser.ValueFuncContext) {
-	s.functionCallCallback = func(functionCall *FunctionCall) {
+	s.functionCallCallback = func(functionCall *variable.FunctionCall) {
 		s.functionCallCallback = nil
-		s.expressionCallbacks.Peek()(&Expression{
+		s.expressionCallbacks.Peek()(&variable.Expression{
 			FunctionCall: functionCall,
 		})
 	}
@@ -274,11 +274,11 @@ func (s *parserListener) EnterValueFunc(ctx *parser.ValueFuncContext) {
 // EnterFunction_call is called when production function_call is entered.
 func (s *parserListener) EnterFunction_call(ctx *parser.Function_callContext) {
 	functionID := ctx.FUNC_ID().GetText()
-	functionCall := &FunctionCall{
+	functionCall := &variable.FunctionCall{
 		FunctionID: functionID,
 	}
 	s.functionCallCallback(functionCall)
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		functionCall.Arguments = append(functionCall.Arguments, e)
 	})
 }
@@ -290,9 +290,9 @@ func (s *parserListener) ExitFunction_call(ctx *parser.Function_callContext) {
 
 // EnterExpNot is called when production expNot is entered.
 func (s *parserListener) EnterExpNot(ctx *parser.ExpNotContext) {
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		s.expressionCallbacks.Pop()
-		s.expressionCallbacks.Peek()(&Expression{
+		s.expressionCallbacks.Peek()(&variable.Expression{
 			NotExpression: e,
 		})
 	})
@@ -300,9 +300,9 @@ func (s *parserListener) EnterExpNot(ctx *parser.ExpNotContext) {
 
 // EnterExpNegative is called when production expNegative is entered.
 func (s *parserListener) EnterExpNegative(ctx *parser.ExpNegativeContext) {
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		s.expressionCallbacks.Pop()
-		s.expressionCallbacks.Peek()(&Expression{
+		s.expressionCallbacks.Peek()(&variable.Expression{
 			NegativeExpression: e,
 		})
 	})
@@ -340,16 +340,16 @@ func (s *parserListener) enterBinaryOperatorExpression(ctx interface {
 	if !ok {
 		panic("unknown binary operator") // TODO: better error handling
 	}
-	var leftOperand *Expression
-	s.expressionCallbacks.Push(func(e *Expression) {
+	var leftOperand *variable.Expression
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		s.expressionCallbacks.Pop()
-		s.expressionCallbacks.Peek()(&Expression{
+		s.expressionCallbacks.Peek()(&variable.Expression{
 			Operator:     binaryOperator,
 			LeftOperand:  leftOperand,
 			RightOperand: e,
 		})
 	})
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		s.expressionCallbacks.Pop()
 		leftOperand = e
 	})
@@ -366,7 +366,7 @@ func (s *parserListener) EnterSet_statement(ctx *parser.Set_statementContext) {
 		variableID = id
 		s.variableCallback = nil
 	}
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		s.statementCallbacks.Peek()(&Statement{
 			SetStatement: &SetStatement{
 				VariableID:      variableID,
@@ -395,7 +395,7 @@ func (s *parserListener) EnterVariable(ctx *parser.VariableContext) {
 func (s *parserListener) EnterJumpToNodeName(ctx *parser.JumpToNodeNameContext) {
 	s.statementCallbacks.Peek()(&Statement{
 		JumpStatement: &JumpStatement{
-			Expression: &Expression{
+			Expression: &variable.Expression{
 				Value: variable.NewString(ctx.GetDestination().GetText()),
 			},
 		},
@@ -404,7 +404,7 @@ func (s *parserListener) EnterJumpToNodeName(ctx *parser.JumpToNodeNameContext) 
 
 // EnterJumpToExpression is called when production jumpToExpression is entered.
 func (s *parserListener) EnterJumpToExpression(ctx *parser.JumpToExpressionContext) {
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		s.statementCallbacks.Peek()(&Statement{
 			JumpStatement: &JumpStatement{
 				Expression: e,
@@ -422,7 +422,7 @@ func (s *parserListener) ExitJumpToExpression(ctx *parser.JumpToExpressionContex
 func (s *parserListener) EnterDetourToNodeName(ctx *parser.DetourToNodeNameContext) {
 	s.statementCallbacks.Peek()(&Statement{
 		JumpStatement: &JumpStatement{
-			Expression: &Expression{
+			Expression: &variable.Expression{
 				Value: variable.NewString(ctx.GetDestination().GetText()),
 			},
 			Detour: true,
@@ -432,7 +432,7 @@ func (s *parserListener) EnterDetourToNodeName(ctx *parser.DetourToNodeNameConte
 
 // EnterDetourToExpression is called when production detourToExpression is entered.
 func (s *parserListener) EnterDetourToExpression(ctx *parser.DetourToExpressionContext) {
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		s.statementCallbacks.Peek()(&Statement{
 			JumpStatement: &JumpStatement{
 				Expression: e,
@@ -473,7 +473,7 @@ func (s *parserListener) ExitIf_statement(ctx *parser.If_statementContext) {
 // EnterIf_clause is called when production if_clause is entered.
 func (s *parserListener) EnterIf_clause(ctx *parser.If_clauseContext) {
 	clause := &Clause{}
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		clause.Condition = e
 		s.expressionCallbacks.Pop()
 	})
@@ -495,7 +495,7 @@ func (s *parserListener) ExitIf_clause(ctx *parser.If_clauseContext) {
 // EnterElse_if_clause is called when production else_if_clause is entered.
 func (s *parserListener) EnterElse_if_clause(ctx *parser.Else_if_clauseContext) {
 	clause := &Clause{}
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		clause.Condition = e
 		s.expressionCallbacks.Pop()
 	})
@@ -517,7 +517,7 @@ func (s *parserListener) ExitElse_if_clause(ctx *parser.Else_if_clauseContext) {
 // EnterElse_clause is called when production else_clause is entered.
 func (s *parserListener) EnterElse_clause(ctx *parser.Else_clauseContext) {
 	clause := &Clause{
-		Condition: &Expression{
+		Condition: &variable.Expression{
 			Value: variable.NewBoolean(true),
 		},
 	}
@@ -544,7 +544,7 @@ func (s *parserListener) EnterCommand_statement(ctx *parser.Command_statementCon
 			text: commandText,
 		})
 	}
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		commandStatement.Elements = append(commandStatement.Elements, &CommandStatementElement{
 			Expression: e,
 		})
@@ -565,7 +565,7 @@ func (s *parserListener) ExitCommand_statement(ctx *parser.Command_statementCont
 
 // EnterCall_statement is called when production call_statement is entered.
 func (s *parserListener) EnterCall_statement(ctx *parser.Call_statementContext) {
-	s.functionCallCallback = func(call *FunctionCall) {
+	s.functionCallCallback = func(call *variable.FunctionCall) {
 		s.statementCallbacks.Peek()(&Statement{
 			CallStatement: &CallStatement{
 				FunctionCall: call,
@@ -585,7 +585,7 @@ func (s *parserListener) EnterDeclare_statement(ctx *parser.Declare_statementCon
 	s.statementCallbacks.Peek()(&Statement{
 		DeclareStatement: declareStatement,
 	})
-	s.expressionCallbacks.Push(func(e *Expression) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		declareStatement.Value = e
 	})
 	s.variableCallback = func(variableID string) {

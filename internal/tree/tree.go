@@ -43,9 +43,9 @@ type Statement struct {
 }
 
 type LineStatement struct {
-	Text      *LineFormattedText `json:"t,omitempty"`
-	Condition *Expression        `json:"c,omitempty"`
-	Tags      []string           `json:"tags,omitempty"`
+	Text      *LineFormattedText   `json:"t,omitempty"`
+	Condition *variable.Expression `json:"c,omitempty"`
+	Tags      []string             `json:"tags,omitempty"`
 }
 
 // LineId returns the value of the line tag associated to this statement, or
@@ -64,8 +64,8 @@ type LineFormattedText struct {
 }
 
 type LineFormattedTextElement struct {
-	Text       string      `json:"t"`
-	Expression *Expression `json:"e,omitempty"`
+	Text       string               `json:"t"`
+	Expression *variable.Expression `json:"e,omitempty"`
 }
 
 type ShortcutOptionStatement struct {
@@ -87,14 +87,14 @@ type LineGroupItem struct {
 }
 
 type SetStatement struct {
-	VariableID      string      `json:"v"`
-	InPlaceOperator int         `json:"ipo"`
-	Expression      *Expression `json:"e"`
+	VariableID      string               `json:"v"`
+	InPlaceOperator int                  `json:"ipo"`
+	Expression      *variable.Expression `json:"e"`
 }
 
 type JumpStatement struct {
-	Expression *Expression `json:"e"`
-	Detour     bool        `json:"d"`
+	Expression *variable.Expression `json:"e"`
+	Detour     bool                 `json:"d"`
 }
 
 type IfStatement struct {
@@ -102,8 +102,8 @@ type IfStatement struct {
 }
 
 type Clause struct {
-	Condition  *Expression  `json:"c"`
-	Statements []*Statement `json:"s"`
+	Condition  *variable.Expression `json:"c"`
+	Statements []*Statement         `json:"s"`
 }
 
 type CommandStatement struct {
@@ -112,7 +112,7 @@ type CommandStatement struct {
 
 type CommandStatementElement struct {
 	text       string
-	Expression *Expression `json:"e,omitempty"`
+	Expression *variable.Expression `json:"e,omitempty"`
 }
 
 func (cs *CommandStatement) rearrange() {
@@ -144,7 +144,7 @@ func (cs *CommandStatement) split(str string) []*CommandStatementElement {
 		}
 		value := valueFromCommandText(word)
 		elements = append(elements, &CommandStatementElement{
-			Expression: &Expression{Value: value},
+			Expression: &variable.Expression{Value: value},
 		})
 	}
 
@@ -169,12 +169,12 @@ func valueFromCommandText(commandText string) *variable.Value {
 }
 
 type CallStatement struct {
-	*FunctionCall `json:"fc"`
+	*variable.FunctionCall `json:"fc"`
 }
 
 type DeclareStatement struct {
-	VariableID string      `json:"c"`
-	Value      *Expression `json:"val,omitempty"`
+	VariableID string               `json:"c"`
+	Value      *variable.Expression `json:"val,omitempty"`
 }
 
 type ReturnStatement struct {

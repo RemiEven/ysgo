@@ -11,11 +11,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=30) "Player: I'd like to buy a pie!",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -35,18 +35,18 @@
           SetStatement: (*tree.SetStatement)({
             VariableID: (string) (len=11) "gold_amount",
             InPlaceOperator: (int) 14,
-            Expression: (*tree.Expression)({
+            Expression: (*variable.Expression)({
               Value: (*variable.Value)({
                 Number: (*float64)(5),
                 Boolean: (*bool)(<nil>),
                 String: (*string)(<nil>)
               }),
               VariableID: (*string)(<nil>),
-              FunctionCall: (*tree.FunctionCall)(<nil>),
-              NegativeExpression: (*tree.Expression)(<nil>),
-              NotExpression: (*tree.Expression)(<nil>),
-              LeftOperand: (*tree.Expression)(<nil>),
-              RightOperand: (*tree.Expression)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)(<nil>),
+              RightOperand: (*variable.Expression)(<nil>),
               Operator: (*int)(<nil>)
             })
           }),
@@ -66,34 +66,34 @@
           IfStatement: (*tree.IfStatement)({
             Clauses: ([]*tree.Clause) (len=3) {
               (*tree.Clause)({
-                Condition: (*tree.Expression)({
+                Condition: (*variable.Expression)({
                   Value: (*variable.Value)(<nil>),
                   VariableID: (*string)(<nil>),
-                  FunctionCall: (*tree.FunctionCall)(<nil>),
-                  NegativeExpression: (*tree.Expression)(<nil>),
-                  NotExpression: (*tree.Expression)(<nil>),
-                  LeftOperand: (*tree.Expression)({
+                  FunctionCall: (*variable.FunctionCall)(<nil>),
+                  NegativeExpression: (*variable.Expression)(<nil>),
+                  NotExpression: (*variable.Expression)(<nil>),
+                  LeftOperand: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=11) "gold_amount"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
-                  RightOperand: (*tree.Expression)({
+                  RightOperand: (*variable.Expression)({
                     Value: (*variable.Value)({
                       Number: (*float64)(10),
                       Boolean: (*bool)(<nil>),
                       String: (*string)(<nil>)
                     }),
                     VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Operator: (*int)(7)
@@ -105,11 +105,11 @@
                         Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                           (*tree.LineFormattedTextElement)({
                             Text: (string) (len=34) "Baker: Well, you can't afford one!",
-                            Expression: (*tree.Expression)(<nil>)
+                            Expression: (*variable.Expression)(<nil>)
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>),
+                      Condition: (*variable.Expression)(<nil>),
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -125,34 +125,34 @@
                 }
               }),
               (*tree.Clause)({
-                Condition: (*tree.Expression)({
+                Condition: (*variable.Expression)({
                   Value: (*variable.Value)(<nil>),
                   VariableID: (*string)(<nil>),
-                  FunctionCall: (*tree.FunctionCall)(<nil>),
-                  NegativeExpression: (*tree.Expression)(<nil>),
-                  NotExpression: (*tree.Expression)(<nil>),
-                  LeftOperand: (*tree.Expression)({
+                  FunctionCall: (*variable.FunctionCall)(<nil>),
+                  NegativeExpression: (*variable.Expression)(<nil>),
+                  NotExpression: (*variable.Expression)(<nil>),
+                  LeftOperand: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=11) "gold_amount"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
-                  RightOperand: (*tree.Expression)({
+                  RightOperand: (*variable.Expression)({
                     Value: (*variable.Value)({
                       Number: (*float64)(15),
                       Boolean: (*bool)(<nil>),
                       String: (*string)(<nil>)
                     }),
                     VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Operator: (*int)(7)
@@ -164,11 +164,11 @@
                         Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                           (*tree.LineFormattedTextElement)({
                             Text: (string) (len=33) "Baker: You can almost afford one!",
-                            Expression: (*tree.Expression)(<nil>)
+                            Expression: (*variable.Expression)(<nil>)
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>),
+                      Condition: (*variable.Expression)(<nil>),
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -184,18 +184,18 @@
                 }
               }),
               (*tree.Clause)({
-                Condition: (*tree.Expression)({
+                Condition: (*variable.Expression)({
                   Value: (*variable.Value)({
                     Number: (*float64)(<nil>),
                     Boolean: (*bool)(true),
                     String: (*string)(<nil>)
                   }),
                   VariableID: (*string)(<nil>),
-                  FunctionCall: (*tree.FunctionCall)(<nil>),
-                  NegativeExpression: (*tree.Expression)(<nil>),
-                  NotExpression: (*tree.Expression)(<nil>),
-                  LeftOperand: (*tree.Expression)(<nil>),
-                  RightOperand: (*tree.Expression)(<nil>),
+                  FunctionCall: (*variable.FunctionCall)(<nil>),
+                  NegativeExpression: (*variable.Expression)(<nil>),
+                  NotExpression: (*variable.Expression)(<nil>),
+                  LeftOperand: (*variable.Expression)(<nil>),
+                  RightOperand: (*variable.Expression)(<nil>),
                   Operator: (*int)(<nil>)
                 }),
                 Statements: ([]*tree.Statement) (len=1) {
@@ -205,11 +205,11 @@
                         Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                           (*tree.LineFormattedTextElement)({
                             Text: (string) (len=19) "Baker: Here you go!",
-                            Expression: (*tree.Expression)(<nil>)
+                            Expression: (*variable.Expression)(<nil>)
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>),
+                      Condition: (*variable.Expression)(<nil>),
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),

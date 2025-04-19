@@ -4,13 +4,12 @@ import (
 	"testing"
 
 	"github.com/remieven/ysgo/internal/testutils"
-	"github.com/remieven/ysgo/internal/tree"
 	"github.com/remieven/ysgo/variable"
 )
 
 func TestEvaluateExpression(t *testing.T) {
 	tests := map[string]struct {
-		expression    *tree.Expression
+		expression    *variable.Expression
 		expectedValue *variable.Value
 		expectedError error
 	}{
@@ -20,7 +19,7 @@ func TestEvaluateExpression(t *testing.T) {
 			expectedValue: variable.NewNumber(12.4),
 		},
 		"negative number": {
-			expression: &tree.Expression{
+			expression: &variable.Expression{
 				NegativeExpression: simpleNumberExpression(56.7),
 			},
 			expectedValue: variable.NewNumber(-56.7),
@@ -30,14 +29,14 @@ func TestEvaluateExpression(t *testing.T) {
 			expectedValue: variable.NewBoolean(true),
 		},
 		"logic not boolean": {
-			expression: &tree.Expression{
+			expression: &variable.Expression{
 				NotExpression: simpleBooleanExpression(false),
 			},
 			expectedValue: variable.NewBoolean(true),
 		},
 		"number LTE comparison": {
-			expression: &tree.Expression{
-				Operator:     toPointer(tree.LessThanEqualsBinaryOperator),
+			expression: &variable.Expression{
+				Operator:     toPointer(variable.LessThanEqualsBinaryOperator),
 				LeftOperand:  simpleNumberExpression(2),
 				RightOperand: simpleNumberExpression(4),
 			},
@@ -47,7 +46,7 @@ func TestEvaluateExpression(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			actualValue, err := evaluateExpression(test.expression, nil, nil) // TODO: use an in memory variable storer here when testing for variable evaluation
+			actualValue, err := evaluateExpression(test.expression, nil, nil, nil) // TODO: use an in memory variable storer here when testing for variable evaluation
 			if !testutils.ErrorEqual(err, test.expectedError) {
 				t.Errorf("unexpected err: wanted [%v], got [%v]", test.expectedError, err)
 			}
@@ -58,14 +57,14 @@ func TestEvaluateExpression(t *testing.T) {
 	}
 }
 
-func simpleNumberExpression(value float64) *tree.Expression {
-	return &tree.Expression{
+func simpleNumberExpression(value float64) *variable.Expression {
+	return &variable.Expression{
 		Value: variable.NewNumber(value),
 	}
 }
 
-func simpleBooleanExpression(value bool) *tree.Expression {
-	return &tree.Expression{
+func simpleBooleanExpression(value bool) *variable.Expression {
+	return &variable.Expression{
 		Value: variable.NewBoolean(value),
 	}
 }

@@ -12,18 +12,18 @@
           SetStatement: (*tree.SetStatement)({
             VariableID: (string) (len=8) "hasClueA",
             InPlaceOperator: (int) 14,
-            Expression: (*tree.Expression)({
+            Expression: (*variable.Expression)({
               Value: (*variable.Value)({
                 Number: (*float64)(<nil>),
                 Boolean: (*bool)(false),
                 String: (*string)(<nil>)
               }),
               VariableID: (*string)(<nil>),
-              FunctionCall: (*tree.FunctionCall)(<nil>),
-              NegativeExpression: (*tree.Expression)(<nil>),
-              NotExpression: (*tree.Expression)(<nil>),
-              LeftOperand: (*tree.Expression)(<nil>),
-              RightOperand: (*tree.Expression)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)(<nil>),
+              RightOperand: (*variable.Expression)(<nil>),
               Operator: (*int)(<nil>)
             })
           }),
@@ -41,18 +41,18 @@
           SetStatement: (*tree.SetStatement)({
             VariableID: (string) (len=8) "hasClueB",
             InPlaceOperator: (int) 14,
-            Expression: (*tree.Expression)({
+            Expression: (*variable.Expression)({
               Value: (*variable.Value)({
                 Number: (*float64)(<nil>),
                 Boolean: (*bool)(false),
                 String: (*string)(<nil>)
               }),
               VariableID: (*string)(<nil>),
-              FunctionCall: (*tree.FunctionCall)(<nil>),
-              NegativeExpression: (*tree.Expression)(<nil>),
-              NotExpression: (*tree.Expression)(<nil>),
-              LeftOperand: (*tree.Expression)(<nil>),
-              RightOperand: (*tree.Expression)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)(<nil>),
+              RightOperand: (*variable.Expression)(<nil>),
               Operator: (*int)(<nil>)
             })
           }),
@@ -70,18 +70,18 @@
           SetStatement: (*tree.SetStatement)({
             VariableID: (string) (len=8) "hasClueC",
             InPlaceOperator: (int) 14,
-            Expression: (*tree.Expression)({
+            Expression: (*variable.Expression)({
               Value: (*variable.Value)({
                 Number: (*float64)(<nil>),
                 Boolean: (*bool)(false),
                 String: (*string)(<nil>)
               }),
               VariableID: (*string)(<nil>),
-              FunctionCall: (*tree.FunctionCall)(<nil>),
-              NegativeExpression: (*tree.Expression)(<nil>),
-              NotExpression: (*tree.Expression)(<nil>),
-              LeftOperand: (*tree.Expression)(<nil>),
-              RightOperand: (*tree.Expression)(<nil>),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)(<nil>),
+              RightOperand: (*variable.Expression)(<nil>),
               Operator: (*int)(<nil>)
             })
           }),
@@ -98,11 +98,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=94) "Ghost: Welcome to the graveyard! Unfortunately, you're just in time for an unsolved mystery...",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -121,11 +121,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=71) "Ghost: You'll have to speak to these three to figure out what happened!",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -151,11 +151,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=33) "Louise: What do you want to know?",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -178,11 +178,11 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=36) "Something that will get me no clues?",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>),
+                  Condition: (*variable.Expression)(<nil>),
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) <nil>
@@ -193,27 +193,27 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=35) "Something that will get me Clue A? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)({
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)({
                       Value: (*variable.Value)(<nil>),
                       VariableID: (*string)((len=8) "hasClueA"),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)(<nil>),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)(<nil>),
+                      RightOperand: (*variable.Expression)(<nil>),
                       Operator: (*int)(<nil>)
                     }),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -226,18 +226,18 @@
                     SetStatement: (*tree.SetStatement)({
                       VariableID: (string) (len=8) "hasClueA",
                       InPlaceOperator: (int) 14,
-                      Expression: (*tree.Expression)({
+                      Expression: (*variable.Expression)({
                         Value: (*variable.Value)({
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(true),
                           String: (*string)(<nil>)
                         }),
                         VariableID: (*string)(<nil>),
-                        FunctionCall: (*tree.FunctionCall)(<nil>),
-                        NegativeExpression: (*tree.Expression)(<nil>),
-                        NotExpression: (*tree.Expression)(<nil>),
-                        LeftOperand: (*tree.Expression)(<nil>),
-                        RightOperand: (*tree.Expression)(<nil>),
+                        FunctionCall: (*variable.FunctionCall)(<nil>),
+                        NegativeExpression: (*variable.Expression)(<nil>),
+                        NotExpression: (*variable.Expression)(<nil>),
+                        LeftOperand: (*variable.Expression)(<nil>),
+                        RightOperand: (*variable.Expression)(<nil>),
                         Operator: (*int)(<nil>)
                       })
                     }),
@@ -256,18 +256,18 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=39) "Something relating to existing Clue A? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=8) "hasClueA"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -280,18 +280,18 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=39) "Something relating to existing Clue B? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=8) "hasClueB"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -304,18 +304,18 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=39) "Something relating to existing Clue C? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=8) "hasClueC"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -339,11 +339,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=29) "Louise: ~additional dialogue~",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -362,11 +362,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=16) "Louise: Ok, bye!",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -392,11 +392,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=32) "Carol: What do you want to know?",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -419,11 +419,11 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=36) "Something that will get me no clues?",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>),
+                  Condition: (*variable.Expression)(<nil>),
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) <nil>
@@ -434,43 +434,43 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=35) "Something that will get me Clue B? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)({
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)({
                       Value: (*variable.Value)(<nil>),
                       VariableID: (*string)((len=8) "hasClueA"),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)(<nil>),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)(<nil>),
+                      RightOperand: (*variable.Expression)(<nil>),
                       Operator: (*int)(<nil>)
                     }),
-                    RightOperand: (*tree.Expression)({
+                    RightOperand: (*variable.Expression)({
                       Value: (*variable.Value)(<nil>),
                       VariableID: (*string)(<nil>),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)({
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)({
                         Value: (*variable.Value)(<nil>),
                         VariableID: (*string)((len=8) "hasClueB"),
-                        FunctionCall: (*tree.FunctionCall)(<nil>),
-                        NegativeExpression: (*tree.Expression)(<nil>),
-                        NotExpression: (*tree.Expression)(<nil>),
-                        LeftOperand: (*tree.Expression)(<nil>),
-                        RightOperand: (*tree.Expression)(<nil>),
+                        FunctionCall: (*variable.FunctionCall)(<nil>),
+                        NegativeExpression: (*variable.Expression)(<nil>),
+                        NotExpression: (*variable.Expression)(<nil>),
+                        LeftOperand: (*variable.Expression)(<nil>),
+                        RightOperand: (*variable.Expression)(<nil>),
                         Operator: (*int)(<nil>)
                       }),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)(<nil>),
+                      RightOperand: (*variable.Expression)(<nil>),
                       Operator: (*int)(<nil>)
                     }),
                     Operator: (*int)(11)
@@ -485,18 +485,18 @@
                     SetStatement: (*tree.SetStatement)({
                       VariableID: (string) (len=8) "hasClueB",
                       InPlaceOperator: (int) 14,
-                      Expression: (*tree.Expression)({
+                      Expression: (*variable.Expression)({
                         Value: (*variable.Value)({
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(true),
                           String: (*string)(<nil>)
                         }),
                         VariableID: (*string)(<nil>),
-                        FunctionCall: (*tree.FunctionCall)(<nil>),
-                        NegativeExpression: (*tree.Expression)(<nil>),
-                        NotExpression: (*tree.Expression)(<nil>),
-                        LeftOperand: (*tree.Expression)(<nil>),
-                        RightOperand: (*tree.Expression)(<nil>),
+                        FunctionCall: (*variable.FunctionCall)(<nil>),
+                        NegativeExpression: (*variable.Expression)(<nil>),
+                        NotExpression: (*variable.Expression)(<nil>),
+                        LeftOperand: (*variable.Expression)(<nil>),
+                        RightOperand: (*variable.Expression)(<nil>),
                         Operator: (*int)(<nil>)
                       })
                     }),
@@ -515,18 +515,18 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=39) "Something relating to existing Clue A? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=8) "hasClueA"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -539,18 +539,18 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=39) "Something relating to existing Clue B? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=8) "hasClueB"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -563,18 +563,18 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=39) "Something relating to existing Clue C? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=8) "hasClueC"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -598,11 +598,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=28) "Carol: ~additional dialogue~",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -621,11 +621,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=15) "Carol: Ok, bye!",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -651,11 +651,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=31) "Ruby: What do you want to know?",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -678,11 +678,11 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=36) "Something that will get me no clues?",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>),
+                  Condition: (*variable.Expression)(<nil>),
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) <nil>
@@ -693,43 +693,43 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=35) "Something that will get me Clue C? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)(<nil>),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)({
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)({
                       Value: (*variable.Value)(<nil>),
                       VariableID: (*string)((len=8) "hasClueB"),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)(<nil>),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)(<nil>),
+                      RightOperand: (*variable.Expression)(<nil>),
                       Operator: (*int)(<nil>)
                     }),
-                    RightOperand: (*tree.Expression)({
+                    RightOperand: (*variable.Expression)({
                       Value: (*variable.Value)(<nil>),
                       VariableID: (*string)(<nil>),
-                      FunctionCall: (*tree.FunctionCall)(<nil>),
-                      NegativeExpression: (*tree.Expression)(<nil>),
-                      NotExpression: (*tree.Expression)({
+                      FunctionCall: (*variable.FunctionCall)(<nil>),
+                      NegativeExpression: (*variable.Expression)(<nil>),
+                      NotExpression: (*variable.Expression)({
                         Value: (*variable.Value)(<nil>),
                         VariableID: (*string)((len=8) "hasClueC"),
-                        FunctionCall: (*tree.FunctionCall)(<nil>),
-                        NegativeExpression: (*tree.Expression)(<nil>),
-                        NotExpression: (*tree.Expression)(<nil>),
-                        LeftOperand: (*tree.Expression)(<nil>),
-                        RightOperand: (*tree.Expression)(<nil>),
+                        FunctionCall: (*variable.FunctionCall)(<nil>),
+                        NegativeExpression: (*variable.Expression)(<nil>),
+                        NotExpression: (*variable.Expression)(<nil>),
+                        LeftOperand: (*variable.Expression)(<nil>),
+                        RightOperand: (*variable.Expression)(<nil>),
                         Operator: (*int)(<nil>)
                       }),
-                      LeftOperand: (*tree.Expression)(<nil>),
-                      RightOperand: (*tree.Expression)(<nil>),
+                      LeftOperand: (*variable.Expression)(<nil>),
+                      RightOperand: (*variable.Expression)(<nil>),
                       Operator: (*int)(<nil>)
                     }),
                     Operator: (*int)(11)
@@ -744,18 +744,18 @@
                     SetStatement: (*tree.SetStatement)({
                       VariableID: (string) (len=8) "hasClueC",
                       InPlaceOperator: (int) 14,
-                      Expression: (*tree.Expression)({
+                      Expression: (*variable.Expression)({
                         Value: (*variable.Value)({
                           Number: (*float64)(<nil>),
                           Boolean: (*bool)(true),
                           String: (*string)(<nil>)
                         }),
                         VariableID: (*string)(<nil>),
-                        FunctionCall: (*tree.FunctionCall)(<nil>),
-                        NegativeExpression: (*tree.Expression)(<nil>),
-                        NotExpression: (*tree.Expression)(<nil>),
-                        LeftOperand: (*tree.Expression)(<nil>),
-                        RightOperand: (*tree.Expression)(<nil>),
+                        FunctionCall: (*variable.FunctionCall)(<nil>),
+                        NegativeExpression: (*variable.Expression)(<nil>),
+                        NotExpression: (*variable.Expression)(<nil>),
+                        LeftOperand: (*variable.Expression)(<nil>),
+                        RightOperand: (*variable.Expression)(<nil>),
                         Operator: (*int)(<nil>)
                       })
                     }),
@@ -774,18 +774,18 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=39) "Something relating to existing Clue A? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=8) "hasClueA"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -798,18 +798,18 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=39) "Something relating to existing Clue B? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=8) "hasClueB"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -822,18 +822,18 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=39) "Something relating to existing Clue C? ",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)({
+                  Condition: (*variable.Expression)({
                     Value: (*variable.Value)(<nil>),
                     VariableID: (*string)((len=8) "hasClueC"),
-                    FunctionCall: (*tree.FunctionCall)(<nil>),
-                    NegativeExpression: (*tree.Expression)(<nil>),
-                    NotExpression: (*tree.Expression)(<nil>),
-                    LeftOperand: (*tree.Expression)(<nil>),
-                    RightOperand: (*tree.Expression)(<nil>),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
                   Tags: ([]string) <nil>
@@ -857,11 +857,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=27) "Ruby: ~additional dialogue~",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -880,11 +880,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=14) "Ruby: Ok, bye!",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -910,11 +910,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=46) "Ghost: Are you ready to tell me what happened?",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -937,11 +937,11 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=3) "Yes",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>),
+                  Condition: (*variable.Expression)(<nil>),
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=3) {
@@ -951,11 +951,11 @@
                         Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                           (*tree.LineFormattedTextElement)({
                             Text: (string) (len=30) "Ghost: Well, what do you know?",
-                            Expression: (*tree.Expression)(<nil>)
+                            Expression: (*variable.Expression)(<nil>)
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>),
+                      Condition: (*variable.Expression)(<nil>),
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -978,11 +978,11 @@
                               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                                 (*tree.LineFormattedTextElement)({
                                   Text: (string) (len=16) "I have no clues.",
-                                  Expression: (*tree.Expression)(<nil>)
+                                  Expression: (*variable.Expression)(<nil>)
                                 })
                               }
                             }),
-                            Condition: (*tree.Expression)(<nil>),
+                            Condition: (*variable.Expression)(<nil>),
                             Tags: ([]string) <nil>
                           }),
                           Statements: ([]*tree.Statement) <nil>
@@ -993,18 +993,18 @@
                               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                                 (*tree.LineFormattedTextElement)({
                                   Text: (string) (len=15) "I have clue A. ",
-                                  Expression: (*tree.Expression)(<nil>)
+                                  Expression: (*variable.Expression)(<nil>)
                                 })
                               }
                             }),
-                            Condition: (*tree.Expression)({
+                            Condition: (*variable.Expression)({
                               Value: (*variable.Value)(<nil>),
                               VariableID: (*string)((len=8) "hasClueA"),
-                              FunctionCall: (*tree.FunctionCall)(<nil>),
-                              NegativeExpression: (*tree.Expression)(<nil>),
-                              NotExpression: (*tree.Expression)(<nil>),
-                              LeftOperand: (*tree.Expression)(<nil>),
-                              RightOperand: (*tree.Expression)(<nil>),
+                              FunctionCall: (*variable.FunctionCall)(<nil>),
+                              NegativeExpression: (*variable.Expression)(<nil>),
+                              NotExpression: (*variable.Expression)(<nil>),
+                              LeftOperand: (*variable.Expression)(<nil>),
+                              RightOperand: (*variable.Expression)(<nil>),
                               Operator: (*int)(<nil>)
                             }),
                             Tags: ([]string) <nil>
@@ -1017,18 +1017,18 @@
                               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                                 (*tree.LineFormattedTextElement)({
                                   Text: (string) (len=22) "I have clues A and B. ",
-                                  Expression: (*tree.Expression)(<nil>)
+                                  Expression: (*variable.Expression)(<nil>)
                                 })
                               }
                             }),
-                            Condition: (*tree.Expression)({
+                            Condition: (*variable.Expression)({
                               Value: (*variable.Value)(<nil>),
                               VariableID: (*string)((len=8) "hasClueB"),
-                              FunctionCall: (*tree.FunctionCall)(<nil>),
-                              NegativeExpression: (*tree.Expression)(<nil>),
-                              NotExpression: (*tree.Expression)(<nil>),
-                              LeftOperand: (*tree.Expression)(<nil>),
-                              RightOperand: (*tree.Expression)(<nil>),
+                              FunctionCall: (*variable.FunctionCall)(<nil>),
+                              NegativeExpression: (*variable.Expression)(<nil>),
+                              NotExpression: (*variable.Expression)(<nil>),
+                              LeftOperand: (*variable.Expression)(<nil>),
+                              RightOperand: (*variable.Expression)(<nil>),
                               Operator: (*int)(<nil>)
                             }),
                             Tags: ([]string) <nil>
@@ -1041,18 +1041,18 @@
                               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                                 (*tree.LineFormattedTextElement)({
                                   Text: (string) (len=25) "I have clues A, B and C. ",
-                                  Expression: (*tree.Expression)(<nil>)
+                                  Expression: (*variable.Expression)(<nil>)
                                 })
                               }
                             }),
-                            Condition: (*tree.Expression)({
+                            Condition: (*variable.Expression)({
                               Value: (*variable.Value)(<nil>),
                               VariableID: (*string)((len=8) "hasClueC"),
-                              FunctionCall: (*tree.FunctionCall)(<nil>),
-                              NegativeExpression: (*tree.Expression)(<nil>),
-                              NotExpression: (*tree.Expression)(<nil>),
-                              LeftOperand: (*tree.Expression)(<nil>),
-                              RightOperand: (*tree.Expression)(<nil>),
+                              FunctionCall: (*variable.FunctionCall)(<nil>),
+                              NegativeExpression: (*variable.Expression)(<nil>),
+                              NotExpression: (*variable.Expression)(<nil>),
+                              LeftOperand: (*variable.Expression)(<nil>),
+                              RightOperand: (*variable.Expression)(<nil>),
                               Operator: (*int)(<nil>)
                             }),
                             Tags: ([]string) <nil>
@@ -1064,18 +1064,18 @@
                               LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
                               SetStatement: (*tree.SetStatement)(<nil>),
                               JumpStatement: (*tree.JumpStatement)({
-                                Expression: (*tree.Expression)({
+                                Expression: (*variable.Expression)({
                                   Value: (*variable.Value)({
                                     Number: (*float64)(<nil>),
                                     Boolean: (*bool)(<nil>),
                                     String: (*string)((len=6) "Ending")
                                   }),
                                   VariableID: (*string)(<nil>),
-                                  FunctionCall: (*tree.FunctionCall)(<nil>),
-                                  NegativeExpression: (*tree.Expression)(<nil>),
-                                  NotExpression: (*tree.Expression)(<nil>),
-                                  LeftOperand: (*tree.Expression)(<nil>),
-                                  RightOperand: (*tree.Expression)(<nil>),
+                                  FunctionCall: (*variable.FunctionCall)(<nil>),
+                                  NegativeExpression: (*variable.Expression)(<nil>),
+                                  NotExpression: (*variable.Expression)(<nil>),
+                                  LeftOperand: (*variable.Expression)(<nil>),
+                                  RightOperand: (*variable.Expression)(<nil>),
                                   Operator: (*int)(<nil>)
                                 }),
                                 Detour: (bool) false
@@ -1105,11 +1105,11 @@
                         Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                           (*tree.LineFormattedTextElement)({
                             Text: (string) (len=34) "Ghost: That doesn't sound right...",
-                            Expression: (*tree.Expression)(<nil>)
+                            Expression: (*variable.Expression)(<nil>)
                           })
                         }
                       }),
-                      Condition: (*tree.Expression)(<nil>),
+                      Condition: (*variable.Expression)(<nil>),
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -1130,11 +1130,11 @@
                     Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                       (*tree.LineFormattedTextElement)({
                         Text: (string) (len=2) "No",
-                        Expression: (*tree.Expression)(<nil>)
+                        Expression: (*variable.Expression)(<nil>)
                       })
                     }
                   }),
-                  Condition: (*tree.Expression)(<nil>),
+                  Condition: (*variable.Expression)(<nil>),
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) <nil>
@@ -1156,11 +1156,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=38) "Ghost: Go on and speak to those three!",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -1186,11 +1186,11 @@
               Elements: ([]*tree.LineFormattedTextElement) (len=1) {
                 (*tree.LineFormattedTextElement)({
                   Text: (string) (len=21) "Ghost: You solved it!",
-                  Expression: (*tree.Expression)(<nil>)
+                  Expression: (*variable.Expression)(<nil>)
                 })
               }
             }),
-            Condition: (*tree.Expression)(<nil>),
+            Condition: (*variable.Expression)(<nil>),
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),

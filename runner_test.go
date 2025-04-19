@@ -28,6 +28,7 @@ func TestRunnerPlan(t *testing.T) {
 		"Lines",
 		"NodeHeaders",
 		"ShortcutOptions",
+		"SmartVariables",
 		"Smileys",
 		"Types",
 		"VariableStorage",

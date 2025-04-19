@@ -4,24 +4,26 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/remieven/ysgo/internal/tree"
 	"github.com/remieven/ysgo/variable"
 )
 
-func evaluateExpression(e *tree.Expression, retriever variable.Retriever, caller functionCaller) (*variable.Value, error) {
+func evaluateExpression(e *variable.Expression, retriever variable.Retriever, caller functionCaller, smartVariables map[string]*variable.Expression) (*variable.Value, error) {
 	switch {
 	case e.VariableID != nil:
+		if expression, ok := smartVariables[*e.VariableID]; ok {
+			return evaluateExpression(expression, retriever, caller, smartVariables)
+		}
 		value, ok := retriever.GetValue(*e.VariableID)
 		if !ok {
 			return nil, fmt.Errorf("variable [%v] not found in storage", *e.VariableID)
 		}
 		return value, nil
 	case e.FunctionCall != nil:
-		return evaluateFunctionCall(e.FunctionCall, retriever, caller)
+		return evaluateFunctionCall(e.FunctionCall, retriever, caller, smartVariables)
 	case e.Value != nil:
 		return e.Value, nil
 	case e.NegativeExpression != nil:
-		negativeExpressionValue, err := evaluateExpression(e.NegativeExpression, retriever, caller)
+		negativeExpressionValue, err := evaluateExpression(e.NegativeExpression, retriever, caller, smartVariables)
 		if err != nil {
 			return nil, fmt.Errorf("failed to evaluate negative expression: %w", err)
 		} else if negativeExpressionValue.Number == nil {
@@ -29,7 +31,7 @@ func evaluateExpression(e *tree.Expression, retriever variable.Retriever, caller
 		}
 		return variable.NewNumber(-*negativeExpressionValue.Number), nil
 	case e.NotExpression != nil:
-		notExpressionValue, err := evaluateExpression(e.NotExpression, retriever, caller)
+		notExpressionValue, err := evaluateExpression(e.NotExpression, retriever, caller, smartVariables)
 		if err != nil {
 			return nil, fmt.Errorf("failed to evaluate not-expression: %w", err)
 		} else if notExpressionValue.Boolean == nil {
@@ -37,19 +39,19 @@ func evaluateExpression(e *tree.Expression, retriever variable.Retriever, caller
 		}
 		return variable.NewBoolean(!*notExpressionValue.Boolean), nil
 	case e.Operator != nil:
-		return evaluateBinaryOperation(*e.Operator, e.LeftOperand, e.RightOperand, retriever, caller)
+		return evaluateBinaryOperation(*e.Operator, e.LeftOperand, e.RightOperand, retriever, caller, smartVariables)
 	}
 	return nil, nil
 }
 
-func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expression, retriever variable.Retriever, caller functionCaller) (*variable.Value, error) {
-	leftOperandValue, err := evaluateExpression(leftOperand, retriever, caller)
+func evaluateBinaryOperation(operator int, leftOperand, rightOperand *variable.Expression, retriever variable.Retriever, caller functionCaller, smartVariables map[string]*variable.Expression) (*variable.Value, error) {
+	leftOperandValue, err := evaluateExpression(leftOperand, retriever, caller, smartVariables)
 	if err != nil {
 		return nil, fmt.Errorf("failed to evaluate left operand of expression: %w", err)
 	}
 
 	// lazy-evaluation if possible
-	if operator == tree.AndBinaryOperator {
+	if operator == variable.AndBinaryOperator {
 		if leftOperandValue.Boolean == nil {
 			return nil, fmt.Errorf("cannot evaluate AND expression if left operand is not a boolean")
 		}
@@ -57,7 +59,7 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 			return leftOperandValue, nil
 		}
 	}
-	if operator == tree.OrBinaryOperator {
+	if operator == variable.OrBinaryOperator {
 		if leftOperandValue.Boolean == nil {
 			return nil, fmt.Errorf("cannot evaluate OR expression if left operand is not a boolean")
 		}
@@ -66,7 +68,7 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 		}
 	}
 
-	rightOperandValue, err := evaluateExpression(rightOperand, retriever, caller)
+	rightOperandValue, err := evaluateExpression(rightOperand, retriever, caller, smartVariables)
 	if err != nil {
 		return nil, fmt.Errorf("failed to evaluate right operand of expression: %w", err)
 	}
@@ -80,54 +82,54 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 	}
 
 	switch operator {
-	case tree.MultiplicationBinaryOperator:
+	case variable.MultiplicationBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewNumber((*leftOperandValue.Number) * (*rightOperandValue.Number)), nil
 		}
 		return nil, fmt.Errorf("cannot multiply two values that are not both numbers")
-	case tree.DivisionBinaryOperator:
+	case variable.DivisionBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewNumber((*leftOperandValue.Number) / (*rightOperandValue.Number)), nil
 		}
 		return nil, fmt.Errorf("cannot divide two values that are not both numbers")
-	case tree.ModuloBinaryOperator:
+	case variable.ModuloBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewNumber(math.Mod(*leftOperandValue.Number, *rightOperandValue.Number)), nil
 		}
 		return nil, fmt.Errorf("cannot divide two values that are not both numbers")
-	case tree.AdditionBinaryOperator:
+	case variable.AdditionBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewNumber((*leftOperandValue.Number) + (*rightOperandValue.Number)), nil
 		} else if bothOperandsAreStrings {
 			return variable.NewString((*leftOperandValue.String) + (*rightOperandValue.String)), nil
 		}
 		return nil, fmt.Errorf("cannot add two values that are not either both numbers or both strings")
-	case tree.SubtractionBinaryOperator:
+	case variable.SubtractionBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewNumber((*leftOperandValue.Number) - (*rightOperandValue.Number)), nil
 		}
 		return nil, fmt.Errorf("cannot subtract two values that are not both numbers")
-	case tree.LessThanEqualsBinaryOperator:
+	case variable.LessThanEqualsBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewBoolean((*leftOperandValue.Number) <= (*rightOperandValue.Number)), nil
 		}
 		return nil, fmt.Errorf("cannot compare two values with LTE that are not both numbers")
-	case tree.GreaterThanEqualsBinaryOperator:
+	case variable.GreaterThanEqualsBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewBoolean((*leftOperandValue.Number) >= (*rightOperandValue.Number)), nil
 		}
 		return nil, fmt.Errorf("cannot compare two values with GTE that are not both numbers")
-	case tree.LessBinaryOperator:
+	case variable.LessBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewBoolean((*leftOperandValue.Number) < (*rightOperandValue.Number)), nil
 		}
 		return nil, fmt.Errorf("cannot compare two values with LT that are not both numbers")
-	case tree.GreaterBinaryOperator:
+	case variable.GreaterBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewBoolean((*leftOperandValue.Number) > (*rightOperandValue.Number)), nil
 		}
 		return nil, fmt.Errorf("cannot compare two values with GT that are not both numbers")
-	case tree.EqualsBinaryOperator:
+	case variable.EqualsBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewBoolean((*leftOperandValue.Number) == (*rightOperandValue.Number)), nil
 		} else if bothOperandsAreBooleans {
@@ -135,7 +137,7 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 		} else if bothOperandsAreStrings {
 			return variable.NewBoolean((*leftOperandValue.String) == (*rightOperandValue.String)), nil
 		}
-	case tree.NotEqualsBinaryOperator:
+	case variable.NotEqualsBinaryOperator:
 		if bothOperandsAreNumbers {
 			return variable.NewBoolean((*leftOperandValue.Number) != (*rightOperandValue.Number)), nil
 		} else if bothOperandsAreBooleans {
@@ -143,17 +145,17 @@ func evaluateBinaryOperation(operator int, leftOperand, rightOperand *tree.Expre
 		} else if bothOperandsAreStrings {
 			return variable.NewBoolean((*leftOperandValue.String) != (*rightOperandValue.String)), nil
 		}
-	case tree.AndBinaryOperator:
+	case variable.AndBinaryOperator:
 		if bothOperandsAreBooleans {
 			return rightOperandValue, nil // leftOperandValue has already been accounted for when checking if lazy-evaluation was possible
 		}
 		return nil, fmt.Errorf("cannot AND two values that are not both booleans")
-	case tree.OrBinaryOperator:
+	case variable.OrBinaryOperator:
 		if bothOperandsAreBooleans {
 			return rightOperandValue, nil // leftOperandValue has already been accounted for when checking if lazy-evaluation was possible
 		}
 		return nil, fmt.Errorf("cannot OR two values that are not both booleans")
-	case tree.XorBinaryOperator:
+	case variable.XorBinaryOperator:
 		if bothOperandsAreBooleans {
 			return variable.NewBoolean(xor(*leftOperandValue.Boolean, *rightOperandValue.Boolean)), nil
 		}
@@ -167,10 +169,10 @@ func xor(a, b bool) bool {
 	return (a && !b) || (!a && b)
 }
 
-func evaluateFunctionCall(call *tree.FunctionCall, retriever variable.Retriever, caller functionCaller) (*variable.Value, error) {
+func evaluateFunctionCall(call *variable.FunctionCall, retriever variable.Retriever, caller functionCaller, smartVariables map[string]*variable.Expression) (*variable.Value, error) {
 	evaluatedArgs := make([]*variable.Value, 0, len(call.Arguments))
 	for i := range call.Arguments {
-		evaluatedArg, err := evaluateExpression(call.Arguments[i], retriever, caller)
+		evaluatedArg, err := evaluateExpression(call.Arguments[i], retriever, caller, smartVariables)
 		if err != nil {
 			return nil, fmt.Errorf("failed to evaluate argument number %d: %w", i, err)
 		}
