@@ -27,6 +27,8 @@ jobs:
         run: go test -coverprofile='coverage.txt' -covermode=atomic ./...
       - name: Run govulncheck
         uses: golang/govulncheck-action@v1
+        with:
+          repo-checkout: false
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
