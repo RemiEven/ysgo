@@ -1,10 +1,6 @@
 package container
 
-import (
-	"testing"
-
-	"github.com/remieven/ysgo/internal/testutils"
-)
+import "testing"
 
 func TestStackOneElement(t *testing.T) {
 	s := Stack[int]{}
@@ -132,41 +128,5 @@ func TestStackClear(t *testing.T) {
 	s.Clear()
 	if s.Size() != 0 {
 		t.Error("size should be zero after clearing stack")
-	}
-}
-
-func TestNilStackCopyAsSlice(t *testing.T) {
-	var s Stack[int]
-	copiedSlice := s.CopyAsSlice()
-	if copiedSlice == nil {
-		t.Errorf("slice copy of nil stack should not be nil")
-	} else if len(copiedSlice) != 0 {
-		t.Errorf("slice copy of nil stack should be empty")
-	}
-}
-
-func TestEmptyStackCopyAsSlice(t *testing.T) {
-	s := Stack[int]{}
-	copiedSlice := s.CopyAsSlice()
-	if copiedSlice == nil {
-		t.Errorf("slice copy of nil stack should not be nil")
-	} else if len(copiedSlice) != 0 {
-		t.Errorf("slice copy of nil stack should be empty")
-	}
-}
-
-func TestStackCopyAsSlice(t *testing.T) {
-	s := Stack[int]{1, 2, 3}
-	copiedSlice := s.CopyAsSlice()
-	expected := []int{1, 2, 3}
-	if diff := testutils.DeepEqual(copiedSlice, expected); diff != "" {
-		t.Error("unexpected value: " + diff)
-		return
-	}
-
-	s.Pop()
-	s.Push(4)
-	if copiedSlice[2] == 4 {
-		t.Error("slice copy of stack should not be affected by changes to the stack")
 	}
 }

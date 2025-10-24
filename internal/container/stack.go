@@ -53,13 +53,3 @@ func (s *Stack[T]) Size() int {
 func (s *Stack[T]) Clear() {
 	*s = (*s)[:0]
 }
-
-// CopyAsSlice returns a copy of the content of the stack
-func (s *Stack[T]) CopyAsSlice() []T {
-	if len(*s) == 0 {
-		return []T{}
-	}
-	c := make(Stack[T], len(*s))
-	copy(c, *s)
-	return c
-}
