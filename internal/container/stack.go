@@ -35,6 +35,15 @@ func (s *Stack[T]) Peek() T {
 	return (*s)[l-1]
 }
 
+// PeekFirst returns the first element of the stack (or panics if the stack is empty)
+func (s *Stack[T]) PeekFirst() T {
+	if len(*s) == 0 {
+		panic("cannot peekFirst from empty stack")
+	}
+
+	return (*s)[0]
+}
+
 // Size returns the number of elements in the stack.
 func (s *Stack[T]) Size() int {
 	return len(*s)
@@ -43,4 +52,14 @@ func (s *Stack[T]) Size() int {
 // Clear removes all elements from the stack.
 func (s *Stack[T]) Clear() {
 	*s = (*s)[:0]
+}
+
+// CopyAsSlice returns a copy of the content of the stack
+func (s *Stack[T]) CopyAsSlice() []T {
+	if len(*s) == 0 {
+		return []T{}
+	}
+	c := make(Stack[T], len(*s))
+	copy(c, *s)
+	return c
 }

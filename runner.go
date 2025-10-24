@@ -632,7 +632,7 @@ func (dr *DialogueRunner) Snapshot() *Snapshot {
 	return &Snapshot{
 		Variables:      dr.variableSnapshot,
 		SmartVariables: dr.smartVariableSnapshot,
-		CurrentNode:    dr.currentNodes.Peek(),
+		CurrentNode:    dr.currentNodes.PeekFirst(),
 		VisitedNodes:   dr.visitedNodes,
 	}
 }
