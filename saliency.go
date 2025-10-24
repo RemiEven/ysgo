@@ -23,7 +23,7 @@ type ContentSaliencyStrategy interface {
 	// Implementations should be read-only.
 	QueryBestContent(options []*ContentSaliencyOption) (*ContentSaliencyOption, bool)
 
-	// ContentWasSelected is will be called by the dialogue runner when a piece
+	// ContentWasSelected is called by the dialogue runner when a piece
 	// of salient content has been selected, and the strategy should update any
 	// state related to how it selects content.
 	// If a content saliency strategy does not need to keep track of any state,
@@ -40,7 +40,7 @@ const FirstSaliencyStrategyName = "FirstSaliencyStrategy"
 type FirstSaliencyStrategy struct{}
 
 // QueryBestContent returns the first option, if any.
-func (fss *FirstSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOption) (*ContentSaliencyOption, bool) {
+func (*FirstSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOption) (*ContentSaliencyOption, bool) {
 	if len(options) == 0 {
 		return nil, false
 	}
@@ -48,7 +48,7 @@ func (fss *FirstSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOpt
 }
 
 // ContentWasSelected doesn't do anything.
-func (fss *FirstSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {}
+func (*FirstSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {}
 
 // BestSaliencyStrategyName is the name used to select BestSaliencyStrategy
 // in a dialogue runner.
@@ -60,7 +60,7 @@ type BestSaliencyStrategy struct{}
 
 // QueryBestContent returns the first option (if any) between the best of the
 // provided options.
-func (bss *BestSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOption) (*ContentSaliencyOption, bool) {
+func (*BestSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOption) (*ContentSaliencyOption, bool) {
 	if len(options) == 0 {
 		return nil, false
 	}
@@ -70,7 +70,7 @@ func (bss *BestSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOpti
 }
 
 // ContentWasSelected doesn't do anything.
-func (bss *BestSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {}
+func (*BestSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {}
 
 // BestLeastRecentlyViewedSaliencyStrategyName is the name used to select BestLeastRecentlyViewedSaliencyStrategy
 // in a dialogue runner.
@@ -82,7 +82,7 @@ type BestLeastRecentlyViewedSaliencyStrategy struct{}
 
 // QueryBestContent returns the first (if any) of the best,
 // least-recently seen choices from the provided options.
-func (blrvss *BestLeastRecentlyViewedSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOption) (*ContentSaliencyOption, bool) {
+func (*BestLeastRecentlyViewedSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOption) (*ContentSaliencyOption, bool) {
 	if len(options) == 0 {
 		return nil, false
 	}
@@ -95,8 +95,7 @@ func (blrvss *BestLeastRecentlyViewedSaliencyStrategy) QueryBestContent(options 
 }
 
 // ContentWasSelected doesn't do anything.
-func (blrvss *BestLeastRecentlyViewedSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {
-}
+func (*BestLeastRecentlyViewedSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {}
 
 // RandomBestLeastRecentlyViewedSaliencyStrategyName is the name used to select RandomBestLeastRecentlyViewedSaliencyStrategy
 // in a dialogue runner.
@@ -132,7 +131,7 @@ func (rblrvss *RandomBestLeastRecentlyViewedSaliencyStrategy) QueryBestContent(o
 }
 
 // ContentWasSelected doesn't do anything.
-func (rblrvss *RandomBestLeastRecentlyViewedSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {
+func (*RandomBestLeastRecentlyViewedSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {
 }
 
 func viewCountVariableNameForContent(contentID string) string {

@@ -78,7 +78,7 @@ func random(rng *rng.RNG) func() float64 {
 	}
 }
 
-// randomeRange returns a random integer between a and b, inclusive
+// randomRange returns a random integer between a and b, inclusive
 func randomRange(rng *rng.RNG) func(int, int) int {
 	return func(lowerBound, upperBound int) int {
 		return rng.IntBetween(lowerBound, upperBound)
