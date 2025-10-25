@@ -16,6 +16,8 @@
               }
             }),
             Condition: (*variable.Expression)(<nil>),
+            Once: (bool) false,
+            InGroup: (bool) false,
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -43,6 +45,8 @@
                     }
                   }),
                   Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=2) {
@@ -57,6 +61,8 @@
                         }
                       }),
                       Condition: (*variable.Expression)(<nil>),
+                      Once: (bool) false,
+                      InGroup: (bool) false,
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -110,6 +116,8 @@
                     }
                   }),
                   Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=2) {
@@ -124,6 +132,8 @@
                         }
                       }),
                       Condition: (*variable.Expression)(<nil>),
+                      Once: (bool) false,
+                      InGroup: (bool) false,
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -195,6 +205,8 @@
               }
             }),
             Condition: (*variable.Expression)(<nil>),
+            Once: (bool) false,
+            InGroup: (bool) false,
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -222,6 +234,8 @@
                     }
                   }),
                   Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=1) {
@@ -236,6 +250,8 @@
                         }
                       }),
                       Condition: (*variable.Expression)(<nil>),
+                      Once: (bool) false,
+                      InGroup: (bool) false,
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -261,6 +277,8 @@
                     }
                   }),
                   Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=1) {
@@ -275,6 +293,8 @@
                         }
                       }),
                       Condition: (*variable.Expression)(<nil>),
+                      Once: (bool) false,
+                      InGroup: (bool) false,
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -346,6 +366,8 @@
               }
             }),
             Condition: (*variable.Expression)(<nil>),
+            Once: (bool) false,
+            InGroup: (bool) false,
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -373,6 +395,8 @@
                     }
                   }),
                   Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=1) {
@@ -387,6 +411,8 @@
                         }
                       }),
                       Condition: (*variable.Expression)(<nil>),
+                      Once: (bool) false,
+                      InGroup: (bool) false,
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -412,6 +438,8 @@
                     }
                   }),
                   Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
                   Tags: ([]string) <nil>
                 }),
                 Statements: ([]*tree.Statement) (len=1) {
@@ -426,6 +454,8 @@
                         }
                       }),
                       Condition: (*variable.Expression)(<nil>),
+                      Once: (bool) false,
+                      InGroup: (bool) false,
                       Tags: ([]string) <nil>
                     }),
                     ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
@@ -497,6 +527,8 @@
               }
             }),
             Condition: (*variable.Expression)(<nil>),
+            Once: (bool) false,
+            InGroup: (bool) false,
             Tags: ([]string) <nil>
           }),
           ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),

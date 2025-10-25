@@ -3,6 +3,7 @@ package ysgo_test
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -14,6 +15,7 @@ const (
 	stepTypeCommand
 	stepTypeStop
 	stepTypeSet
+	stepTypeRestart
 )
 
 type TestPlanStep struct {
@@ -21,7 +23,11 @@ type TestPlanStep struct {
 	stringValue         string
 	intValue            int
 	expectOptionEnabled bool
+	setVariableName     string
+	setVariableValue    bool
 }
+
+var setVariableNameRegexp *regexp.Regexp = regexp.MustCompile(`\$[^\s]*`)
 
 func newTestPlanStep(line string) (*TestPlanStep, error) {
 	step := &TestPlanStep{}
@@ -52,10 +58,16 @@ func newTestPlanStep(line string) (*TestPlanStep, error) {
 			return nil, fmt.Errorf("failed to parse select index: %w", err)
 		}
 		step.intValue = i
+	case strings.HasPrefix(line, "set:"):
+		step.stepType = stepTypeSet
+		step.setVariableName = setVariableNameRegexp.FindString(line)[1:]
+		step.setVariableValue = strings.HasSuffix(line, "true")
 	case strings.HasPrefix(line, "stop:"):
 		step.stepType = stepTypeStop
 	case line == "stop":
 		return nil, nil
+	case line == "---":
+		step.stepType = stepTypeRestart
 	}
 
 	return step, nil

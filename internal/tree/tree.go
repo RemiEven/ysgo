@@ -45,6 +45,8 @@ type Statement struct {
 type LineStatement struct {
 	Text      *LineFormattedText   `json:"t,omitempty"`
 	Condition *variable.Expression `json:"c,omitempty"`
+	Once      bool                 `json:"o,omitzero"`
+	InGroup   bool                 `json:"ig,omitzero"`
 	Tags      []string             `json:"tags,omitempty"`
 }
 

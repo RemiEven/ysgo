@@ -1,0 +1,331 @@
+(*tree.Dialogue)({
+  Nodes: ([]tree.Node) (len=1) {
+    (tree.Node) {
+      Headers: (map[string]string) (len=1) {
+        (string) (len=5) "title": (string) (len=5) "Start"
+      },
+      Statements: ([]*tree.Statement) (len=6) {
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)({
+            Options: ([]*tree.ShortcutOption) (len=4) {
+              (*tree.ShortcutOption)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=9) "Option 1 ",
+                        Expression: (*variable.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*variable.Expression)({
+                    Value: (*variable.Value)(<nil>),
+                    VariableID: (*string)((len=10) "conditionB"),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
+                    Operator: (*int)(<nil>)
+                  }),
+                  Once: (bool) true,
+                  InGroup: (bool) false,
+                  Tags: ([]string) <nil>
+                }),
+                Statements: ([]*tree.Statement) <nil>
+              }),
+              (*tree.ShortcutOption)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=9) "Option 2 ",
+                        Expression: (*variable.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) true,
+                  InGroup: (bool) false,
+                  Tags: ([]string) <nil>
+                }),
+                Statements: ([]*tree.Statement) <nil>
+              }),
+              (*tree.ShortcutOption)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=9) "Option 3 ",
+                        Expression: (*variable.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*variable.Expression)({
+                    Value: (*variable.Value)(<nil>),
+                    VariableID: (*string)((len=10) "conditionB"),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
+                    Operator: (*int)(<nil>)
+                  }),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
+                  Tags: ([]string) <nil>
+                }),
+                Statements: ([]*tree.Statement) <nil>
+              }),
+              (*tree.ShortcutOption)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=9) "Option 4 ",
+                        Expression: (*variable.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
+                  Tags: ([]string) <nil>
+                }),
+                Statements: ([]*tree.Statement) <nil>
+              })
+            }
+          }),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)(<nil>),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)({
+            Items: ([]*tree.LineGroupItem) (len=4) {
+              (*tree.LineGroupItem)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=7) "Item 1 ",
+                        Expression: (*variable.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) true,
+                  InGroup: (bool) true,
+                  Tags: ([]string) <nil>
+                }),
+                Statements: ([]*tree.Statement) <nil>
+              }),
+              (*tree.LineGroupItem)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=7) "Item 2 ",
+                        Expression: (*variable.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*variable.Expression)({
+                    Value: (*variable.Value)(<nil>),
+                    VariableID: (*string)((len=10) "conditionC"),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
+                    Operator: (*int)(<nil>)
+                  }),
+                  Once: (bool) true,
+                  InGroup: (bool) true,
+                  Tags: ([]string) <nil>
+                }),
+                Statements: ([]*tree.Statement) <nil>
+              }),
+              (*tree.LineGroupItem)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=7) "Item 3 ",
+                        Expression: (*variable.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*variable.Expression)({
+                    Value: (*variable.Value)(<nil>),
+                    VariableID: (*string)((len=10) "conditionC"),
+                    FunctionCall: (*variable.FunctionCall)(<nil>),
+                    NegativeExpression: (*variable.Expression)(<nil>),
+                    NotExpression: (*variable.Expression)(<nil>),
+                    LeftOperand: (*variable.Expression)(<nil>),
+                    RightOperand: (*variable.Expression)(<nil>),
+                    Operator: (*int)(<nil>)
+                  }),
+                  Once: (bool) false,
+                  InGroup: (bool) true,
+                  Tags: ([]string) <nil>
+                }),
+                Statements: ([]*tree.Statement) <nil>
+              }),
+              (*tree.LineGroupItem)({
+                LineStatement: (*tree.LineStatement)({
+                  Text: (*tree.LineFormattedText)({
+                    Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                      (*tree.LineFormattedTextElement)({
+                        Text: (string) (len=7) "Item 4 ",
+                        Expression: (*variable.Expression)(<nil>)
+                      })
+                    }
+                  }),
+                  Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) false,
+                  InGroup: (bool) true,
+                  Tags: ([]string) <nil>
+                }),
+                Statements: ([]*tree.Statement) <nil>
+              })
+            }
+          }),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)({
+            Text: (*tree.LineFormattedText)({
+              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) (len=7) "Line 1 ",
+                  Expression: (*variable.Expression)(<nil>)
+                })
+              }
+            }),
+            Condition: (*variable.Expression)(<nil>),
+            Once: (bool) true,
+            InGroup: (bool) false,
+            Tags: ([]string) <nil>
+          }),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)({
+            Text: (*tree.LineFormattedText)({
+              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) (len=7) "Line 2 ",
+                  Expression: (*variable.Expression)(<nil>)
+                })
+              }
+            }),
+            Condition: (*variable.Expression)({
+              Value: (*variable.Value)(<nil>),
+              VariableID: (*string)((len=10) "conditionD"),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)(<nil>),
+              RightOperand: (*variable.Expression)(<nil>),
+              Operator: (*int)(<nil>)
+            }),
+            Once: (bool) true,
+            InGroup: (bool) false,
+            Tags: ([]string) <nil>
+          }),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)({
+            Text: (*tree.LineFormattedText)({
+              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) (len=7) "Line 3 ",
+                  Expression: (*variable.Expression)(<nil>)
+                })
+              }
+            }),
+            Condition: (*variable.Expression)({
+              Value: (*variable.Value)(<nil>),
+              VariableID: (*string)((len=10) "conditionD"),
+              FunctionCall: (*variable.FunctionCall)(<nil>),
+              NegativeExpression: (*variable.Expression)(<nil>),
+              NotExpression: (*variable.Expression)(<nil>),
+              LeftOperand: (*variable.Expression)(<nil>),
+              RightOperand: (*variable.Expression)(<nil>),
+              Operator: (*int)(<nil>)
+            }),
+            Once: (bool) false,
+            InGroup: (bool) false,
+            Tags: ([]string) <nil>
+          }),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        }),
+        (*tree.Statement)({
+          LineStatement: (*tree.LineStatement)({
+            Text: (*tree.LineFormattedText)({
+              Elements: ([]*tree.LineFormattedTextElement) (len=1) {
+                (*tree.LineFormattedTextElement)({
+                  Text: (string) (len=7) "Line 4 ",
+                  Expression: (*variable.Expression)(<nil>)
+                })
+              }
+            }),
+            Condition: (*variable.Expression)(<nil>),
+            Once: (bool) false,
+            InGroup: (bool) false,
+            Tags: ([]string) <nil>
+          }),
+          ShortcutOptionStatement: (*tree.ShortcutOptionStatement)(<nil>),
+          LineGroupStatement: (*tree.LineGroupStatement)(<nil>),
+          SetStatement: (*tree.SetStatement)(<nil>),
+          JumpStatement: (*tree.JumpStatement)(<nil>),
+          IfStatement: (*tree.IfStatement)(<nil>),
+          CommandStatement: (*tree.CommandStatement)(<nil>),
+          CallStatement: (*tree.CallStatement)(<nil>),
+          DeclareStatement: (*tree.DeclareStatement)(<nil>),
+          ReturnStatement: (*tree.ReturnStatement)(<nil>)
+        })
+      }
+    }
+  }
+})

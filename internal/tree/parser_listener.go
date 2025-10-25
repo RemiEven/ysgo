@@ -30,6 +30,7 @@ type parserListener struct {
 	functionCallCallback     func(*variable.FunctionCall)
 	commandTextCallback      func(string)
 	hashtagCallback          func(string)
+	onceCallback             func()
 	protoCommandStatement    *CommandStatement
 }
 
@@ -93,11 +94,21 @@ func (s *parserListener) EnterTitle_header(ctx *parser.Title_headerContext) {
 	s.node.Headers["title"] = ctx.GetTitle().GetText()
 }
 
+// EnterLineOnceCondition is called when entering the lineOnceCondition production.
+func (s *parserListener) EnterLineOnceCondition(c *parser.LineOnceConditionContext) {
+	if s.onceCallback != nil {
+		s.onceCallback()
+	}
+}
+
 // EnterLine_statement is called when production line_statement is entered.
 func (s *parserListener) EnterLine_statement(ctx *parser.Line_statementContext) {
 	s.lineStatement = &LineStatement{}
 	s.hashtagCallback = func(tag string) {
 		s.lineStatement.Tags = append(s.lineStatement.Tags, tag)
+	}
+	s.onceCallback = func() {
+		s.lineStatement.Once = true
 	}
 	s.expressionCallbacks.Push(func(e *variable.Expression) {
 		s.lineStatement.Condition = e
@@ -203,6 +214,7 @@ func (s *parserListener) EnterLine_group_item(ctx *parser.Line_group_itemContext
 	lineGroupStatement := s.lineGroupStatements.Peek()
 	lineGroupStatement.Items = append(lineGroupStatement.Items, lineGroupItem)
 	s.lineStatementCallbacks.Push(func(lineStatement *LineStatement) {
+		lineStatement.InGroup = true
 		if lineGroupItem.LineStatement == nil {
 			lineGroupItem.LineStatement = lineStatement
 		} else {

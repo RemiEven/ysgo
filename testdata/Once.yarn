@@ -1,0 +1,18 @@
+title: Start
+---
+
+-> Option 1 <<once if $conditionB>> #line:015ad44 // only selectable once, and only if $conditionB is true
+-> Option 2 <<once>> #line:015ad45 // only selectable once
+-> Option 3 <<if $conditionB>> #line:015ad46 // only selectable if $conditionB is true
+-> Option 4 #line:015ad47 // always selectable
+
+=> Item 1 <<once>> #line:015ad48 // will only appear once
+=> Item 2 <<once if $conditionC>> #line:015ad49 // will only appear once, and only if $conditionC is true
+=> Item 3 <<if $conditionC>> #line:015ad50 // will only appear if $conditionC is true
+=> Item 4 #line:015ad51 // may always appear
+
+Line 1 <<once>> #line:015ad52 // line will only run once
+Line 2 <<once if $conditionD>> #line:015ad53 // line will only run once, and only if $conditionD is true
+Line 3 <<if $conditionD>> #line:015ad54 // line will only run if $conditionD is true
+Line 4 #line:015ad55 // line will always run
+===

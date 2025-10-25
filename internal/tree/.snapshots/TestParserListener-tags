@@ -16,6 +16,8 @@
               }
             }),
             Condition: (*variable.Expression)(<nil>),
+            Once: (bool) false,
+            InGroup: (bool) false,
             Tags: ([]string) (len=1) {
               (string) (len=5) "start"
             }
@@ -45,6 +47,8 @@
                     }
                   }),
                   Condition: (*variable.Expression)(<nil>),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
                   Tags: ([]string) (len=1) {
                     (string) (len=9) "chocolate"
                   }
@@ -105,6 +109,8 @@
                     RightOperand: (*variable.Expression)(<nil>),
                     Operator: (*int)(<nil>)
                   }),
+                  Once: (bool) false,
+                  InGroup: (bool) false,
                   Tags: ([]string) (len=2) {
                     (string) (len=14) "tone:sarcastic",
                     (string) (len=9) "duplicate"
@@ -181,6 +187,8 @@
               }
             }),
             Condition: (*variable.Expression)(<nil>),
+            Once: (bool) false,
+            InGroup: (bool) false,
             Tags: ([]string) (len=2) {
               (string) (len=3) "end",
               (string) (len=10) "goodending"

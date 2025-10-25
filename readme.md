@@ -85,7 +85,8 @@ Some YarnSpinner v3 features are supported, most notably:
 - line groups and saliency strategies
 - smart variables
 
-The `once` keyword, node groups and enums aren't supported right now, but might be at some point.
+The `once` keyword is supported at the end of lines/shortcut-options/line-groups, but the `once` block isn't.
+Node groups and enums aren't supported right now, but might be at some point.
 
 Ysgo only handles your dialogues when your game is running, during development you're still encouraged to use the vscode plugin and YarnSpinner-Console.
 

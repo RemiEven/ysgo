@@ -1,6 +1,7 @@
 package ysgo_test
 
 import (
+	"fmt"
 	"os"
 	"strings"
 	"testing"
@@ -27,6 +28,7 @@ func TestRunnerPlan(t *testing.T) {
 		"LineGroups",
 		"Lines",
 		"NodeHeaders",
+		"Once",
 		"ShortcutOptions",
 		"SmartVariables",
 		"Smileys",
@@ -45,46 +47,55 @@ func TestRunnerPlan(t *testing.T) {
 				return
 			}
 
-			reader, err := os.Open("testdata/" + test + ".yarn")
-			if err != nil {
-				t.Errorf("failed to open dialogue file: %v", err)
-				return
-			}
-			defer reader.Close()
+			storer := variable.NewInMemoryStorer()
+			commandOutputs := []string{}
 
-			dr, err := ysgo.NewDialogueRunner(nil, "", reader)
+			createRunner := func() (*ysgo.DialogueRunner, error) {
+				reader, err := os.Open("testdata/" + test + ".yarn")
+				if err != nil {
+					return nil, fmt.Errorf("failed to open dialogue file: %v", err)
+				}
+				defer reader.Close()
+
+				dr, err := ysgo.NewDialogueRunner(storer, "", reader)
+				if err != nil {
+					return nil, fmt.Errorf("failed to create dialogue runner: %v", err)
+				}
+
+				dr.ConvertAndAddFunction("assert", func(b bool) {
+					if !b {
+						t.Errorf("assertion failed")
+					}
+				})
+				dr.ConvertAndAddFunction("add_three_operands", func(a, b, c float64) float64 {
+					return a + b + c
+				})
+
+				addTestCommand := func(commandName string) {
+					dr.AddCommand(commandName, func(args []*variable.Value) <-chan error {
+						output := commandName
+						for _, arg := range args {
+							output += " " + arg.ToString()
+						}
+						commandOutputs = append(commandOutputs, output)
+						ch := make(chan error, 1)
+						ch <- nil
+						return ch
+					})
+				}
+
+				for _, commandName := range []string{"number", "expression", "string", "bool", "variable", "flip", "toggle", "settings", "iffy", "nulled", "orion", "andorian", "note", "isActive", "p", "hide", "show"} {
+					addTestCommand(commandName)
+				}
+
+				return dr, nil
+			}
+
+			dr, err := createRunner()
 			if err != nil {
 				t.Errorf("failed to create dialogue runner: %v", err)
 				return
 			}
-
-			dr.ConvertAndAddFunction("assert", func(b bool) {
-				if !b {
-					t.Errorf("assertion failed")
-				}
-			})
-			dr.ConvertAndAddFunction("add_three_operands", func(a, b, c float64) float64 {
-				return a + b + c
-			})
-
-			commandOutputs := []string{}
-			addTestCommand := func(commandName string) {
-				dr.AddCommand(commandName, func(args []*variable.Value) <-chan error {
-					output := commandName
-					for _, arg := range args {
-						output += " " + arg.ToString()
-					}
-					commandOutputs = append(commandOutputs, output)
-					ch := make(chan error, 1)
-					ch <- nil
-					return ch
-				})
-			}
-
-			for _, commandName := range []string{"number", "expression", "string", "bool", "variable", "flip", "toggle", "settings", "iffy", "nulled", "orion", "andorian", "note", "isActive", "p", "hide", "show"} {
-				addTestCommand(commandName)
-			}
-
 			expectedCommandOutputs := make([]string, 0, len(commandOutputs))
 
 			testPlanIndex := 0
@@ -147,6 +158,15 @@ func TestRunnerPlan(t *testing.T) {
 					testPlanIndex = endOptionIndex - 1
 				case stepTypeStop:
 					break planStepLoop
+				case stepTypeSet:
+					storer.SetBooleanValue(testPlanStep.setVariableName, testPlanStep.setVariableValue)
+				case stepTypeRestart:
+					var err error
+					dr, err = createRunner()
+					if err != nil {
+						t.Errorf("failed to recreate dialogue runner after restart step: %v", err)
+						return
+					}
 				}
 
 				testPlanIndex++

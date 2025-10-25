@@ -108,7 +108,12 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	}
 
 	if dr.isWaitingForChoice() {
-		if statements := dr.lastStatement.ShortcutOptionStatement.Options[choice].Statements; len(statements) != 0 {
+		chosenOption := dr.lastStatement.ShortcutOptionStatement.Options[choice]
+		if err := dr.incrementLineStatementViewCountIfOnce(chosenOption.LineStatement); err != nil {
+			return nil, fmt.Errorf("failed to increment shortcutOption viewCount variable: %w", err)
+		}
+
+		if statements := chosenOption.Statements; len(statements) != 0 {
 			statementsToRun := dr.statementsToRun.Peek()
 			statementsToRun.Push(&statementQueue{
 				statements: statements,
@@ -137,6 +142,17 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	dr.lastStatement = nextStatement
 	switch {
 	case nextStatement.LineStatement != nil:
+		if !nextStatement.LineStatement.InGroup { // if line statement comes from a line group, whether we can run it has already been checked
+			if ok, err := dr.lineStatementCanBeRun(nextStatement.LineStatement); err != nil {
+				return nil, fmt.Errorf("failed to check if line statement could be run: %w", err)
+			} else if !ok {
+				// this line statement can't be run now
+				return dr.Next(choice)
+			}
+		}
+		if err := dr.incrementLineStatementViewCountIfOnce(nextStatement.LineStatement); err != nil {
+			return nil, fmt.Errorf("failed to increment lineStatement viewCount variable: %w", err)
+		}
 		markupResult, err := dr.textElementsToMarkup(nextStatement.LineStatement.Text.Elements)
 		if err != nil {
 			return nil, fmt.Errorf("failed to prepare line: %w", err)
@@ -156,15 +172,12 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 				return nil, fmt.Errorf("failed to prepare option %v: %w", i, err)
 			}
 			disabled := false
-			if condition := option.LineStatement.Condition; condition != nil {
-				enabled, err := dr.evaluateExpression(option.LineStatement.Condition)
-				if err != nil {
-					return nil, fmt.Errorf("failed to evaluate line condition: %w", err)
-				} else if enabled.Boolean == nil {
-					return nil, fmt.Errorf("encountered non boolean line condition")
-				}
-				disabled = !*enabled.Boolean
+			if ok, err := dr.lineStatementCanBeRun(option.LineStatement); err != nil {
+				return nil, fmt.Errorf("failed to check if option line statement can be run: %w", err)
+			} else {
+				disabled = !ok
 			}
+
 			options = append(options, DialogueOption{
 				Line: &Line{
 					ParseResult: *markupResult,
@@ -306,16 +319,12 @@ func (dr *DialogueRunner) executeLineGroupStatement(statement *tree.LineGroupSta
 	// find items that can be selected
 	items := make([]*tree.LineGroupItem, 0, len(statement.Items))
 	for _, item := range statement.Items {
-		if condition := item.LineStatement.Condition; condition != nil {
-			possible, err := dr.evaluateExpression(condition)
-			if err != nil {
-				return fmt.Errorf("failed to evaluate item condition: %w", err)
-			} else if possible.Boolean == nil {
-				return fmt.Errorf("encountered non boolean item condition")
-			} else if !*possible.Boolean {
-				continue // this item cannot be run now
-			}
+		if ok, err := dr.lineStatementCanBeRun(item.LineStatement); err != nil {
+			return fmt.Errorf("failed to check if line statement can be run: %w", err)
+		} else if !ok {
+			continue
 		}
+
 		items = append(items, item)
 	}
 
@@ -549,6 +558,52 @@ func (dr *DialogueRunner) executeDeclareStatement(statement *tree.DeclareStateme
 
 func (dr *DialogueRunner) evaluateExpression(expression *variable.Expression) (*variable.Value, error) {
 	return evaluateExpression(expression, dr.variableStorer, dr.functionStorer, dr.smartVariables)
+}
+
+func (dr *DialogueRunner) lineStatementCanBeRun(ls *tree.LineStatement) (bool, error) {
+	if ls.Once {
+		viewCountVariableName := viewCountVariableNameForContent(ls.LineId())
+		value, ok := dr.variableStorer.GetValue(viewCountVariableName)
+		switch {
+		case !ok:
+			// NOOP
+		case value.Number == nil:
+			return false, fmt.Errorf("viewCount variable %q should be a boolean", viewCountVariableName)
+		case *value.Number > 0:
+			return false, nil // this item has already been run
+		}
+	}
+
+	if condition := ls.Condition; condition != nil {
+		possible, err := dr.evaluateExpression(condition)
+		if err != nil {
+			return false, fmt.Errorf("failed to evaluate item condition: %w", err)
+		} else if possible.Boolean == nil {
+			return false, fmt.Errorf("encountered non boolean item condition")
+		} else if !*possible.Boolean {
+			return false, nil // this item cannot be run now
+		}
+	}
+
+	return true, nil
+}
+
+func (dr *DialogueRunner) incrementLineStatementViewCountIfOnce(statement *tree.LineStatement) error {
+	if !statement.Once {
+		return nil
+	}
+
+	viewCountVariableName := viewCountVariableNameForContent(statement.LineId())
+	newValue := 1.
+	if value, ok := dr.variableStorer.GetValue(viewCountVariableName); ok {
+		if value.Number == nil {
+			return fmt.Errorf("viewCount variable %q should be a boolean", viewCountVariableName)
+		} else {
+			newValue = *value.Number + 1
+		}
+	}
+	dr.variableStorer.SetNumberValue(viewCountVariableName, newValue)
+	return nil
 }
 
 // RestoreAt uses a snapshot to restore a dialogue runner to a former state.
