@@ -295,7 +295,7 @@ func newDialogueRunner(storer variable.Storer, rngSeed string, dialogue *tree.Di
 			FirstSaliencyStrategyName:                         &FirstSaliencyStrategy{},
 			BestSaliencyStrategyName:                          &BestSaliencyStrategy{},
 			BestLeastRecentlyViewedSaliencyStrategyName:       &BestLeastRecentlyViewedSaliencyStrategy{},
-			RandomBestLeastRecentlyViewedSaliencyStrategyName: &RandomBestLeastRecentlyViewedSaliencyStrategy{},
+			RandomBestLeastRecentlyViewedSaliencyStrategyName: &RandomBestLeastRecentlyViewedSaliencyStrategy{rng: rng},
 		},
 	}
 	runner.currentSaliencyStrategy = runner.saliencyStrategies[FirstSaliencyStrategyName]
