@@ -95,16 +95,8 @@ func (dr *DialogueRunner) isWaitingForChoice() bool {
 // Else, if no other error is encountered, the next DialogueElement to display is returned.
 // If the Dialogue has ended, then both return values will be nil.
 func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
-	if dr.commandErrChan != nil {
-		select {
-		case err := <-dr.commandErrChan:
-			dr.commandErrChan = nil
-			if err != nil {
-				return nil, fmt.Errorf("failed to execute ongoing command: %w", err)
-			}
-		default:
-			return nil, ErrWaitingForCommandCompletion
-		}
+	if err := dr.checkCommandErrChan(); err != nil {
+		return nil, err
 	}
 
 	if dr.isWaitingForChoice() {
@@ -237,6 +229,22 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	}
 
 	return nil, errors.New("encountered an unsupported type of statement")
+}
+
+func (dr *DialogueRunner) checkCommandErrChan() error {
+	if dr.commandErrChan == nil {
+		return nil
+	}
+	select {
+	case err := <-dr.commandErrChan:
+		dr.commandErrChan = nil
+		if err != nil {
+			return fmt.Errorf("failed to execute ongoing command: %w", err)
+		}
+	default:
+		return ErrWaitingForCommandCompletion
+	}
+	return nil
 }
 
 // NewDialogueRunner creates a new runner working on the dialogue that can be
@@ -438,6 +446,17 @@ func (dr *DialogueRunner) executeSetStatement(statement *tree.SetStatement) erro
 	}
 
 	return nil
+}
+
+// JumpTo moves the dialogue to the given node, as if a <<jump ...>> node was encountered.
+// It only works if no command is currently ongoing.
+func (dr *DialogueRunner) JumpTo(nodeName string) error {
+	if err := dr.checkCommandErrChan(); err != nil {
+		return err
+	}
+	return dr.executeJumpStatement(&tree.JumpStatement{
+		Expression: variable.NewStringExpression(nodeName),
+	})
 }
 
 func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) error {

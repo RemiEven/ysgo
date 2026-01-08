@@ -234,3 +234,40 @@ Thanks!
 
 	assertNextLine("You like chocolate, right? Here's more icecream!")
 }
+
+func TestRunnerJump(t *testing.T) {
+	script := `
+title: node_1
+---
+Do you like chocolate? Here, get some icecream!
+Thanks!
+===
+title: node_2
+---
+Do you like cheese? Here, get some cheddar!
+Thanks!
+===`
+
+	dr, err := ysgo.NewDialogueRunner(nil, "", strings.NewReader(script))
+	if err != nil {
+		t.Errorf("failed to create dialogue runner: %v", err)
+		return
+	}
+
+	assertNextLine := func(expectedLine string) {
+		dialogueElement, err := dr.Next(0)
+		if err != nil {
+			t.Errorf("failed to get to dialogue element: %v", err)
+			return
+		}
+		if expected, actual := expectedLine, dialogueElement.Line.Text; expected != actual {
+			t.Errorf("unexpected line text: wanted [%s], got [%s]", expected, actual)
+			return
+		}
+	}
+
+	assertNextLine("Do you like chocolate? Here, get some icecream!")
+	dr.JumpTo("node_2")
+	assertNextLine("Do you like cheese? Here, get some cheddar!")
+	assertNextLine("Thanks!")
+}
