@@ -2,7 +2,7 @@ coverage:
   status:
     patch: off
   ignore:
-   - "yarnspinner_lexer.go"
-   - "yarnspinner_parser.go"
-   - "yarnspinnerparser_base_listener.go"
-   - "yarnspinnerparser_listener.go"
+   - "**/yarnspinner_lexer.go"
+   - "**/yarnspinner_parser.go"
+   - "**/yarnspinnerparser_base_listener.go"
+   - "**/yarnspinnerparser_listener.go"
