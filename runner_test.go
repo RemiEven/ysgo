@@ -271,3 +271,49 @@ Thanks!
 	assertNextLine("Do you like cheese? Here, get some cheddar!")
 	assertNextLine("Thanks!")
 }
+
+func TestRunnerSnapshotAfterDialogueEnds(t *testing.T) {
+	script := `
+title: hello
+---
+Hello!
+===`
+
+	storer := variable.NewInMemoryStorer()
+
+	dr, err := ysgo.NewDialogueRunner(storer, "", strings.NewReader(script))
+	if err != nil {
+		t.Errorf("failed to create dialogue runner: %v", err)
+		return
+	}
+
+	dialogueElement, err := dr.Next(0)
+	if err != nil {
+		t.Errorf("failed to get to dialogue element: %v", err)
+		return
+	}
+	expected := "Hello!"
+	if actual := dialogueElement.Line.Text; expected != actual {
+		t.Errorf("unexpected line text: wanted [%s], got [%s]", expected, actual)
+		return
+	}
+
+	dialogueElement, err = dr.Next(0)
+	if err != nil {
+		t.Errorf("failed to get to end of dialogue: %v", err)
+		return
+	}
+	if dialogueElement != nil {
+		t.Errorf("unexpected dialogue element: wanted nil, got [%v]", dialogueElement)
+	}
+
+	visitedNodes := dr.Snapshot().VisitedNodes
+
+	if expected, actual := 1, visitedNodes["hello"]; expected != actual {
+		t.Errorf("unexpected visited value for visitedNodes[hello]: wanted %v, got %v", expected, actual)
+	}
+
+	if expected, actual := "", dr.Snapshot().CurrentNode; expected != actual {
+		t.Errorf("unexpected value for snapshot currentNode: wanted %q, got %q", expected, actual)
+	}
+}

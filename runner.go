@@ -703,10 +703,15 @@ func (dr *DialogueRunner) SetSaliencyStrategy(name string) error {
 // Snapshot returns the state of the dialogue runner as of the last time a node was entered.
 // It can then be used to later restore the state of the dialogue runner.
 func (dr *DialogueRunner) Snapshot() *Snapshot {
+	currentNode := ""
+	if dr.currentNodes.Size() > 0 {
+		currentNode = dr.currentNodes.PeekFirst()
+	}
+
 	return &Snapshot{
 		Variables:      dr.variableSnapshot,
 		SmartVariables: dr.smartVariableSnapshot,
-		CurrentNode:    dr.currentNodes.PeekFirst(),
+		CurrentNode:    currentNode,
 		VisitedNodes:   dr.visitedNodes,
 	}
 }
