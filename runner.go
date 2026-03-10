@@ -251,42 +251,49 @@ func (dr *DialogueRunner) checkCommandErrChan() error {
 // parsed from the given readers.
 // The storer argument is optional and if provided, allows to store variables
 // elsewhere than in the default in-memory store.
-// The given rngSeed serves to create deterministic random values. It will be
-// used when eg. the dice(6) function is called in a dialogue.
-func NewDialogueRunner(storer variable.Storer, rngSeed string, readers ...io.Reader) (*DialogueRunner, error) {
+func NewDialogueRunner(storer variable.Storer, options *InitOptions, readers ...io.Reader) (*DialogueRunner, error) {
 	dialogue, err := tree.FromReader(io.MultiReader(readers...))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create dialogue: %w", err)
 	}
 
-	return newDialogueRunner(storer, rngSeed, dialogue)
+	return newDialogueRunner(storer, options, dialogue)
 }
 
 // NewDialogueRunnerFromMarshaled creates a new runner working on the previously
 // parsed and marshaled dialogue in the given reader.
 // The storer argument is optional and if provided, allows to store variables
 // elsewhere than in the default in-memory store.
-// The given rngSeed serves to create deterministic random values. It will be
-// used when eg. the dice(6) function is called in a dialogue.
-func NewDialogueRunnerFromMarshaled(storer variable.Storer, rngSeed string, reader io.Reader) (*DialogueRunner, error) {
+func NewDialogueRunnerFromMarshaled(storer variable.Storer, options *InitOptions, reader io.Reader) (*DialogueRunner, error) {
 	dialogue, err := tree.FromMarshaledReader(reader)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create dialogue: %w", err)
 	}
 
-	return newDialogueRunner(storer, rngSeed, dialogue)
+	return newDialogueRunner(storer, options, dialogue)
 }
 
-func newDialogueRunner(storer variable.Storer, rngSeed string, dialogue *tree.Dialogue) (*DialogueRunner, error) {
-	statementsToRun := &container.Stack[*statementQueue]{}
+func newDialogueRunner(storer variable.Storer, options *InitOptions, dialogue *tree.Dialogue) (*DialogueRunner, error) {
+	if options == nil {
+		options = &InitOptions{}
+	}
+
 	firstNode := dialogue.Nodes[0]
+	if options.FirstNode != "" {
+		if customFirstNode, ok := dialogue.FindNode(options.FirstNode); !ok {
+			return nil, fmt.Errorf("failed to find firstNode [%s]", options.FirstNode)
+		} else {
+			firstNode = *customFirstNode
+		}
+	}
+	statementsToRun := &container.Stack[*statementQueue]{}
 	statementsToRun.Push(&statementQueue{statements: firstNode.Statements})
 
 	if storer == nil {
 		storer = variable.NewInMemoryStorer()
 	}
 
-	rng, err := rng.NewRNG(rngSeed)
+	rng, err := rng.NewRNG(options.RNGSeed)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create rng: %w", err)
 	}

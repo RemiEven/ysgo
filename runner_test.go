@@ -57,7 +57,7 @@ func TestRunnerPlan(t *testing.T) {
 				}
 				defer reader.Close()
 
-				dr, err := ysgo.NewDialogueRunner(storer, "", reader)
+				dr, err := ysgo.NewDialogueRunner(storer, nil, reader)
 				if err != nil {
 					return nil, fmt.Errorf("failed to create dialogue runner: %v", err)
 				}
@@ -202,7 +202,7 @@ Oh ok, {$flavor} it is then!
 Thanks!
 ===`
 
-	dr, err := ysgo.NewDialogueRunner(nil, "", strings.NewReader(script))
+	dr, err := ysgo.NewDialogueRunner(nil, nil, strings.NewReader(script))
 	if err != nil {
 		t.Errorf("failed to create dialogue runner: %v", err)
 		return
@@ -248,7 +248,7 @@ Do you like cheese? Here, get some cheddar!
 Thanks!
 ===`
 
-	dr, err := ysgo.NewDialogueRunner(nil, "", strings.NewReader(script))
+	dr, err := ysgo.NewDialogueRunner(nil, nil, strings.NewReader(script))
 	if err != nil {
 		t.Errorf("failed to create dialogue runner: %v", err)
 		return
@@ -279,9 +279,7 @@ title: hello
 Hello!
 ===`
 
-	storer := variable.NewInMemoryStorer()
-
-	dr, err := ysgo.NewDialogueRunner(storer, "", strings.NewReader(script))
+	dr, err := ysgo.NewDialogueRunner(nil, nil, strings.NewReader(script))
 	if err != nil {
 		t.Errorf("failed to create dialogue runner: %v", err)
 		return
@@ -315,5 +313,34 @@ Hello!
 
 	if expected, actual := "", dr.Snapshot().CurrentNode; expected != actual {
 		t.Errorf("unexpected value for snapshot currentNode: wanted %q, got %q", expected, actual)
+	}
+}
+
+func TestRunnerInitFirstNode(t *testing.T) {
+	script := `
+title: node_1
+---
+Hello!
+===
+title: node_2
+---
+Hi!
+===`
+
+	dr, err := ysgo.NewDialogueRunner(nil, &ysgo.InitOptions{FirstNode: "node_2"}, strings.NewReader(script))
+	if err != nil {
+		t.Errorf("failed to create dialogue runner: %v", err)
+		return
+	}
+
+	dialogueElement, err := dr.Next(0)
+	if err != nil {
+		t.Errorf("failed to get to dialogue element: %v", err)
+		return
+	}
+	expected := "Hi!"
+	if actual := dialogueElement.Line.Text; expected != actual {
+		t.Errorf("unexpected line text: wanted [%s], got [%s]", expected, actual)
+		return
 	}
 }
