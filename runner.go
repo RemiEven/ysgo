@@ -120,6 +120,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 	}
 
 	if dr.statementsToRun.Size() == 0 {
+		dr.updateSnapshot()
 		return nil, nil
 	}
 
@@ -206,6 +207,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 		if stop, err := dr.executeCommandStatement(nextStatement.CommandStatement); err != nil {
 			return nil, fmt.Errorf("failed to execute command statement: %w", err)
 		} else if stop {
+			dr.updateSnapshot()
 			return nil, nil
 		} else if dr.commandErrChan != nil {
 			return nil, ErrWaitingForCommandCompletion
@@ -481,15 +483,19 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 		for _, node := range dr.currentNodes {
 			dr.incrementNodeTrackingIfAllowed(node)
 		}
-		dr.variableSnapshot = dr.variableStorer.GetValues()
-		dr.smartVariableSnapshot = maps.Clone(dr.smartVariableSnapshot)
-		dr.visitedNodesSnapshot = maps.Clone(dr.visitedNodes)
+		dr.updateSnapshot()
 		dr.statementsToRun.Clear()
 		dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
 		dr.currentNodes.Clear()
 		dr.currentNodes.Push(node.Title())
 	}
 	return nil
+}
+
+func (dr *DialogueRunner) updateSnapshot() {
+	dr.variableSnapshot = dr.variableStorer.GetValues()
+	dr.smartVariableSnapshot = maps.Clone(dr.smartVariableSnapshot)
+	dr.visitedNodesSnapshot = maps.Clone(dr.visitedNodes)
 }
 
 func (dr *DialogueRunner) incrementNodeTrackingIfAllowed(nodeName string) {

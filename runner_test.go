@@ -276,7 +276,9 @@ func TestRunnerSnapshotAfterDialogueEnds(t *testing.T) {
 	script := `
 title: hello
 ---
+<<declare $greeted = false>>
 Hello!
+<<set $greeted = true>>
 ===`
 
 	dr, err := ysgo.NewDialogueRunner(nil, nil, strings.NewReader(script))
@@ -305,14 +307,20 @@ Hello!
 		t.Errorf("unexpected dialogue element: wanted nil, got [%v]", dialogueElement)
 	}
 
-	visitedNodes := dr.Snapshot().VisitedNodes
+	snapshot := dr.Snapshot()
 
-	if expected, actual := 1, visitedNodes["hello"]; expected != actual {
+	if expected, actual := 1, snapshot.VisitedNodes["hello"]; expected != actual {
 		t.Errorf("unexpected visited value for visitedNodes[hello]: wanted %v, got %v", expected, actual)
 	}
 
-	if expected, actual := "", dr.Snapshot().CurrentNode; expected != actual {
+	if expected, actual := "", snapshot.CurrentNode; expected != actual {
 		t.Errorf("unexpected value for snapshot currentNode: wanted %q, got %q", expected, actual)
+	}
+
+	expectedVar := *variable.NewBoolean(true)
+	actualVar := snapshot.Variables["greeted"]
+	if diff := testutils.DeepEqual(actualVar, expectedVar); diff != "" {
+		t.Error("unexpected value for variable [greeted] in snapshot: " + diff)
 	}
 }
 
