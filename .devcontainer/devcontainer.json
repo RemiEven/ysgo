@@ -2,10 +2,10 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/go
 {
 	"name": "Go",
-	"image": "mcr.microsoft.com/devcontainers/go:1.24-bookworm",
+	"image": "mcr.microsoft.com/devcontainers/go:1.26-trixie",
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"moby": true,
+		"ghcr.io/devcontainers/features/docker-in-docker:4.0.0": {
+			"moby": false,
 			"azureDnsAutoDetection": true,
 			"version": "latest",
 			"dockerDashComposeVersion": "none"
