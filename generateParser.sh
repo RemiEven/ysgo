@@ -11,6 +11,7 @@ docker run --rm -u $(id -u ${USER}):$(id -g ${USER}) -v `pwd`:/work ghcr.io/remi
 
 sed -i 's/(p \*YarnSpinnerLexer)/(l \*YarnSpinnerLexer)/g' internal/parser/yarnspinner_lexer.go
 sed -i 's/IsInWhenClause()/l.inWhenClause/g' internal/parser/yarnspinner_lexer.go
+sed -i 's/IsEndOfCommandKeyword/l.IsEndOfCommandKeyword/g' internal/parser/yarnspinner_lexer.go
 sed -i 's/PushMode(/l.PushMode(YarnSpinnerLexer/g' internal/parser/yarnspinner_lexer.go
 sed -i 's/LastTokenWas(ID/l.lastTokenWas(YarnSpinnerLexerID/g' internal/parser/yarnspinner_lexer.go
 sed -i 's/SetInWhenClause/l.inWhenClause = /g' internal/parser/yarnspinner_lexer.go

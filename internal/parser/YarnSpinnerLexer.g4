@@ -10,8 +10,8 @@ channels {
 options {
     superClass=IndentAwareLexer;
 }
- 
-// Root mode: skip whitespaces, set up some commonly-seen 
+
+// Root mode: skip whitespaces, set up some commonly-seen
 // tokens
 WS : ([ \t])+ -> channel(HIDDEN);
 
@@ -22,14 +22,14 @@ COMMENT: '//' ~('\r'|'\n')* -> channel(COMMENTS);
 // checker has access to them
 NEWLINE: ( '\r'? '\n' | '\r' ) [ \t]* -> channel(WHITESPACE);
 
-// The 'when' header, in the context of a node's preamble. Move to HeaderWhenMode, 
+// The 'when' header, in the context of a node's preamble. Move to HeaderWhenMode,
 HEADER_WHEN: 'when' -> pushMode(HeaderWhenMode);
 
 HEADER_TITLE: 'title' -> pushMode(HeaderTitleMode);
 
 ID : IDENTIFIER_HEAD IDENTIFIER_CHARACTERS?;
 
-fragment IDENTIFIER_HEAD : 
+fragment IDENTIFIER_HEAD :
     [a-zA-Z_]
   | '\u00A8' | '\u00AA' | '\u00AD' | '\u00AF' | [\u00B2-\u00B5] | [\u00B7-\u00BA]
   | [\u00BC-\u00BE] | [\u00C0-\u00D6] | [\u00D8-\u00F6] | [\u00F8-\u00FF]
@@ -40,7 +40,7 @@ fragment IDENTIFIER_HEAD :
   | [\u2C00-\u2DFF] | [\u2E80-\u2FFF]
   | [\u3004-\u3007] | [\u3021-\u302F] | [\u3031-\u303F] | [\u3040-\uD7FF]
   | [\uF900-\uFD3D] | [\uFD40-\uFDCF] | [\uFDF0-\uFE1F] | [\uFE30-\uFE44]
-  | [\uFE47-\uFFFD] 
+  | [\uFE47-\uFFFD]
   | [\u{10000}-\u{1FFFD}] | [\u{20000}-\u{2FFFD}] | [\u{30000}-\u{3FFFD}] | [\u{40000}-\u{4FFFD}]
   | [\u{50000}-\u{5FFFD}] | [\u{60000}-\u{6FFFD}] | [\u{70000}-\u{7FFFD}] | [\u{80000}-\u{8FFFD}]
   | [\u{90000}-\u{9FFFD}] | [\u{A0000}-\u{AFFFD}] | [\u{B0000}-\u{BFFFD}] | [\u{C0000}-\u{CFFFD}]
@@ -58,10 +58,10 @@ fragment IDENTIFIER_CHARACTERS : IDENTIFIER_CHARACTER+ ;
 BODY_START : '---' -> pushMode(BodyMode) ;
 
 // The ':' in 'foo: bar (plus any whitespace after it).
-// If we match this, we are in a header. 
+// If we match this, we are in a header.
 HEADER_DELIMITER : WS? ':' WS? -> pushMode(HeaderMode);
 
-// A hashtag. These can appear at the start of a file, or after 
+// A hashtag. These can appear at the start of a file, or after
 // certain lines (see BODY_HASHTAG rule)
 HASHTAG : '#' -> pushMode(HashtagMode);
 
@@ -78,13 +78,18 @@ mode HeaderTitleMode;
 // title clause, where we expect to see a single ID.
 HEADER_TITLE_DELIMITER: WS? ':' WS? -> type(HEADER_DELIMITER);
 HEADER_TITLE_ID: WS? ID WS? -> type(ID);
+HEADER_TITLE_COMMENT: '//' ~('\r'|'\n')* -> type(COMMENT), channel(COMMENTS);
 HEADER_TITLE_NEWLINE : NEWLINE -> type(NEWLINE), popMode;
 
 // Headers before a node.
 mode HeaderMode;
 // Allow arbitrary text up to the end of the line.
-REST_OF_LINE : ~('\r'|'\n')+;
+
+HEADER_COMMENT: '//' ~('\r'|'\n')* -> type(COMMENT), channel(COMMENTS);
+
 HEADER_NEWLINE : NEWLINE -> type(NEWLINE), channel(WHITESPACE), popMode;
+HEADER_TEXT: HEADER_FRAG+ | '/' ;
+fragment HEADER_FRAG: ~[\r\n/];
 
 // The main body of a node.
 mode BodyMode;
@@ -96,7 +101,7 @@ BODY_COMMENT : COMMENT -> type(COMMENT), channel(COMMENTS) ;
 
 // End of this node; return to global mode (eg node headers)
 // or end of file
-BODY_END : '===' -> popMode; 
+BODY_END : '===' -> popMode;
 
 // The start of a shortcut option
 SHORTCUT_ARROW : '->' ;
@@ -107,13 +112,13 @@ LINE_GROUP_ARROW : '=>' ;
 // The start of a command
 COMMAND_START: '<<' -> pushMode(CommandMode) ;
 
-// The start of a hashtag. Can goes at the end of the 
-// line, but this rule allows us to capture '#' at the start 
+// The start of a hashtag. Can goes at the end of the
+// line, but this rule allows us to capture '#' at the start
 // of a line.
 BODY_HASHTAG: '#' -> type(HASHTAG), pushMode(TextCommandOrHashtagMode), pushMode(HashtagMode);
 
-// The start of an inline expression. Immediately lex as 
-// TEXT_EXPRESSION_START and push into TextMode  and 
+// The start of an inline expression. Immediately lex as
+// TEXT_EXPRESSION_START and push into TextMode  and
 // ExpressionMode.
 EXPRESSION_START: '{' -> pushMode(TextMode), pushMode(ExpressionMode);
 
@@ -125,6 +130,8 @@ EXPRESSION_START: '{' -> pushMode(TextMode), pushMode(ExpressionMode);
 // which will attempt to match a valid escape character and fail because the \ has been eaten
 ESCAPED_BRACKET_START: '\\[' -> type(TEXT), pushMode(TextMode) ;
 
+ESCAPED_SPEAKER_START: '\\:' -> type(TEXT), pushMode(TextMode) ;
+
 // Any other text means this is a Line. Lex this first character as
 // TEXT, and enter TextMode.
 //
@@ -134,7 +141,7 @@ ESCAPED_BRACKET_START: '\\[' -> type(TEXT), pushMode(TextMode) ;
 ESCAPED_ANY : '\\' -> channel(HIDDEN), pushMode(TextMode), pushMode(TextEscapedMode);
 ANY: .  -> type(TEXT), pushMode(TextMode);
 
-// Arbitrary text, punctuated by expressions, and ended by 
+// Arbitrary text, punctuated by expressions, and ended by
 // hashtags and/or a newline.
 mode TextMode;
 
@@ -148,19 +155,21 @@ TEXT_NEWLINE: NEWLINE -> type(NEWLINE), popMode;
 // matching the more general 'escaped character' rule.
 TEXT_ESCAPED_MARKUP_BRACKET: ('\\[' | '\\]') -> type(TEXT);
 
-// An escape marker. Hide this token and enter escaped text mode, which 
-// allows escaping characters that would otherwise be syntactically 
+TEXT_ESCAPED_SPEAKER: '\\:' -> type(TEXT);
+
+// An escape marker. Hide this token and enter escaped text mode, which
+// allows escaping characters that would otherwise be syntactically
 // meaningful.
 TEXT_ESCAPE: '\\' -> channel(HIDDEN), pushMode(TextEscapedMode) ;
 
 // The start of a hashtag. The remainder of this line will consist of
 // commands or hashtags, so swap to this mode and then enter hashtag mode.
 
-TEXT_HASHTAG: HASHTAG -> type(HASHTAG), mode(TextCommandOrHashtagMode), pushMode(HashtagMode) ; 
+TEXT_HASHTAG: HASHTAG -> type(HASHTAG), mode(TextCommandOrHashtagMode), pushMode(HashtagMode) ;
 
-// push into expression mode here, because we might lex more 
+// push into expression mode here, because we might lex more
 // free text after the expression is done
-TEXT_EXPRESSION_START: '{' -> type(EXPRESSION_START), pushMode(ExpressionMode); 
+TEXT_EXPRESSION_START: '{' -> type(EXPRESSION_START), pushMode(ExpressionMode);
 
 // The start of a hashtag. The remainder of this line will consist of
 // commands or hashtags, so swap to this mode, and then enter command mode.
@@ -170,10 +179,10 @@ TEXT_COMMAND_START: '<<' -> type(COMMAND_START), mode(TextCommandOrHashtagMode),
 TEXT_COMMENT: COMMENT -> channel(COMMENTS);
 
 // Finally, lex text. We'll read either everything up to (but not including) a
-// newline, a hashtag, the start of an expression, the start of an escape, the 
-// start of a command, or the start of a comma. We'll also lex a _single_ 
-// chevron or slash as a text; we know that they won't be a command or a 
-// comment, because the earlier rules for TEXT_COMMAND_START and TEXT_COMMENT 
+// newline, a hashtag, the start of an expression, the start of an escape, the
+// start of a command, or the start of a comma. We'll also lex a _single_
+// chevron or slash as a text; we know that they won't be a command or a
+// comment, because the earlier rules for TEXT_COMMAND_START and TEXT_COMMENT
 // would have caught them. By lexing a single one of these and then stopping,
 // we'll force the lexer to restart scanning after the current character, which
 // means we'll correctly lex things like "<<<" as "TEXT(<) COMMAND_START(<<)".
@@ -205,7 +214,7 @@ TEXT_COMMANDHASHTAG_HASHTAG: '#' -> type(HASHTAG), pushMode(HashtagMode);
 // into the default channel (rather than into WHITESPACE).
 TEXT_COMMANDHASHTAG_NEWLINE: NEWLINE -> type(NEWLINE),  popMode;
 
-TEXT_COMMANDHASHTAG_ERROR: . ; 
+TEXT_COMMANDHASHTAG_ERROR: . ;
 
 // Hashtags at the end of a Line or Command.
 mode HashtagMode;
@@ -229,6 +238,12 @@ EXPRESSION_WHEN_IF: 'if' {IsInWhenClause();}? -> type(COMMAND_IF) ;
 KEYWORD_TRUE  : 'true' ;
 KEYWORD_FALSE : 'false' ;
 KEYWORD_NULL : 'null' ;
+
+// Integer or decimal numbers.
+NUMBER
+    : INT
+    | INT '.' INT
+    ;
 
 OPERATOR_ASSIGNMENT : '=' | 'to' ;
 
@@ -280,68 +295,65 @@ VAR_ID : '$' ID ;
 // Dots ('.')
 DOT : '.' ;
 
-// Integer or decimal numbers.
-NUMBER
-    : INT
-    | INT '.' INT
-    ;
-
-// Newlines (only syntactically relevant when inside a 'when' clause). 
+// Newlines (only syntactically relevant when inside a 'when' clause).
 // We use a newline to indicate that the expression is over, but only
-// when we're in a 'when' clause - in all other expressions, newlines are 
-// ignored. 
+// when we're in a 'when' clause - in all other expressions, newlines are
+// ignored.
 //
 // Mark that we are no longer in a 'when' clause, and pop the mode.
 EXPRESSION_NEWLINE: [\r\n]+ {IsInWhenClause();}? {SetInWhenClause(false);} -> type(NEWLINE), popMode;
+// Comments likewise only make sense as existing inside of a when clause
+// unlike newlines though they don't pop the mode, they eat everything up to a newline which means when it finishes gobbling up to the new line then the above will handle the NL
+EXPRESSION_COMMENT: '//' ~('\r'|'\n')* {IsInWhenClause();}? -> type(COMMENT), channel(COMMENTS);
 
 fragment INT: DIGIT+ ;
 fragment DIGIT: [0-9];
 
-// Commands; these are either specific ones that the compiler has a special 
-// behaviour for, like if, else, set; otherwise, they are arbitrary text 
+// Commands; these are either specific ones that the compiler has a special
+// behaviour for, like if, else, set; otherwise, they are arbitrary text
 // (which may contain expressions), which are passed to the game.
 mode CommandMode;
 
-// Newlines aren't allowed in commands, so match against them inside the 
+// Newlines aren't allowed in commands, so match against them inside the
 // CommandMode to produce a token that will lead to parse errors
 COMMAND_NEWLINE: NEWLINE;
 COMMAND_WS: WS -> channel(HIDDEN);
 
-// Special keywords that can appear in commands. If we see one of these after 
+// Special keywords that can appear in commands. If we see one of these after
 // the <<, it's part of the Yarn language and used for flow control. If we
 // see anything else, it's a Command whose text will be passed to the game.
 
-// Certain commands are followed by expressions (separated by some 
-// whitespace), and we want to ensure that we don't accidentally match 
-// things like "iffy" or "settle" as keywords followed by arbitrary text. 
+// Certain commands are followed by expressions (separated by some
+// whitespace), and we want to ensure that we don't accidentally match
+// things like "iffy" or "settle" as keywords followed by arbitrary text.
 // So we make some whitespace be part of the definition of the keyword.
-COMMAND_IF: 'if' [\p{White_Space}] -> pushMode(ExpressionMode);
-COMMAND_ELSEIF: 'elseif' [\p{White_Space}] -> pushMode(ExpressionMode);
-COMMAND_ELSE: 'else' [\p{White_Space}]?; // next expected token after 'else' is '>>' so no whitespace is strictly needed 
-COMMAND_SET : 'set' [\p{White_Space}] -> pushMode(ExpressionMode);
-COMMAND_ENDIF: 'endif';
+COMMAND_IF: 'if'  {IsEndOfCommandKeyword()}? -> pushMode(ExpressionMode);
+COMMAND_ELSEIF: 'elseif'  {IsEndOfCommandKeyword()}? -> pushMode(ExpressionMode);
+COMMAND_ELSE: 'else'  {IsEndOfCommandKeyword()}?;
+COMMAND_SET : 'set'  {IsEndOfCommandKeyword()}? -> pushMode(ExpressionMode);
+COMMAND_ENDIF: 'endif' {IsEndOfCommandKeyword()}?;
 
-COMMAND_CALL: 'call' [\p{White_Space}] -> pushMode(ExpressionMode);
+COMMAND_CALL: 'call'  {IsEndOfCommandKeyword()}? -> pushMode(ExpressionMode);
 
-COMMAND_DECLARE: 'declare' [\p{White_Space}] -> pushMode(ExpressionMode);
+COMMAND_DECLARE: 'declare'  {IsEndOfCommandKeyword()}? -> pushMode(ExpressionMode);
 
-COMMAND_JUMP: 'jump' [\p{White_Space}] -> pushMode(CommandIDOrExpressionMode);
+COMMAND_JUMP: 'jump'  {IsEndOfCommandKeyword()}? -> pushMode(CommandIDOrExpressionMode);
 
-COMMAND_DETOUR: 'detour'  [\p{White_Space}] -> pushMode(CommandIDOrExpressionMode);
+COMMAND_DETOUR: 'detour'   {IsEndOfCommandKeyword()}? -> pushMode(CommandIDOrExpressionMode);
 
-COMMAND_RETURN: 'return' [\p{White_Space}]?; // next expected token after 'return' is '>>' so no whitespace is strictly needed 
+COMMAND_RETURN: 'return'  {IsEndOfCommandKeyword()}? ; // next expected token after 'return' is '>>' so no whitespace is strictly needed
 
-COMMAND_ENUM: 'enum' [\p{White_Space}] -> pushMode(CommandIDMode);
+COMMAND_ENUM: 'enum'  {IsEndOfCommandKeyword()}? -> pushMode(CommandIDMode);
 
-COMMAND_CASE: 'case' [\p{White_Space}] -> pushMode(ExpressionMode);
+COMMAND_CASE: 'case'  {IsEndOfCommandKeyword()}? -> pushMode(ExpressionMode);
 
-COMMAND_ENDENUM: 'endenum' [\p{White_Space}]?;
+COMMAND_ENDENUM: 'endenum'  {IsEndOfCommandKeyword()}?;
 
-COMMAND_ONCE: 'once';
-COMMAND_ENDONCE: 'endonce';
+COMMAND_ONCE: 'once' {IsEndOfCommandKeyword()}?;
+COMMAND_ENDONCE: 'endonce'  {IsEndOfCommandKeyword()}?;
 
 // Keywords reserved for future language versions
-COMMAND_LOCAL: 'local' [\p{White_Space}]; 
+COMMAND_LOCAL: 'local' {IsEndOfCommandKeyword()}?;
 
 // End of a command.
 COMMAND_END: '>>' -> popMode;
@@ -349,32 +361,35 @@ COMMAND_END: '>>' -> popMode;
 // If we see an expression start immediately after the command start,
 // this represents an expression at the start of an arbitrary command
 // (it's not good, but it's legal!).
-// Switch to CommandTextMode, and also jump into ExpressionMode to 
-// lex the rest of the expression. When we're done, the closing brace } 
+// Switch to CommandTextMode, and also jump into ExpressionMode to
+// lex the rest of the expression. When we're done, the closing brace }
 // will return us to CommandTextMode for the remainder of the command.
-COMMAND_EXPRESSION_AT_START: '{' -> type(COMMAND_EXPRESSION_START), mode(CommandTextMode), pushMode(ExpressionMode);
+COMMAND_EXPRESSION_AT_START: '{' -> type(EXPRESSION_START), mode(CommandTextMode), pushMode(ExpressionMode);
 
-// If we see anything that we don't expect, assume that this 
-// is a command with arbitrary text inside it. Replace this 
-// lexer state with CommandTextMode so that when it finishes 
+// If we see anything that we don't expect, assume that this
+// is a command with arbitrary text inside it. Replace this
+// lexer state with CommandTextMode so that when it finishes
 // up, it returns to BodyMode
 COMMAND_ARBITRARY: . -> type(COMMAND_TEXT), mode(CommandTextMode);
 
 // Arbitrary commands, which may contain expressions, and end with a '>>'.
 mode CommandTextMode;
 COMMAND_TEXT_NEWLINE: NEWLINE;
-COMMAND_TEXT_END: '>>' -> popMode;
-COMMAND_EXPRESSION_START: '{' -> pushMode(ExpressionMode);
+COMMAND_TEXT_END: '>>' -> type(COMMAND_END), popMode;
+COMMAND_EXPRESSION_START: '{' -> type(EXPRESSION_START), pushMode(ExpressionMode);
 COMMAND_TEXT: ~[>{\r\n]+;
 
 // A mode in which we expect to parse a node ID.
 mode CommandIDMode;
+COMMAND_ID_WS: WS -> channel(HIDDEN);
 COMMAND_ID_NEWLINE: NEWLINE;
 COMMAND_ID: ID -> type(ID), popMode;
 COMMAND_ID_END: '>>' -> type(COMMAND_END), popMode; // almost certainly a parse error, but not a lex error
 
 // A mode in which we expect to parse a node ID, or an expression.
 mode CommandIDOrExpressionMode;
+
+COMMAND_ID_OR_EXPRESSION_WS: WS -> channel(HIDDEN);
 
 // We saw an ID; leave this mode immediately
 COMMAND_ID_OR_EXPRESSION_ID: ID -> type(ID), popMode;
@@ -384,4 +399,4 @@ COMMAND_ID_OR_EXPRESSION_ID: ID -> type(ID), popMode;
 COMMAND_ID_OR_EXPRESSION_START: EXPRESSION_START -> type(EXPRESSION_START), mode(ExpressionMode) ;
 
 // The end of the command. Leave this mode.
-COMMAND_ID_OR_EXPRESSION_END: '>>' -> type(COMMAND_END), popMode; 
+COMMAND_ID_OR_EXPRESSION_END: '>>' -> type(COMMAND_END), popMode;

@@ -2,6 +2,7 @@ package parser
 
 import (
 	"strings"
+	"unicode"
 
 	"github.com/antlr4-go/antlr/v4"
 
@@ -162,4 +163,17 @@ func (ial *IndentAwareLexer) lastTokenWas(tokenType int, text string) bool {
 
 	token := ial.tokens.Peek()
 	return token.GetTokenType() == tokenType && strings.EqualFold(token.GetText(), text)
+}
+
+func (ial *IndentAwareLexer) IsEndOfCommandKeyword() bool {
+	c := ial.laChar(1)
+	return c == '>' || unicode.IsSpace(c)
+}
+
+func (ial *IndentAwareLexer) laChar(dist int) rune {
+	next := ial.BaseLexer.GetInputStream().LA(dist)
+	if next == antlr.TokenEOF {
+		return 0
+	}
+	return rune(next)
 }

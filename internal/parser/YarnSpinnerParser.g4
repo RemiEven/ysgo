@@ -3,7 +3,7 @@ parser grammar YarnSpinnerParser;
 options { tokenVocab=YarnSpinnerLexer; }
 
 dialogue
-    : (file_hashtag*) node+ 
+    : (file_hashtag*) node+
     ;
 
 // File-global hashtags, which precede all nodes
@@ -23,15 +23,14 @@ when_header:
     HEADER_WHEN HEADER_DELIMITER header_expression=header_when_expression NEWLINE
     ;
 
-header 
-    // : header_key=ID HEADER_DELIMITER (header_value=REST_OF_LINE|header_expression=header_when_expression NEWLINE)?
-    : header_key=ID HEADER_DELIMITER (header_value=REST_OF_LINE)?
+header
+    : header_key=ID HEADER_DELIMITER (header_value=HEADER_TEXT)?
     ;
 
 header_when_expression
-    : expression 
-    | (always=EXPRESSION_WHEN_ALWAYS) 
-    | once=COMMAND_ONCE (COMMAND_IF expression)? 
+    : expression
+    | (always=EXPRESSION_WHEN_ALWAYS)
+    | once=COMMAND_ONCE (COMMAND_IF expression)?
     ;
 
 body
@@ -65,7 +64,7 @@ line_statement
 line_formatted_text
     : ( TEXT+ // one or more chunks of text to show to the player
       | EXPRESSION_START expression EXPRESSION_END // an expression to evaluate
-      )+ 
+      )+
     ;
 
 hashtag
@@ -103,7 +102,7 @@ variable
     : VAR_ID
     ;
 
-function_call 
+function_call
     : FUNC_ID '(' expression? (COMMA expression)* ')' ;
 
 typeMemberReference
@@ -130,7 +129,7 @@ else_clause
     ;
 
 set_statement
-    : COMMAND_START COMMAND_SET variable op=(OPERATOR_ASSIGNMENT | '*=' | '/=' | '%=' | '+=' | '-=') expression COMMAND_END 
+    : COMMAND_START COMMAND_SET variable op=(OPERATOR_ASSIGNMENT | '*=' | '/=' | '%=' | '+=' | '-=') expression COMMAND_END
     ;
 
 call_statement
@@ -138,11 +137,11 @@ call_statement
     ;
 
 command_statement
-    : COMMAND_START command_formatted_text COMMAND_TEXT_END (hashtag*)
+    : COMMAND_START command_formatted_text COMMAND_END (hashtag*)
     ;
 
 command_formatted_text
-	: (COMMAND_TEXT|COMMAND_EXPRESSION_START expression EXPRESSION_END)*
+	: (COMMAND_TEXT|EXPRESSION_START expression EXPRESSION_END)+
 	;
 
 shortcut_option_statement
@@ -185,11 +184,11 @@ return_statement
     ;
 
 once_statement
-    : once_primary_clause 
-      once_alternate_clause? 
+    : once_primary_clause
+      once_alternate_clause?
       COMMAND_START COMMAND_ENDONCE COMMAND_END
     ;
-    
+
 once_primary_clause
     : COMMAND_START COMMAND_ONCE (COMMAND_IF expression)? COMMAND_END statement*
     ;
