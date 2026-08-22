@@ -87,10 +87,10 @@ func (*BestLeastRecentlyViewedSaliencyStrategy) QueryBestContent(options []*Cont
 		return nil, false
 	}
 	return slices.MaxFunc(options, func(a, b *ContentSaliencyOption) int {
-		if a.Complexity != b.Complexity {
-			return a.Complexity - b.Complexity
+		if a.ViewCount != b.ViewCount {
+			return b.ViewCount - a.ViewCount
 		}
-		return b.ViewCount - a.ViewCount
+		return a.Complexity - b.Complexity
 	}), true
 }
 
@@ -117,13 +117,13 @@ func (rblrvss *RandomBestLeastRecentlyViewedSaliencyStrategy) QueryBestContent(o
 	candidateOptions = append(candidateOptions, options[0])
 	for _, option := range options[1:] {
 		candidateOption := candidateOptions[0]
-		if option.Complexity > candidateOption.Complexity {
+		if option.ViewCount < candidateOption.ViewCount {
 			candidateOptions = candidateOptions[:1]
 			candidateOptions[0] = option
-		} else if option.Complexity == candidateOption.Complexity && option.ViewCount < candidateOption.ViewCount {
+		} else if option.ViewCount == candidateOption.ViewCount && option.Complexity > candidateOption.Complexity {
 			candidateOptions = candidateOptions[:1]
 			candidateOptions[0] = option
-		} else if option.Complexity == candidateOption.Complexity && option.ViewCount == candidateOption.ViewCount {
+		} else if option.ViewCount == candidateOption.ViewCount && option.Complexity == candidateOption.Complexity {
 			candidateOptions = append(candidateOptions, option)
 		}
 	}

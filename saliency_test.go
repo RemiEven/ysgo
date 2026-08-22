@@ -119,40 +119,40 @@ func TestBestLeastRecentlyViewedSaliencyStrategy(t *testing.T) {
 			options:                []*ContentSaliencyOption{},
 			expectedSelectedStatus: false,
 		},
-		"several options given with different complexities": {
+		"several options given with different view counts": {
 			strategySupplier: createStrategy,
 			options: []*ContentSaliencyOption{
 				{
 					ContentID:  "f65d07",
-					Complexity: 0,
-					ViewCount:  3,
+					Complexity: 3,
+					ViewCount:  0,
 				},
 				{
 					ContentID:  "1b159b",
-					Complexity: 2,
-					ViewCount:  3,
+					Complexity: 3,
+					ViewCount:  2,
 				},
 			},
 			expectedSelectedStatus: true,
-			expectedOptionIndex:    1,
+			expectedOptionIndex:    0,
 		},
-		"several options given with same complexities but different view counts": {
+		"several options given with same view counts but different complexities": {
 			strategySupplier: createStrategy,
 			options: []*ContentSaliencyOption{
 				{
 					ContentID:  "f65d07",
-					Complexity: 0,
-					ViewCount:  3,
+					Complexity: 3,
+					ViewCount:  4,
 				},
 				{
 					ContentID:  "1b159b",
 					Complexity: 2,
-					ViewCount:  4,
+					ViewCount:  0,
 				},
 				{
 					ContentID:  "40eaf7",
-					Complexity: 2,
-					ViewCount:  3,
+					Complexity: 3,
+					ViewCount:  0,
 				},
 			},
 			expectedSelectedStatus: true,
@@ -169,7 +169,7 @@ func TestBestLeastRecentlyViewedSaliencyStrategy(t *testing.T) {
 				{
 					ContentID:  "1b159b",
 					Complexity: 1,
-					ViewCount:  2,
+					ViewCount:  4,
 				},
 				{
 					ContentID:  "40eaf7",
@@ -208,40 +208,40 @@ func TestRandomBestLeastRecentlyViewedSaliencyStrategy(t *testing.T) {
 			options:                []*ContentSaliencyOption{},
 			expectedSelectedStatus: false,
 		},
-		"several options given with different complexities": {
+		"several options given with different view counts": {
 			strategySupplier: createStrategy,
 			options: []*ContentSaliencyOption{
 				{
 					ContentID:  "f65d07",
-					Complexity: 0,
-					ViewCount:  3,
+					Complexity: 3,
+					ViewCount:  4,
 				},
 				{
 					ContentID:  "1b159b",
-					Complexity: 2,
-					ViewCount:  3,
+					Complexity: 3,
+					ViewCount:  1,
 				},
 			},
 			expectedSelectedStatus: true,
 			expectedOptionIndex:    1,
 		},
-		"several options given with same complexities but different view counts": {
+		"several options given with same view counts but different complexities": {
 			strategySupplier: createStrategy,
 			options: []*ContentSaliencyOption{
 				{
 					ContentID:  "f65d07",
-					Complexity: 0,
-					ViewCount:  3,
+					Complexity: 5,
+					ViewCount:  4,
 				},
 				{
 					ContentID:  "1b159b",
 					Complexity: 2,
-					ViewCount:  4,
+					ViewCount:  2,
 				},
 				{
 					ContentID:  "40eaf7",
-					Complexity: 2,
-					ViewCount:  3,
+					Complexity: 3,
+					ViewCount:  2,
 				},
 			},
 			expectedSelectedStatus: true,
@@ -263,8 +263,8 @@ func TestRandomBestLeastRecentlyViewedSaliencyStrategy(t *testing.T) {
 			},
 			{
 				ContentID:  "1b159b",
-				Complexity: 1,
-				ViewCount:  2,
+				Complexity: 5,
+				ViewCount:  4,
 			},
 			{
 				ContentID:  "40eaf7",
@@ -287,7 +287,7 @@ func TestRandomBestLeastRecentlyViewedSaliencyStrategy(t *testing.T) {
 				return
 			}
 			if _, ok := selectedContentIds[selectedContent.ContentID]; !ok {
-				selectedContentIds[selectedContent.ContentID] = 1 
+				selectedContentIds[selectedContent.ContentID] = 1
 			} else {
 				selectedContentIds[selectedContent.ContentID]++
 			}
