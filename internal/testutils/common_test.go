@@ -105,7 +105,7 @@ type exampleStruct struct {
 
 func TestDeepEqual(t *testing.T) {
 	tests := map[string]struct {
-		a, b           interface{}
+		a, b           any
 		expectedResult string
 	}{
 		"Equal objects": {
@@ -183,7 +183,7 @@ func TestDeepEqual(t *testing.T) {
 		},
 		"Slices containing different types": {
 			a:              []string{},
-			b:              []interface{}{},
+			b:              []any{},
 			expectedResult: `difference(s) found between actual and expected: []string != []interface {}`,
 		},
 		"Errors with same messages but different underlying types": { // in those cases, avoid testutils.DeepEqual and use testutils.ErrorEqual

@@ -34,7 +34,7 @@ func ErrorEqual(actual, expected error) bool {
 }
 
 // DeepEqual compares a and b and returns a formatted string explaining the differences if there are any
-func DeepEqual(actual, expected interface{}) string {
+func DeepEqual(actual, expected any) string {
 	diff := deep.Equal(actual, expected)
 	diffHeader := "difference(s) found between actual and expected:"
 	switch len(diff) {

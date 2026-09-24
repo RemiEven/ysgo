@@ -77,7 +77,7 @@ func (storer *functionStorer) call(functionID string, args []*variable.Value) (*
 	return value, nil
 }
 
-var typeError = reflect.TypeOf((*error)(nil)).Elem()
+var typeError = reflect.TypeFor[error]()
 
 func newYarnSpinnerFunction(function any) (YarnSpinnerFunction, error) {
 	functionType := reflect.TypeOf(function)
@@ -210,7 +210,7 @@ func createInputConverter(functionType reflect.Type) (func([]*variable.Value) ([
 
 	numIn := functionType.NumIn()
 	argConverters := make([]func(*variable.Value) (reflect.Value, error), 0, numIn)
-	for i := 0; i < numIn; i++ {
+	for i := range numIn {
 		argConverter, ok := argConverterByGoalKind[functionType.In(i).Kind()]
 		if !ok {
 			return nil, fmt.Errorf("argument number %d has an unsupported type %v", i, functionType.In(i).Kind())
@@ -225,7 +225,7 @@ func createInputConverter(functionType reflect.Type) (func([]*variable.Value) ([
 		}
 
 		inputParameters := make([]reflect.Value, 0, numIn)
-		for i := 0; i < numIn; i++ {
+		for i := range numIn {
 			inputParameter, err := argConverters[i](args[i])
 			if err != nil {
 				return nil, fmt.Errorf("failed to convert argument number %d: %w", i, err)

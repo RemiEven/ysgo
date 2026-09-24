@@ -134,7 +134,7 @@ func TestDice(t *testing.T) {
 		resultHasChangedAtLeastOnce = false
 	)
 
-	for i := 0; i < rolls; i++ {
+	for i := range rolls {
 		result := dice(upperBound)
 		if result < 1 || result > upperBound {
 			t.Errorf("got out of bound result from dice: %v", result)
@@ -165,7 +165,7 @@ func TestRandomRange(t *testing.T) {
 		resultHasChangedAtLeastOnce = false
 	)
 
-	for i := 0; i < rolls; i++ {
+	for i := range rolls {
 		result := randomRange(lowerBound, upperBound)
 		if result < lowerBound || result > upperBound {
 			t.Errorf("got out of bound result from randomRange: %v", result)
@@ -195,7 +195,7 @@ func TestRandom(t *testing.T) {
 		resultHasChangedAtLeastOnce = false
 	)
 
-	for i := 0; i < rolls; i++ {
+	for i := range rolls {
 		result := random()
 		if result < 0 || result > 1 {
 			t.Errorf("got out of bound result from randomRange: %v", result)

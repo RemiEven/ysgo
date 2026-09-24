@@ -272,7 +272,7 @@ func concatenateNTimes(n int, strings ...string) string {
 	}
 
 	concatenatedNTimes := ""
-	for i := 0; i < n; i++ {
+	for range n {
 		concatenatedNTimes += concatenated
 	}
 

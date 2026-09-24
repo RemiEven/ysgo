@@ -36,7 +36,7 @@ func TestEvaluateExpression(t *testing.T) {
 		},
 		"number LTE comparison": {
 			expression: &variable.Expression{
-				Operator:     toPointer(variable.LessThanEqualsBinaryOperator),
+				Operator:     new(variable.LessThanEqualsBinaryOperator),
 				LeftOperand:  simpleNumberExpression(2),
 				RightOperand: simpleNumberExpression(4),
 			},
@@ -67,8 +67,4 @@ func simpleBooleanExpression(value bool) *variable.Expression {
 	return &variable.Expression{
 		Value: variable.NewBoolean(value),
 	}
-}
-
-func toPointer[T any](value T) *T {
-	return &value
 }

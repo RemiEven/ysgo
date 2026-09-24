@@ -315,7 +315,12 @@ func newDialogueRunner(storer variable.Storer, options *InitOptions, dialogue *t
 			RandomBestLeastRecentlyViewedSaliencyStrategyName: &RandomBestLeastRecentlyViewedSaliencyStrategy{rng: rng},
 		},
 	}
-	runner.currentSaliencyStrategy = runner.saliencyStrategies[FirstSaliencyStrategyName]
+	if options.SaliencyStrategy != nil {
+		runner.saliencyStrategies[options.SaliencyStrategy.Name()] = options.SaliencyStrategy
+		runner.currentSaliencyStrategy = options.SaliencyStrategy
+	} else {
+		runner.currentSaliencyStrategy = runner.saliencyStrategies[FirstSaliencyStrategyName]
+	}
 
 	functionStorer := newFunctionStorer(rng)
 	functionStorer.convertAndAddFunction("visited", func(node string) bool {
