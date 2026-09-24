@@ -4,6 +4,7 @@
       Headers: (map[string]string) (len=1) {
         (string) (len=5) "title": (string) (len=5) "Start"
       },
+      When: (*tree.HeaderWhenExpression)(<nil>),
       Statements: ([]*tree.Statement) (len=6) {
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -500,7 +501,8 @@
           DeclareStatement: (*tree.DeclareStatement)(<nil>),
           ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
-      }
+      },
+      TitleChecksum: (string) ""
     }
   }
 })

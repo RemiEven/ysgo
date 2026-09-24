@@ -4,6 +4,7 @@
       Headers: (map[string]string) (len=1) {
         (string) (len=5) "title": (string) (len=18) "BooleanExpressions"
       },
+      When: (*tree.HeaderWhenExpression)(<nil>),
       Statements: ([]*tree.Statement) (len=15) {
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -917,7 +918,8 @@
           DeclareStatement: (*tree.DeclareStatement)(<nil>),
           ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
-      }
+      },
+      TitleChecksum: (string) ""
     }
   }
 })

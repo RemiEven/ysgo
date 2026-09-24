@@ -1,6 +1,8 @@
 package tree
 
 import (
+	"fmt"
+	"hash/crc32"
 	"strconv"
 
 	"github.com/antlr4-go/antlr/v4"
@@ -32,6 +34,7 @@ type parserListener struct {
 	hashtagCallback          func(string)
 	onceCallback             func()
 	protoCommandStatement    *CommandStatement
+	counterByNodeTitle       map[string]int
 }
 
 // VisitTerminal is called when a terminal node is visited.
@@ -41,6 +44,10 @@ func (pl *parserListener) VisitTerminal(node antlr.TerminalNode) {
 		pl.textCallback(node.GetSymbol().GetText())
 	case parser.YarnSpinnerLexerCOMMAND_TEXT:
 		pl.commandTextCallback(node.GetSymbol().GetText())
+	case parser.YarnSpinnerLexerCOMMAND_ONCE:
+		if pl.onceCallback != nil {
+			pl.onceCallback()
+		}
 	}
 }
 
@@ -55,6 +62,12 @@ func (pl *parserListener) EnterDialogue(ctx *parser.DialogueContext) {
 	pl.lineStatementCallbacks = &container.Stack[func(*LineStatement)]{}
 	pl.expressionCallbacks = &container.Stack[func(*variable.Expression)]{}
 	pl.clauseCallbacks = &container.Stack[func(*Clause)]{}
+	pl.counterByNodeTitle = map[string]int{}
+}
+
+// ExitDialogue is called when production dialogue is exited.
+func (pl *parserListener) ExitDialogue(ctx *parser.DialogueContext) {
+	pl.dialogue.pruneUnneededNodeChecksums()
 }
 
 // EnterNode is called when production node is entered.
@@ -74,7 +87,12 @@ func (s *parserListener) EnterNode(ctx *parser.NodeContext) {
 
 // ExitNode is called when production node is exited.
 func (pl *parserListener) ExitNode(ctx *parser.NodeContext) {
-	pl.dialogue.Nodes = append(pl.dialogue.Nodes, *pl.node)
+	node := *pl.node
+	node.TitleChecksum = checksumString(node.Title() + strconv.Itoa(pl.counterByNodeTitle[node.Title()]))
+	pl.counterByNodeTitle[node.Title()]++
+
+	pl.dialogue.Nodes = append(pl.dialogue.Nodes, node)
+
 	pl.statementCallbacks.Pop()
 	pl.lineStatementCallbacks.Pop()
 }
@@ -94,11 +112,35 @@ func (s *parserListener) EnterTitle_header(ctx *parser.Title_headerContext) {
 	s.node.Headers["title"] = ctx.GetTitle().GetText()
 }
 
-// EnterLineOnceCondition is called when entering the lineOnceCondition production.
-func (s *parserListener) EnterLineOnceCondition(c *parser.LineOnceConditionContext) {
-	if s.onceCallback != nil {
-		s.onceCallback()
+// EnterWhen_header is called when production when_header is entered.
+func (s *parserListener) EnterWhen_header(ctx *parser.When_headerContext) {
+	s.expressionCallbacks.Push(func(e *variable.Expression) {
+		switch {
+		case s.node.When == nil:
+			s.node.When = &HeaderWhenExpression{Condition: e}
+		case s.node.When.Condition == nil:
+			s.node.When.Condition = e
+		default:
+			s.node.When.Condition = &variable.Expression{
+				LeftOperand:  s.node.When.Condition,
+				Operator:     new(variable.AndBinaryOperator),
+				RightOperand: e,
+			}
+		}
+	})
+	s.onceCallback = func() {
+		if s.node.When == nil {
+			s.node.When = &HeaderWhenExpression{Once: true}
+		} else {
+			s.node.When.Once = true
+		}
 	}
+}
+
+// ExitWhen_header is called when production when_header is exited.
+func (s *parserListener) ExitWhen_header(ctx *parser.When_headerContext) {
+	s.onceCallback = nil
+	s.expressionCallbacks.Pop()
 }
 
 // EnterLine_statement is called when production line_statement is entered.
@@ -121,6 +163,7 @@ func (s *parserListener) ExitLine_statement(ctx *parser.Line_statementContext) {
 	s.expressionCallbacks.Pop()
 	s.lineStatementCallbacks.Peek()(s.lineStatement)
 	s.lineStatement = nil
+	s.onceCallback = nil
 }
 
 // EnterLine_formatted_text is called when production line_formatted_text is entered.
@@ -609,4 +652,9 @@ func (s *parserListener) EnterDeclare_statement(ctx *parser.Declare_statementCon
 // ExitDeclare_statement is called when production declare_statement is exited.
 func (s *parserListener) ExitDeclare_statement(ctx *parser.Declare_statementContext) {
 	s.expressionCallbacks.Pop()
+}
+
+func checksumString(s string) string {
+	hashed := crc32.ChecksumIEEE([]byte(s))
+	return fmt.Sprintf("%08x", hashed)
 }

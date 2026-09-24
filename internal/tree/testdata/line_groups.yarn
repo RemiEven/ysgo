@@ -1,5 +1,4 @@
 title: Start
-when: always
 ---
 // Scenario: A baker is selling pies.
 
@@ -36,4 +35,3 @@ title: BakerSeesPlayer
 => Baker: Fresh and hot pies!
 => Baker: Popular pies! <<if $pies_bought > 2>>
 ===
-

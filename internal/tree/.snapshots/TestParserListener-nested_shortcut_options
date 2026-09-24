@@ -4,6 +4,7 @@
       Headers: (map[string]string) (len=1) {
         (string) (len=5) "title": (string) (len=21) "NestedShortcutOptions"
       },
+      When: (*tree.HeaderWhenExpression)(<nil>),
       Statements: ([]*tree.Statement) (len=3) {
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)({
@@ -282,7 +283,8 @@
           DeclareStatement: (*tree.DeclareStatement)(<nil>),
           ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
-      }
+      },
+      TitleChecksum: (string) ""
     }
   }
 })

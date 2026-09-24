@@ -11,22 +11,70 @@ type Dialogue struct {
 	Nodes []Node `json:"n"`
 }
 
-func (d *Dialogue) FindNode(title string) (*Node, bool) {
+func (d *Dialogue) FindNodes(title string) []*Node {
+	nodes := make([]*Node, 0, 5) // 5 is arbitrary
 	for _, node := range d.Nodes {
 		if node.Title() == title {
+			nodes = append(nodes, &node)
+		}
+	}
+	return nodes
+}
+
+func (d *Dialogue) FindNode(uniqueTitle string) (*Node, bool) {
+	for _, node := range d.Nodes {
+		if node.UniqueTitle() == uniqueTitle {
 			return &node, true
 		}
 	}
 	return nil, false
 }
 
+func (d *Dialogue) pruneUnneededNodeChecksums() {
+	nodesByTitle := map[string][]*Node{}
+
+	for i, node := range d.Nodes {
+		title := node.Title()
+		nodesByTitle[title] = append(nodesByTitle[title], &d.Nodes[i])
+	}
+
+	for _, nodeGroup := range nodesByTitle {
+		if len(nodeGroup) == 1 {
+			nodeGroup[0].TitleChecksum = ""
+			continue
+		}
+		for _, node := range nodeGroup {
+			if _, ok := node.Headers["subtitle"]; ok {
+				node.TitleChecksum = ""
+			}
+		}
+	}
+}
+
 type Node struct {
-	Headers    map[string]string `json:"h,omitempty"`
-	Statements []*Statement      `json:"s"`
+	Headers       map[string]string     `json:"h,omitempty"`
+	When          *HeaderWhenExpression `json:"w,omitzero"`
+	Statements    []*Statement          `json:"s"`
+	TitleChecksum string                `json:"tc,omitzero"`
 }
 
 func (n *Node) Title() string {
 	return n.Headers["title"]
+}
+
+func (n *Node) UniqueTitle() string {
+	if subtitle, ok := n.Headers["subtitle"]; ok {
+		return n.Title() + "." + subtitle
+	}
+	if n.TitleChecksum != "" {
+		return n.Title() + "." + n.TitleChecksum
+	}
+	return n.Title()
+}
+
+type HeaderWhenExpression struct {
+	Condition *variable.Expression `json:"c,omitempty"`
+	Once      bool                 `json:"o,omitzero"`
 }
 
 type Statement struct {
@@ -154,9 +202,10 @@ func (cs *CommandStatement) split(str string) []*CommandStatementElement {
 }
 
 func valueFromCommandText(commandText string) *variable.Value {
-	if commandText == "true" {
+	switch commandText {
+	case "true":
 		return variable.NewBoolean(true)
-	} else if commandText == "false" {
+	case "false":
 		return variable.NewBoolean(false)
 	}
 

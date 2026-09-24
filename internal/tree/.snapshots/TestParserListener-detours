@@ -4,6 +4,7 @@
       Headers: (map[string]string) (len=1) {
         (string) (len=5) "title": (string) (len=5) "Start"
       },
+      When: (*tree.HeaderWhenExpression)(<nil>),
       Statements: ([]*tree.Statement) (len=1) {
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -33,12 +34,14 @@
           DeclareStatement: (*tree.DeclareStatement)(<nil>),
           ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
-      }
+      },
+      TitleChecksum: (string) ""
     },
     (tree.Node) {
       Headers: (map[string]string) (len=1) {
         (string) (len=5) "title": (string) (len=5) "Node2"
       },
+      When: (*tree.HeaderWhenExpression)(<nil>),
       Statements: ([]*tree.Statement) (len=1) {
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -90,12 +93,14 @@
           DeclareStatement: (*tree.DeclareStatement)(<nil>),
           ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
-      }
+      },
+      TitleChecksum: (string) ""
     },
     (tree.Node) {
       Headers: (map[string]string) (len=1) {
         (string) (len=5) "title": (string) (len=5) "Node3"
       },
+      When: (*tree.HeaderWhenExpression)(<nil>),
       Statements: ([]*tree.Statement) (len=1) {
         (*tree.Statement)({
           LineStatement: (*tree.LineStatement)(<nil>),
@@ -110,7 +115,8 @@
           ReturnStatement: (*tree.ReturnStatement)({
           })
         })
-      }
+      },
+      TitleChecksum: (string) ""
     }
   }
 })
