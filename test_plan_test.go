@@ -16,15 +16,18 @@ const (
 	stepTypeStop
 	stepTypeSet
 	stepTypeRestart
+	stepTypeSetSaliency
 )
 
 type TestPlanStep struct {
-	stepType            int
-	stringValue         string
-	intValue            int
-	expectOptionEnabled bool
-	setVariableName     string
-	setVariableValue    bool
+	stepType               int
+	stringValue            string
+	intValue               int
+	expectOptionEnabled    bool
+	setVariableName        string
+	setVariableBoolValue   *bool
+	setVariableNumberValue *float64
+	setSaliencyName        string
 }
 
 var setVariableNameRegexp *regexp.Regexp = regexp.MustCompile(`\$[^\s]*`)
@@ -40,6 +43,7 @@ func newTestPlanStep(line string) (*TestPlanStep, error) {
 	case strings.HasPrefix(line, "line:"):
 		step.stepType = stepTypeLine
 		step.stringValue = line[6:]
+		step.stringValue = strings.Trim(step.stringValue, "`")
 	case strings.HasPrefix(line, "option:"):
 		step.stepType = stepTypeOption
 		step.stringValue = line[8:]
@@ -48,6 +52,7 @@ func newTestPlanStep(line string) (*TestPlanStep, error) {
 			step.expectOptionEnabled = false
 			step.stringValue = strings.TrimSuffix(step.stringValue, " [disabled]")
 		}
+		step.stringValue = strings.Trim(step.stringValue, "`")
 	case strings.HasPrefix(line, "command:"):
 		step.stepType = stepTypeCommand
 		step.stringValue = line[9:]
@@ -61,7 +66,20 @@ func newTestPlanStep(line string) (*TestPlanStep, error) {
 	case strings.HasPrefix(line, "set:"):
 		step.stepType = stepTypeSet
 		step.setVariableName = setVariableNameRegexp.FindString(line)[1:]
-		step.setVariableValue = strings.HasSuffix(line, "true")
+		split := strings.Split(line, " ")
+		last := split[len(split)-1]
+		if last == "false" || last == "true" {
+			step.setVariableBoolValue = new(last == "true")
+		} else {
+			number, err := strconv.ParseFloat(last, 64)
+			if err != nil {
+				panic(err)
+			}
+			step.setVariableNumberValue = &number
+		}
+	case strings.HasPrefix(line, "saliency:"):
+		step.stepType = stepTypeSetSaliency
+		step.setSaliencyName = strings.TrimSpace(strings.TrimPrefix(line, "saliency:"))
 	case strings.HasPrefix(line, "stop:"):
 		step.stepType = stepTypeStop
 	case line == "stop":

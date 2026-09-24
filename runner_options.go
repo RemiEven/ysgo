@@ -10,4 +10,9 @@ type InitOptions struct {
 	// FirstNode is the name of the node where the dialogue should begin.
 	// If left empty, the first parsed node will be used.
 	FirstNode string
+	// SaliencyStrategy is used to select which content should be run
+	// when encountering a node group or line group.
+	// If left empty, the default strategy, [FirstSaliencyStrategy],
+	// will be used.
+	SaliencyStrategy ContentSaliencyStrategy
 }

@@ -29,6 +29,9 @@ type ContentSaliencyStrategy interface {
 	// If a content saliency strategy does not need to keep track of any state,
 	// then this method can be empty.
 	ContentWasSelected(option *ContentSaliencyOption)
+
+	// Name returns the name of the strategy, used to tell a runner which shoud be used.
+	Name() string
 }
 
 // FirstSaliencyStrategyName is the name used to select FirstSaliencyStrategy
@@ -49,6 +52,11 @@ func (*FirstSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOption)
 
 // ContentWasSelected doesn't do anything.
 func (*FirstSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {}
+
+// Name returns [FirstSaliencyStrategyName].
+func (*FirstSaliencyStrategy) Name() string {
+	return FirstSaliencyStrategyName
+}
 
 // BestSaliencyStrategyName is the name used to select BestSaliencyStrategy
 // in a dialogue runner.
@@ -71,6 +79,11 @@ func (*BestSaliencyStrategy) QueryBestContent(options []*ContentSaliencyOption) 
 
 // ContentWasSelected doesn't do anything.
 func (*BestSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {}
+
+// Name returns [BestSaliencyStrategyName].
+func (*BestSaliencyStrategy) Name() string {
+	return BestSaliencyStrategyName
+}
 
 // BestLeastRecentlyViewedSaliencyStrategyName is the name used to select BestLeastRecentlyViewedSaliencyStrategy
 // in a dialogue runner.
@@ -96,6 +109,11 @@ func (*BestLeastRecentlyViewedSaliencyStrategy) QueryBestContent(options []*Cont
 
 // ContentWasSelected doesn't do anything.
 func (*BestLeastRecentlyViewedSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {}
+
+// Name returns [BestLeastRecentlyViewedSaliencyStrategyName].
+func (*BestLeastRecentlyViewedSaliencyStrategy) Name() string {
+	return BestLeastRecentlyViewedSaliencyStrategyName
+}
 
 // RandomBestLeastRecentlyViewedSaliencyStrategyName is the name used to select RandomBestLeastRecentlyViewedSaliencyStrategy
 // in a dialogue runner.
@@ -132,6 +150,11 @@ func (rblrvss *RandomBestLeastRecentlyViewedSaliencyStrategy) QueryBestContent(o
 
 // ContentWasSelected doesn't do anything.
 func (*RandomBestLeastRecentlyViewedSaliencyStrategy) ContentWasSelected(option *ContentSaliencyOption) {
+}
+
+// Name returns [RandomBestLeastRecentlyViewedSaliencyStrategyName].
+func (*RandomBestLeastRecentlyViewedSaliencyStrategy) Name() string {
+	return RandomBestLeastRecentlyViewedSaliencyStrategyName
 }
 
 func viewCountVariableNameForContent(contentID string) string {

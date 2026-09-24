@@ -704,8 +704,8 @@ func (dr *DialogueRunner) ConvertAndAddCommand(commandID string, command any) er
 }
 
 // AddSaliencyStrategy adds a custom saliency strategy, which can be used later to select content.
-func (dr *DialogueRunner) AddSaliencyStrategy(name string, strategy ContentSaliencyStrategy) {
-	dr.saliencyStrategies[name] = strategy
+func (dr *DialogueRunner) AddSaliencyStrategy(strategy ContentSaliencyStrategy) {
+	dr.saliencyStrategies[strategy.Name()] = strategy
 }
 
 // SetSaliencyStrategy sets the saliency strategy the dialogue runner should use when selecting content, or returns an error.

@@ -1,3 +1,4 @@
+saliency: first
 set: $conditionA = false
 set: $conditionB = false
 set: $conditionC = false

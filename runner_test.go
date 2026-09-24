@@ -48,6 +48,7 @@ func TestRunnerPlan(t *testing.T) {
 			}
 
 			storer := variable.NewInMemoryStorer()
+			saliencyStrategy := ysgo.RandomBestLeastRecentlyViewedSaliencyStrategyName
 			commandOutputs := []string{}
 
 			createRunner := func() (*ysgo.DialogueRunner, error) {
@@ -61,6 +62,7 @@ func TestRunnerPlan(t *testing.T) {
 				if err != nil {
 					return nil, fmt.Errorf("failed to create dialogue runner: %v", err)
 				}
+				dr.SetSaliencyStrategy(saliencyStrategy)
 
 				dr.ConvertAndAddFunction("assert", func(b bool) {
 					if !b {
@@ -124,6 +126,7 @@ func TestRunnerPlan(t *testing.T) {
 						t.Errorf("unexpected text for line at step [%v]: got [%s], wanted [%s]", testPlanIndex, actual, expected)
 						return
 					}
+					t.Logf("got expected line for step [%v]: [%s]", testPlanIndex, testPlanStep.stringValue)
 				case stepTypeSelect:
 					choice = testPlanStep.intValue - 1
 				case stepTypeOption:
@@ -159,7 +162,23 @@ func TestRunnerPlan(t *testing.T) {
 				case stepTypeStop:
 					break planStepLoop
 				case stepTypeSet:
-					storer.SetBooleanValue(testPlanStep.setVariableName, testPlanStep.setVariableValue)
+					if testPlanStep.setVariableBoolValue != nil {
+						storer.SetBooleanValue(testPlanStep.setVariableName, *testPlanStep.setVariableBoolValue)
+					}
+					if testPlanStep.setVariableNumberValue != nil {
+						storer.SetNumberValue(testPlanStep.setVariableName, *testPlanStep.setVariableNumberValue)
+					}
+				case stepTypeSetSaliency:
+					switch testPlanStep.setSaliencyName {
+					case "best_least_recently_seen":
+						dr.SetSaliencyStrategy(ysgo.BestLeastRecentlyViewedSaliencyStrategyName)
+						saliencyStrategy = ysgo.BestLeastRecentlyViewedSaliencyStrategyName
+					case "first":
+						dr.SetSaliencyStrategy(ysgo.FirstSaliencyStrategyName)
+						saliencyStrategy = ysgo.FirstSaliencyStrategyName
+					default:
+						t.Errorf("got a saliency strategy not supported by testplan: %q", testPlanStep.setSaliencyName)
+					}
 				case stepTypeRestart:
 					var err error
 					dr, err = createRunner()
