@@ -8,7 +8,9 @@ import (
 )
 
 type Dialogue struct {
-	Nodes []Node `json:"n"`
+	VariableDeclarations      map[string]*variable.Expression `json:"vd,omitempty"`
+	SmartVariableDeclarations map[string]*variable.Expression `json:"svd,omitempty"`
+	Nodes                     []Node                          `json:"n"`
 }
 
 func (d *Dialogue) FindNodes(title string) []*Node {
@@ -86,7 +88,6 @@ type Statement struct {
 	IfStatement             *IfStatement             `json:"is,omitempty"`
 	CommandStatement        *CommandStatement        `json:"cs,omitempty"`
 	CallStatement           *CallStatement           `json:"call-s,omitempty"`
-	DeclareStatement        *DeclareStatement        `json:"ds,omitempty"`
 	ReturnStatement         *ReturnStatement         `json:"rs,omitempty"`
 }
 
@@ -221,11 +222,6 @@ func valueFromCommandText(commandText string) *variable.Value {
 
 type CallStatement struct {
 	*variable.FunctionCall `json:"fc"`
-}
-
-type DeclareStatement struct {
-	VariableID string               `json:"c"`
-	Value      *variable.Expression `json:"val,omitempty"`
 }
 
 type ReturnStatement struct {

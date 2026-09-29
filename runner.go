@@ -34,11 +34,10 @@ type DialogueRunner struct {
 	saliencyStrategies      map[string]ContentSaliencyStrategy
 	currentSaliencyStrategy ContentSaliencyStrategy
 
-	currentNodes          container.Stack[string]
-	visitedNodes          map[string]int
-	variableSnapshot      map[string]variable.Value
-	smartVariableSnapshot map[string]variable.Expression
-	visitedNodesSnapshot  map[string]int
+	currentNodes         container.Stack[string]
+	visitedNodes         map[string]int
+	variableSnapshot     map[string]variable.Value
+	visitedNodesSnapshot map[string]int
 }
 
 // DialogueElement represents a step of a dialogue as it is presented in a game.
@@ -218,11 +217,6 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			return nil, fmt.Errorf("failed to execute call statement: %w", err)
 		}
 		return dr.Next(choice)
-	case nextStatement.DeclareStatement != nil:
-		if err := dr.executeDeclareStatement(nextStatement.DeclareStatement); err != nil {
-			return nil, fmt.Errorf("failed to execute declare statement: %w", err)
-		}
-		return dr.Next(choice)
 	case nextStatement.ReturnStatement != nil:
 		dr.incrementNodeTrackingIfAllowed(dr.currentNodes.Peek())
 		dr.currentNodes.Pop()
@@ -280,17 +274,6 @@ func newDialogueRunner(storer variable.Storer, options *InitOptions, dialogue *t
 		options = &InitOptions{}
 	}
 
-	firstNode := dialogue.Nodes[0]
-	if options.FirstNode != "" {
-		if customFirstNode, ok := dialogue.FindNode(options.FirstNode); !ok {
-			return nil, fmt.Errorf("failed to find firstNode [%s]", options.FirstNode)
-		} else {
-			firstNode = *customFirstNode
-		}
-	}
-	statementsToRun := &container.Stack[*statementQueue]{}
-	statementsToRun.Push(&statementQueue{statements: firstNode.Statements})
-
 	if storer == nil {
 		storer = variable.NewInMemoryStorer()
 	}
@@ -301,13 +284,11 @@ func newDialogueRunner(storer variable.Storer, options *InitOptions, dialogue *t
 	}
 
 	runner := &DialogueRunner{
-		dialogue:        dialogue,
-		statementsToRun: container.Stack[*container.Stack[*statementQueue]]{statementsToRun},
-		variableStorer:  storer,
-		commandStorer:   newCommandStorer(),
-		visitedNodes:    map[string]int{},
-		currentNodes:    container.Stack[string]{firstNode.Title()},
-		smartVariables:  map[string]*variable.Expression{},
+		dialogue:       dialogue,
+		variableStorer: storer,
+		commandStorer:  newCommandStorer(),
+		visitedNodes:   map[string]int{},
+		smartVariables: dialogue.SmartVariableDeclarations,
 		saliencyStrategies: map[string]ContentSaliencyStrategy{
 			FirstSaliencyStrategyName:                         &FirstSaliencyStrategy{},
 			BestSaliencyStrategyName:                          &BestSaliencyStrategy{},
@@ -334,7 +315,45 @@ func newDialogueRunner(storer variable.Storer, options *InitOptions, dialogue *t
 
 	runner.functionStorer = functionStorer
 
+	if err := runner.initMissingDeclaredVariables(dialogue, storer); err != nil {
+		return nil, err
+	}
+
+	firstNode := dialogue.Nodes[0]
+	if options.FirstNode != "" {
+		if customFirstNode, ok := dialogue.FindNode(options.FirstNode); !ok {
+			return nil, fmt.Errorf("failed to find firstNode [%s]", options.FirstNode)
+		} else {
+			firstNode = *customFirstNode
+		}
+	}
+	statementsToRun := &container.Stack[*statementQueue]{}
+	statementsToRun.Push(&statementQueue{statements: firstNode.Statements})
+
+	runner.statementsToRun = container.Stack[*container.Stack[*statementQueue]]{statementsToRun}
+	runner.currentNodes = container.Stack[string]{firstNode.Title()}
+
 	return runner, nil
+}
+
+func (dr *DialogueRunner) initMissingDeclaredVariables(dialogue *tree.Dialogue, storer variable.Storer) error {
+	for variableID, definition := range dialogue.VariableDeclarations {
+		if storer.Contains(variableID) {
+			continue
+		}
+		value, err := dr.evaluateExpression(definition)
+		switch {
+		case err != nil:
+			return fmt.Errorf("failed to evaluate declaration of variable %s: %w", variableID, err)
+		case value.Boolean != nil:
+			storer.SetBooleanValue(variableID, *value.Boolean)
+		case value.Number != nil:
+			storer.SetNumberValue(variableID, *value.Number)
+		case value.String != nil:
+			storer.SetStringValue(variableID, *value.String)
+		}
+	}
+	return nil
 }
 
 func (dr *DialogueRunner) executeLineGroupStatement(statement *tree.LineGroupStatement) error {
@@ -499,7 +518,6 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 
 func (dr *DialogueRunner) updateSnapshot() {
 	dr.variableSnapshot = dr.variableStorer.GetValues()
-	dr.smartVariableSnapshot = maps.Clone(dr.smartVariableSnapshot)
 	dr.visitedNodesSnapshot = maps.Clone(dr.visitedNodes)
 }
 
@@ -580,19 +598,6 @@ func (dr *DialogueRunner) executeCallStatement(statement *tree.CallStatement) er
 	return nil
 }
 
-func (dr *DialogueRunner) executeDeclareStatement(statement *tree.DeclareStatement) error {
-	if statement.Value.IsConstant() {
-		return dr.executeSetStatement(&tree.SetStatement{
-			VariableID:      statement.VariableID,
-			InPlaceOperator: variable.AssignmentInPlaceOperator,
-			Expression:      statement.Value,
-		})
-	}
-
-	dr.smartVariables[statement.VariableID] = statement.Value
-	return nil
-}
-
 func (dr *DialogueRunner) evaluateExpression(expression *variable.Expression) (*variable.Value, error) {
 	return evaluateExpression(expression, dr.variableStorer, dr.functionStorer, dr.smartVariables)
 }
@@ -645,11 +650,6 @@ func (dr *DialogueRunner) incrementLineStatementViewCountIfOnce(statement *tree.
 
 // RestoreAt uses a snapshot to restore a dialogue runner to a former state.
 func (dr *DialogueRunner) RestoreAt(snapshot *Snapshot) error {
-	node, ok := dr.dialogue.FindNode(snapshot.CurrentNode)
-	if !ok {
-		return fmt.Errorf("dialogue does not contain a node with title [%s]", snapshot.CurrentNode)
-	}
-
 	dr.visitedNodes = snapshot.VisitedNodes
 	dr.variableStorer.Clear()
 	for variable, value := range snapshot.Variables {
@@ -664,9 +664,13 @@ func (dr *DialogueRunner) RestoreAt(snapshot *Snapshot) error {
 		}
 	}
 
-	clear(dr.smartVariables)
-	for variable, expression := range snapshot.SmartVariables {
-		dr.smartVariables[variable] = &expression
+	if err := dr.initMissingDeclaredVariables(dr.dialogue, dr.variableStorer); err != nil {
+		return err
+	}
+
+	node, ok := dr.dialogue.FindNode(snapshot.CurrentNode)
+	if !ok {
+		return fmt.Errorf("dialogue does not contain a node with title [%s]", snapshot.CurrentNode)
 	}
 
 	dr.statementsToRun.Clear()
@@ -676,7 +680,6 @@ func (dr *DialogueRunner) RestoreAt(snapshot *Snapshot) error {
 
 	dr.visitedNodesSnapshot = snapshot.VisitedNodes
 	dr.variableSnapshot = dr.variableStorer.GetValues()
-	dr.smartVariableSnapshot = snapshot.SmartVariables
 
 	return nil
 }
@@ -727,10 +730,9 @@ func (dr *DialogueRunner) Snapshot() *Snapshot {
 	}
 
 	return &Snapshot{
-		Variables:      dr.variableSnapshot,
-		SmartVariables: dr.smartVariableSnapshot,
-		CurrentNode:    currentNode,
-		VisitedNodes:   dr.visitedNodes,
+		Variables:    dr.variableSnapshot,
+		CurrentNode:  currentNode,
+		VisitedNodes: dr.visitedNodes,
 	}
 }
 

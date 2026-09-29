@@ -53,7 +53,10 @@ func (pl *parserListener) VisitTerminal(node antlr.TerminalNode) {
 
 // EnterDialogue is called when production dialogue is entered.
 func (pl *parserListener) EnterDialogue(ctx *parser.DialogueContext) {
-	pl.dialogue = &Dialogue{}
+	pl.dialogue = &Dialogue{
+		VariableDeclarations:      map[string]*variable.Expression{},
+		SmartVariableDeclarations: map[string]*variable.Expression{},
+	}
 	pl.shortcutOptionStatements = &container.Stack[*ShortcutOptionStatement]{}
 	pl.shortcutOptions = &container.Stack[*ShortcutOption]{}
 	pl.lineGroupStatements = &container.Stack[*LineGroupStatement]{}
@@ -636,15 +639,16 @@ func (s *parserListener) ExitCall_statement(ctx *parser.Call_statementContext) {
 
 // EnterDeclare_statement is called when production declare_statement is entered.
 func (s *parserListener) EnterDeclare_statement(ctx *parser.Declare_statementContext) {
-	declareStatement := &DeclareStatement{}
-	s.statementCallbacks.Peek()(&Statement{
-		DeclareStatement: declareStatement,
-	})
+	var variableID string
 	s.expressionCallbacks.Push(func(e *variable.Expression) {
-		declareStatement.Value = e
+		if e.IsConstant() {
+			s.dialogue.VariableDeclarations[variableID] = e
+		} else {
+			s.dialogue.SmartVariableDeclarations[variableID] = e
+		}
 	})
-	s.variableCallback = func(variableID string) {
-		declareStatement.VariableID = variableID
+	s.variableCallback = func(id string) {
+		variableID = id
 		s.variableCallback = nil
 	}
 }

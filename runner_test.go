@@ -216,7 +216,7 @@ title: node_2
 ---
 You like {$flavor}, right? Here's more icecream!
 Actually, I'd like raspberries this time!
-<<declare $flavor to "raspberries">>
+<<set $flavor to "raspberries">>
 Oh ok, {$flavor} it is then!
 Thanks!
 ===`

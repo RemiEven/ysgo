@@ -1,4 +1,8 @@
 (*tree.Dialogue)({
+  VariableDeclarations: (map[string]*variable.Expression) {
+  },
+  SmartVariableDeclarations: (map[string]*variable.Expression) {
+  },
   Nodes: ([]tree.Node) (len=1) {
     (tree.Node) {
       Headers: (map[string]string) (len=1) {
@@ -35,7 +39,6 @@
               }
             })
           }),
-          DeclareStatement: (*tree.DeclareStatement)(<nil>),
           ReturnStatement: (*tree.ReturnStatement)(<nil>)
         })
       },
