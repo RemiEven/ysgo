@@ -27,6 +27,7 @@ func TestRunnerPlan(t *testing.T) {
 		"Jumps",
 		"LineGroups",
 		"Lines",
+		"NodeGroups",
 		"NodeHeaders",
 		"Once",
 		"ShortcutOptions",
@@ -94,6 +95,8 @@ func TestRunnerPlan(t *testing.T) {
 			}
 
 			dr, err := createRunner()
+			firstNode := dr.Snapshot().CurrentNode
+
 			if err != nil {
 				t.Errorf("failed to create dialogue runner: %v", err)
 				return
@@ -117,16 +120,16 @@ func TestRunnerPlan(t *testing.T) {
 					}
 					choice = 0
 					if element == nil {
-						t.Errorf("expected a line at test plan step [%v] but got none", testPlanIndex)
+						t.Errorf("expected a line at test plan line [%v] but got none", testPlanStep.lineNumber)
 						return
 					} else if line := element.Line; line == nil {
-						t.Errorf("expected a line at test plan step [%v] but got none", testPlanIndex)
+						t.Errorf("expected a line at test plan line [%v] but got none", testPlanStep.lineNumber)
 						return
 					} else if actual, expected := line.Text, testPlanStep.stringValue; actual != expected {
-						t.Errorf("unexpected text for line at step [%v]: got [%s], wanted [%s]", testPlanIndex, actual, expected)
+						t.Errorf("unexpected text for line at test plan line [%v]: got [%s], wanted [%s]", testPlanStep.lineNumber, actual, expected)
 						return
 					}
-					t.Logf("got expected line for step [%v]: [%s]", testPlanIndex, testPlanStep.stringValue)
+					t.Logf("got expected line for test plan line [%v]: [%s]", testPlanStep.lineNumber, testPlanStep.stringValue)
 				case stepTypeSelect:
 					choice = testPlanStep.intValue - 1
 				case stepTypeOption:
@@ -141,7 +144,7 @@ func TestRunnerPlan(t *testing.T) {
 					}
 					choice = 0
 					if element.Options == nil {
-						t.Errorf("expected options at test plan step [%v] but got none", testPlanIndex)
+						t.Errorf("expected options at test plan line [%v] but got none", testPlanStep.lineNumber)
 						return
 					}
 					if actualLen, expectedLen := len(element.Options), (endOptionIndex - testPlanIndex); actualLen != expectedLen {
@@ -180,12 +183,9 @@ func TestRunnerPlan(t *testing.T) {
 						t.Errorf("got a saliency strategy not supported by testplan: %q", testPlanStep.setSaliencyName)
 					}
 				case stepTypeRestart:
-					var err error
-					dr, err = createRunner()
-					if err != nil {
-						t.Errorf("failed to recreate dialogue runner after restart step: %v", err)
-						return
-					}
+					dr.JumpTo(firstNode)
+				case stepTypeNode:
+					dr.JumpTo(testPlanStep.nodeName)
 				}
 
 				testPlanIndex++

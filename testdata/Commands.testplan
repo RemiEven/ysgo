@@ -8,7 +8,6 @@ command: andorian
 command: note
 command: isActive
 command: p
-#command: !@#$%^&*()⁄€‹›ﬁﬂ‡°·‚‘-=_+
 command: hide Collision:GermOnPorch
 command: show 1
 command: show 1

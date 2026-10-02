@@ -34,7 +34,7 @@ type DialogueRunner struct {
 	saliencyStrategies      map[string]ContentSaliencyStrategy
 	currentSaliencyStrategy ContentSaliencyStrategy
 
-	currentNodes         container.Stack[string]
+	currentNodes         container.Stack[*tree.Node]
 	visitedNodes         map[string]int
 	variableSnapshot     map[string]variable.Value
 	visitedNodesSnapshot map[string]int
@@ -150,7 +150,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			return nil, fmt.Errorf("failed to prepare line: %w", err)
 		}
 		return &DialogueElement{
-			Node: dr.currentNodes.Peek(),
+			Node: dr.currentNodes.Peek().UniqueTitle(),
 			Line: &Line{
 				ParseResult: *markupResult,
 				Tags:        nextStatement.LineStatement.Tags,
@@ -179,7 +179,7 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 			})
 		}
 		return &DialogueElement{
-			Node:    dr.currentNodes.Peek(),
+			Node:    dr.currentNodes.Peek().UniqueTitle(),
 			Options: options,
 		}, nil
 	case nextStatement.LineGroupStatement != nil:
@@ -206,6 +206,9 @@ func (dr *DialogueRunner) Next(choice int) (*DialogueElement, error) {
 		if stop, err := dr.executeCommandStatement(nextStatement.CommandStatement); err != nil {
 			return nil, fmt.Errorf("failed to execute command statement: %w", err)
 		} else if stop {
+			for _, node := range dr.currentNodes {
+				dr.incrementNodeTrackingIfAllowed(node)
+			}
 			dr.updateSnapshot()
 			return nil, nil
 		} else if dr.commandErrChan != nil {
@@ -319,19 +322,25 @@ func newDialogueRunner(storer variable.Storer, options *InitOptions, dialogue *t
 		return nil, err
 	}
 
-	firstNode := dialogue.Nodes[0]
-	if options.FirstNode != "" {
-		if customFirstNode, ok := dialogue.FindNode(options.FirstNode); !ok {
-			return nil, fmt.Errorf("failed to find firstNode [%s]", options.FirstNode)
-		} else {
-			firstNode = *customFirstNode
+	var firstNode *tree.Node
+	if options.FirstNode == "" {
+		firstNode = &dialogue.Nodes[0]
+	} else if customFirstNodes := dialogue.FindNodes(options.FirstNode); len(customFirstNodes) == 0 {
+		return nil, fmt.Errorf("failed to find firstNode [%s]", options.FirstNode)
+	} else {
+		var err error
+		firstNode, err = runner.chooseNodeWithSaliency(customFirstNodes)
+		if err != nil {
+			return nil, fmt.Errorf("failed to choose which precise node should be run: %w", err)
 		}
 	}
-	statementsToRun := &container.Stack[*statementQueue]{}
-	statementsToRun.Push(&statementQueue{statements: firstNode.Statements})
 
-	runner.statementsToRun = container.Stack[*container.Stack[*statementQueue]]{statementsToRun}
-	runner.currentNodes = container.Stack[string]{firstNode.Title()}
+	if firstNode != nil {
+		statementsToRun := &container.Stack[*statementQueue]{}
+		statementsToRun.Push(&statementQueue{statements: firstNode.Statements})
+		runner.statementsToRun = container.Stack[*container.Stack[*statementQueue]]{statementsToRun}
+		runner.currentNodes = container.Stack[*tree.Node]{firstNode}
+	}
 
 	return runner, nil
 }
@@ -354,6 +363,75 @@ func (dr *DialogueRunner) initMissingDeclaredVariables(dialogue *tree.Dialogue, 
 		}
 	}
 	return nil
+}
+
+func (dr *DialogueRunner) chooseNodeWithSaliency(nodes []*tree.Node) (*tree.Node, error) {
+	nodesNumber := len(nodes)
+	if nodesNumber == 0 {
+		return nil, nil
+	}
+	if nodesNumber == 1 && nodes[0].When == nil {
+		// in most cases, we can bypass running the saliency logic
+		return nodes[0], nil
+	}
+
+	options := make([]*ContentSaliencyOption, 0, nodesNumber)
+	for nodeIndex, node := range nodes {
+		contentID := node.UniqueTitle()
+		viewCount := 0
+		viewCountVariable := viewCountVariableNameForContent(contentID)
+		storedViewCount, ok := dr.variableStorer.GetValue(viewCountVariable)
+		if ok && storedViewCount.Number != nil {
+			viewCount = int(*storedViewCount.Number)
+		}
+
+		if node.When == nil {
+			options = append(options, &ContentSaliencyOption{
+				index:      nodeIndex,
+				ContentID:  contentID,
+				Complexity: 0,
+				ViewCount:  viewCount,
+			})
+			continue
+		}
+
+		complexity := 0
+		if node.When.Once {
+			if viewCount > 0 {
+				continue
+			}
+			complexity++
+		}
+
+		if node.When.Condition != nil {
+			conditionValue, err := dr.evaluateExpression(node.When.Condition)
+			if err != nil {
+				return nil, fmt.Errorf("failed to evaluate 'when' condition: %w", err)
+			}
+			if conditionValue.Boolean == nil {
+				return nil, fmt.Errorf("'when' condition didn't evaluate to a boolean")
+			}
+			if !*conditionValue.Boolean {
+				continue
+			}
+			complexity += node.When.Condition.ComplexityScore()
+		}
+
+		options = append(options, &ContentSaliencyOption{
+			index:      nodeIndex,
+			ContentID:  contentID,
+			Complexity: complexity,
+			ViewCount:  viewCount,
+		})
+	}
+
+	chosenOption, ok := dr.currentSaliencyStrategy.QueryBestContent(options)
+	if !ok {
+		return nil, nil
+	}
+	dr.currentSaliencyStrategy.ContentWasSelected(chosenOption)
+
+	return nodes[chosenOption.index], nil
 }
 
 func (dr *DialogueRunner) executeLineGroupStatement(statement *tree.LineGroupStatement) error {
@@ -498,21 +576,32 @@ func (dr *DialogueRunner) executeJumpStatement(statement *tree.JumpStatement) er
 		return fmt.Errorf("failed to evaluate expression: %w", err)
 	} else if value.String == nil {
 		return fmt.Errorf("destination must be a string")
-	} else if node, ok := dr.dialogue.FindNode(*value.String); !ok {
-		return fmt.Errorf("node [%s] not found in dialogue", *value.String)
-	} else if statement.Detour {
-		dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
-		dr.currentNodes.Push(node.Title())
-	} else {
-		for _, node := range dr.currentNodes {
-			dr.incrementNodeTrackingIfAllowed(node)
-		}
-		dr.updateSnapshot()
-		dr.statementsToRun.Clear()
-		dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
-		dr.currentNodes.Clear()
-		dr.currentNodes.Push(node.Title())
 	}
+	node, err := dr.chooseNodeWithSaliency(dr.dialogue.FindNodes(*value.String))
+	if err != nil {
+		return fmt.Errorf("failed to select which precise node should be jumped to: %w", err)
+	}
+	if statement.Detour {
+		if node == nil {
+			return nil
+		}
+		dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
+		dr.currentNodes.Push(node)
+		return nil
+	}
+
+	for _, node := range dr.currentNodes {
+		dr.incrementNodeTrackingIfAllowed(node)
+	}
+	dr.updateSnapshot()
+	dr.statementsToRun.Clear()
+	dr.currentNodes.Clear()
+	if node == nil {
+		return nil
+	}
+
+	dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
+	dr.currentNodes.Push(node)
 	return nil
 }
 
@@ -521,10 +610,26 @@ func (dr *DialogueRunner) updateSnapshot() {
 	dr.visitedNodesSnapshot = maps.Clone(dr.visitedNodes)
 }
 
-func (dr *DialogueRunner) incrementNodeTrackingIfAllowed(nodeName string) {
-	node, ok := dr.dialogue.FindNode(nodeName)
-	if ok && node.Headers != nil && node.Headers["tracking"] != "never" {
-		dr.visitedNodes[nodeName]++
+func (dr *DialogueRunner) incrementNodeTrackingIfAllowed(node *tree.Node) {
+	var (
+		title, uniqueTitle = node.Title(), node.UniqueTitle()
+		trackingAllowed    = node.Headers != nil && node.Headers["tracking"] != "never"
+	)
+	if title == uniqueTitle {
+		if trackingAllowed {
+			dr.visitedNodes[title]++
+		}
+	} else {
+		dr.visitedNodes[title]++
+		viewCount := 0
+		viewCountVariableName := viewCountVariableNameForContent(uniqueTitle)
+		if storedViewCount, ok := dr.variableStorer.GetValue(viewCountVariableName); ok && storedViewCount.Number != nil {
+			viewCount = int(*storedViewCount.Number)
+		}
+		dr.variableStorer.SetNumberValue(viewCountVariableName, float64(viewCount+1))
+		if trackingAllowed {
+			dr.visitedNodes[uniqueTitle]++
+		}
 	}
 }
 
@@ -650,6 +755,11 @@ func (dr *DialogueRunner) incrementLineStatementViewCountIfOnce(statement *tree.
 
 // RestoreAt uses a snapshot to restore a dialogue runner to a former state.
 func (dr *DialogueRunner) RestoreAt(snapshot *Snapshot) error {
+	nodes := dr.dialogue.FindNodes(snapshot.CurrentNode)
+	if len(nodes) == 0 {
+		return fmt.Errorf("dialogue does not contain any node with title [%s]", snapshot.CurrentNode)
+	}
+
 	dr.visitedNodes = snapshot.VisitedNodes
 	dr.variableStorer.Clear()
 	for variable, value := range snapshot.Variables {
@@ -674,12 +784,19 @@ func (dr *DialogueRunner) RestoreAt(snapshot *Snapshot) error {
 	}
 
 	dr.statementsToRun.Clear()
-	dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
 	dr.currentNodes.Clear()
-	dr.currentNodes.Push(node.Title())
 
 	dr.visitedNodesSnapshot = snapshot.VisitedNodes
 	dr.variableSnapshot = dr.variableStorer.GetValues()
+
+	node, err := dr.chooseNodeWithSaliency(nodes)
+	if err != nil {
+		return fmt.Errorf("failed to select which precise node should be restored: %w", err)
+	}
+	if node != nil {
+		dr.statementsToRun.Push(&container.Stack[*statementQueue]{&statementQueue{statements: node.Statements}})
+		dr.currentNodes.Push(node)
+	}
 
 	return nil
 }
@@ -726,7 +843,7 @@ func (dr *DialogueRunner) SetSaliencyStrategy(name string) error {
 func (dr *DialogueRunner) Snapshot() *Snapshot {
 	currentNode := ""
 	if dr.currentNodes.Size() > 0 {
-		currentNode = dr.currentNodes.PeekFirst()
+		currentNode = dr.currentNodes.PeekFirst().Title()
 	}
 
 	return &Snapshot{

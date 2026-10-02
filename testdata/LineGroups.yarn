@@ -5,8 +5,6 @@ title: Start
 <<declare $knows_player = false>>
 <<declare $pies_bought = 0>>
 
-=> Baker: Hey there! Fresh pies, right out of the oven! #line:z0
-
 // Choose a single line to run.
 // These three will only appear if the player bought a pie earlier.
 => Baker: Want another? <<if $pies_bought > 0>> #line:a1
@@ -20,10 +18,10 @@ title: Start
 => Baker: Want one? #line:g7
 
 -> Buy Pie
+    <<set $pies_bought += 1>>
     => Baker: Thank you kindly! #line:h8
     => Baker: Pleasure doin' business with you! #line:i9
     => Baker: Enjoy! #line:j10
-    <<set $pies_bought += 1>>
 -> Don't Buy Pie
     => Baker: Aw, that's a shame! #line:k11
     => Baker: Dang, no sale today! #line:l12

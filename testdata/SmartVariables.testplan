@@ -1,4 +1,13 @@
-line: Player: Can I have a pie?
-line: PieMaker: You can't afford one!
-line: Player: One pie, please.
-line: PieMaker: Certainly!
+set: $player_money = 15
+
+line: `Player: One pie, please.`
+line: `PieMaker: Certainly!`
+
+---
+
+set: $player_money = 0
+
+line: `Player: Can I have a pie?`
+line: `PieMaker: You can't afford one!`
+
+stop

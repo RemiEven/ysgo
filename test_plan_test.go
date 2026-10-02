@@ -17,9 +17,11 @@ const (
 	stepTypeSet
 	stepTypeRestart
 	stepTypeSetSaliency
+	stepTypeNode
 )
 
 type TestPlanStep struct {
+	lineNumber             int
 	stepType               int
 	stringValue            string
 	intValue               int
@@ -28,6 +30,7 @@ type TestPlanStep struct {
 	setVariableBoolValue   *bool
 	setVariableNumberValue *float64
 	setSaliencyName        string
+	nodeName               string
 }
 
 var setVariableNameRegexp *regexp.Regexp = regexp.MustCompile(`\$[^\s]*`)
@@ -35,7 +38,7 @@ var setVariableNameRegexp *regexp.Regexp = regexp.MustCompile(`\$[^\s]*`)
 func newTestPlanStep(line string) (*TestPlanStep, error) {
 	step := &TestPlanStep{}
 	line = strings.TrimSpace(line)
-	if len(line) == 0 || strings.HasPrefix(line, "#") {
+	if len(line) == 0 || strings.HasPrefix(line, "//") {
 		return nil, nil
 	}
 
@@ -86,6 +89,9 @@ func newTestPlanStep(line string) (*TestPlanStep, error) {
 		return nil, nil
 	case line == "---":
 		step.stepType = stepTypeRestart
+	case strings.HasPrefix(line, "node:"):
+		step.stepType = stepTypeNode
+		step.nodeName = strings.TrimSpace(strings.TrimPrefix(line, "node:"))
 	}
 
 	return step, nil
@@ -104,6 +110,7 @@ func parseTestPlan(path string) (TestPlan, error) {
 		if step, err := newTestPlanStep(line); err != nil {
 			return nil, fmt.Errorf("failed to parse line [%v] of test plan file: %w", i, err)
 		} else if step != nil {
+			step.lineNumber = i + 1
 			plan = append(plan, step)
 		}
 	}
