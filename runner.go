@@ -778,11 +778,6 @@ func (dr *DialogueRunner) RestoreAt(snapshot *Snapshot) error {
 		return err
 	}
 
-	node, ok := dr.dialogue.FindNode(snapshot.CurrentNode)
-	if !ok {
-		return fmt.Errorf("dialogue does not contain a node with title [%s]", snapshot.CurrentNode)
-	}
-
 	dr.statementsToRun.Clear()
 	dr.currentNodes.Clear()
 
