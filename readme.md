@@ -3,7 +3,6 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/remieven/ysgo.svg)](https://pkg.go.dev/github.com/remieven/ysgo)
 ![build](https://github.com/RemiEven/ysgo/actions/workflows/onPush.yml/badge.svg)
 [![codecov](https://codecov.io/gh/RemiEven/ysgo/branch/main/graph/badge.svg)](https://codecov.io/gh/RemiEven/ysgo)
-[![Go Report Card](https://goreportcard.com/badge/github.com/remieven/ysgo)](https://goreportcard.com/report/github.com/remieven/ysgo)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/RemiEven/ysgo/blob/main/LICENSE)
 
 ## Introduction
@@ -84,21 +83,16 @@ Some YarnSpinner v3 features are supported, most notably:
 - detour
 - line groups and saliency strategies
 - smart variables
+- node groups
 
 The `once` keyword is supported at the end of lines/shortcut-options/line-groups, but the `once` block isn't.
-Node groups and enums aren't supported right now, but might be at some point.
+Enums aren't supported right now, but might be at some point.
 
 Ysgo only handles your dialogues when your game is running, during development you're still encouraged to use the vscode plugin and YarnSpinner-Console.
 
 ## Ysgo in Action
 
-Despite not having all of YarnSpinner's features, Ysgo still provides enough functionality to recreate sample projects from the YarnSpinner documentation.
-
-Check out the demos:
-
-- *Choose-Your-Path Game*: [doc link](https://docs.yarnspinner.dev/unity-sample-projects/example-project-1), [demo link](https://remieven.itch.io/ysgo-sample-cubeandsphere)
-
-Source code for all demos is available in [the ysgo-examples Github repository](https://github.com/RemiEven/ysgo-examples).
+Check out the *Choose-Your-Path Game* demo: [link](https://remieven.itch.io/ysgo-sample-cubeandsphere), [source code](https://github.com/RemiEven/ysgo-examples).
 
 ## Getting help
 
